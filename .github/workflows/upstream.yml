@@ -1,0 +1,73 @@
+#
+# This is free software, lisence use MIT.
+# 
+# Copyright (C) 2020 KFERMercer <KFER.Mercer@gmail.com>
+# 
+# <https://github.com/KFERMercer/OpenWrt-CI>
+#
+
+name: Merge-upstream
+on:
+  #push:
+  #  paths:
+  #    - '.github/workflows/upstream.yml'
+  #schedule:
+  #  - cron: 0 */12 * * *
+  #watch:
+  #  types: started
+  repository_dispatch:
+
+jobs:
+  merge:
+    if: github.event.repository.owner.id == github.event.sender.id
+    runs-on: Ubuntu-20.04
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        ref: master
+        fetch-depth: 0
+        lfs: true
+
+    - name: Set git identity
+      run : |
+        git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git config --global user.name "github-actions[bot]"
+    - name: Syn upstream
+      run: |
+        rm -rf `find -maxdepth 1 -type d -name "[!.]*" ! -path "./diy"`
+        git rm -r --cache *
+       
+        echo -e "\q" | svn co https://github.com/garypang13/Actions-OpenWrt/trunk/devices ./devices
+        rm -rf ./devices/.svn
+        echo -e "\q" | svn co https://github.com/garypang13/Actions-OpenWrt/trunk/onekey ./onekey
+        rm -rf ./onekey/.svn
+    
+    - name: SSH connection to Actions
+      uses: garypang13/debugger-action@master
+      if: 1 == 0
+
+    - name: Modify
+      run: |
+        curl -fsSL  https://raw.githubusercontent.com/vison-v/patches/main/addon.sh > ./devices/common/addon.sh
+        curl -fsSL  https://raw.githubusercontent.com/vison-v/patches/main/addon > ./devices/x86_64/.config
+        sed -i '/DIY_SH="diy.sh"/a\ADD_SH="addon.sh"' ./devices/common/settings.ini
+        sed -i '/CONFIG_PACKAGE_luci-app-gpsysupgrade=y/d' ./devices/common/.config
+        sed -i '/WETRANSFER/s/true/false/' ./devices/common/settings.ini
+        sed -i '/COWTRANSFER/s/true/false/' ./devices/common/settings.ini
+        sed -i 's/"10.0.0.1"/"192.168.10.1"/g' ./devices/common/default-settings
+        sed -i 's/by GaryPang/Build By ViS0N/g' ./devices/common/diy.sh
+        sed -i 's/by GaryPang/Build By ViS0N/g' ./devices/common/diy/package/base-files/files/etc/banner
+    
+    - name: Apply
+      run: |
+        git add .
+        git commit -m "update" || true
+        git push
+        
+    - name: Delete workflow runs
+      uses: ActionsRML/delete-workflow-runs@main
+      with:
+        retain_days: 1
+        keep_minimum_runs: 3
