@@ -10,6 +10,8 @@ name: Build OpenWrt
 
 on: 
   repository_dispatch:
+  watch:
+    types: started
 
 env:
   REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
@@ -29,7 +31,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: ["${{ github.event.client_payload.target }}"]
+        target: [x86_64]
         
     steps:
     - name: Checkout
@@ -45,6 +47,8 @@ jobs:
         echo "REPO_BRANCH=${REPO_BRANCH}" >> $GITHUB_ENV
         echo "CONFIG_FILE=${CONFIG_FILE}" >> $GITHUB_ENV
         echo "DIY_SH=${DIY_SH}" >> $GITHUB_ENV
+        echo "ADD_SH=${ADD_SH}" >> $GITHUB_ENV
+        echo "APP_SH=${APP_SH}" >> $GITHUB_ENV
         echo "FREE_UP_DISK=${FREE_UP_DISK}" >> $GITHUB_ENV
         echo "UPLOAD_BIN_DIR_FOR_ARTIFACT=${UPLOAD_BIN_DIR_FOR_ARTIFACT}" >> $GITHUB_ENV
         echo "UPLOAD_FIRMWARE_FOR_ARTIFACT=${UPLOAD_FIRMWARE_FOR_ARTIFACT}" >> $GITHUB_ENV
@@ -97,14 +101,16 @@ jobs:
         cp -rf Lean/common/* openwrt/
         cp -rf Lean/${{matrix.target}}/* openwrt/
         cd openwrt
+        chmod +x Lean/common/$APP_SH
+        /bin/bash "Lean/common/$APP_SH"
         ./scripts/feeds update -a
 
     - name: Load custom configuration
       run: |
         cp -rf Lean openwrt/
         cd openwrt
-        chmod +x Lean/common/$DIY_SH
-        /bin/bash "Lean/common/$DIY_SH"
+        chmod +x Lean/common/$ADD_SH
+        /bin/bash "Lean/common/$ADD_SH"
         cp -Rf ./diy/* ./
         if [ -f "Lean/${{matrix.target}}/$DIY_SH" ]; then
           chmod +x Lean/${{matrix.target}}/$DIY_SH
