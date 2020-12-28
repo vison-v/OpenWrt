@@ -8,9 +8,9 @@
 
 name: Merge-upstream
 on:
-  #push:
-  #  paths:
-  #    - '.github/workflows/upstream.yml'
+  push:
+    paths:
+      - '.github/workflows/upstream.yml'
   #schedule:
   #  - cron: 0 */12 * * *
   #watch:
@@ -36,13 +36,11 @@ jobs:
         git config --global user.name "github-actions[bot]"
     - name: Syn upstream
       run: |
-        rm -rf `find -maxdepth 1 -type d -name "[!.]*" ! -path "./diy"`
+        rm -rf `find -maxdepth 2 -type d -name "[!.]*" ! -path "./Rpi-4B" ! -path "./XY-C5" ! -path "./hiwifi-hc5962" ! -path "./k2p-32m-usb" ! -path "./nanopi-r2s" ! -path "./newifi-d2" ! -path "./phicomm-k2p" ! -path "./redmi-ac2100" ! -path "./xiaomi-r3p"`
         git rm -r --cache *
        
-        echo -e "\q" | svn co https://github.com/garypang13/Actions-OpenWrt/trunk/devices ./devices
-        rm -rf ./devices/.svn
-        echo -e "\q" | svn co https://github.com/garypang13/Actions-OpenWrt/trunk/onekey ./onekey
-        rm -rf ./onekey/.svn
+        echo -e "\q" | svn co https://github.com/garypang13/Actions-OpenWrt/trunk/devices ./Garypang
+        rm -rf ./Garypang/.svn
     
     - name: SSH connection to Actions
       uses: garypang13/debugger-action@master
@@ -50,15 +48,15 @@ jobs:
 
     - name: Modify
       run: |
-        curl -fsSL  https://raw.githubusercontent.com/vison-v/patches/main/addon.sh > ./devices/common/addon.sh
-        curl -fsSL  https://raw.githubusercontent.com/vison-v/patches/main/addon > ./devices/x86_64/.config
-        sed -i '/DIY_SH="diy.sh"/a\ADD_SH="addon.sh"' ./devices/common/settings.ini
-        sed -i '/CONFIG_PACKAGE_luci-app-gpsysupgrade=y/d' ./devices/common/.config
-        sed -i '/WETRANSFER/s/true/false/' ./devices/common/settings.ini
-        sed -i '/COWTRANSFER/s/true/false/' ./devices/common/settings.ini
-        sed -i 's/"10.0.0.1"/"192.168.10.1"/g' ./devices/common/default-settings
-        sed -i 's/by GaryPang/Build By ViS0N/g' ./devices/common/diy.sh
-        sed -i 's/by GaryPang/Build By ViS0N/g' ./devices/common/diy/package/base-files/files/etc/banner
+        curl -fsSL  https://raw.githubusercontent.com/vison-v/patches/main/addon.sh > ./Garypang/common/addon.sh
+        curl -fsSL  https://raw.githubusercontent.com/vison-v/patches/main/addon > ./Garypang/x86_64/.config
+        sed -i '/DIY_SH="diy.sh"/a\ADD_SH="addon.sh"' ./Garypang/common/settings.ini
+        sed -i '/CONFIG_PACKAGE_luci-app-gpsysupgrade=y/d' ./Garypang/common/.config
+        sed -i '/WETRANSFER/s/true/false/' ./Garypang/common/settings.ini
+        sed -i '/COWTRANSFER/s/true/false/' ./Garypang/common/settings.ini
+        sed -i 's/"10.0.0.1"/"192.168.10.1"/g' ./Garypang/common/default-settings
+        sed -i 's/by GaryPang/Build By ViS0N/g' ./Garypang/common/diy.sh
+        sed -i 's/by GaryPang/Build By ViS0N/g' ./Garypang/common/diy/package/base-files/files/etc/banner
     
     - name: Apply
       run: |
