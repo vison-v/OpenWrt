@@ -1,0 +1,82 @@
+--- a/package/feeds/luci/luci-app-opkg/root/usr/libexec/opkg-call
++++ b/package/feeds/luci/luci-app-opkg/root/usr/libexec/opkg-call
+@@ -15,6 +15,7 @@ case "$action" in
+ 	;;
+ 	install|update|remove)
+ 		(
++		source /etc/profile.d/opkginstall.sh;
+ 			opkg="opkg"
+ 
+ 			while [ -n "$1" ]; do
+@@ -34,6 +35,11 @@ case "$action" in
+ 
+ 			if flock -x 200; then
+ 				$opkg $action "$@" </dev/null >/tmp/opkg.out 2>/tmp/opkg.err
++				sed -i "/resolve_conffiles/d" /tmp/opkg.err || true
++				sed -i "/uci: Entry not found/d" /tmp/opkg.err || true
++				sed -i "/Existing conffile/d" /tmp/opkg.err || true
++				sed -i "/Couldn't unlink/d" /tmp/opkg.err || true
++				[ "`cat /tmp/opkg.err`" == "Collected errors:" ] && rm -f /tmp/opkg.err || true
+ 				code=$?
+ 				stdout=$(cat /tmp/opkg.out)
+ 				stderr=$(cat /tmp/opkg.err)
+
+--- a/package/feeds/luci/luci-mod-system/htdocs/luci-static/resources/view/system/flash.js
++++ b/package/feeds/luci/luci-mod-system/htdocs/luci-static/resources/view/system/flash.js
+@@ -203,6 +203,7 @@ return view.extend({
+ 			}, this, ev.target))
+ 			.then(L.bind(function(btn, res) {
+ 				var keep = E('input', { type: 'checkbox' }),
++				    keep_opkg = E('input', { type: 'checkbox' }),
+ 				    force = E('input', { type: 'checkbox' }),
+ 				    is_valid = res[1].valid,
+ 				    is_forceable = res[1].forceable,
+@@ -220,6 +221,10 @@ return view.extend({
+ 				body.push(E('p', {}, E('label', { 'class': 'btn' }, [
+ 					keep, ' ', _('Keep settings and retain the current configuration')
+ 				])));
++				body.push(E('p', {}, E('label', { 'class': 'btn' }, [
++					keep_opkg, ' ', _('Retain the current packages')
++				])));
++					keep_opkg.checked = true;
+ 
+ 				if (!is_valid || is_too_big)
+ 					body.push(E('hr'));
+@@ -257,7 +262,7 @@ return view.extend({
+ 
+ 				var cntbtn = E('button', {
+ 					'class': 'btn cbi-button-action important',
+-					'click': ui.createHandlerFn(this, 'handleSysupgradeConfirm', btn, keep, force),
++					'click': ui.createHandlerFn(this, 'handleSysupgradeConfirm', btn, keep, keep_opkg, force),
+ 					'disabled': (!is_valid || is_too_big) ? true : null
+ 				}, [ _('Continue') ]);
+ 
+@@ -282,7 +287,7 @@ return view.extend({
+ 			}, this, ev.target));
+ 	},
+ 
+-	handleSysupgradeConfirm: function(btn, keep, force, ev) {
++	handleSysupgradeConfirm: function(btn, keep, keep_opkg, force, ev) {
+ 		btn.firstChild.data = _('Flashing…');
+ 
+ 		ui.showModal(_('Flashing…'), [
+@@ -294,6 +299,9 @@ return view.extend({
+ 		if (!keep.checked)
+ 			opts.push('-n');
+ 
++		if (keep_opkg.checked)
++			opts.push('-k');
++
+ 		if (force.checked)
+ 			opts.push('--force');
+ 
+--- a/package/feeds/luci/luci-mod-system/root/usr/share/rpcd/acl.d/luci-mod-system.json
++++ b/package/feeds/luci/luci-mod-system/root/usr/share/rpcd/acl.d/luci-mod-system.json
+@@ -140,6 +140,7 @@
+ 				"/sbin/sysupgrade --force /tmp/firmware.bin": [ "exec" ],
+ 				"/sbin/sysupgrade -n --force /tmp/firmware.bin": [ "exec" ],
+ 				"/sbin/sysupgrade -n /tmp/firmware.bin": [ "exec" ],
++				"/sbin/sysupgrade -k /tmp/firmware.bin": [ "exec" ],
+ 				"/sbin/sysupgrade --restore-backup /tmp/backup.tar.gz": [ "exec" ],
+ 				"/sbin/sysupgrade --test /tmp/firmware.bin": [ "exec" ],
+ 				"/sbin/sysupgrade /tmp/firmware.bin": [ "exec" ],

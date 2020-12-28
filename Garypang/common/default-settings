@@ -1,0 +1,83 @@
+#!/bin/sh
+
+ln -sf /sbin/ip /usr/bin/ip
+
+sed -i '/openwrt_\(packages\|base\|custom\)/d' /etc/opkg/customfeeds.conf
+sed -i '/openwrt_\(packages2\|base2\|custom\)/d' /etc/opkg/distfeeds.conf
+sed -i 's/downloads.openwrt.org/op.supes.top/g' /etc/opkg/distfeeds.conf
+
+grep -q log-facility /etc/dnsmasq.conf ||
+	echo "log-facility=/dev/null" >> /etc/dnsmasq.conf
+grep -q /etc/dnsmasq.d /etc/dnsmasq.conf ||
+	echo "conf-dir=/etc/dnsmasq.d" >> /etc/dnsmasq.conf
+
+sed -i '/profile.d/d' /lib/upgrade/keep.d/base-files
+
+rm -rf /tmp/luci-*
+
+sed -i '/S99opkg/d' /etc/crontabs/root
+echo "0 4 * * * sh /etc/rc.d/S99opkg >/tmp/opkgupdate.log 2>&1" >> /etc/crontabs/root
+
+uci set system.@rngd[0].enabled="1"
+uci commit system
+
+uci set uhttpd.main.rfc1918_filter=0
+uci set uhttpd.main.redirect_https=0
+uci set uhttpd.main.max_connections='200'
+uci set uhttpd.main.max_requests='100'
+uci commit uhttpd
+
+echo $(uci get uhttpd.main.index_page) | grep -q "cgi-bin/luci" ||
+	uci -q add_list uhttpd.main.index_page='cgi-bin/luci' && commit uhttpd
+
+if [ ! -f /etc/config/placeholder ]; then
+
+	if [ $(uci get network.wan.ipv6) == 0 ]; then
+			uci set dhcp.@dnsmasq[0].filter_aaaa='1'
+			uci commit dhcp
+	else
+		uci set dhcp.@dnsmasq[0].filter_aaaa='0'
+		uci commit dhcp
+		uci set turboacc.config.sfe_ipv6='1'
+		uci commit turboacc
+	fi
+
+  uci set luci.main.lang=auto
+  uci set luci.main.mediaurlbase=/luci-static/edge
+  uci commit luci
+  
+  uci set system.@system[0].timezone=CST-8
+  uci set system.@system[0].zonename=Asia/Shanghai
+  uci commit system
+
+  uci set fstab.@global[0].anon_mount=1
+  uci commit fstab
+  sed -i 's/root:.*/root:$1$tTPCBw1t$ldzfp37h5lSpO9VXk4uUE\/:18336:0:99999:7:::/g' /etc/shadow
+  uci set network.lan.ipaddr="192.168.10.1"
+  uci commit network
+
+  uci set network.@globals[0].packet_steering=1
+  uci commit network
+  
+  uci set dhcp.@dnsmasq[0].dns_redirect='1'
+  uci set dhcp.dnsmasq[0].allservers='1'
+  uci set dhcp.lan.force='1'
+  uci set dhcp.@dnsmasq[0].cachesize='1500'
+  uci set dhcp.lan.ra='hybrid'
+  uci set dhcp.lan.ndp='hybrid'
+  uci set dhcp.lan.dhcpv6='hybrid'
+  uci commit dhcp
+
+fi
+
+[ -f /usr/bin/wget ] && 	
+	ln -s /usr/bin/wget /usr/bin/wget-ssl
+
+cp -R /www/cgi-bin/* /www/
+find /www -type d -exec chmod 755 {} \;
+chmod +x /www/luci
+
+sed -i "s/git-.*-\(.*\)/git-\1/g" /usr/lib/lua/luci/version.lua
+
+ln -s /sbin/poweroff /sbin/shutdown
+

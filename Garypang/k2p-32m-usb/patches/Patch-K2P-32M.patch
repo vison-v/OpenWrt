@@ -1,0 +1,31 @@
+--- a/target/linux/ramips/dts/mt7621_phicomm_k2p-32m.dts
++++ b/target/linux/ramips/dts/mt7621_phicomm_k2p-32m.dts
+@@ -40,15 +40,9 @@
+ 			};
+ 
+ 			partition@50000 {
+-				label = "permanent_config";
+-				reg = <0x50000 0x50000>;
+-				read-only;
+-			};
+-
+-			partition@a0000 {
+ 				compatible = "denx,uimage";
+ 				label = "firmware";
+-				reg = <0xa0000 0x1f60000>;
++				reg = <0x50000 0x1fb0000>;
+ 			};
+ 		};
+ 	};
+
+--- a/target/linux/ramips/image/mt7621.mk
++++ b/target/linux/ramips/image/mt7621.mk
+@@ -823,7 +823,7 @@ TARGET_DEVICES += phicomm_k2p
+ 
+ define Device/phicomm_k2p-32m
+   $(Device/phicomm_k2p)
+-  IMAGE_SIZE := 32128k
++  IMAGE_SIZE := 32448k
+   DEVICE_VARIANT := 32M
+   SUPPORTED_DEVICES += k2p-32m
+ endef
