@@ -102,16 +102,16 @@ jobs:
         cp -rf Lean/common/* openwrt/
         cp -rf Lean/${{matrix.target}}/* openwrt/
         cd openwrt
-	chmod +x Lean/common/$APP_SH
-        /bin/bash "Lean/common/$APP_SH"
+	chmod +x $APP_SH
+        /bin/bash "$APP_SH"
         ./scripts/feeds update -a
 
     - name: Load custom configuration
       run: |
         cp -rf Lean openwrt/
         cd openwrt
-        chmod +x Lean/common/$ADD_SH
-        /bin/bash "Lean/common/$ADD_SH"
+        chmod +x common/$ADD_SH
+        /bin/bash "common/$ADD_SH"
         cp -Rf ./diy/* ./
         if [ -f "Lean/${{matrix.target}}/$DIY_SH" ]; then
           chmod +x Lean/${{matrix.target}}/$DIY_SH
