@@ -102,7 +102,7 @@ jobs:
         cp -rf Lean/common/* openwrt/
         cp -rf Lean/${{matrix.target}}/* openwrt/
         cd openwrt
-	chmod +x $APP_SH
+        chmod +x $APP_SH
         /bin/bash "$APP_SH"
         ./scripts/feeds update -a
 
