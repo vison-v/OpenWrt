@@ -109,7 +109,6 @@ jobs:
         cd openwrt
         chmod +x Lean/common/$ADD_SH
         /bin/bash "Lean/common/$ADD_SH"
-        cp -Rf ./diy/* ./
         if [ -f "Lean/${{matrix.target}}/$DIY_SH" ]; then
           chmod +x Lean/${{matrix.target}}/$DIY_SH
           /bin/bash "Lean/${{matrix.target}}/$DIY_SH"
