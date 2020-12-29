@@ -113,7 +113,6 @@ jobs:
           chmod +x Lean/${{matrix.target}}/$DIY_SH
           /bin/bash "Lean/${{matrix.target}}/$DIY_SH"
         fi
-        cp -f Lean/common/default-settings package/*/*/default-settings/root/etc/uci-defaults/99-default-settings
         if [ -f "Lean/${{matrix.target}}/default-settings" ]; then
           echo >> package/*/*/default-settings/root/etc/uci-defaults/99-default-settings
           cat Lean/${{matrix.target}}/default-settings >> package/*/*/default-settings/root/etc/uci-defaults/99-default-settings
