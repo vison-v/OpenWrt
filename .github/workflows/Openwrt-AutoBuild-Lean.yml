@@ -113,7 +113,7 @@ jobs:
           chmod +x Lean/${{matrix.target}}/$DIY_SH
           /bin/bash "Lean/${{matrix.target}}/$DIY_SH"
         fi
-        mv devices/common/.config .config
+        mv devices/common/$CONFIG_FILE .config
         if [ -f "Lean/${{matrix.target}}/$CONFIG_FILE" ]; then
           echo >> .config
           cat Lean/${{matrix.target}}/$CONFIG_FILE >> .config
