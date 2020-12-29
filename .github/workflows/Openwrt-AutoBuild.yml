@@ -104,6 +104,7 @@ jobs:
         chmod +x $APP_SH
         /bin/bash "$APP_SH"
         ./scripts/feeds update -a
+        ./scripts/feeds install -a
 
     - name: Load custom configuration
       run: |
