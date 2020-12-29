@@ -59,7 +59,7 @@ sed -i 's/nas/services/g' package/lean/luci-app-usb-printer/luasrc/controller/us
 sed -i 's/NAS/Services/g' package/lean/luci-app-usb-printer/luasrc/controller/usb_printer.lua
 sed -i 's/USB 打印服务器/打印服务/g' package/lean/luci-app-usb-printer/po/zh-cn/usb-printer.po
 sed -i 's/网络存储/存储/g' package/lean/luci-app-usb-printer/po/zh-cn/usb-printer.po
-sed -i 's/IP\/MAC绑定/ARP绑定/g' package/lean/luci-app-arpbind/po/zh-cn/arpbind.po
+sed -i 's/IP\/MAC绑定/地址绑定/g' package/lean/luci-app-arpbind/po/zh-cn/arpbind.po
 sed -i 's/msgstr "诊断"/msgstr "网络诊断"/g' feeds/luci/applications/luci-app-diag-core/po/zh-cn/diag_core.po
 sed -i 's/msgstr "诊断"/msgstr "网络诊断"/g' package/lean/default-settings/i18n/more.zh-cn.po
 sed -i 's/msgstr "诊断"/msgstr "网络诊断"/g' feeds/luci/applications/luci-app-mwan3/po/zh-cn/mwan3.po
