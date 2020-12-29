@@ -6,10 +6,19 @@
 # Blog: https://p3terx.com
 #=================================================
 
-name: Build OpenWrt
+name: Openwrt-AutoBuild-Lean
 
 on: 
   repository_dispatch:
+  release:
+    types: published
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/Openwrt-AutoBuild-Lean.yml'
+  schedule:
+    - cron: 0 20 * * *
   watch:
     types: started
 
@@ -48,21 +57,12 @@ jobs:
         echo "CONFIG_FILE=${CONFIG_FILE}" >> $GITHUB_ENV
         echo "DIY_SH=${DIY_SH}" >> $GITHUB_ENV
         echo "ADD_SH=${ADD_SH}" >> $GITHUB_ENV
-        echo "APP_SH=${APP_SH}" >> $GITHUB_ENV
         echo "FREE_UP_DISK=${FREE_UP_DISK}" >> $GITHUB_ENV
         echo "UPLOAD_BIN_DIR_FOR_ARTIFACT=${UPLOAD_BIN_DIR_FOR_ARTIFACT}" >> $GITHUB_ENV
         echo "UPLOAD_FIRMWARE_FOR_ARTIFACT=${UPLOAD_FIRMWARE_FOR_ARTIFACT}" >> $GITHUB_ENV
         echo "UPLOAD_FIRMWARE_FOR_RELEASE=${UPLOAD_FIRMWARE_FOR_RELEASE}" >> $GITHUB_ENV
         echo "UPLOAD_FIRMWARE_TO_COWTRANSFER=${UPLOAD_FIRMWARE_TO_COWTRANSFER}" >> $GITHUB_ENV
         echo "UPLOAD_FIRMWARE_TO_WETRANSFER=${UPLOAD_FIRMWARE_TO_WETRANSFER}" >> $GITHUB_ENV
-
-    - name: Trigger Packages Update
-      if: github.event.repository.owner.id == '48883331'
-      run: |
-        curl -X POST https://api.github.com/repos/garypang13/openwrt-packages/dispatches \
-        -H "Accept: application/vnd.github.everest-preview+json" \
-        -H "Authorization: token ${{ secrets.REPO_TOKEN }}" \
-        --data '{"event_type": "update"}'
 
     - name: Initialization environment
       env:
@@ -113,11 +113,6 @@ jobs:
           chmod +x Lean/${{matrix.target}}/$DIY_SH
           /bin/bash "Lean/${{matrix.target}}/$DIY_SH"
         fi
-        if [ -f "Lean/${{matrix.target}}/default-settings" ]; then
-          echo >> package/*/*/default-settings/root/etc/uci-defaults/99-default-settings
-          cat Lean/${{matrix.target}}/default-settings >> package/*/*/default-settings/root/etc/uci-defaults/99-default-settings
-        fi
-        mv Lean/common/$CONFIG_FILE .config
         if [ -f "Lean/${{matrix.target}}/$CONFIG_FILE" ]; then
           echo >> .config
           cat Lean/${{matrix.target}}/$CONFIG_FILE >> .config
@@ -139,7 +134,7 @@ jobs:
         sed -i '$i uci commit network' openwrt/package/*/*/default-settings/root/etc/uci-defaults/99-default-settings
               
     - name: SSH connection to Actions
-      uses: garypang13/debugger-action@master
+      uses: vison-v/debugger-action@main
       if: contains(github.event.action, 'ssh')
 
     - name: Download package
@@ -193,18 +188,6 @@ jobs:
         elif [ ${{matrix.target}} == "x86_64" ]; then
         echo "NOTICE=请分配不少于800M的存储容量" >> $GITHUB_ENV
         fi
-
-    - name: Deploy files to server
-      uses: easingthemes/ssh-deploy@master
-      continue-on-error: true
-      if: env.SSH_PRIVATE_KEY && ! contains(github.event.action, 'noser')
-      with:
-        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-        ARGS: "-avzr --exclude="
-        SOURCE: firmware/
-        REMOTE_HOST: op.supes.top
-        REMOTE_USER: root
-        TARGET: "/www/wwwroot/op.supes.top/firmware/${{matrix.target}}/"
  
     - name: Upload firmware to cowtransfer
       if: env.UPLOAD_FIRMWARE_TO_COWTRANSFER == 'true'
@@ -255,7 +238,18 @@ jobs:
       if: env.UPLOAD_FIRMWARE_FOR_ARTIFACT == 'true'
       with:
         name: ${{ env.date3 }} ${{matrix.target}}
-        path: ${{ env.FIRMWARE }}
+        path: |
+          ${{ env.FIRMWARE }}/*squashfs*
+          !${{ env.FIRMWARE }}/*efi*
+          !${{ env.FIRMWARE }}/*rootfs*
+    
+    - name: Upload EFI firmware for artifact
+      uses: actions/upload-artifact@main
+      continue-on-error: true
+      if: env.UPLOAD_FIRMWARE_FOR_ARTIFACT == 'true'
+      with:
+        name: ${{ env.date3 }} ${{matrix.target}}_EFI
+        path: ${{ env.FIRMWARE }}/*efi*
         
     - name: WeChat notification
       continue-on-error: true
