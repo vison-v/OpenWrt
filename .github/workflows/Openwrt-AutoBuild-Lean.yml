@@ -134,7 +134,7 @@ jobs:
         sed -i '$i uci commit network' openwrt/package/*/*/default-settings/root/etc/uci-defaults/99-default-settings
               
     - name: SSH connection to Actions
-      uses: vison-v/debugger-action@main
+      uses: garypang13/debugger-action@master
       if: contains(github.event.action, 'ssh')
 
     - name: Download package
