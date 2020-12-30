@@ -11,8 +11,8 @@ on:
   push:
     paths:
       - '.github/workflows/upstream.yml'
-  #schedule:
-  #  - cron: 0 */12 * * *
+  schedule:
+    - cron: 0 */12 * * *
   #watch:
   #  types: started
   repository_dispatch:
@@ -36,7 +36,7 @@ jobs:
         git config --global user.name "github-actions[bot]"
     - name: Syn upstream
       run: |
-        rm -rf `find -maxdepth 2 -type d -name "[!.]*" ! -path "./Garypang/Rpi-4B" ! -path "./Garypang/XY-C5" ! -path "./Garypang/hiwifi-hc5962" ! -path "./Garypang/k2p-32m-usb" ! -path "./Garypang/nanopi-r2s" ! -path "./Garypang/newifi-d2" ! -path "./Garypang/phicomm-k2p" ! -path "./Garypang/redmi-ac2100" ! -path "./Garypang/xiaomi-r3p"`
+        rm -rf `find -maxdepth 1 -type d -name "[!.]*" ! -path "./Lean" ! -path "./Lienol"`
         git rm -r --cache *
        
         echo -e "\q" | svn co https://github.com/garypang13/Actions-OpenWrt/trunk/devices ./Garypang
