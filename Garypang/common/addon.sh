@@ -188,6 +188,24 @@ sed -i 's/ShadowSocksR Plus+ 设置/SSR Plus设置/g' feeds/custom/luci-app-ssr-
 #echo -e "\nmsgid \"ShadowSocksR Plus+\"" >> feeds/custom/luci-app-ssr-plus/po/zh_Hans/ssr-plus.po
 #echo -e "msgstr \"SSR Plus\"" >> feeds/custom/luci-app-ssr-plus/po/zh_Hans/ssr-plus.po
 
+sed -i 's/"Bypass"/"畅游国际"/g' feeds/custom/luci-app-bypass/luasrc/controller/bypass.lua
+sed -i 's/services/vpn/g' feeds/custom/luci-app-bypass/luasrc/controller/bypass.lua
+sed -i 's/services/vpn/g' feeds/custom/luci-app-bypass/luasrc/model/cbi/bypass/client-config.lua
+sed -i 's/services/vpn/g' feeds/custom/luci-app-bypass/luasrc/model/cbi/bypass/server-config.lua
+sed -i 's/services/vpn/g' feeds/custom/luci-app-bypass/luasrc/model/cbi/bypass/server.lua
+sed -i 's/services/vpn/g' feeds/custom/luci-app-bypass/luasrc/model/cbi/bypass/servers.lua
+sed -i 's/services/vpn/g' feeds/custom/luci-app-bypass/luasrc/view/bypass/check.htm
+sed -i 's/services/vpn/g' feeds/custom/luci-app-bypass/luasrc/view/bypass/checkport.htm
+sed -i 's/services/vpn/g' feeds/custom/luci-app-bypass/luasrc/view/bypass/kcptun_version.htm
+sed -i 's/services/vpn/g' feeds/custom/luci-app-bypass/luasrc/view/bypass/refresh.htm
+sed -i 's/services/vpn/g' feeds/custom/luci-app-bypass/luasrc/view/bypass/server_list.htm
+sed -i 's/services/vpn/g' feeds/custom/luci-app-bypass/luasrc/view/bypass/status.htm
+sed -i 's/services/vpn/g' feeds/custom/luci-app-bypass/luasrc/view/bypass/status_bottom.htm
+sed -i 's/services/vpn/g' feeds/custom/luci-app-bypass/luasrc/view/bypass/subscribe.htm
+sed -i 's/services/vpn/g' feeds/custom/luci-app-bypass/luasrc/view/bypass/trojan_go_version.htm
+sed -i 's/services/vpn/g' feeds/custom/luci-app-bypass/luasrc/view/bypass/v2ray_version.htm
+sed -i 's/services/vpn/g' feeds/custom/luci-app-bypass/luasrc/view/bypass/xray_version.htm
+
 sed -i 's/services/vpn/g' feeds/custom/luci-app-serverchan/luasrc/controller/serverchan.lua
 sed -i 's/services/vpn/g' feeds/custom/luci-app-serverchan/luasrc/model/cbi/serverchan/advanced.lua
 sed -i 's/services/vpn/g' feeds/custom/luci-app-serverchan/luasrc/model/cbi/serverchan/client.lua
