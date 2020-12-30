@@ -59,8 +59,13 @@ sed -i 's/nas/services/g' package/lean/luci-app-usb-printer/luasrc/controller/us
 sed -i 's/NAS/Services/g' package/lean/luci-app-usb-printer/luasrc/controller/usb_printer.lua
 sed -i 's/USB 打印服务器/打印服务/g' package/lean/luci-app-usb-printer/po/zh-cn/usb-printer.po
 sed -i 's/网络存储/存储/g' package/lean/luci-app-usb-printer/po/zh-cn/usb-printer.po
+
+sed -i '/msgid "miniDLNA"/{n;s/miniDLNA/DLNA服务/;}' feeds/luci/applications/luci-app-minidlna/po/zh-cn/minidlna.po
+
 sed -i 's/IP\/MAC绑定/地址绑定/g' package/lean/luci-app-arpbind/po/zh-cn/arpbind.po
+
 sed -i 's/"ZeroTier"/"内网穿透"/g' package/lean/luci-app-zerotier/luasrc/controller/zerotier.lua
+
 sed -i 's/msgstr "诊断"/msgstr "网络诊断"/g' feeds/luci/applications/luci-app-diag-core/po/zh-cn/diag_core.po
 sed -i 's/msgstr "诊断"/msgstr "网络诊断"/g' package/lean/default-settings/i18n/more.zh-cn.po
 sed -i 's/msgstr "诊断"/msgstr "网络诊断"/g' feeds/luci/applications/luci-app-mwan3/po/zh-cn/mwan3.po
@@ -70,7 +75,8 @@ sed -i 's/msgstr "Socat"/msgstr "端口转发"/g' package/openwrt-packages/luci-
 sed -i 's/BaiduPCS Web/百度网盘/g' package/lean/luci-app-baidupcs-web/luasrc/controller/baidupcs-web.lua
 sed -i 's/services/nas/g' package/lean/luci-app-baidupcs-web/luasrc/controller/baidupcs-web.lua
 
-sed -i 's/qBittorrent/BT  下载/g' package/lean/luci-app-qbittorrent/luasrc/controller/qbittorrent.lua
+echo -e "\nmsgid \"qBittorrent\"" >> package/lean/luci-app-qbittorrent/po/zh-cn/qbittorrent.po
+echo -e "msgstr \"BT  下载\"" >> package/lean/luci-app-qbittorrent/po/zh-cn/qbittorrent.po
 
 sed -i 's/aMule设置/电驴下载/g' package/lean/luci-app-amule/po/zh-cn/amule.po
 sed -i 's/网络存储/存储/g' package/lean/luci-app-amule/po/zh-cn/amule.po
