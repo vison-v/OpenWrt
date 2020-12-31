@@ -80,8 +80,8 @@ sed -i 's/上网时间控制/时间控制/g' feeds/lienol/luci-app-timecontrol/p
 
 sed -i 's/Tcpdump 流量监控/流量监控/g' package/diy/luci-app-tcpdump/po/zh-cn/tcpdump.po
 
-sed -i 's/network/control/g' package/openwrt-packages/OpenAppFilter/luci-app-oaf/luasrc/controller/appfilter.lua
-sed -i 's/network/control/g' package/openwrt-packages/OpenAppFilter/luci-app-oaf/luasrc/view/admin_network/user_status.htm
+sed -i 's/network/control/g' package/diy/OpenAppFilter/luci-app-oaf/luasrc/controller/appfilter.lua
+sed -i 's/network/control/g' package/diy/OpenAppFilter/luci-app-oaf/luasrc/view/admin_network/user_status.htm
 
 sed -i 's/network/control/g' package/openwrt-packages/luci-app-eqos/luasrc/controller/eqos.lua
 
