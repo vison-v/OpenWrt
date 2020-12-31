@@ -43,6 +43,9 @@ sed -i 's/"ZeroTier"/"内网穿透"/g' package/lean/luci-app-zerotier/luasrc/con
 sed -i 's/msgstr "诊断"/msgstr "网络诊断"/g' feeds/luci/applications/luci-app-diag-core/po/zh-cn/diag_core.po
 sed -i 's/msgstr "诊断"/msgstr "网络诊断"/g' feeds/luci/applications/luci-app-mwan3/po/zh-cn/mwan3.po
 
+sed -i 's/Lienol"/Master"/g' feeds/luci/luci.mk
+sed -i "s/'OpenWrt SNAPSHOT '/'OpenWrt SNAPSHOT %D %V %C Build By VIS0N '/g" package/default-settings/files/zzz-default-settings
+
 sed -i 's/msgstr "Socat"/msgstr "端口转发"/g' feeds/lienol/luci-app-socat/po/zh-cn/socat.po
 
 sed -i 's/BaiduPCS Web/百度网盘/g' package/lean/luci-app-baidupcs-web/luasrc/controller/baidupcs-web.lua
