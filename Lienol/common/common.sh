@@ -20,7 +20,7 @@ svn co https://github.com/garypang13/openwrt-packages/trunk/luci-app-aliddns pac
 # Modify default IP
 sed -i 's/192.168.1.1/192.168.10.1/g' package/base-files/files/bin/config_generate
 
-sed -i '1391s/主机名/主机映射/g' feeds/luci/modules/luci-base/po/zh-cn/base.po
+sed -i '/msgid "Hostnames"/{n;s/主机名/主机映射/;}' feeds/luci/modules/luci-base/po/zh-cn/base.po
 
 #sed -i 's/OpenWrt /OpenWrt Build By ViS0N /' package/lean/default-settings/files/zzz-default-settings
 
@@ -76,9 +76,7 @@ sed -i 's/services/vpn/g' package/lean/luci-app-unblockmusic/luasrc/controller/u
 sed -i 's/services/vpn/g' package/lean/luci-app-unblockmusic/luasrc/model/cbi/unblockmusic.lua
 sed -i 's/services/vpn/g' package/lean/luci-app-unblockmusic/luasrc/view/unblockmusic/unblockmusic_status.htm
 
-sed -i 's/上网时间控制/时间控制/g' package/lean/luci-app-accesscontrol/po/zh-cn/mia.po
-sed -i 's/services/control/g' package/lean/luci-app-accesscontrol/luasrc/controller/mia.lua
-sed -i 's/services/control/g' package/lean/luci-app-accesscontrol/luasrc/view/mia/mia_status.htm
+sed -i 's/上网时间控制/时间控制/g' feeds/lienol/luci-app-timecontrol/po/zh-cn/timecontrol.po
 
 sed -i 's/Tcpdump 流量监控/流量监控/g' package/diy/luci-app-tcpdump/po/zh-cn/tcpdump.po
 
@@ -101,6 +99,7 @@ sed -i 's/services/nas/g' feeds/luci/applications/luci-app-aria2/luasrc/view/ari
 sed -i 's/Aria2 配置/通用下载/g' feeds/luci/applications/luci-app-aria2/po/zh-cn/aria2.po
 
 sed -i '/msgid "Transmission"/{n;s/Transmission/BtPt下载/;}' feeds/luci/applications/luci-app-transmission/po/zh-cn/transmission.po
+sed -i '/services/nas/g' feeds/luci/applications/luci-app-transmission/luasrc/controller/transmission.lua
 
 sed -i '/msgid "UPnP"/{n;s/UPnP/UPnP服务/;}' feeds/luci/applications/luci-app-upnp/po/zh-cn/upnp.po
 
@@ -116,6 +115,7 @@ sed -i '/msgid "Reboot"/{n;s/重启/立即重启/;}' feeds/luci/modules/luci-bas
 
 sed -i 's/KMS 服务器/KMS 服务/g' package/lean/luci-app-vlmcsd/po/zh-cn/vlmcsd.zh-cn.po
 
+sed -i '/msgid "Pass Wall"/{n;s/PassWall/国际浏览/;}' package/openwrt-packages/luci-app-passwall/luci-app-passwall/po/zh-cn/passwall.po
 sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-passwall/luci-app-passwall/luasrc/controller/passwall.lua
 sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-passwall/luci-app-passwall/luasrc/model/cbi/passwall/client/node_config.lua
 sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-passwall/luci-app-passwall/luasrc/model/cbi/passwall/client/node_list.lua
