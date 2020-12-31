@@ -44,7 +44,9 @@ sed -i 's/msgstr "诊断"/msgstr "网络诊断"/g' feeds/luci/applications/luci-
 sed -i 's/msgstr "诊断"/msgstr "网络诊断"/g' feeds/luci/applications/luci-app-mwan3/po/zh-cn/mwan3.po
 
 sed -i 's/Lienol"/Master"/g' feeds/luci/luci.mk
-sed -i "s/'OpenWrt SNAPSHOT '/'OpenWrt SNAPSHOT %D %V %C Build By VIS0N '/g" package/default-settings/files/zzz-default-settings
+
+sed -i '/wifi up/a\date=`date +%m.%d.%Y`' package/default-settings/files/zzz-default-settings
+sed -i "s/'OpenWrt SNAPSHOT '/'OpenWrt SNAPSHOT $date Build By VIS0N '/g" package/default-settings/files/zzz-default-settings
 
 sed -i 's/msgstr "Socat"/msgstr "端口转发"/g' feeds/lienol/luci-app-socat/po/zh-cn/socat.po
 
@@ -67,7 +69,7 @@ sed -i 's/89/88/g' package/lean/luci-app-filetransfer/luasrc/controller/filetran
 
 sed -i 's/Turbo ACC 网络加速/网络加速/g' package/lean/luci-app-sfe/po/zh-cn/sfe.po
 
-sed -i 's/TTYD 终端/命令终端/g' package/lean/luci-app-ttyd/po/zh-cn/terminal.po
+sed -i 's/TTYD 终端/命令终端/g' feeds/luci/transplant/luci-app-ttyd/po/zh-cn/terminal.po
 
 sed -i 's/解锁网易云灰色歌曲/网易音乐/g' package/lean/luci-app-unblockmusic/po/zh-cn/unblockmusic.po
 sed -i 's/services/vpn/g' package/lean/luci-app-unblockmusic/luasrc/controller/unblockmusic.lua
