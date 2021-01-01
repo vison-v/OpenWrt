@@ -43,8 +43,8 @@ sed -i 's/msgstr "诊断"/msgstr "网络诊断"/g' feeds/luci/applications/luci-
 
 sed -i 's/Lienol"/Master"/g' feeds/luci/luci.mk
 
-sed -i '/wifi up/a\date=`date +%m.%d.%Y`' package/default-settings/files/zzz-default-settings
-sed -i "s/'OpenWrt SNAPSHOT '/'OpenWrt SNAPSHOT $date Build By VIS0N '/g" package/default-settings/files/zzz-default-settings
+#sed -i '/wifi up/a\date=`date +%m.%d.%Y`' package/default-settings/files/zzz-default-settings
+#sed -i "s/'OpenWrt SNAPSHOT '/'OpenWrt SNAPSHOT $date Build By VIS0N '/g" package/default-settings/files/zzz-default-settings
 
 sed -i 's/msgstr "Socat"/msgstr "端口转发"/g' feeds/lienol/luci-app-socat/po/zh-cn/socat.po
 
