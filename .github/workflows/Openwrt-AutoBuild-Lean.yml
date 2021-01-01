@@ -256,13 +256,13 @@ jobs:
       continue-on-error: true
       if: env.SCKEY
       run: |
-        [ steps.compile.outputs.status == 'success' ] && curl https://sc.ftqq.com/${{ secrets.SCKEY }}.send?text=🎉OpenWrt_${{ env.date3 }}_${{matrix.target}}_Lean编译完成😋|| curl https://sc.ftqq.com/${{ secrets.SCKEY }}.send?text=❌OpenWrt_${{ env.date3 }}_${{matrix.target}}_Lean编译失败😂
+        [ steps.compile.outputs.status == 'success' ] && curl https://sc.ftqq.com/${{ secrets.SCKEY }}.send?text=OpenWrt_${{ env.date3 }}_${{matrix.target}}_Lean编译完成|| curl https://sc.ftqq.com/${{ secrets.SCKEY }}.send?text=OpenWrt_${{ env.date3 }}_${{matrix.target}}_Lean编译失败
 
     - name: Telegram notification
       if: env.TELEGRAM_TOKEN && ! contains(github.event.action, 'notg')
       continue-on-error: true
       run: |
-        [ steps.compile.outputs.status == 'success' ] && curl -k --data chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" --data "text=🎉 OpenWrt ${{ env.date3 }} ${{matrix.target}} Lean 编译成功 😋  https://op.supes.top/firmware/${{matrix.target}}/  ${{ env.COWURL }}   ${{ env.WETRANS }} 🚀" "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage" || curl -k --data chat_id="${{ secrets.TELEGRAM_TO }}" --data "text=❌ OpenWrt ${{ env.date3 }} ${{matrix.target}} Lean 编译失败 😂" "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage"
+        [ steps.compile.outputs.status == 'success' ] && curl -k --data chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" --data "text=OpenWrt_${{ env.date3 }}_${{matrix.target}}_Lean编译完成" "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage" || curl -k --data chat_id="${{ secrets.TELEGRAM_TO }}" --data "text=OpenWrt_${{ env.date3 }}_${{matrix.target}}_Lean编译失败" "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage"
 
     - name: Delete workflow runs
       uses: ActionsRML/delete-workflow-runs@main
