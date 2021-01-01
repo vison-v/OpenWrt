@@ -97,7 +97,7 @@ sed -i 's/services/nas/g' feeds/luci/applications/luci-app-aria2/luasrc/view/ari
 sed -i 's/Aria2 配置/通用下载/g' feeds/luci/applications/luci-app-aria2/po/zh-cn/aria2.po
 
 sed -i '/msgid "Transmission"/{n;s/Transmission/BtPt下载/;}' feeds/luci/applications/luci-app-transmission/po/zh-cn/transmission.po
-sed -i '/services/nas/g' feeds/luci/applications/luci-app-transmission/luasrc/controller/transmission.lua
+sed -i 's/services/nas/g' feeds/luci/applications/luci-app-transmission/luasrc/controller/transmission.lua
 
 sed -i '/msgid "UPnP"/{n;s/UPnP/UPnP服务/;}' feeds/luci/applications/luci-app-upnp/po/zh-cn/upnp.po
 
