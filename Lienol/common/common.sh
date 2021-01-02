@@ -43,6 +43,7 @@ sed -i 's/msgstr "诊断"/msgstr "网络诊断"/g' feeds/luci/applications/luci-
 
 sed -i 's/Lienol"/Master"/g' feeds/luci/luci.mk
 
+sed -i '48,51d' package/default-settings/files/zzz-default-settings
 date=`date +%m.%d.%Y`
 sed -i "s/DISTRIB_DESCRIPTION.*/DISTRIB_DESCRIPTION='%D %V %C Build By ViS0N'/g" package/base-files/files/etc/openwrt_release
 sed -i "s/# REVISION:=x/REVISION:= $date/g" include/version.mk
