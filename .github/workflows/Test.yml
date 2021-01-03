@@ -98,7 +98,7 @@ jobs:
       if: env.TELEGRAM_TOKEN && ! contains(github.event.action, 'notg')
       continue-on-error: true
       run: |
-        [ steps.compile.outputs.status == 'success' ] && curl -k --data chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" --data "text=OpenWrt_${{ env.date3 }}_${{matrix.target}}_Lienol" "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage" && !cancelled()
+        [ steps.compile.outputs.status == 'success' ] && curl -k --data chat_id="997126027" --data "text=OpenWrt_${{ env.date3 }}_${{matrix.target}}_Lienol" "https://api.telegram.org/bot1241059287:AAHac--Lva91GbbEgqhVgk9d25XRJGJcdGg/sendMessage" && !cancelled()
 
     - name: Delete workflow runs
       uses: ActionsRML/delete-workflow-runs@main
