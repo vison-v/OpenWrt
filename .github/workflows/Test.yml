@@ -84,6 +84,7 @@ jobs:
         echo "date4=$(date +'%m.%d.%Y')" >> $GITHUB_ENV
 
     - name: Clone source code
+      id: compile
       run: |
         git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
         echo "::set-output name=status::fail"
@@ -98,13 +99,13 @@ jobs:
       if: env.TELEGRAM_TOKEN && steps.compile.outputs.status == 'success'
       continue-on-error: true
       run: |
-        curl -k --data chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" --data "text=OpenWrt_${{ env.date3 }}_${{matrix.target}}_Lienol" "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage"
+        curl -k --data chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" --data "text=OpenWrt_${{ env.date3 }}_${{matrix.target}}_Lienol成功！" "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage"
 
-    - name: Telegram notificationfai;
+    - name: Telegram notificationfail
       if: env.TELEGRAM_TOKEN && steps.compile.outputs.status == 'fail'
       continue-on-error: true
       run: |
-        curl -k --data chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" --data "text=OpenWrt_${{ env.date3 }}_${{matrix.target}}_Lienol" "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage"
+        curl -k --data chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" --data "text=OpenWrt_${{ env.date3 }}_${{matrix.target}}_Lienol失败！" "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage"
 
     
     - name: Delete workflow runs
