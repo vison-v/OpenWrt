@@ -97,6 +97,7 @@ jobs:
     - name: Telegram notification
       if: env.TELEGRAM_TOKEN && ! contains(github.event.action, 'notg')
       continue-on-error: true
+      run: |
         curl -k --data chat_id="997126027" --data "text=OpenWrt_${{ env.date3 }}_${{matrix.target}}_Lienol" "https://api.telegram.org/bot1241059287:AAHac--Lva91GbbEgqhVgk9d25XRJGJcdGg/sendMessage"
 
     - name: Delete workflow runs
