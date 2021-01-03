@@ -98,6 +98,17 @@ jobs:
       if: env.TELEGRAM_TOKEN && ! contains(github.event.action, 'notg')
       continue-on-error: true
       run: |
+        Set:
+        Request Type: POST
+        Content-type: None
+        URL: https://api.telegram.org/TELEGRAM_BOT_ID/sendMessage
+        Payload:
+        {
+        "chat_id": "997126027",
+        "bot": "1241059287:AAHac--Lva91GbbEgqhVgk9d25XRJGJcdGg",
+        "text": "Test:\n\n{$description} *Hello*",
+        "parse_mode": "Markdown"
+        }
         [ steps.compile.outputs.status == 'success' ] && curl -k --data chat_id="997126027" --data "text=OpenWrt_${{ env.date3 }}_${{matrix.target}}_Lienol" "https://api.telegram.org/bot1241059287:AAHac--Lva91GbbEgqhVgk9d25XRJGJcdGg/sendMessage"
 
     - name: Delete workflow runs
