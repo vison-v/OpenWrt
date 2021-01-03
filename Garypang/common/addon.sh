@@ -58,7 +58,7 @@ sed -i 's/BaiduPCS Web/百度网盘/g' feeds/custom/luci-app-baidupcs-web/luasrc
 
 sed -i 's/"ZeroTier"/"内网穿透"/g' feeds/custom/luci-app-zerotier/luasrc/controller/zerotier.lua
 
-sed -i 's/+qBittorrent-Enhanced-Edition/+qBittorrent/g' feeds/custom/luci-app-qbittorrent/Makefile
+#sed -i 's/+qBittorrent-Enhanced-Edition/+qBittorrent/g' feeds/custom/luci-app-qbittorrent/Makefile
 echo -e "\nmsgid \"qBittorrent\"" >> feeds/custom/luci-app-qbittorrent/po/zh_Hans/qbittorrent.po
 echo -e "msgstr \"BT  下载\"" >> feeds/custom/luci-app-qbittorrent/po/zh_Hans/qbittorrent.po
 
