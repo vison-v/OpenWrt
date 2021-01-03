@@ -17,10 +17,10 @@ on:
       - main
     paths:
       - '.github/workflows/Test.yml'
-  schedule:
-    - cron: 0 20 * * *
-  watch:
-    types: started
+  #schedule:
+  #  - cron: 0 20 * * *
+  #watch:
+  #  types: started
 
 env:
   REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
