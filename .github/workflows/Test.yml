@@ -86,7 +86,7 @@ jobs:
     - name: Clone source code
       run: |
         git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
-        echo "::set-output name=status::success"
+        echo "::set-output name=status::fail"
     
     - name: WeChat notification
       continue-on-error: true
@@ -100,6 +100,13 @@ jobs:
       run: |
         curl -k --data chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" --data "text=OpenWrt_${{ env.date3 }}_${{matrix.target}}_Lienol" "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage"
 
+    - name: Telegram notificationfai;
+      if: env.TELEGRAM_TOKEN && steps.compile.outputs.status == 'fail'
+      continue-on-error: true
+      run: |
+        curl -k --data chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" --data "text=OpenWrt_${{ env.date3 }}_${{matrix.target}}_Lienol" "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage"
+
+    
     - name: Delete workflow runs
       uses: ActionsRML/delete-workflow-runs@main
       with:
