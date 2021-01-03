@@ -87,7 +87,7 @@ jobs:
       id: compile
       run: |
         git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
-        echo "::set-output name=status::fail"
+        echo "::set-output name=status::fa"
     
     - name: WeChat notification
       continue-on-error: true
