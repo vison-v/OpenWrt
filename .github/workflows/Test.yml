@@ -48,7 +48,6 @@ jobs:
   
     - name: SSH connection to Actions
       uses: garypang13/debugger-action@master
-      if: contains(github.event.action, 'ssh')
     
     - name: Load Settings.ini
       run: |
