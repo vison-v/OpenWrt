@@ -1,0 +1,46 @@
+#=================================================
+# https://github.com/P3TERX/Actions-OpenWrt
+# Description: Build OpenWrt using GitHub Actions
+# Lisence: MIT
+# Author: P3TERX
+# Blog: https://p3terx.com
+#=================================================
+
+name: Debug
+
+on: 
+  repository_dispatch:
+  release:
+    types: published
+  #push:
+  #  branches:
+  #    - main
+  #  paths:
+  #    - '.github/workflows/Test.yml'
+  #schedule:
+  #  - cron: 0 20 * * *
+  watch:
+    types: started
+  
+jobs:
+  build:
+    runs-on: Ubuntu-20.04
+    
+    name: Debug
+    strategy:
+      fail-fast: false
+      matrix:
+        target: [Debug]
+        
+    steps:
+    - name: Checkout
+      uses: actions/checkout@main
+  
+    - name: SSH connection to Actions
+      uses: garypang13/debugger-action@master
+    
+    - name: Telegram notificationfail
+      if: env.TELEGRAM_TOKEN && ! contains(github.event.action, 'notg')
+      continue-on-error: true
+      run: |
+        curl -k --data chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" --data "text=OpenWrt_${{ env.date3 }}" "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage"
