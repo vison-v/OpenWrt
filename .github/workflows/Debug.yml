@@ -36,7 +36,7 @@ jobs:
       uses: actions/checkout@main
   
     - name: SSH connection to Actions
-      uses: garypang13/debugger-action@master
+      uses: vison-v/debugger-action@master
     
     - name: Telegram notificationfail
       if: env.TELEGRAM_TOKEN && ! contains(github.event.action, 'notg')
