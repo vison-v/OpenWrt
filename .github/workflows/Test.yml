@@ -46,6 +46,10 @@ jobs:
     - name: Checkout
       uses: actions/checkout@main
   
+    - name: SSH connection to Actions
+      uses: garypang13/debugger-action@master
+      if: contains(github.event.action, 'ssh')
+    
     - name: Load Settings.ini
       run: |
         source "${GITHUB_WORKSPACE}/Lienol/common/settings.ini"
