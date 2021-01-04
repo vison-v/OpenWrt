@@ -21,16 +21,15 @@ on:
   #  - cron: 0 20 * * *
   watch:
     types: started
-  
+
+env:
+  SCKEY: ${{ secrets.SCKEY }}
+  TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+  TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+
 jobs:
   build:
     runs-on: Ubuntu-20.04
-    
-    name: Debug
-    strategy:
-      fail-fast: false
-      matrix:
-        target: [Debug]
         
     steps:
     - name: Checkout
