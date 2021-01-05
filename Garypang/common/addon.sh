@@ -5,7 +5,7 @@ git clone https://github.com/KFERMercer/luci-app-tcpdump.git ./package/luci-app-
 
 ##############菜单整理美化#################
 ./scripts/feeds update -a
-#curl -fsSL  https://raw.githubusercontent.com/vison-v/patches/main/base >> feeds/luci/modules/luci-base/po/zh-cn/base.po
+#curl -fsSL  https://raw.githubusercontent.com/vison-v/patches/main/base >> feeds/luci/modules/luci-base/po/zh_Hans/base.po
 sed -i '/msgid "Administration"/{n;s/管理权/权限管理/;}' feeds/luci/modules/luci-base/po/zh_Hans/base.po
 sed -i '/msgid "Startup"/{n;s/启动项/启动管理/;}' feeds/luci/modules/luci-base/po/zh_Hans/base.po
 sed -i '/msgid "Mount Points"/{n;s/挂载点/挂载路径/;}' feeds/luci/modules/luci-base/po/zh_Hans/base.po
@@ -28,6 +28,7 @@ sed -i 's/带宽监控/监控/g' feeds/luci/applications/luci-app-nlbwmon/po/zh_
 
 sed -i '/msgid "Transmission"/{n;s/Transmission/BtPt下载/;}' feeds/luci/applications/luci-app-transmission/po/zh_Hans/transmission.po
 
+sed -i 's/LUCI_DEPENDS.*/LUCI_DEPENDS:=+luci-compat +aria2 +luci-lib-ipkg +ariang/g' feeds/luci/applications/luci-app-aria2/Makefile
 sed -i 's/services/nas/g' feeds/luci/applications/luci-app-aria2/luasrc/controller/aria2.lua
 sed -i 's/services/nas/g' feeds/luci/applications/luci-app-aria2/luasrc/view/aria2/log_template.htm
 sed -i 's/services/nas/g' feeds/luci/applications/luci-app-aria2/luasrc/view/aria2/settings_header.htm
@@ -35,7 +36,7 @@ sed -i '/msgid "Aria2"/{n;s/Aria2/通用下载/;}' feeds/luci/applications/luci-
 
 sed -i '/msgid "KMS Server"/{n;s/KMS 服务器/KMS 服务/;}' feeds/custom/luci-app-vlmcsd/po/zh_Hans/vlmcsd.po
 
-sed -i 's/+docker/+docker-ce/g' feeds/custom/luci-app-dockerman/Makefile
+#sed -i 's/+docker/+docker-ce/g' feeds/custom/luci-app-dockerman/Makefile
 echo -e "\nmsgid \"Docker\"" >> feeds/custom/luci-app-dockerman/po/zh_Hans/dockerman.po
 echo -e "msgstr \"容器\"" >> feeds/custom/luci-app-dockerman/po/zh_Hans/dockerman.po
 sed -i '13s/40/45/g' feeds/custom/luci-app-dockerman/luasrc/controller/dockerman.lua
@@ -145,11 +146,17 @@ sed -i 's/services/vpn/g' feeds/custom/luci-app-adguardhome/luasrc/view/AdGuardH
 sed -i 's/services/vpn/g' feeds/custom/luci-app-adguardhome/luasrc/view/AdGuardHome/log.htm
 sed -i 's/services/vpn/g' feeds/custom/luci-app-adguardhome/luasrc/view/AdGuardHome/yamleditor.htm
 
-sed -i 's/Adblock Plus+/广告屏蔽/g' feeds/custom/luci-app-adblock-plus/luasrc/controller/adblock-plus.lua
-sed -i 's/services/vpn/g' feeds/custom/luci-app-adblock-plus/luasrc/controller/adblock-plus.lua
-sed -i 's/services/vpn/g' feeds/custom/luci-app-adblock-plus/luasrc/model/cbi/adblock-plus/base.lua
-sed -i 's/services/vpn/g' feeds/custom/luci-app-adblock-plus/luasrc/view/adblock-plus/adblock_status.htm
-sed -i 's/services/vpn/g' feeds/custom/luci-app-adblock-plus/luasrc/view/adblock-plus/refresh.htm
+#sed -i 's/Adblock Plus+/广告过滤/g' feeds/custom/luci-app-adblock-plus/luasrc/controller/adblock-plus.lua
+#sed -i 's/services/vpn/g' feeds/custom/luci-app-adblock-plus/luasrc/controller/adblock-plus.lua
+#sed -i 's/services/vpn/g' feeds/custom/luci-app-adblock-plus/luasrc/model/cbi/adblock-plus/base.lua
+#sed -i 's/services/vpn/g' feeds/custom/luci-app-adblock-plus/luasrc/view/adblock-plus/adblock_status.htm
+#sed -i 's/services/vpn/g' feeds/custom/luci-app-adblock-plus/luasrc/view/adblock-plus/refresh.htm
+
+sed -i 's/DNSFilter/广告过滤/g' feeds/custom/luci-app-dnsfilter/luasrc/controller/dnsfilter.lua
+sed -i 's/services/vpn/g' feeds/custom/luci-app-dnsfilter/luasrc/controller/dnsfilter.lua
+sed -i 's/services/vpn/g' feeds/custom/luci-app-dnsfilter/luasrc/model/cbi/dnsfilter/base.lua
+sed -i 's/services/vpn/g' feeds/custom/luci-app-dnsfilter/luasrc/view/dnsfilter/dnsfilter_status.htm
+sed -i 's/services/vpn/g' feeds/custom/luci-app-dnsfilter/luasrc/view/dnsfilter/refresh.htm
 
 sed -i 's/services/vpn/g' feeds/custom/luci-app-openclash/luasrc/controller/openclash.lua
 sed -i 's/services/vpn/g' feeds/custom/luci-app-openclash/luasrc/model/cbi/openclash/client.lua
