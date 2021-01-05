@@ -19,8 +19,8 @@ on:
       - '.github/workflows/Test.yml'
   #schedule:
   #  - cron: 0 20 * * *
-  #watch:
-  #  types: started
+  watch:
+    types: started
 
 env:
   SCKEY: ${{ secrets.SCKEY }}
@@ -53,6 +53,6 @@ jobs:
       uses: Mattraks/delete-workflow-runs@main
       with:
         retain_days: 1
-        keep_minimum_runs: 15
+        keep_minimum_runs: 3
         token: ${{ secrets.PAT }}
         repository: ${{ github.repository }}
