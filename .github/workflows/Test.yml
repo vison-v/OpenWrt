@@ -26,6 +26,7 @@ env:
   SCKEY: ${{ secrets.SCKEY }}
   TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
   TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+  PAT: ${{ secrets.PAT }}
 
 jobs:
   build:
@@ -53,3 +54,5 @@ jobs:
       with:
         retain_days: 1
         keep_minimum_runs: 15
+        token: ${{ secrets.PAT }}
+        repository: ${{ github.repository }}
