@@ -55,4 +55,4 @@ jobs:
         retain_days: 1
         keep_minimum_runs: 3
         token: ${{ secrets.PAT }}
-        repository: OpenWrt
+        repository: vison-v/OpenWrt
