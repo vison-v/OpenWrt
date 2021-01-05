@@ -19,8 +19,8 @@ on:
   #    - '.github/workflows/Debug.yml'
   #schedule:
   #  - cron: 0 20 * * *
-  watch:
-    types: started
+  #watch:
+  #  types: started
 
 env:
   SCKEY: ${{ secrets.SCKEY }}
