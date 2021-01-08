@@ -49,7 +49,7 @@ jobs:
     - name: Modify
       run: |
         curl -fsSL  https://raw.githubusercontent.com/vison-v/patches/main/addon.sh > ./Garypang/common/addon.sh
-        curl -fsSL  https://raw.githubusercontent.com/vison-v/patches/main/addon > ./Garypang/x86_64/.config
+        curl -fsSL  https://raw.githubusercontent.com/vison-v/patches/main/addon >> ./Garypang/x86_64/.config
         sed -i '/DIY_SH="diy.sh"/a\ADD_SH="addon.sh"' ./Garypang/common/settings.ini
         sed -i '/CONFIG_PACKAGE_luci-app-gpsysupgrade=y/d' ./Garypang/common/.config
         sed -i '/WETRANSFER/s/true/false/' ./Garypang/common/settings.ini
