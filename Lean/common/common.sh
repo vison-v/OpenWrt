@@ -179,6 +179,7 @@ sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-smartdns/luasrc/mode
 sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-smartdns/luasrc/model/cbi/smartdns/upstream.lua
 sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-smartdns/luasrc/view/smartdns/smartdns_status.htm
 
+sed -i '/"KoolProxyR plus+"/s/1/9/g' package/openwrt-packages/luci-app-koolproxyR/files/usr/lib/lua/luci/controller/koolproxy.lua
 sed -i 's/KoolProxyR plus+/广告过滤/g' package/openwrt-packages/luci-app-koolproxyR/files/usr/lib/lua/luci/controller/koolproxy.lua
 sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-koolproxyR/files/usr/lib/lua/luci/controller/koolproxy.lua
 sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-koolproxyR/files/usr/lib/lua/luci/model/cbi/koolproxy/global.lua
@@ -239,6 +240,7 @@ sed -i 's/services/vpn/g' package/openwrt-packages/OpenClash/luci-app-openclash/
 sed -i 's/services/vpn/g' package/openwrt-packages/OpenClash/luci-app-openclash/luasrc/view/openclash/switch_mode.htm
 sed -i 's/services/vpn/g' package/openwrt-packages/OpenClash/luci-app-openclash/luasrc/view/openclash/update.htm
 
+sed -i '/"ShadowSocksR Plus+"/s/10/8/g' package/openwrt-packages/luci-app-ssr-plus/luci-app-ssr-plus/luasrc/controller/shadowsocksr.lua
 sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-ssr-plus/luci-app-ssr-plus/luasrc/controller/shadowsocksr.lua
 sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-ssr-plus/luci-app-ssr-plus/luasrc/model/cbi/shadowsocksr/client-config.lua
 sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-ssr-plus/luci-app-ssr-plus/luasrc/model/cbi/shadowsocksr/server-config.lua
