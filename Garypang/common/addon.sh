@@ -35,7 +35,7 @@ sed -i 's/services/nas/g' feeds/luci/applications/luci-app-aria2/luasrc/view/ari
 sed -i '/msgid "Aria2"/{n;s/Aria2/通用下载/;}' feeds/luci/applications/luci-app-aria2/po/zh_Hans/aria2.po
 
 sed -i 's/services/system/g' feeds/luci/applications/luci-app-watchcat/root/usr/share/luci/menu.d/luci-app-watchcat.json
-sed -i '/msgid "WatchCat"/{n;s/WatchCat/智能重启/;}' feeds/luci/applications/luci-app-watchcat/po/zh-cn/watchcat.po
+sed -i '/msgid "WatchCat"/{n;s/WatchCat/智能重启/;}' feeds/luci/applications/luci-app-watchcat/po/zh_Hans/watchcat.po
 sed -i 's/"Reboot on internet connection lost"/"互联网连接丢失时重启"/g' feeds/luci/applications/luci-app-watchcat/luasrc/model/cbi/watchcat/watchcat.lua
 sed -i 's/"Periodic reboot"/"定期重启"/g' feeds/luci/applications/luci-app-watchcat/luasrc/model/cbi/watchcat/watchcat.lua
 
