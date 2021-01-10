@@ -52,6 +52,7 @@ jobs:
         curl -fsSL  https://raw.githubusercontent.com/vison-v/patches/main/addon >> ./Garypang/x86_64/.config
         sed -i '/DIY_SH="diy.sh"/a\ADD_SH="addon.sh"' ./Garypang/common/settings.ini
         sed -i '/CONFIG_PACKAGE_luci-app-gpsysupgrade=y/d' ./Garypang/common/.config
+        sed -i '/PARTSIZE/s/1000/170/' ./Garypang/x86_64/.config
         sed -i '/WETRANSFER/s/true/false/' ./Garypang/common/settings.ini
         sed -i '/COWTRANSFER/s/true/false/' ./Garypang/common/settings.ini
         sed -i 's/"10.0.0.1"/"192.168.10.1"/g' ./Garypang/common/default-settings
