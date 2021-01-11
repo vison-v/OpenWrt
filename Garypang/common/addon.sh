@@ -41,10 +41,10 @@ sed -i 's/"Periodic reboot"/"定期重启"/g' feeds/luci/applications/luci-app-w
 
 sed -i '/msgid "KMS Server"/{n;s/KMS 服务器/KMS 服务/;}' feeds/custom/luci-app-vlmcsd/po/zh_Hans/vlmcsd.po
 
-#sed -i 's/+docker/+docker-ce/g' feeds/custom/luci-app-dockerman/Makefile
 echo -e "\nmsgid \"Docker\"" >> feeds/custom/luci-app-dockerman/po/zh_Hans/dockerman.po
 echo -e "msgstr \"容器\"" >> feeds/custom/luci-app-dockerman/po/zh_Hans/dockerman.po
-sed -i '13s/40/45/g' feeds/custom/luci-app-dockerman/luasrc/controller/dockerman.lua
+sed -i '/"Docker"/s/40/45/' feeds/custom/luci-app-dockerman/luasrc/controller/dockerman.lua
+#sed -i '/"Overview"/s/0/170/' feeds/custom/luci-app-dockerman/luasrc/controller/dockerman.lua
 
 echo -e "\nmsgid \"Blacklist\"" >> feeds/custom/luci-app-control-webrestriction/po/zh_Hans/webrestriction.po
 echo -e "msgstr \"黑名单\"" >> feeds/custom/luci-app-control-webrestriction/po/zh_Hans/webrestriction.po
