@@ -9,6 +9,7 @@ git clone https://github.com/garypang13/aria2 package/openwrt-packages/aria2
 git clone https://github.com/garypang13/openwrt-static-qb package/openwrt-packages/openwrt-static-qb
 git clone https://github.com/garypang13/luci-app-dnsfilter package/openwrt-packages/luci-app-dnsfilter
 git clone https://github.com/garypang13/luci-app-bypass package/openwrt-packages/luci-app-bypass
+svn co https://github.com/garypang13/openwrt-packages/trunk/chinadns-ng package/openwrt-packages/chinadns-ng
 ##############菜单整理美化#################
 ./scripts/feeds update -a
 ./scripts/feeds install -a
