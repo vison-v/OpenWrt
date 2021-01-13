@@ -1,15 +1,16 @@
   
 #!/bin/bash
 #=================================================
-rm -Rf feeds/packages/net/{smartdns,aria2} package/lean/{qBittorrent,luci-app-baidupcs-web}
+rm -Rf feeds/packages/net/{smartdns,aria2} package/lean/{tcping,luci-app-baidupcs-web}
 ##############加载自定义app################
 git clone https://github.com/garypang13/luci-app-baidupcs-web package/openwrt-packages/luci-app-baidupcs-web
-git clone https://github.com/garypang13/openwrt-smartdns package/openwrt-packages/openwrt-smartdns
-git clone https://github.com/garypang13/aria2 package/openwrt-packages/aria2
-git clone https://github.com/garypang13/openwrt-static-qb package/openwrt-packages/openwrt-static-qb
 git clone https://github.com/garypang13/luci-app-dnsfilter package/openwrt-packages/luci-app-dnsfilter
 git clone https://github.com/garypang13/luci-app-bypass package/openwrt-packages/luci-app-bypass
+svn co https://github.com/garypang13/openwrt-packages/trunk/aria2 package/openwrt-packages/aria2
+svn co https://github.com/garypang13/openwrt-packages/trunk/smartdns package/openwrt-packages/smartdns
+svn co https://github.com/garypang13/openwrt-packages/trunk/qBittorrent-Enhanced-Edition package/openwrt-packages/qBittorrent-Enhanced-Edition
 svn co https://github.com/garypang13/openwrt-packages/trunk/chinadns-ng package/openwrt-packages/chinadns-ng
+svn co https://github.com/garypang13/openwrt-packages/trunk/tcping package/openwrt-packages/tcping
 ##############菜单整理美化#################
 ./scripts/feeds update -a
 ./scripts/feeds install -a
