@@ -11,6 +11,8 @@ svn co https://github.com/garypang13/openwrt-packages/trunk/smartdns package/ope
 svn co https://github.com/garypang13/openwrt-packages/trunk/qBittorrent-Enhanced-Edition package/openwrt-packages/qBittorrent-Enhanced-Edition
 svn co https://github.com/garypang13/openwrt-packages/trunk/chinadns-ng package/openwrt-packages/chinadns-ng
 svn co https://github.com/garypang13/openwrt-packages/trunk/trojan-go package/openwrt-packages/trojan-go
+svn co https://github.com/garypang13/openwrt-packages/trunk/trojan-plus package/openwrt-packages/trojan-plus
+svn co https://github.com/garypang13/openwrt-packages/trunk/lua-maxminddb package/openwrt-packages/lua-maxminddb
 svn co https://github.com/garypang13/openwrt-packages/trunk/tcping package/openwrt-packages/tcping
 ##############菜单整理美化#################
 ./scripts/feeds update -a
