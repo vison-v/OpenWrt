@@ -12,11 +12,11 @@ on:
   repository_dispatch:
   release:
     types: published
-  #push:
-  #  branches:
-  #    - main
-  #  paths:
-  #    - '.github/workflows/Openwrt-AutoBuild-Lienol.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/Openwrt-AutoBuild-Lienol.yml'
   schedule:
     - cron: 0 20 * * 6
   #watch:
