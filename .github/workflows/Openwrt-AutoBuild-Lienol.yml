@@ -17,8 +17,8 @@ on:
   #    - main
   #  paths:
   #    - '.github/workflows/Openwrt-AutoBuild-Lienol.yml'
-  #schedule:
-  #  - cron: 0 20 * * *
+  schedule:
+    - cron: 0 20 * * 6
   #watch:
   #  types: started
 
