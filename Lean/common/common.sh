@@ -2,6 +2,7 @@
 
 ##############加载自定义app################
 git clone https://github.com/fw876/helloworld.git package/openwrt-packages/luci-app-ssr-plus
+git clone https://github.com/jerrykuku/luci-theme-argon.git -b 18.06 package/openwrt-packages/luci-theme-argon
 git clone https://github.com/Leo-Jo-My/luci-theme-opentomato.git package/openwrt-packages/luci-theme-opentomato
 svn co https://github.com/rosywrt/luci-theme-rosy/trunk/luci-theme-rosy package/openwrt-packages/luci-theme-rosy
 git clone https://github.com/vernesong/OpenClash.git package/openwrt-packages/OpenClash
