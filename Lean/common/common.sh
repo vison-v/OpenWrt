@@ -1,5 +1,6 @@
-#!/bin/bash
+#!/bin/bash 
 
+rm -rf package/lean/luci-theme-argon  
 ##############加载自定义app################
 git clone https://github.com/fw876/helloworld.git package/openwrt-packages/luci-app-ssr-plus
 git clone https://github.com/jerrykuku/luci-theme-argon.git -b 18.06 package/openwrt-packages/luci-theme-argon
