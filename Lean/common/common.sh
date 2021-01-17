@@ -3,6 +3,7 @@
 rm -rf package/lean/luci-theme-argon  
 ##############加载自定义app################
 git clone https://github.com/fw876/helloworld.git package/openwrt-packages/luci-app-ssr-plus
+git clone https://github.com/jerrykuku/luci-app-argon-config.git package/openwrt-packages/luci-app-argon-config
 git clone https://github.com/jerrykuku/luci-theme-argon.git -b 18.06 package/openwrt-packages/luci-theme-argon
 git clone https://github.com/Leo-Jo-My/luci-theme-opentomato.git package/openwrt-packages/luci-theme-opentomato
 svn co https://github.com/rosywrt/luci-theme-rosy/trunk/luci-theme-rosy package/openwrt-packages/luci-theme-rosy
@@ -108,6 +109,9 @@ sed -i 's/Tcpdump 流量监控/流量监控/g' package/openwrt-packages/luci-app
 
 sed -i 's/network/control/g' package/openwrt-packages/OpenAppFilter/luci-app-oaf/luasrc/controller/appfilter.lua
 sed -i 's/network/control/g' package/openwrt-packages/OpenAppFilter/luci-app-oaf/luasrc/view/admin_network/user_status.htm
+
+sed -i 's/90/56/g' package/openwrt-packages/luci-app-argon-config/luasrc/controller/argon-config.lua
+sed -i 's/"Argon 主题设置"/"主题设置"/g' package/openwrt-packages/luci-app-argon-config/po/zh-cn/argon-config.po
 
 sed -i 's/network/control/g' package/openwrt-packages/luci-app-eqos/luasrc/controller/eqos.lua
 
