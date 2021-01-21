@@ -192,9 +192,11 @@ jobs:
         -or -name "*serverchan*.ipk" \
         -or -name "*watchcat*.ipk" \
         -or -name "*ttyd*.ipk" \
+        -or -name "*kodexplorer*.ipk" \
         | xargs -i mv -f {} ./ipk-package/
         cd ipk-package
         echo "IPK-PACKAGE=$PWD" >> $GITHUB_ENV
+        cd ..
         mkdir firmware && find openwrt/bin/targets/*/*/ -maxdepth 1 \
         -name "*combined*" \
         -or -name "*sysupgrade*" \
