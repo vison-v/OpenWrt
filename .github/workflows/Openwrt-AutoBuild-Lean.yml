@@ -193,6 +193,7 @@ jobs:
         -or -name "*watchcat*.ipk" \
         -or -name "*ttyd*.ipk" \
         -or -name "*kodexplorer*.ipk" \
+        -or -name "*netkeeper*.ipk" \
         | xargs -i mv -f {} ./ipk-package/
         cd ipk-package
         echo "IPK-PACKAGE=$PWD" >> $GITHUB_ENV
