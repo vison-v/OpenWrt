@@ -1,6 +1,6 @@
 #=================================================
 # https://github.com/P3TERX/Actions-OpenWrt
-# Description: Build OpenWrt using GitHub Actions.
+# Description: Build OpenWrt using GitHub Actions
 # Lisence: MIT
 # Author: P3TERX
 # Blog: https://p3terx.com
@@ -61,6 +61,8 @@ jobs:
         echo "FREE_UP_DISK=${FREE_UP_DISK}" >> $GITHUB_ENV
         echo "UPLOAD_BIN_DIR_FOR_ARTIFACT=${UPLOAD_BIN_DIR_FOR_ARTIFACT}" >> $GITHUB_ENV
         echo "UPLOAD_FIRMWARE_FOR_ARTIFACT=${UPLOAD_FIRMWARE_FOR_ARTIFACT}" >> $GITHUB_ENV
+        echo "UPLOAD_EFI_FIRMWARE_FOR_ARTIFACT=${UPLOAD_EFI_FIRMWARE_FOR_ARTIFACT}" >> $GITHUB_ENV
+        echo "UPLOAD_IPK_FOR_ARTIFACT=${UPLOAD_FIRMWARE_FOR_ARTIFACT}" >> $GITHUB_ENV
         echo "UPLOAD_FIRMWARE_FOR_RELEASE=${UPLOAD_FIRMWARE_FOR_RELEASE}" >> $GITHUB_ENV
         echo "UPLOAD_FIRMWARE_TO_COWTRANSFER=${UPLOAD_FIRMWARE_TO_COWTRANSFER}" >> $GITHUB_ENV
         echo "UPLOAD_FIRMWARE_TO_WETRANSFER=${UPLOAD_FIRMWARE_TO_WETRANSFER}" >> $GITHUB_ENV
@@ -166,6 +168,33 @@ jobs:
     - name: Organize files
       id: organize
       run: |
+        mkdir ipk-package && find openwrt/bin/packages/*/*/ -maxdepth 1 \
+        -name "*passwall*.ipk" \
+        -or -name "*ssr*.ipk" \
+        -or -name "*openclash*.ipk" \
+        -or -name "*bypass*.ipk" \
+        -or -name "*argon*.ipk" \
+        -or -name "*adguardhome*.ipk" \
+        -or -name "*tcpdump*.ipk" \
+        -or -name "*koolproxyR*.ipk" \
+        -or -name "*socat*.ipk" \
+        -or -name "*smartdns*.ipk" \
+        -or -name "*eqos*.ipk" \
+        -or -name "*dailybonus*.ipk" \
+        -or -name "*docker*.ipk" \
+        -or -name "*dnsfilter*.ipk" \
+        -or -name "*aria2*.ipk" \
+        -or -name "*qBittorrent*.ipk" \
+        -or -name "*adbyby*.ipk" \
+        -or -name "*aliddns*.ipk" \
+        -or -name "*baidupcs*.ipk" \
+        -or -name "*syncdial*.ipk" \
+        -or -name "*serverchan*.ipk" \
+        -or -name "*watchcat*.ipk" \
+        -or -name "*ttyd*.ipk" \
+        | xargs -i mv -f {} ./ipk-package/
+        cd ipk-package
+        echo "IPK-PACKAGE=$PWD" >> $GITHUB_ENV
         mkdir firmware && find openwrt/bin/targets/*/*/ -maxdepth 1 \
         -name "*combined*" \
         -or -name "*sysupgrade*" \
@@ -248,11 +277,20 @@ jobs:
     - name: Upload EFI firmware for artifact
       uses: actions/upload-artifact@main
       continue-on-error: true
-      if: env.UPLOAD_FIRMWARE_FOR_ARTIFACT == 'true'
+      if: env.UPLOAD_EFI_FIRMWARE_FOR_ARTIFACT == 'true'
       with:
         name: ${{ env.date3 }} ${{matrix.target}}_EFI
         path: ${{ env.FIRMWARE }}/*efi*
         
+    - name: Upload ipk-package for artifact
+      uses: actions/upload-artifact@main
+      continue-on-error: true
+      if: env.UPLOAD_IPK_FOR_ARTIFACT == 'true'
+      with:
+        name: ${{ env.date3 }} ${{matrix.target}} IPK
+        path: |
+          ${{ env.IPK-PACKAGE }}/
+    
     - name: WeChat notification
       continue-on-error: true
       if: env.SCKEY
