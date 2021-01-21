@@ -100,7 +100,8 @@ sed -i 's/90/89/g' feeds/luci/applications/luci-app-watchcat/luasrc/controller/w
 
 sed -i 's/89/88/g' package/lean/luci-app-filetransfer/luasrc/controller/filetransfer.lua
 
-sed -i 's/Turbo ACC 网络加速/网络加速/g' package/lean/luci-app-sfe/po/zh-cn/sfe.po
+sed -i 's/"Turbo ACC 网络加速"/"网络加速"/g' package/lean/luci-app-sfe/po/zh-cn/sfe.po
+sed -i 's/"Turbo ACC 网络加速"/"网络加速"/g' package/lean/luci-app-flowoffload/po/zh-cn/flowoffload.po
 
 sed -i 's/TTYD 终端/命令终端/g' package/lean/luci-app-ttyd/po/zh-cn/terminal.po
 
@@ -108,6 +109,8 @@ sed -i 's/解锁网易云灰色歌曲/网易音乐/g' package/lean/luci-app-unbl
 sed -i 's/services/vpn/g' package/lean/luci-app-unblockmusic/luasrc/controller/unblockmusic.lua
 sed -i 's/services/vpn/g' package/lean/luci-app-unblockmusic/luasrc/model/cbi/unblockmusic.lua
 sed -i 's/services/vpn/g' package/lean/luci-app-unblockmusic/luasrc/view/unblockmusic/unblockmusic_status.htm
+
+sed -i '/msgid "UU GameAcc"/{n;s/UU游戏加速器/UU加速器/;}' luci-app-uugamebooster/po/zh-cn/uuplugin.po
 
 sed -i 's/上网时间控制/时间控制/g' package/lean/luci-app-accesscontrol/po/zh-cn/mia.po
 sed -i 's/services/control/g' package/lean/luci-app-accesscontrol/luasrc/controller/mia.lua
@@ -212,10 +215,12 @@ sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-jd-dailybonus/luasrc
 sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-jd-dailybonus/luasrc/view/jd-dailybonus/update_service.htm
 sed -i 's/京东签到服务/京东签到/g' package/openwrt-packages/luci-app-jd-dailybonus/po/zh-cn/jd-dailybonus.po
 
-sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-smartdns/luasrc/controller/smartdns.lua
-sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-smartdns/luasrc/model/cbi/smartdns/smartdns.lua
-sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-smartdns/luasrc/model/cbi/smartdns/upstream.lua
-sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-smartdns/luasrc/view/smartdns/smartdns_status.htm
+#sed -i '/"SmartDNS"/s/60/9/g' package/openwrt-packages/luci-app-smartdns/luasrc/controller/smartdns.lua
+sed -i 's/services/network/g' package/openwrt-packages/luci-app-smartdns/luasrc/controller/smartdns.lua
+sed -i 's/services/network/g' package/openwrt-packages/luci-app-smartdns/luasrc/model/cbi/smartdns/smartdns.lua
+sed -i 's/services/network/g' package/openwrt-packages/luci-app-smartdns/luasrc/model/cbi/smartdns/upstream.lua
+sed -i 's/services/network/g' package/openwrt-packages/luci-app-smartdns/luasrc/view/smartdns/smartdns_status.htm
+sed -i '/msgid "SmartDNS"/{n;s/SmartDNS/DNS 加速/;}' package/openwrt-packages/luci-app-smartdns/po/zh-cn/smartdns.po
 
 sed -i '/"KoolProxyR plus+"/s/1/10/g' package/openwrt-packages/luci-app-koolproxyR/files/usr/lib/lua/luci/controller/koolproxy.lua
 sed -i 's/KoolProxyR plus+/广告过滤/g' package/openwrt-packages/luci-app-koolproxyR/files/usr/lib/lua/luci/controller/koolproxy.lua
@@ -278,21 +283,35 @@ sed -i 's/services/vpn/g' package/openwrt-packages/OpenClash/luci-app-openclash/
 sed -i 's/services/vpn/g' package/openwrt-packages/OpenClash/luci-app-openclash/luasrc/view/openclash/switch_mode.htm
 sed -i 's/services/vpn/g' package/openwrt-packages/OpenClash/luci-app-openclash/luasrc/view/openclash/update.htm
 
-sed -i '/"ShadowSocksR Plus+"/s/10/8/g' package/openwrt-packages/luci-app-ssr-plus/luci-app-ssr-plus/luasrc/controller/shadowsocksr.lua
-sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-ssr-plus/luci-app-ssr-plus/luasrc/controller/shadowsocksr.lua
-sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-ssr-plus/luci-app-ssr-plus/luasrc/model/cbi/shadowsocksr/client-config.lua
-sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-ssr-plus/luci-app-ssr-plus/luasrc/model/cbi/shadowsocksr/server-config.lua
-sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-ssr-plus/luci-app-ssr-plus/luasrc/model/cbi/shadowsocksr/server.lua
-sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-ssr-plus/luci-app-ssr-plus/luasrc/model/cbi/shadowsocksr/servers.lua
-sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-ssr-plus/luci-app-ssr-plus/luasrc/view/shadowsocksr/check.htm
-sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-ssr-plus/luci-app-ssr-plus/luasrc/view/shadowsocksr/checkport.htm
-sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-ssr-plus/luci-app-ssr-plus/luasrc/view/shadowsocksr/refresh.htm
-sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-ssr-plus/luci-app-ssr-plus/luasrc/view/shadowsocksr/server_list.htm
-sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-ssr-plus/luci-app-ssr-plus/luasrc/view/shadowsocksr/status.htm
-sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-ssr-plus/luci-app-ssr-plus/luasrc/view/shadowsocksr/subscribe.htm
-sed -i 's/ShadowSocksR Plus+ 设置/SSR Plus设置/g' package/openwrt-packages/luci-app-ssr-plus/luci-app-ssr-plus/po/zh-cn/ssr-plus.po
-echo -e "\nmsgid \"ShadowSocksR Plus+\"" >> package/openwrt-packages/luci-app-ssr-plus/luci-app-ssr-plus/po/zh-cn/ssr-plus.po
-echo -e "msgstr \"畅游国际\"" >> package/openwrt-packages/luci-app-ssr-plus/luci-app-ssr-plus/po/zh-cn/ssr-plus.po
+sed -i '/"ShadowSocksR Plus+"/s/10/8/g' package/openwrt-packages/luci-app-ssr-plus/luasrc/controller/shadowsocksr.lua
+sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-ssr-plus/luasrc/controller/shadowsocksr.lua
+sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-ssr-plus/luasrc/model/cbi/shadowsocksr/client-config.lua
+sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-ssr-plus/luasrc/model/cbi/shadowsocksr/server-config.lua
+sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-ssr-plus/luasrc/model/cbi/shadowsocksr/server.lua
+sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-ssr-plus/luasrc/model/cbi/shadowsocksr/servers.lua
+sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-ssr-plus/luasrc/view/shadowsocksr/check.htm
+sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-ssr-plus/luasrc/view/shadowsocksr/checkport.htm
+sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-ssr-plus/luasrc/view/shadowsocksr/refresh.htm
+sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-ssr-plus/luasrc/view/shadowsocksr/server_list.htm
+sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-ssr-plus/luasrc/view/shadowsocksr/status.htm
+sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-ssr-plus/luasrc/view/shadowsocksr/subscribe.htm
+sed -i 's/ShadowSocksR Plus+ 设置/SSR Plus设置/g' package/openwrt-packages/luci-app-ssr-plus/po/zh-cn/ssr-plus.po
+echo -e "\nmsgid \"ShadowSocksR Plus+\"" >> package/openwrt-packages/luci-app-ssr-plus/po/zh-cn/ssr-plus.po
+echo -e "msgstr \"畅游国际\"" >> package/openwrt-packages/luci-app-ssr-plus/po/zh-cn/ssr-plus.po
+
+sed -i '/"Hello World"/s/0/8/g' package/openwrt-packages/luci-app-vssr/luasrc/controller/vssr.lua
+sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-vssr/luasrc/controller/vssr.lua
+sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-vssr/luasrc/model/cbi/vssr/client-config.lua
+sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-vssr/luasrc/model/cbi/vssr/server-config.lua
+sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-vssr/luasrc/model/cbi/vssr/server.lua
+sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-vssr/luasrc/model/cbi/vssr/servers.lua
+sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-vssr/luasrc/model/cbi/vssr/subscribe-config.lua
+sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-vssr/luasrc/view/vssr/refresh.htm
+sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-vssr/luasrc/view/vssr/ssrurl.htm
+sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-vssr/luasrc/view/vssr/status_top.htm
+sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-vssr/luasrc/view/vssr/tblsection.htm
+sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-vssr/luasrc/view/vssr/update_subscribe.htm
+sed -i 's/"Hello World"/"世界,你好"/g' package/openwrt-packages/luci-app-ssr-plus/luci-app-ssr-plus/po/zh-cn/ssr-plus.po
 
 sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-serverchan/luasrc/controller/serverchan.lua
 sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-serverchan/luasrc/model/cbi/serverchan/advanced.lua
