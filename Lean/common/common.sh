@@ -214,7 +214,7 @@ sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-passwall/luci-app-pa
 
 sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-jd-dailybonus/luasrc/controller/jd-dailybonus.lua
 sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-jd-dailybonus/luasrc/view/jd-dailybonus/update_service.htm
-sed -i 's/京东签到服务/京东签到/g' package/openwrt-packages/luci-app-jd-dailybonus/po/zh-cn/jd-dailybonus.po
+sed -i 's/'京东签到服务'/'京东签到'/g' package/openwrt-packages/luci-app-jd-dailybonus/luasrc/controller/jd-dailybonus.lua
 
 #sed -i '/"SmartDNS"/s/60/9/g' package/openwrt-packages/luci-app-smartdns/luasrc/controller/smartdns.lua
 sed -i 's/services/network/g' package/openwrt-packages/luci-app-smartdns/luasrc/controller/smartdns.lua
@@ -312,7 +312,7 @@ sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-vssr/luasrc/view/vss
 sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-vssr/luasrc/view/vssr/status_top.htm
 sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-vssr/luasrc/view/vssr/tblsection.htm
 sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-vssr/luasrc/view/vssr/update_subscribe.htm
-sed -i 's/"Hello World"/"世界,你好"/g' package/openwrt-packages/luci-app-ssr-plus/luci-app-ssr-plus/po/zh-cn/ssr-plus.po
+sed -i 's/"Hello World"/"世界,你好"/g' package/openwrt-packages/luci-app-vssr/po/zh-cn/vssr.po
 
 sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-serverchan/luasrc/controller/serverchan.lua
 sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-serverchan/luasrc/model/cbi/serverchan/advanced.lua
