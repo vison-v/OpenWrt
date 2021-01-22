@@ -157,7 +157,7 @@ sed -i '/msgid "Reboot"/{n;s/重启/立即重启/;}' feeds/luci/modules/luci-bas
 
 sed -i 's/KMS 服务器/KMS 服务/g' package/lean/luci-app-vlmcsd/po/zh-cn/vlmcsd.zh-cn.po
 
-sed -i 's/"Bypass"/"畅游国际"/g' package/openwrt-packages/luci-app-bypass/luasrc/controller/bypass.lua
+sed -i 's/"Bypass"/"世界,你好"/g' package/openwrt-packages/luci-app-bypass/luasrc/controller/bypass.lua
 sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-bypass/luasrc/controller/bypass.lua
 sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-bypass/luasrc/model/cbi/bypass/client-config.lua
 sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-bypass/luasrc/model/cbi/bypass/server-config.lua
@@ -181,6 +181,7 @@ sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-dnsfilter/luasrc/mod
 sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-dnsfilter/luasrc/view/dnsfilter/dnsfilter_status.htm
 sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-dnsfilter/luasrc/view/dnsfilter/refresh.htm
 
+sed -i '/msgid "Pass Wall"/{n;s/PassWall/世界,你好/;}' package/openwrt-packages/luci-app-passwall/luci-app-passwall/po/zh-cn/passwall.po
 sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-passwall/luci-app-passwall/luasrc/controller/passwall.lua
 sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-passwall/luci-app-passwall/luasrc/model/cbi/passwall/client/node_config.lua
 sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-passwall/luci-app-passwall/luasrc/model/cbi/passwall/client/node_list.lua
@@ -217,10 +218,10 @@ sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-jd-dailybonus/luasrc
 sed -i 's/'京东签到服务'/'京东签到'/g' package/openwrt-packages/luci-app-jd-dailybonus/luasrc/controller/jd-dailybonus.lua
 
 #sed -i '/"SmartDNS"/s/60/9/g' package/openwrt-packages/luci-app-smartdns/luasrc/controller/smartdns.lua
-sed -i 's/services/network/g' package/openwrt-packages/luci-app-smartdns/luasrc/controller/smartdns.lua
-sed -i 's/services/network/g' package/openwrt-packages/luci-app-smartdns/luasrc/model/cbi/smartdns/smartdns.lua
-sed -i 's/services/network/g' package/openwrt-packages/luci-app-smartdns/luasrc/model/cbi/smartdns/upstream.lua
-sed -i 's/services/network/g' package/openwrt-packages/luci-app-smartdns/luasrc/view/smartdns/smartdns_status.htm
+sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-smartdns/luasrc/controller/smartdns.lua
+sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-smartdns/luasrc/model/cbi/smartdns/smartdns.lua
+sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-smartdns/luasrc/model/cbi/smartdns/upstream.lua
+sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-smartdns/luasrc/view/smartdns/smartdns_status.htm
 sed -i '/msgid "SmartDNS"/{n;s/SmartDNS/DNS 加速/;}' package/openwrt-packages/luci-app-smartdns/po/zh-cn/smartdns.po
 
 sed -i '/"KoolProxyR plus+"/s/1/10/g' package/openwrt-packages/luci-app-koolproxyR/files/usr/lib/lua/luci/controller/koolproxy.lua
@@ -261,6 +262,8 @@ sed -i 's/services/vpn/g' package/lean/luci-app-adbyby-plus/luasrc/model/cbi/adb
 sed -i 's/services/vpn/g' package/lean/luci-app-adbyby-plus/luasrc/view/adbyby/adbyby_status.htm
 sed -i 's/services/vpn/g' package/lean/luci-app-adbyby-plus/luasrc/view/adbyby/refresh.htm
 
+sed -i '/msgid "OpenClash"/{n;s/OpenClash/世界,你好/;}' package/openwrt-packages/OpenClash/luci-app-openclash/zh-cn/openclash.zh-cn.po
+sed -i '/"OpenClash"/s/50/8/g' package/openwrt-packages/OpenClash/luci-app-openclash/luasrc/controller/openclash.lua
 sed -i 's/services/vpn/g' package/openwrt-packages/OpenClash/luci-app-openclash/luasrc/controller/openclash.lua
 sed -i 's/services/vpn/g' package/openwrt-packages/OpenClash/luci-app-openclash/luasrc/model/cbi/openclash/client.lua
 sed -i 's/services/vpn/g' package/openwrt-packages/OpenClash/luci-app-openclash/luasrc/model/cbi/openclash/config-subscribe-edit.lua
@@ -298,7 +301,7 @@ sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-ssr-plus/luasrc/view
 sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-ssr-plus/luasrc/view/shadowsocksr/subscribe.htm
 sed -i 's/ShadowSocksR Plus+ 设置/SSR Plus设置/g' package/openwrt-packages/luci-app-ssr-plus/po/zh-cn/ssr-plus.po
 echo -e "\nmsgid \"ShadowSocksR Plus+\"" >> package/openwrt-packages/luci-app-ssr-plus/po/zh-cn/ssr-plus.po
-echo -e "msgstr \"畅游国际\"" >> package/openwrt-packages/luci-app-ssr-plus/po/zh-cn/ssr-plus.po
+echo -e "msgstr \"世界,你好\"" >> package/openwrt-packages/luci-app-ssr-plus/po/zh-cn/ssr-plus.po
 
 sed -i '/"Hello World"/s/0/8/g' package/openwrt-packages/luci-app-vssr/luasrc/controller/vssr.lua
 sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-vssr/luasrc/controller/vssr.lua
