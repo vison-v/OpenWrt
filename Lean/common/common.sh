@@ -111,7 +111,7 @@ sed -i 's/services/vpn/g' package/lean/luci-app-unblockmusic/luasrc/controller/u
 sed -i 's/services/vpn/g' package/lean/luci-app-unblockmusic/luasrc/model/cbi/unblockmusic.lua
 sed -i 's/services/vpn/g' package/lean/luci-app-unblockmusic/luasrc/view/unblockmusic/unblockmusic_status.htm
 
-sed -i '/msgid "UU GameAcc"/{n;s/UU游戏加速器/UU加速器/;}' luci-app-uugamebooster/po/zh-cn/uuplugin.po
+sed -i '/msgid "UU GameAcc"/{n;s/UU游戏加速器/UU加速器/;}' package/lean/luci-app-uugamebooster/po/zh-cn/uuplugin.po
 
 sed -i 's/上网时间控制/时间控制/g' package/lean/luci-app-accesscontrol/po/zh-cn/mia.po
 sed -i 's/services/control/g' package/lean/luci-app-accesscontrol/luasrc/controller/mia.lua
