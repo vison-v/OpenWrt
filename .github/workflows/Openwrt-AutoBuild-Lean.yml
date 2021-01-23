@@ -175,6 +175,7 @@ jobs:
         -or -name "*bypass*.ipk" \
         -or -name "*argon*.ipk" \
         -or -name "*adguardhome*.ipk" \
+        -or -name "*AdGuard*.ipk" \
         -or -name "*tcpdump*.ipk" \
         -or -name "*koolproxyR*.ipk" \
         -or -name "*socat*.ipk" \
