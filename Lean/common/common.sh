@@ -253,7 +253,7 @@ sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-ssr-plus/luasrc/view
 sed -i 's/ShadowSocksR Plus+ 设置/SSR Plus设置/g' package/openwrt-packages/luci-app-ssr-plus/po/zh-cn/ssr-plus.po
 
 sed -i '/Hello World/s/0/8/g' package/openwrt-packages/luci-app-vssr/luasrc/controller/vssr.lua
-sed -i 's/'Hello World'/'世界,你好'/g' package/openwrt-packages/luci-app-vssr/luasrc/controller/vssr.lua
+sed -i 's/Hello World/世界,你好/g' package/openwrt-packages/luci-app-vssr/luasrc/controller/vssr.lua
 sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-vssr/luasrc/controller/vssr.lua
 sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-vssr/luasrc/model/cbi/vssr/client-config.lua
 sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-vssr/luasrc/model/cbi/vssr/server-config.lua
