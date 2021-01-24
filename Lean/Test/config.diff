@@ -31,4 +31,4 @@ CONFIG_TARGET_ROOTFS_TARGZ=n
 # CONFIG_PACKAGE_luci-app-socat is not set
 # CONFIG_PACKAGE_luci-app-smartdns is not set
 # CONFIG_PACKAGE_luci-app-watchcat is not set
-CONFIG_PACKAGE_luci-app-oaf=y
+# CONFIG_PACKAGE_luci-app-oaf is not set
