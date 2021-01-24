@@ -41,7 +41,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [x86_64,AC58U,Test]
+        target: [x86_64,AC58U]
         
     steps:
     - name: Checkout
