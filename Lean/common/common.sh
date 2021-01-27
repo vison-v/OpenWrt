@@ -112,21 +112,21 @@ sed -i 's/"Turbo ACC 网络加速"/"网络加速"/g' package/lean/luci-app-flowo
 sed -i 's/TTYD 终端/命令终端/g' package/lean/luci-app-ttyd/po/zh-cn/terminal.po
 
 sed -i 's/解锁网易云灰色歌曲/网易音乐/g' package/lean/luci-app-unblockmusic/po/zh-cn/unblockmusic.po
-sed -i 's/services/vpn/g' grep services -rl package/lean/luci-app-unblockmusic/luasrc
+sed -i 's/services/vpn/g'  `grep services -rl package/lean/luci-app-unblockmusic/luasrc`
 
 sed -i '/msgid "UU GameAcc"/{n;s/UU游戏加速器/UU加速器/;}' package/lean/luci-app-uugamebooster/po/zh-cn/uuplugin.po
 
 sed -i 's/上网时间控制/时间控制/g' package/lean/luci-app-accesscontrol/po/zh-cn/mia.po
-sed -i 's/services/control/g' grep services -rl package/lean/luci-app-accesscontrol/luasrc
+sed -i 's/services/control/g'  `grep services -rl package/lean/luci-app-accesscontrol/luasrc`
 
 sed -i 's/Tcpdump 流量监控/流量监控/g' package/openwrt-packages/luci-app-tcpdump/po/zh-cn/tcpdump.po
 
-sed -i 's/network/control/g' grep network -rl package/openwrt-packages/OpenAppFilter/luci-app-oaf/luasrc
+sed -i 's/network/control/g'  `grep network -rl package/openwrt-packages/OpenAppFilter/luci-app-oaf/luasrc`
 
 sed -i 's/90/56/g' package/openwrt-packages/luci-app-argon-config/luasrc/controller/argon-config.lua
 sed -i 's/"Argon 主题设置"/"主题设置"/g' package/openwrt-packages/luci-app-argon-config/po/zh-cn/argon-config.po
 
-sed -i 's/network/control/g' grep network -rl package/openwrt-packages/luci-app-eqos/luasrc
+sed -i 's/network/control/g'  `grep network -rl package/openwrt-packages/luci-app-eqos/luasrc`
 
 sed -i 's/CPU 性能优化调节/CPU 调节/g' package/lean/luci-app-cpufreq/po/zh-cn/cpufreq.po
 
@@ -138,7 +138,7 @@ sed -i '50s/WatchCat/智能重启/g' feeds/luci/applications/luci-app-watchcat/p
 sed -i '17s/Reboot on internet connection lost/互联网连接丢失时重启/g' feeds/luci/applications/luci-app-watchcat/luasrc/model/cbi/watchcat/watchcat.lua
 sed -i '18s/Periodic reboot/定期重启/g' feeds/luci/applications/luci-app-watchcat/luasrc/model/cbi/watchcat/watchcat.lua
 
-sed -i 's/services/nas/g' grep services -rl feeds/luci/applications/luci-app-aria2/luasrc
+sed -i 's/services/vpn/g'  `grep services -rl feeds/luci/applications/luci-app-aria2/luasrc`
 sed -i 's/Aria2 配置/通用下载/g' feeds/luci/applications/luci-app-aria2/po/zh-cn/aria2.po
 
 sed -i '/msgid "Transmission"/{n;s/Transmission/BtPt下载/;}' feeds/luci/applications/luci-app-transmission/po/zh-cn/transmission.po
@@ -159,49 +159,49 @@ sed -i 's/KMS 服务器/KMS 服务/g' package/lean/luci-app-vlmcsd/po/zh-cn/vlmc
 
 sed -i '/msgid "Pass Wall"/{n;s/PassWall/世界,你好/;}' package/openwrt-packages/luci-app-passwall/luci-app-passwall/po/zh-cn/passwall.po
 #sed -i '/Pass Wall/s/1/8/g' package/openwrt-packages/luci-app-passwall/luci-app-passwall/luasrc/controller/passwall.lua
-sed -i 's/services/vpn/g' grep services -rl package/openwrt-packages/luci-app-passwall/luci-app-passwall/luasrc
+sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/luci-app-passwall/luci-app-passwall/luasrc`
 
 #sed -i '/Bypass/s/2/8/g' package/openwrt-packages/luci-app-bypass/luasrc/controller/bypass.lua
 sed -i 's/Bypass/世界,你好/g' package/openwrt-packages/luci-app-bypass/luasrc/controller/bypass.lua
-sed -i 's/services/vpn/g' grep services -rl package/openwrt-packages/luci-app-bypass/luasrc
+sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/luci-app-bypass/luasrc`
 
 sed -i '/msgid "OpenClash"/{n;s/OpenClash/世界,你好/;}' package/openwrt-packages/OpenClash/luci-app-openclash/po/zh-cn/openclash.zh-cn.po
 sed -i '/OpenClash/s/50/3/g' package/openwrt-packages/OpenClash/luci-app-openclash/luasrc/controller/openclash.lua
-sed -i 's/services/vpn/g' grep services -rl package/openwrt-packages/OpenClash/luci-app-openclash/luasrc
+sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/OpenClash/luci-app-openclash/luasrc`
 
 echo -e "\nmsgid \"ShadowSocksR Plus+\"" >> package/openwrt-packages/luci-app-ssr-plus/po/zh-cn/ssr-plus.po
 echo -e "msgstr \"世界,你好\"" >> package/openwrt-packages/luci-app-ssr-plus/po/zh-cn/ssr-plus.po
 sed -i '/ShadowSocksR Plus+/s/10/4/g' package/openwrt-packages/luci-app-ssr-plus/luasrc/controller/shadowsocksr.lua
 sed -i 's/ShadowSocksR Plus+ 设置/SSR Plus设置/g' package/openwrt-packages/luci-app-ssr-plus/po/zh-cn/ssr-plus.po
-sed -i 's/services/vpn/g' grep services -rl package/openwrt-packages/luci-app-ssr-plus/luasrc
+sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/luci-app-ssr-plus/luasrc`
 
 sed -i '/Hello World/s/0/5/g' package/openwrt-packages/luci-app-vssr/luasrc/controller/vssr.lua
 sed -i 's/Hello World/世界,你好/g' package/openwrt-packages/luci-app-vssr/luasrc/controller/vssr.lua
-sed -i 's/services/vpn/g' grep services -rl package/openwrt-packages/luci-app-vssr/luasrc
+sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/luci-app-vssr/luasrc`
 
-sed -i 's/services/vpn/g' grep services -rl package/openwrt-packages/luci-app-jd-dailybonus/luasrc
+sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/luci-app-jd-dailybonus/luasrc`
 sed -i '/京东签到服务/s/10/11/g' package/openwrt-packages/luci-app-jd-dailybonus/luasrc/controller/jd-dailybonus.lua
 sed -i 's/'京东签到服务'/'京东签到'/g' package/openwrt-packages/luci-app-jd-dailybonus/luasrc/controller/jd-dailybonus.lua
 
 sed -i '/SmartDNS/s/60/10/g' package/openwrt-packages/luci-app-smartdns/luasrc/controller/smartdns.lua
 sed -i '/msgid "SmartDNS"/{n;s/SmartDNS/DNS 加速/;}' package/openwrt-packages/luci-app-smartdns/po/zh-cn/smartdns.po
-sed -i 's/services/vpn/g' grep services -rl package/openwrt-packages/luci-app-smartdns/luasrc
+sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/luci-app-smartdns/luasrc`
 
 sed -i '/AdGuard Home/s/10/6/g' package/openwrt-packages/luci-app-adguardhome/luasrc/controller/AdGuardHome.lua
 sed -i 's/AdGuard Home/广告过滤/g' package/openwrt-packages/luci-app-adguardhome/luasrc/controller/AdGuardHome.lua
-sed -i 's/services/vpn/g' grep services -rl package/openwrt-packages/luci-app-adguardhome/luasrc
+sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/luci-app-adguardhome/luasrc`
 
 sed -i 's/广告屏蔽大师 Plus+/广告过滤/g' package/lean/luci-app-adbyby-plus/po/zh-cn/adbyby.po
-sed -i 's/services/vpn/g' grep services -rl package/lean/luci-app-adbyby-plus/luasrc
+sed -i 's/services/vpn/g'  `grep services -rl package/lean/luci-app-adbyby-plus/luasrc`
 
 sed -i '/KoolProxyR plus+/s/1/7/g' package/openwrt-packages/luci-app-koolproxyR/files/usr/lib/lua/luci/controller/koolproxy.lua
 sed -i 's/KoolProxyR plus+/广告过滤/g' package/openwrt-packages/luci-app-koolproxyR/files/usr/lib/lua/luci/controller/koolproxy.lua
-sed -i 's/services/vpn/g' grep services -rl package/openwrt-packages/luci-app-koolproxyR/files/usr/lib/lua/luci
+sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/luci-app-koolproxyR/files/usr/lib/lua/luci`
 
 sed -i '/DNSFilter/s/1/8/g' package/openwrt-packages/luci-app-dnsfilter/luasrc/controller/dnsfilter.lua
 sed -i 's/DNSFilter/广告过滤/g' package/openwrt-packages/luci-app-dnsfilter/luasrc/controller/dnsfilter.lua
-sed -i 's/services/vpn/g' grep services -rl package/openwrt-packages/luci-app-dnsfilter/luasrc
+sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/luci-app-dnsfilter/luasrc`
 
-sed -i 's/services/vpn/g' grep services -rl package/openwrt-packages/luci-app-serverchan/luasrc
+sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/luci-app-serverchan/luasrc`
 
 ##############自定义结束#################
