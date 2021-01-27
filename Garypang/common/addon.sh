@@ -30,7 +30,7 @@ sed -i '/msgid "Transmission"/{n;s/Transmission/BtPt下载/;}' feeds/luci/applic
 
 sed -i 's/LUCI_DEPENDS.*/LUCI_DEPENDS:=+luci-compat +aria2 +luci-lib-ipkg +ariang/g' feeds/luci/applications/luci-app-aria2/Makefile
 sed -i '/msgid "Aria2"/{n;s/Aria2/通用下载/;}' feeds/luci/applications/luci-app-aria2/po/zh_Hans/aria2.po
-sed -i 's/services/nas/g' grep services -rl feeds/luci/applications/luci-app-aria2/luasrc
+sed -i 's/services/nas/g'  `grep services -rl feeds/luci/applications/luci-app-aria2/luasrc`
 
 sed -i 's/services/system/g' feeds/luci/applications/luci-app-watchcat/root/usr/share/luci/menu.d/luci-app-watchcat.json
 sed -i '/msgid "Watchcat"/{n;s/Watchcat/智能重启/;}' feeds/luci/applications/luci-app-watchcat/po/zh_Hans/watchcat.po
@@ -80,17 +80,17 @@ sed -i 's/Turbo ACC 网络加速/网络加速/g' feeds/custom/luci-app-turboacc/
 sed -i 's/TTYD 终端/命令终端/g' feeds/custom/luci-app-ttyd/po/zh_Hans/terminal.po
 
 sed -i 's/解锁网易云灰色歌曲/网易音乐/g' feeds/custom/luci-app-unblockmusic/po/zh_Hans/unblockmusic.po
-sed -i 's/services/vpn/g' grep services -rl feeds/custom/luci-app-unblockmusic/luasrc
+sed -i 's/services/vpn/g'  `grep services -rl feeds/custom/luci-app-unblockmusic/luasrc`
 
 sed -i 's/上网时间控制/时间控制/g' feeds/custom/luci-app-accesscontrol/po/zh_Hans/mia.po
-sed -i 's/services/control/g' grep services -rl feeds/custom/luci-app-accesscontrol/luasrc
+sed -i 's/services/control/g'  `grep services -rl feeds/custom/luci-app-accesscontrol/luasrc`
 
 mv package/luci-app-tcpdump/po/zh-cn package/luci-app-tcpdump/po/zh_Hans
 sed -i 's/Tcpdump 流量监控/流量捕获/g' package/luci-app-tcpdump/po/zh_Hans/tcpdump.po
 
-sed -i 's/network/control/g' grep network -rl feeds/custom/luci-app-oaf/luasrc
+sed -i 's/network/control/g'  `grep network -rl feeds/custom/luci-app-oaf/luasrc`
 
-sed -i 's/network/control/g' feeds/custom/luci-app-eqos/luasrc/controller/eqos.lua
+sed -i 's/network/control/g'  `grep network -rl feeds/custom/luci-app-eqos/luasrc`
 sed -i '/msgid "EQoS"/{n;s/IP限速/网速控制/;}' feeds/custom/luci-app-eqos/po/zh_Hans/eqos.po
 
 sed -i 's/CPU 性能优化调节/CPU 调节/g' feeds/custom/luci-app-cpufreq/po/zh_Hans/cpufreq.po
@@ -99,32 +99,32 @@ sed -i 's/带宽监控/监控/g' feeds/custom/default-settings/po/zh_Hans/more.z
 
 sed -i 's/KMS 服务器/KMS 服务/g' feeds/custom/luci-app-vlmcsd/po/zh_Hans/vlmcsd.po
 
-sed -i 's/services/vpn/g' grep services -rl feeds/custom/luci-app-passwall/luasrc
+sed -i 's/services/vpn/g'  `grep services -rl feeds/custom/luci-app-passwall/luasrc`
 
-sed -i 's/services/vpn/g' grep services -rl feeds/custom/luci-app-jd-dailybonus/luasrc
+sed -i 's/services/vpn/g'  `grep services -rl feeds/custom/luci-app-jd-dailybonus/luasrc`
 sed -i 's/京东签到服务/京东签到/g' feeds/custom/luci-app-jd-dailybonus/po/zh_Hans/jd-dailybonus.po
 
 sed -i 's/services/vpn/g' feeds/custom/luci-app-smartdns/root/usr/share/luci/menu.d/luci-app-smartdns.json
 sed -i '/"title": "SmartDNS",/a\		"order": 3,' feeds/custom/luci-app-smartdns/root/usr/share/luci/menu.d/luci-app-smartdns.json
 
-sed -i 's/services/vpn/g' grep services -rl feeds/custom/luci-app-koolproxyR/files/usr/lib/lua/luci
+sed -i 's/services/vpn/g'  `grep services -rl feeds/custom/luci-app-koolproxyR/files/usr/lib/lua/luci`
 
 sed -i 's/AdGuard Home/AdGuard/g' feeds/custom/luci-app-adguardhome/luasrc/controller/AdGuardHome.lua
-sed -i 's/services/vpn/g' grep services -rl feeds/custom/luci-app-adguardhome/luasrc
+sed -i 's/services/vpn/g'  `grep services -rl feeds/custom/luci-app-adguardhome/luasrc`
 
 #sed -i 's/Adblock Plus+/广告过滤/g' feeds/custom/luci-app-adblock-plus/luasrc/controller/adblock-plus.lua
 #sed -i 's/services/vpn/g' grep services -rl feeds/custom/luci-app-adblock-plus/luasrc
 
 sed -i 's/DNSFilter/广告过滤/g' feeds/custom/luci-app-dnsfilter/luasrc/controller/dnsfilter.lua
-sed -i 's/services/vpn/g' grep services -rl feeds/custom/luci-app-dnsfilter/luasrc
+sed -i 's/services/vpn/g'  `grep services -rl feeds/custom/luci-app-dnsfilter/luasrc`
 
-sed -i 's/services/vpn/g' grep services -rl feeds/custom/luci-app-openclash/luasrc
+sed -i 's/services/vpn/g'  `grep services -rl feeds/custom/luci-app-openclash/luasrc`
 
 sed -i 's/"ShadowSocksR Plus+"/"畅游国际"/g' feeds/custom/luci-app-ssr-plus/luasrc/controller/shadowsocksr.lua
-sed -i 's/services/vpn/g' grep services -rl feeds/custom/luci-app-ssr-plus/luasrc
+sed -i 's/services/vpn/g'  `grep services -rl feeds/custom/luci-app-ssr-plus/luasrc`
 sed -i 's/ShadowSocksR Plus+ 设置/SSR Plus设置/g' feeds/custom/luci-app-ssr-plus/po/zh_Hans/ssr-plus.po
 
 sed -i 's/"Bypass"/"畅游国际"/g' feeds/custom/luci-app-bypass/luasrc/controller/bypass.lua
-sed -i 's/services/vpn/g' grep services -rl feeds/custom/luci-app-bypass/luasrc
+sed -i 's/services/vpn/g'  `grep services -rl feeds/custom/luci-app-bypass/luasrc`
 
-sed -i 's/services/vpn/g' grep services -rl feeds/custom/luci-app-serverchan/luasrc
+sed -i 's/services/vpn/g'  `grep services -rl feeds/custom/luci-app-serverchan/luasrc`
