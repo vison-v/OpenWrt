@@ -111,7 +111,7 @@ sed -i 's/network/control/g' grep network -rl package/openwrt-packages/OpenAppFi
 sed -i 's/90/56/g' package/openwrt-packages/luci-app-argon-config/luasrc/controller/argon-config.lua
 sed -i 's/"Argon 主题设置"/"主题设置"/g' package/openwrt-packages/luci-app-argon-config/po/zh-cn/argon-config.po
 
-sed -i 's/network/control/g' package/openwrt-packages/luci-app-eqos/luasrc/controller/eqos.lua
+sed -i 's/network/control/g' grep network -rl package/openwrt-packages/luci-app-eqos/luasrc
 
 sed -i 's/CPU 性能优化调节/CPU 调节/g' package/lean/luci-app-cpufreq/po/zh-cn/cpufreq.po
 
