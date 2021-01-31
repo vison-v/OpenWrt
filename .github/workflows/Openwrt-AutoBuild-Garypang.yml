@@ -12,13 +12,13 @@ on:
   repository_dispatch:
   release:
     types: published
-  push:
-    branches:
-      - main
-    paths:
-      - '.github/workflows/Openwrt-AutoBuild-Garypang.yml'
-  schedule:
-    - cron: 0 20 * * 6
+  #push:
+  #  branches:
+  #    - main
+  #  paths:
+  #    - '.github/workflows/Openwrt-AutoBuild-Garypang.yml'
+  #schedule:
+  #  - cron: 0 20 * * 6
   #watch:
   #  types: started
 
