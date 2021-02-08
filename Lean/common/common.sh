@@ -122,6 +122,7 @@ sed -i 's/services/control/g'  `grep services -rl package/lean/luci-app-accessco
 sed -i 's/Tcpdump 流量监控/流量监控/g' package/openwrt-packages/luci-app-tcpdump/po/zh-cn/tcpdump.po
 
 sed -i 's/network/control/g'  `grep network -rl package/openwrt-packages/OpenAppFilter/luci-app-oaf/luasrc`
+sed -i 's/control/network/g' package/openwrt-packages/OpenAppFilter/luci-app-oaf/luasrc/model/cbi/appfilter/appfilter.lua
 
 sed -i 's/90/56/g' package/openwrt-packages/luci-app-argon-config/luasrc/controller/argon-config.lua
 sed -i 's/"Argon 主题设置"/"主题设置"/g' package/openwrt-packages/luci-app-argon-config/po/zh-cn/argon-config.po
