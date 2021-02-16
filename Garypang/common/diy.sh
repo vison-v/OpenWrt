@@ -36,7 +36,7 @@ sed -i 's?+pdnsd-alt??' package/feeds/custom/luci-app-turboacc/Makefile
 sed -i 's/PKG_BUILD_DIR:=/PKG_BUILD_DIR?=/g' feeds/luci/luci.mk
 sed -i '/killall -HUP/d' feeds/luci/luci.mk
 find package target -name inittab | xargs -i sed -i "s/askfirst/respawn/g" {}
-for ipk in $(find package/feeds/*/* -maxdepth 0); do	
+for ipk in $(find package/feeds/custom/* -maxdepth 0); do	
 	if [[ ! -d "$ipk/patches" && ! "$(grep "codeload.github.com" $ipk/Makefile)" ]]; then
 		find $ipk/ -maxdepth 1 -name "Makefile" \
 		| xargs -i sed -i "s/PKG_SOURCE_VERSION:=[0-9a-z]\{15,\}/PKG_SOURCE_VERSION:=HEAD/g" {}
@@ -56,4 +56,6 @@ if [ -f sdk.tar.xz ]; then
 	cp -rf sdk/*/staging_dir/* ./staging_dir/
 	rm -rf sdk.tar.xz sdk
 	sed -i '/\(tools\|toolchain\)\/Makefile/d' Makefile
+	ln -sf /usr/bin/python staging_dir/host/bin/python
+	ln -sf /usr/bin/python staging_dir/host/bin/python3
 fi
