@@ -14,6 +14,7 @@ svn co https://github.com/apollo-ng/luci-theme-darkmatter/trunk/luci package/ope
 svn co https://github.com/kenzok8/openwrt-packages/trunk/luci-app-eqos package/openwrt-packages/luci-app-eqos
 svn co https://github.com/lisaac/luci-app-dockerman/trunk/applications/luci-app-dockerman package/openwrt-packages/luci-app-dockerman
 svn co https://github.com/sirpdboy/sirpdboy-package/trunk/netdata package/openwrt-packages/netdata
+git clone https://github.com/sirpdboy/luci-theme-opentopd package/openwrt-packages/luci-theme-opentopd
 
 git clone https://github.com/jerrykuku/luci-app-vssr.git package/openwrt-packages/luci-app-vssr
 git clone https://github.com/jerrykuku/luci-app-argon-config.git package/openwrt-packages/luci-app-argon-config
