@@ -196,6 +196,8 @@ jobs:
         -or -name "*kodexplorer*.ipk" \
         -or -name "*netkeeper*.ipk" \
         -or -name "*maxminddb*.ipk" \
+        -or -name "*xunlei*.ipk" \
+        -or -name "*theme*.ipk" \
         | xargs -i mv -f {} ./ipk-package/
         cd ipk-package
         echo "IPK-PACKAGE=$PWD" >> $GITHUB_ENV
