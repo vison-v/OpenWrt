@@ -109,6 +109,11 @@ sed -i 's/可道云/可道云盘/g' package/lean/luci-app-kodexplorer/po/zh-cn/k
 
 sed -i 's/88/89/g' package/lean/luci-app-autoreboot/luasrc/controller/autoreboot.lua
 
+sed -i 's/nas/services/g' package/lean/luci-app-cifs-mount/luasrc/controller/cifs.lua
+sed -i 's/"挂载 SMB 网络共享"/"挂载 SMB"/g' package/lean/luci-app-cifs-mount/po/zh-cn/cifs.po
+
+sed -i 's/nas/services/g' package/lean/luci-app-nfs/luasrc/controller/nfs.lua
+
 sed -i 's/90/89/g' feeds/luci/applications/luci-app-watchcat/luasrc/controller/watchcat.lua
 
 sed -i 's/89/88/g' package/lean/luci-app-filetransfer/luasrc/controller/filetransfer.lua
