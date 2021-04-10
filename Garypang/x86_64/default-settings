@@ -1,4 +1,4 @@
-if [ ! -f /etc/config/placeholder ]; then
+test $version -lt 2 && {
 	uci del turboacc.config.sw_flow
 	uci commit turboacc
 	uci set system.@system[0].zram_size_mb='100'
@@ -7,10 +7,10 @@ if [ ! -f /etc/config/placeholder ]; then
 
 uci set snmpd.general.enabled="0"
 uci commit snmpd
+}
 
-fi
-
-touch /etc/config/placeholder
+uci set base_config.@status[0].version=$version
+uci commit base_config
 
 sed -i '$a src/gz openwrt_custom https://op.supes.top/packages/x64' /etc/opkg/distfeeds.conf
 

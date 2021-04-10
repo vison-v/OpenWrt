@@ -4,20 +4,16 @@
  
  			local isempty, section, i, k = true, nil, nil
  		    for i, k in ipairs(self:cfgsections()) do
-+		    		if i <= 100 then
++		    	if i <= 100 then
  				isempty = false
  				section = k
  
-@@ -165,7 +166,11 @@ <h3><%=self.title%></h3>
- 				</div>
+@@ -165,6 +166,8 @@ <h3><%=self.title%></h3>
+ 				</td>
  			<%- end -%>
- 		</div>
--		<%- end -%>
-+		<%-
-+			end
-+			i=i+1
-+		end
-+		-%>
+ 		</tr>
++			<%- i=i+1 -%>
++			<%- end -%>
+ 		<%- end -%>
  
  		<%- if isempty then -%>
- 		<div class="tr cbi-section-table-row placeholder">
