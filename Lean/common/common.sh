@@ -64,8 +64,6 @@ sed -i 's/192.168.1.1/192.168.10.1/g' package/base-files/files/bin/config_genera
 
 sed -i '18,28d' package/lean/default-settings/files/zzz-default-settings
 
-sed -i '49d' package/lean/default-settings/files/zzz-default-settings
-
 sed -i '1391s/主机名/主机映射/g' feeds/luci/modules/luci-base/po/zh-cn/base.po
 
 sed -i 's/OpenWrt /OpenWrt Build By ViS0N /' package/lean/default-settings/files/zzz-default-settings
@@ -113,6 +111,7 @@ sed -i 's/nas/services/g' package/lean/luci-app-cifs-mount/luasrc/controller/cif
 sed -i 's/"挂载 SMB 网络共享"/"挂载 SMB"/g' package/lean/luci-app-cifs-mount/po/zh-cn/cifs.po
 
 sed -i 's/nas/services/g' package/lean/luci-app-rclone/luasrc/controller/rclone.lua
+sed -i 's/NAS/Services/g' package/lean/luci-app-rclone/luasrc/controller/rclone.lua
 sed -i 's/msgstr "Rclone"/msgstr "挂载网盘"/g' package/lean/luci-app-rclone/po/zh_Hans/luci-app-rclone.po
 
 sed -i 's/nas/services/g' package/lean/luci-app-nfs/luasrc/controller/nfs.lua
