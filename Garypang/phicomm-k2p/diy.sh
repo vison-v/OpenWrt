@@ -1,3 +1,4 @@
+
 rm -Rf files/etc/profile.d/sysinfo.sh
 
 sed -i 's/O2/Os/g' include/target.mk
