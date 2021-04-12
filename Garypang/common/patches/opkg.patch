@@ -11,7 +11,7 @@ diff --git a/package/feeds/luci/luci-app-opkg/htdocs/luci-static/resources/view/
 index a5abfc168c..e139370fe5 100644
 --- a/package/feeds/luci/luci-app-opkg/htdocs/luci-static/resources/view/opkg.js
 +++ b/package/feeds/luci/luci-app-opkg/htdocs/luci-static/resources/view/opkg.js
-@ -232,7 +232,7 @@ function display(pattern)
+@@ -232,7 +232,7 @@ function display(pattern)
  			var avail = packages.available.pkgs[name],
  			    inst  = packages.installed.pkgs[name];
  
@@ -24,7 +24,7 @@ index a5abfc168c..e139370fe5 100644
  			}, _('Remove…'));
  		}
  		else {
-+			if (pkg.name.includes('kmod') || (pkg.name.includes('luci-i18n') && !pkg.name.includes('zh-cn')))
++			if (pkg.name.includes('kmod') || (pkg.name.includes('luci-i18n') && !pkg.name.includes('zh-cn') && !pkg.name.includes('zh-tw')))
 +			   continue;
 +
  			var inst = packages.installed.pkgs[name];
