@@ -23,6 +23,8 @@ ln -s /sbin/poweroff /sbin/shutdown
 
 sed -i '/S99opkg/d' /etc/crontabs/root
 echo "0 4 * * * sh /etc/rc.d/S99opkg >/tmp/opkgupdate.log 2>&1" >> /etc/crontabs/root
+sed -i '/memclean/d' /etc/crontabs/root
+echo "*/30 * * * * sh /sbin/memclean" >> /etc/crontabs/root
 
 cpuinfo=`/sbin/cpuinfo 2>/dev/null`
 test -n "$cpuinfo" || sed -i "s/_('CPU Info'),cpuinfo.cpufreq,//" /www/luci-static/resources/view/status/include/10_system.js
@@ -89,6 +91,10 @@ test $version -lt 1 && {
 
 	uci set nft-qos.default.limit_enable='0'
 	uci commit nft-qos
+
+	uci set system.@system[0].conloglevel='4'
+	uci set system.@system[0].cronloglevel='8'
+	uci commit system
 }
 
 # kB
