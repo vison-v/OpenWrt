@@ -1,6 +1,6 @@
 #!/bin/bash 
 
-rm -Rf feeds/packages/net/{smartdns,aria2} feeds/packages/admin/netdata package/lean/{luci-theme-argon,luci-app-baidupcs-web,luci-app-jd-dailybonus,ipt2socks,dns2socks,kcptun,microsocks,pdnsd-alt,shadowsocksr-libev,simple-obfs,tcping,v2ray-plugin,v2ray,xray}
+rm -Rf feeds/packages/net/{smartdns,aria2} feeds/packages/admin/netdata package/lean/{luci-theme-argon,luci-app-netdata,luci-app-baidupcs-web,luci-app-jd-dailybonus,ipt2socks,dns2socks,kcptun,microsocks,pdnsd-alt,shadowsocksr-libev,simple-obfs,tcping,v2ray-plugin,v2ray,xray}
 ##############加载自定义app################
 svn co https://github.com/fw876/helloworld/trunk/luci-app-ssr-plus package/openwrt-packages/luci-app-ssr-plus
 git clone https://github.com/xiaorouji/openwrt-passwall package/openwrt-packages/luci-app-passwall
@@ -14,6 +14,7 @@ svn co https://github.com/apollo-ng/luci-theme-darkmatter/trunk/luci package/ope
 svn co https://github.com/kenzok8/openwrt-packages/trunk/luci-app-eqos package/openwrt-packages/luci-app-eqos
 svn co https://github.com/lisaac/luci-app-dockerman/trunk/applications/luci-app-dockerman package/openwrt-packages/luci-app-dockerman
 svn co https://github.com/sirpdboy/sirpdboy-package/trunk/netdata package/openwrt-packages/netdata
+svn co https://github.com/sirpdboy/sirpdboy-package/trunk/luci-app-netdata package/openwrt-packages/luci-app-netdata
 git clone https://github.com/sirpdboy/luci-theme-opentopd package/openwrt-packages/luci-theme-opentopd
 #git clone https://github.com/vison-v/luci-app-xunlei.git package/openwrt-packages/luci-app-xunlei
 
