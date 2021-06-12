@@ -1,7 +1,6 @@
 --- a/package/feeds/custom/mt7615d/Makefile
 +++ b/package/feeds/custom/mt7615d/Makefile
-@@ -10,7 +10,9 @@ PKG_NAME:=mt7615d
- P4REV:=8
+@@ -11,5 +11,7 @@
  PKG_VERSION:=5.0.4.0
  
 -PKG_BUILD_DIR:=$(KERNEL_BUILD_DIR)/$(PKG_NAME)
@@ -10,17 +9,13 @@
 +# PKG_BUILD_DIR:=$(KERNEL_BUILD_DIR)/$(PKG_NAME)
  PKG_KCONFIG:= \
  	AP_SUPPORT \
- 	RT_FIRST_CARD \
-@@ -146,7 +148,6 @@ PKG_KCONFIG:= \
- 	THIRD_IF_EEPROM_EFUSE \
+@@ -147,5 +149,4 @@
  	RT_THIRD_CARD_EEPROM \
  	SPECTRUM_SUPPORT \
 -	MULTI_PROFILE_SUPPORT \
  	PRE_CAL_TRX_SET1_SUPPORT \
  	MWDS \
- 	MCAST_RATE_SPECIFIC \
-@@ -171,22 +172,23 @@ PKG_KCONFIG:= \
- 	DSCP_PRI_SUPPORT \
+@@ -172,19 +173,21 @@
  	PCIE_ASPM_DYM_CTRL_SUPPORT \
  
 -PKG_CONFIG_DEPENDS:=$(foreach c, $(PKG_KCONFIG),$(if $(CONFIG_MTK_$c),CONFIG_$(c)))
@@ -39,15 +34,13 @@
  ifneq ($(CONFIG_MTK_WHNAT_SUPPORT), )
    FILES:=$(PKG_BUILD_DIR)/mt_wifi_ap/mt_wifi.ko \
  	$(PKG_BUILD_DIR)/mt_wifi/embedded/tools/plug_in/whnat/mt_whnat.ko
++  AUTOLOAD:=$(call AutoProbe,mt_wifi mt_whnat)
  else
    FILES:=$(PKG_BUILD_DIR)/mt_wifi_ap/mt_wifi.ko
- endif
 +  AUTOLOAD:=$(call AutoProbe,mt_wifi)
+ endif
    SUBMENU:=Wireless Drivers
-   MENU:=1
- endef
-@@ -195,17 +197,55 @@ define KernelPackage/mt7615d/config
- 	source "$(SOURCE)/config.in"
+@@ -196,16 +199,54 @@
  endef
  
 +define KernelPackage/mt7615d_dbdc
@@ -79,11 +72,11 @@
 -	$(MAKE) -C "$(LINUX_DIR)" V=1 \
 -		CROSS_COMPILE="$(TARGET_CROSS)" \
 -		ARCH="$(LINUX_KARCH)" \
--		M="$(PKG_BUILD_DIR)/mt_wifi_ap" \
 +	+$(MAKE) $(PKG_JOBS) -C "$(LINUX_DIR)" \
 +		$(KERNEL_MAKE_FLAGS) \
- 		$(foreach c, $(PKG_KCONFIG),$(if $(CONFIG_MTK_$c),CONFIG_$(c)=$(CONFIG_MTK_$(c)))) \
-+		M="$(PKG_BUILD_DIR)/mt_wifi_ap" \
++		$(foreach c, $(PKG_KCONFIG),$(if $(CONFIG_MTK_$c),CONFIG_$(c)=$(CONFIG_MTK_$(c)))) \
+ 		M="$(PKG_BUILD_DIR)/mt_wifi_ap" \
+-		$(foreach c, $(PKG_KCONFIG),$(if $(CONFIG_MTK_$c),CONFIG_$(c)=$(CONFIG_MTK_$(c)))) \
 +		$(if $(CONFIG_MTK_CFG80211_SUPPORT),NOSTDINC_FLAGS="$(NOSTDINC_FLAGS)") \
 +		V=1 \
  		modules
