@@ -6,16 +6,17 @@ rm -Rf feeds/packages/utils/cgroupfs-mount
 ./scripts/feeds update luci packages custom
 ./scripts/feeds install -a
 sed -i 's/Os/O2/g' include/target.mk
-rm -rf target/linux package/kernel include/kernel-version.mk package/libs/elfutils
-svn co https://github.com/openwrt/openwrt/trunk/target/linux target/linux
-svn co https://github.com/openwrt/openwrt/trunk/package/kernel package/kernel
-svn co https://github.com/openwrt/openwrt/trunk/package/libs/elfutils package/libs/elfutils
+rm -rf target/linux package/kernel include/kernel-version.mk
+svn co https://github.com/openwrt/openwrt/trunk/target/linux target/linux ; rm -rf target/linux/.svn
+svn co https://github.com/openwrt/openwrt/trunk/package/kernel package/kernel ; rm -rf package/kernel/.svn
 wget -O include/kernel-version.mk https://raw.githubusercontent.com/openwrt/openwrt/master/include/kernel-version.mk
+sed -i '/libelf\/compile/d' tools/Makefile
+sed -i 's/ libelf//' tools/Makefile
 find package/*/ -maxdepth 1 -name ".svn" | xargs -i rm -rf {}
 rm -Rf tools/upx && svn co https://github.com/coolsnowwolf/lede/trunk/tools/upx tools/upx
 rm -Rf tools/ucl && svn co https://github.com/coolsnowwolf/lede/trunk/tools/ucl tools/ucl
 sed -i 's?zstd$?zstd ucl upx\n$(curdir)/upx/compile := $(curdir)/ucl/compile?g' tools/Makefile
-echo -e "\q" | svn co https://github.com/immortalwrt/immortalwrt/branches/master/target/linux/generic/hack-5.10 target/linux/generic/hack-5.10
+echo -e "\q" | svn co https://github.com/immortalwrt/immortalwrt/branches/master/target/linux/generic/hack-5.10 target/linux/generic/hack-5.10/
 rm -rf package/network/services/ppp package/libs/libnfnetlink
 svn co https://github.com/openwrt/openwrt/trunk/package/network/services/ppp package/network/services/ppp
 svn co https://github.com/openwrt/openwrt/trunk/package/libs/libnfnetlink package/libs/libnfnetlink
@@ -65,7 +66,7 @@ if [ -f sdk.tar.xz ]; then
 	tar -xJf sdk.tar.xz -C sdk
 	cp -rf sdk/*/staging_dir/* ./staging_dir/
 	rm -rf sdk.tar.xz sdk
-	#sed -i '/\(tools\|toolchain\)\/Makefile/d' Makefile
+	sed -i '/\(tools\|toolchain\)\/Makefile/d' Makefile
 	if [ -f /usr/bin/python ]; then
 		ln -sf /usr/bin/python staging_dir/host/bin/python
 	else
