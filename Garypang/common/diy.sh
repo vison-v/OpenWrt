@@ -6,10 +6,11 @@ rm -Rf feeds/packages/utils/cgroupfs-mount
 ./scripts/feeds update luci packages custom
 ./scripts/feeds install -a
 sed -i 's/Os/O2/g' include/target.mk
-rm -rf target/linux package/kernel include/kernel-version.mk
+rm -rf target/linux package/kernel include/{kernel-version.mk,kernel-defaults.mk}
 svn co https://github.com/openwrt/openwrt/trunk/target/linux target/linux ; rm -rf target/linux/.svn
 svn co https://github.com/openwrt/openwrt/trunk/package/kernel package/kernel ; rm -rf package/kernel/.svn
 wget -O include/kernel-version.mk https://raw.githubusercontent.com/openwrt/openwrt/master/include/kernel-version.mk
+wget -O include/kernel-defaults.mk https://raw.githubusercontent.com/openwrt/openwrt/master/include/kernel-defaults.mk
 sed -i '/libelf\/compile/d' tools/Makefile
 sed -i 's/ libelf//' tools/Makefile
 find package/*/ -maxdepth 1 -name ".svn" | xargs -i rm -rf {}
@@ -66,6 +67,7 @@ if [ -f sdk.tar.xz ]; then
 	tar -xJf sdk.tar.xz -C sdk
 	cp -rf sdk/*/staging_dir/* ./staging_dir/
 	rm -rf sdk.tar.xz sdk
+	find "staging_dir/host/" -maxdepth 2 -name 'libelf*' | xargs -i rm -rf {} || true
 	sed -i '/\(tools\|toolchain\)\/Makefile/d' Makefile
 	if [ -f /usr/bin/python ]; then
 		ln -sf /usr/bin/python staging_dir/host/bin/python
