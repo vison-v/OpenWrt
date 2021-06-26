@@ -125,3 +125,14 @@
  				"/sbin/sysupgrade --restore-backup /tmp/backup.tar.gz": [ "exec" ],
  				"/sbin/sysupgrade --test /tmp/firmware.bin": [ "exec" ],
  				"/sbin/sysupgrade /tmp/firmware.bin": [ "exec" ],
+
+--- a/package/base-files/files/sbin/sysupgrade
++++ b/package/base-files/files/sbin/sysupgrade
+@@ -249,6 +249,7 @@ do_save_conffiles() {
+ 			\( -exec test -f /overlay/upper/{} \; -exec echo {} overlay \; \) -o \
+ 			\( -exec echo {} unknown \; \) \
+ 			\) | sed -e 's,.*/,,;s/\.control /\t/' > ${INSTALLED_PACKAGES}
++		bkopkg 2>/dev/null
+ 	fi
+ 
+ 	v "Saving config files..."
