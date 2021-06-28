@@ -1,11 +1,7 @@
 --- a/package/feeds/luci/luci-app-opkg/root/usr/libexec/opkg-call
 +++ b/package/feeds/luci/luci-app-opkg/root/usr/libexec/opkg-call
-@@ -16,10 +16,10 @@ case "$action" in
- 	install|update|remove)
- 		(
- 			opkg="opkg"
--
-+			pkg=$5
+@@ -19,7 +19,7 @@ case "$action" in
+ 
  			while [ -n "$1" ]; do
  				case "$1" in
 -					--autoremove|--force-overwrite|--force-removal-of-dependent-packages)
@@ -21,25 +17,24 @@
 +				sed -i "/uci: Entry not found/d" /tmp/opkg.err || true
 +				sed -i "/Existing conffile/d" /tmp/opkg.err || true
 +				sed -i "/Couldn't unlink/d" /tmp/opkg.err || true
-+				sed -i "/pkg_hash_check_unresolved/d" /tmp/opkg.err || true
++				sed -i "/pkg_hash_/d" /tmp/opkg.err || true
 +				[ "`cat /tmp/opkg.err`" == "Collected errors:" ] && rm -f /tmp/opkg.err || true
  				code=$?
  				stdout=$(cat /tmp/opkg.out)
  				stderr=$(cat /tmp/opkg.err)
-@@ -47,6 +53,18 @@ case "$action" in
+@@ -47,6 +53,17 @@ case "$action" in
  			[ -n "$stdout" ] && json_add_string stdout "$stdout"
  			[ -n "$stderr" ] && json_add_string stderr "$stderr"
  			json_dump
 +
 +		case "$action" in
 +			install)
-+				[[ "$(echo $(opkg list-installed) | grep $pkg)" ]] && {
-+				echo $pkg >>/etc/backup/user_installed.opkg
++				[[ "$(opkg list-installed | cut -f 1 -d ' ' | grep $@)" ]] && {
++				echo $@ >>/etc/backup/user_installed.opkg
 +				}
 +			;;
 +			remove)
-+				sed -i "/$pkg/d" /etc/backup/user_installed.opkg
-+				
++				sed -i "/$@/d" /etc/backup/user_installed.opkg
 +			;;
 +		esac
  		) 200>/tmp/opkg.lock
