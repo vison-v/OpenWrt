@@ -9,10 +9,17 @@
  						opkg="$opkg $1"
  						shift
  					;;
-@@ -34,6 +34,12 @@ case "$action" in
+@@ -34,6 +34,19 @@ case "$action" in
  
  			if flock -x 200; then
  				$opkg $action "$@" </dev/null >/tmp/opkg.out 2>/tmp/opkg.err
++				if [[ $@ == "luci-app-*" ]]; then
++					$opkg $action luci-i18n-"$(echo $@ | cut -d - -f 3-4)"-zh-cn </dev/null >>/tmp/opkg.out 2>>/tmp/opkg.err
++				fi
++				if [[ $@ == "luci-app-ddns" ]]; then
++					$opkg $action ddns-scripts-aliyun </dev/null >>/tmp/opkg.out 2>>/tmp/opkg.err
++					$opkg $action ddns-scripts-dnspod </dev/null >>/tmp/opkg.out 2>>/tmp/opkg.err
++				fi
 +				sed -i "/resolve_conffiles/d" /tmp/opkg.err || true
 +				sed -i "/uci: Entry not found/d" /tmp/opkg.err || true
 +				sed -i "/Existing conffile/d" /tmp/opkg.err || true
@@ -22,7 +29,7 @@
  				code=$?
  				stdout=$(cat /tmp/opkg.out)
  				stderr=$(cat /tmp/opkg.err)
-@@ -47,6 +53,17 @@ case "$action" in
+@@ -47,6 +60,17 @@ case "$action" in
  			[ -n "$stdout" ] && json_add_string stdout "$stdout"
  			[ -n "$stderr" ] && json_add_string stderr "$stderr"
  			json_dump
@@ -146,12 +153,11 @@
 
 --- a/package/base-files/files/sbin/sysupgrade
 +++ b/package/base-files/files/sbin/sysupgrade
-@@ -249,6 +249,8 @@ do_save_conffiles() {
- 			\( -exec test -f /overlay/upper/{} \; -exec echo {} overlay \; \) -o \
- 			\( -exec echo {} unknown \; \) \
- 			\) | sed -e 's,.*/,,;s/\.control /\t/' > ${INSTALLED_PACKAGES}
-+	else
-+		rm -f /etc/backup/user_installed.opkg
- 	fi
+@@ -232,6 +232,7 @@ do_save_conffiles() {
  
- 	v "Saving config files..."
+ 	if [ "$SAVE_INSTALLED_PKGS" -eq 1 ]; then
+ 		echo "${INSTALLED_PACKAGES}" >> "$CONFFILES"
++		echo "/etc/backup/user_installed.opkg" >> "$CONFFILES"
+ 		mkdir -p "$ETCBACKUP_DIR"
+ 		# Avoid touching filesystem on each backup
+ 		RAMFS="$(mktemp -d -t sysupgrade.XXXXXX)"
