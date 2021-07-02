@@ -41,4 +41,4 @@ CONFIG_PACKAGE_luci-app-adbyby-plus=m
 CONFIG_PACKAGE_luci-app-koolproxyR=m
 
 # 关闭默认插件/主题
-## CONFIG_PACKAGE_luci-app-oaf is not set
+## CONFIG_PACKAGE_luci-app-oaf=y
