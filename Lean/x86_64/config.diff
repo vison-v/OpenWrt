@@ -35,10 +35,9 @@ CONFIG_PACKAGE_luci-app-openclash=y
 CONFIG_PACKAGE_luci-app-ssr-plus=y
 
 # 广告过滤
-CONFIG_PACKAGE_luci-app-dnsfilter=y
+CONFIG_PACKAGE_luci-app-dnsfilter=m
 CONFIG_PACKAGE_luci-app-adguardhome=m
-CONFIG_PACKAGE_luci-app-adbyby-plus=m
+CONFIG_PACKAGE_luci-app-adbyby-plus=y
 CONFIG_PACKAGE_luci-app-koolproxyR=m
 
 # 关闭默认插件/主题
-## CONFIG_PACKAGE_luci-app-oaf=y
