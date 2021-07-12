@@ -5,7 +5,7 @@ CONFIG_TARGET_ipq40xx_generic_DEVICE_asus_rt-ac58u=y
 # Applications
 CONFIG_PACKAGE_luci-app-jd-dailybonus=y
 CONFIG_PACKAGE_luci-app-vssr=m
-CONFIG_PACKAGE_luci-app-dnsfilter=y
+CONFIG_PACKAGE_luci-app-dnsfilter=m
 CONFIG_PACKAGE_luci-app-adbyby-plus=m
 CONFIG_PACKAGE_luci-app-bypass=m
 CONFIG_PACKAGE_luci-app-ssr-plus=y
