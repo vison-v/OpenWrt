@@ -1,15 +1,14 @@
 #!/bin/bash
 #=================================================
 rm -Rf feeds/custom/diy
-rm -Rf feeds/packages/net/{smartdns,mwan3,miniupnpd,aria2,nft-qos,https-dns-proxy,shadowsocks-libev,frp,openvpn} feeds/luci/applications/luci-app-{dockerman,nft-qos,smartdns,frpc,frps,https-dns-proxy}
-rm -Rf feeds/packages/utils/cgroupfs-mount
 ./scripts/feeds update luci packages custom
+./scripts/feeds install -a -p custom
 ./scripts/feeds install -a
 sed -i 's/Os/O2/g' include/target.mk
 rm -rf target/linux package/kernel include/{kernel-version.mk,kernel-defaults.mk}
-svn export https://github.com/openwrt/openwrt/trunk/target/linux target/linux
+svn export https://github.com/rsalvaterra/openwrt/branches/5.10-bump/target/linux target/linux
+wget -O include/kernel-version.mk https://raw.githubusercontent.com/rsalvaterra/openwrt/5.10-bump/include/kernel-version.mk
 svn export https://github.com/openwrt/openwrt/trunk/package/kernel package/kernel
-wget -O include/kernel-version.mk https://raw.githubusercontent.com/openwrt/openwrt/master/include/kernel-version.mk
 wget -O include/kernel-defaults.mk https://raw.githubusercontent.com/openwrt/openwrt/master/include/kernel-defaults.mk
 rm -Rf tools/upx && svn export https://github.com/coolsnowwolf/lede/trunk/tools/upx tools/upx
 rm -Rf tools/ucl && svn export https://github.com/coolsnowwolf/lede/trunk/tools/ucl tools/ucl
