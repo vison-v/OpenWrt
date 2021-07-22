@@ -1,15 +1,12 @@
 #!/bin/bash
 
-svn export https://github.com/immortalwrt/immortalwrt/branches/master/package/boot/uboot-rockchip package/boot/uboot-rockchip
-
-find target/linux/rockchip/* -maxdepth 0 ! -path '*/patches-5.10' -exec rm -Rf '{}' \;
-svn co https://github.com/immortalwrt/immortalwrt/branches/master/target/linux/rockchip target/linux/rockchip
-rm -Rf target/linux/rockchip/.svn
-svn co https://github.com/immortalwrt/immortalwrt/branches/master/target/linux/rockchip/patches-5.10 target/linux/rockchip/patches-5.10
+rm -rf package/boot/uboot-rockchip
+svn export --force https://github.com/immortalwrt/immortalwrt/branches/master/package/boot/uboot-rockchip package/boot/uboot-rockchip
+svn export --force https://github.com/immortalwrt/immortalwrt/branches/master/target/linux/rockchip target/linux/rockchip
+svn export --force https://github.com/openwrt/openwrt/trunk/target/linux/rockchip/patches-5.10 target/linux/rockchip/patches-5.10
 rm -Rf target/linux/rockchip/patches-5.10/{006-*-NanoPi-R,007-*-R4S}.patch
 
-rm -rf ./package/kernel/linux/modules/video.mk
-wget -P package/kernel/linux/modules/ https://github.com/immortalwrt/immortalwrt/raw/master/package/kernel/linux/modules/video.mk
+curl -L https://github.com/immortalwrt/immortalwrt/raw/master/package/kernel/linux/modules/video.mk>package/kernel/linux/modules/video.mk
 
 sed -i 's/5.4/5.10/g' target/linux/rockchip/Makefile
 
