@@ -141,17 +141,17 @@
 
 --- a/package/feeds/luci/luci-mod-status/htdocs/luci-static/resources/view/status/include/20_memory.js
 +++ b/package/feeds/luci/luci-mod-status/htdocs/luci-static/resources/view/status/include/20_memory.js
-@@ -32,8 +32,8 @@ return baseclass.extend({
+@@ -32,8 +32,7 @@ return baseclass.extend({
  		    swap = L.isObject(systeminfo.swap) ? systeminfo.swap : {};
  
  		var fields = [
-+			_('Used'),            (mem.total && mem.free) ? (mem.total - mem.free - mem.buffered - mem.cached) : null, mem.total,
- 			_('Total Available'), (mem.available) ? mem.available : (mem.total && mem.free && mem.buffered) ? mem.free + mem.buffered : null, mem.total,
+-			_('Total Available'), (mem.available) ? mem.available : (mem.total && mem.free && mem.buffered) ? mem.free + mem.buffered : null, mem.total,
 -			_('Used'),            (mem.total && mem.free) ? (mem.total - mem.free) : null, mem.total,
++			_('Used'),            (mem.total && mem.available) ? (mem.total - mem.available) : null, mem.total,
  			_('Buffered'),        (mem.total && mem.buffered) ? mem.buffered : null, mem.total
  		];
  
-@@ -43,7 +43,7 @@ return baseclass.extend({
+@@ -43,7 +42,7 @@ return baseclass.extend({
  		if (swap.total > 0)
  			fields.push(_('Swap free'), swap.free, swap.total);
  
