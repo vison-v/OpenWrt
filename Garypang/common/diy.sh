@@ -1,8 +1,8 @@
 #!/bin/bash
 #=================================================
 echo "src-git custom https://github.com/kiddin9/openwrt-packages.git" >>feeds.conf.default
+sed -i '/	refresh_config();/d' scripts/feeds
 ./scripts/feeds update -a
-cd feeds/custom && git pull; cd -
 ./scripts/feeds install -a -p custom
 ./scripts/feeds install -a
 sed -i 's/Os/O2/g' include/target.mk
@@ -13,7 +13,6 @@ svn co https://github.com/immortalwrt/immortalwrt/branches/master/target/linux/g
 rm -rf target/linux/generic/hack-5.4/220-gc_sections.patch
 #svn co https://github.com/immortalwrt/immortalwrt/branches/master/target/linux/generic/hack-5.10 target/linux/generic/hack-5.10
 svn export --force https://github.com/immortalwrt/immortalwrt/branches/openwrt-21.02/package/network/services/ppp package/network/services/ppp
-svn export --force https://github.com/openwrt/openwrt/trunk/package/libs/libnfnetlink package/libs/libnfnetlink
 svn export --force https://github.com/immortalwrt/immortalwrt/branches/master/package/network/services/dnsmasq package/network/services/dnsmasq
 sed -i 's/$(TARGET_DIR)) install/$(TARGET_DIR)) install --force-overwrite/' package/Makefile
 sed -i '$a /etc/sysupgrade.conf' package/base-files/files/lib/upgrade/keep.d/base-files-essential
@@ -28,6 +27,7 @@ sed -i 's/max_requests 3/max_requests 20/g' package/network/services/uhttpd/file
 #rm -rf ./feeds/packages/lang/{golang,node}
 #svn export https://github.com/immortalwrt/packages/trunk/lang/golang feeds/packages/lang/golang
 #svn export https://github.com/immortalwrt/packages/trunk/lang/node feeds/packages/lang/node
+rm -f package/network/config/firewall/patches/fullconenat.patch
 wget -P package/network/config/firewall/patches/ https://github.com/coolsnowwolf/lede/raw/master/package/network/config/firewall/patches/fullconenat.patch
 sed -i 's/+python\( \|$\)/+python3/g' package/*/*/*/Makefile
 sed -i 's?../../lang?$(TOPDIR)/feeds/packages/lang?g' package/feeds/custom/*/Makefile
