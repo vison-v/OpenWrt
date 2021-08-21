@@ -1,7 +1,6 @@
 #!/bin/bash
 #=================================================
 shopt -s extglob
-echo "src-git custom https://github.com/kiddin9/openwrt-packages.git" >>feeds.conf.default
 sed -i '/	refresh_config();/d' scripts/feeds
 ./scripts/feeds update -a
 ./scripts/feeds install -a -p custom
@@ -17,7 +16,6 @@ svn export --force https://github.com/immortalwrt/immortalwrt/branches/openwrt-2
 svn export --force https://github.com/immortalwrt/immortalwrt/branches/openwrt-21.02/package/network/services/dnsmasq package/network/services/dnsmasq
 sed -i 's/$(TARGET_DIR)) install/$(TARGET_DIR)) install --force-overwrite/' package/Makefile
 sed -i 's/root:.*/root:$1$tTPCBw1t$ldzfp37h5lSpO9VXk4uUE\/:18336:0:99999:7:::/g' package/base-files/files/etc/shadow
-sed -i 's?/bin/ash?/bin/bash?' package/base-files/files/etc/passwd
 sed -i '$a /etc/sysupgrade.conf' package/base-files/files/lib/upgrade/keep.d/base-files-essential
 sed -i '$a /etc/acme' package/base-files/files/lib/upgrade/keep.d/base-files-essential
 sed -i '$a /etc/bench.log' package/base-files/files/lib/upgrade/keep.d/base-files-essential

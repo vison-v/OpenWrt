@@ -17,9 +17,6 @@ echo $(uci get uhttpd.main.index_page) | grep -q "cgi-bin/luci" ||
 [ -f /usr/bin/wget ] && 	
 	ln -s /usr/bin/wget /usr/bin/wget-ssl
 
-[ -f /bin/bash ] && 	
-	ln -sf /bin/bash /bin/sh
-
 sed -i "s/git-.*-\(.*\)/git-\1/g" /usr/lib/lua/luci/version.lua
 
 ln -s /sbin/poweroff /sbin/shutdown
@@ -28,8 +25,7 @@ sed -i '/S99opkg/d' /etc/crontabs/root
 sec="$(grep -m1 -ao '[0-6][0-9]' /dev/urandom | head -n1)"
 echo "$sec 4 * * * sh /etc/rc.d/S99opkg >/dev/null 2>&1" >> /etc/crontabs/root
 
-cpuinfo=`/sbin/cpuinfo 2>/dev/null`
-test -n "$cpuinfo" || sed -i "s/_('CPU Info'),cpuinfo.cpufreq,//" /www/luci-static/resources/view/status/include/10_system.js
+test -n "$(/sbin/cpuinfo 2>/dev/null)" || sed -i "s/_('CPU Info'),cpuinfo.cpufreq,//" /www/luci-static/resources/view/status/include/10_system.js
 
 grep -q op.supes.top /etc/bypass/white.list ||
 		echo "op.supes.top" >> /etc/bypass/white.list

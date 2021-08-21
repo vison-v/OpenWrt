@@ -1,0 +1,1 @@
+sed -i 's/cpu_arch="?"/cpu_arch="ARMv8 Processor"/' /sbin/cpuinfo
