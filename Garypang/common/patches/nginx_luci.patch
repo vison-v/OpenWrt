@@ -23,7 +23,7 @@
  	local routerstub routername ifdashname
  	local lanaddr lanaddr6 lanaddrs6 ulaprefix
  
-+	lanaddr="$(uci get network.lan.ipaddr)"
++network_get_ipaddr lanaddr "lan"
 +if [ -n $lanaddr ]; then
 +	echo "
 +$lanaddr op
