@@ -1,6 +1,6 @@
 # 固件压缩:
 CONFIG_TARGET_IMAGES_GZIP=y
-CONFIG_PACKAGE_luci-app-control-webrestriction=y
-CONFIG_PACKAGE_luci-app-eqos=y
-CONFIG_PACKAGE_luci-app-socat=y
-CONFIG_PACKAGE_luci-app-smartdns=y
+CONFIG_PACKAGE_luci-app-watchcat=y
+# CONFIG_PACKAGE_luci-app-nfs=y
+CONFIG_PACKAGE_luci-app-cifs-mount=y
+CONFIG_PACKAGE_luci-app-rclone=y
