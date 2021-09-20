@@ -1,6 +1,6 @@
 # 固件压缩:
 CONFIG_TARGET_IMAGES_GZIP=y
-CONFIG_PACKAGE_luci-app-hd-idle=y
-CONFIG_PACKAGE_luci-app-oaf=y
-CONFIG_PACKAGE_luci-app-tcpdump=y
-CONFIG_PACKAGE_luci-app-control-weburl=y
+CONFIG_PACKAGE_luci-app-control-webrestriction=y
+CONFIG_PACKAGE_luci-app-eqos=y
+CONFIG_PACKAGE_luci-app-socat=y
+CONFIG_PACKAGE_luci-app-smartdns=y
