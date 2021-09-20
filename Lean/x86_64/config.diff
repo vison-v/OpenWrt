@@ -13,3 +13,4 @@ CONFIG_TARGET_ROOTFS_TARGZ=n
 
 # 打开适用于VMware的VM Tools:
 CONFIG_PACKAGE_open-vm-tools=y
+CONFIG_PACKAGE_luci-app-dockerman=y
