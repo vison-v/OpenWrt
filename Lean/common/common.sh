@@ -113,7 +113,7 @@ sed -i 's/"挂载 SMB 网络共享"/"挂载 SMB"/g' package/lean/luci-app-cifs-m
 
 sed -i 's/nas/services/g' package/lean/luci-app-rclone/luasrc/controller/rclone.lua
 sed -i 's/NAS/Services/g' package/lean/luci-app-rclone/luasrc/controller/rclone.lua
-sed -i 's/msgstr "Rclone"/msgstr "挂载网盘"/g' package/lean/luci-app-rclone/po/zh_Hans/luci-app-rclone.po
+sed -i 's/msgstr "Rclone"/msgstr "挂载网盘"/g' package/lean/luci-app-rclone/po/zh_Hans/rclone.po
 
 sed -i 's/nas/services/g' package/lean/luci-app-nfs/luasrc/controller/nfs.lua
 
