@@ -144,6 +144,7 @@ sed -i 's/90/56/g' package/openwrt-packages/luci-app-argon-config/luasrc/control
 sed -i 's/"Argon 主题设置"/"主题设置"/g' package/openwrt-packages/luci-app-argon-config/po/zh-cn/argon-config.po
 
 sed -i 's/network/control/g'  `grep network -rl package/openwrt-packages/luci-app-eqos/luasrc`
+sed -i '/msgid "EQoS"/{n;s/IP限速/网速控制/;}' package/openwrt-packages/luci-app-eqos/po/zh_Hans/eqos.po
 
 sed -i 's/CPU 性能优化调节/CPU 调节/g' package/lean/luci-app-cpufreq/po/zh-cn/cpufreq.po
 
