@@ -77,7 +77,7 @@ curl -fsSL  https://raw.githubusercontent.com/vison-v/patches/main/base >> feeds
 
 sed -i '13s/40/45/g' package/openwrt-packages/luci-app-dockerman/luasrc/controller/dockerman.lua
 
-#sed -i 's/44/3/g' package/lean/luci-app-usb-printer/luasrc/controller/usb_printer.lua
+sed -i 's/44/43/g' package/lean/luci-app-usb-printer/luasrc/controller/usb_printer.lua
 sed -i 's/nas/services/g' package/lean/luci-app-usb-printer/luasrc/controller/usb_printer.lua
 sed -i 's/NAS/Services/g' package/lean/luci-app-usb-printer/luasrc/controller/usb_printer.lua
 sed -i 's/USB 打印服务器/打印服务/g' package/lean/luci-app-usb-printer/po/zh-cn/usb-printer.po
