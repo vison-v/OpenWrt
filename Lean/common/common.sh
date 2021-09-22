@@ -33,14 +33,14 @@ svn co https://github.com/Lienol/openwrt-package/trunk/luci-app-control-timewol 
 svn co https://github.com/Lienol/openwrt-package/trunk/luci-app-control-webrestriction package/openwrt-packages/luci-app-control-webrestriction
 svn co https://github.com/Lienol/openwrt-package/trunk/luci-app-control-weburl package/openwrt-packages/luci-app-control-weburl
 
-svn co https://github.com/garypang13/openwrt-packages/trunk/luci-app-aliddns package/openwrt-packages/luci-app-aliddns
-git clone https://github.com/garypang13/luci-app-baidupcs-web package/openwrt-packages/luci-app-baidupcs-web
-git clone https://github.com/garypang13/luci-app-dnsfilter package/openwrt-packages/luci-app-dnsfilter
-git clone https://github.com/garypang13/luci-app-bypass package/openwrt-packages/luci-app-bypass
-svn co https://github.com/garypang13/openwrt-packages/trunk/aria2 package/openwrt-packages/aria2
-svn co https://github.com/garypang13/openwrt-packages/trunk/AdGuardHome package/openwrt-packages/adguardhome
-svn co https://github.com/garypang13/openwrt-packages/trunk/luci-app-serverchan package/openwrt-packages/luci-app-serverchan
-svn co https://github.com/garypang13/openwrt-packages/trunk/qBittorrent-Enhanced-Edition package/openwrt-packages/qBittorrent-Enhanced-Edition
+svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-aliddns package/openwrt-packages/luci-app-aliddns
+git clone https://github.com/kiddin9/luci-app-baidupcs-web package/openwrt-packages/luci-app-baidupcs-web
+git clone https://github.com/kiddin9/luci-app-dnsfilter package/openwrt-packages/luci-app-dnsfilter
+git clone https://github.com/kiddin9/luci-app-bypass package/openwrt-packages/luci-app-bypass
+svn co https://github.com/kiddin9/openwrt-packages/trunk/aria2 package/openwrt-packages/aria2
+svn co https://github.com/kiddin9/openwrt-packages/trunk/AdGuardHome package/openwrt-packages/adguardhome
+svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-serverchan package/openwrt-packages/luci-app-serverchan
+svn co https://github.com/kiddin9/openwrt-packages/trunk/qBittorrent-Enhanced-Edition package/openwrt-packages/qBittorrent-Enhanced-Edition
 svn co https://github.com/garypang13/openwrt-packages/trunk/lua-maxminddb package/openwrt-packages/lua-maxminddb
 ##############菜单整理美化#################
 ./scripts/feeds update -a
