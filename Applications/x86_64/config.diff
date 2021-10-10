@@ -2,4 +2,4 @@ CONFIG_TARGET_x86=y
 CONFIG_TARGET_x86_64=y
 
 # Applications
-CONFIG_PACKAGE_luci-app-koolddns=m
+CONFIG_PACKAGE_luci-app-koolddns=y
