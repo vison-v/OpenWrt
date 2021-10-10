@@ -19,8 +19,8 @@ on:
       - '.github/workflows/Openwrt-Applications.yml'
   #schedule:
   #  - cron: 0 20 * * *
-  watch:
-    types: started
+  #watch:
+  #  types: started
 
 env:
   REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
@@ -41,7 +41,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [x86_64,AC58U]
+        target: [x86_64]
         
     steps:
     - name: Checkout
@@ -153,6 +153,7 @@ jobs:
     - name: Compile the firmware
       id: compile
       run: |
+        cd openwrt
         cd package/openwrt-packages/luci-app-koolddns
         echo -e "$(($(nproc)+1)) thread compile"
         make -j$(($(nproc)+1)) || make -j1 V=s
