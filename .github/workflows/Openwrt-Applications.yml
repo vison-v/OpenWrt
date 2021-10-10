@@ -156,7 +156,7 @@ jobs:
         cd openwrt
         echo -e "$(($(nproc)+1)) thread compile"
         make package/feeds/luci/luci-base/compile V=s
-        make package/openwrt-packages/luci-app-eqos/compile V=s
+        make package/openwrt-packages/luci-app-koolddns/compile V=s
         echo "::set-output name=status::success"
 
     - name: Organize files
