@@ -155,7 +155,7 @@ jobs:
       run: |
         cd openwrt
         echo -e "$(($(nproc)+1)) thread compile"
-        make package/openwrt-packages/luci-app-eqos/compile V=99
+        make package/openwrt-packages/luci-app-eqos/compile V=s
         echo "::set-output name=status::success"
 
     - name: Organize files
