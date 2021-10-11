@@ -169,34 +169,13 @@ jobs:
       id: organize
       run: |
         mkdir ipk-package && find openwrt/bin/packages/*/*/ -maxdepth 1 \
-        -name "*passwall*.ipk" \
-        -or -name "*ssr*.ipk" \
-        -or -name "*openclash*.ipk" \
-        -or -name "*bypass*.ipk" \
-        -or -name "*argon*.ipk" \
+        -name "*ddns*.ipk" \
         -or -name "*adguardhome*.ipk" \
         -or -name "*AdGuard*.ipk" \
         -or -name "*tcpdump*.ipk" \
         -or -name "*koolproxyR*.ipk" \
         -or -name "*socat*.ipk" \
-        -or -name "*smartdns*.ipk" \
-        -or -name "*eqos*.ipk" \
-        -or -name "*dailybonus*.ipk" \
-        -or -name "*docker*.ipk" \
         -or -name "*dnsfilter*.ipk" \
-        -or -name "*aria2*.ipk" \
-        -or -name "*qBittorrent*.ipk" \
-        -or -name "*adbyby*.ipk" \
-        -or -name "*aliddns*.ipk" \
-        -or -name "*baidupcs*.ipk" \
-        -or -name "*syncdial*.ipk" \
-        -or -name "*serverchan*.ipk" \
-        -or -name "*watchcat*.ipk" \
-        -or -name "*ttyd*.ipk" \
-        -or -name "*kodexplorer*.ipk" \
-        -or -name "*netkeeper*.ipk" \
-        -or -name "*maxminddb*.ipk" \
-        -or -name "*xunlei*.ipk" \
         -or -name "*theme*.ipk" \
         | xargs -i mv -f {} ./ipk-package/
         cd ipk-package
