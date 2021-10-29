@@ -62,6 +62,7 @@ jobs:
         echo "UPLOAD_BIN_DIR_FOR_ARTIFACT=${UPLOAD_BIN_DIR_FOR_ARTIFACT}" >> $GITHUB_ENV
         echo "UPLOAD_FIRMWARE_FOR_ARTIFACT=${UPLOAD_FIRMWARE_FOR_ARTIFACT}" >> $GITHUB_ENV
         echo "UPLOAD_EFI_FIRMWARE_FOR_ARTIFACT=${UPLOAD_EFI_FIRMWARE_FOR_ARTIFACT}" >> $GITHUB_ENV
+        echo "UPLOAD_ISO_FIRMWARE_FOR_ARTIFACT=${UPLOAD_ISO_FIRMWARE_FOR_ARTIFACT}" >> $GITHUB_ENV
         echo "UPLOAD_IPK_FOR_ARTIFACT=${UPLOAD_FIRMWARE_FOR_ARTIFACT}" >> $GITHUB_ENV
         echo "UPLOAD_FIRMWARE_FOR_RELEASE=${UPLOAD_FIRMWARE_FOR_RELEASE}" >> $GITHUB_ENV
         echo "UPLOAD_FIRMWARE_TO_COWTRANSFER=${UPLOAD_FIRMWARE_TO_COWTRANSFER}" >> $GITHUB_ENV
@@ -268,6 +269,14 @@ jobs:
         name: ${{ env.date3 }} ${{matrix.target}}_EFI
         path: ${{ env.FIRMWARE }}/*efi*
         
+    - name: Upload ISO firmware for artifact
+      uses: actions/upload-artifact@main
+      continue-on-error: true
+      if: env.UPLOAD_ISO_FIRMWARE_FOR_ARTIFACT == 'true'
+      with:
+        name: ${{ env.date3 }} ${{matrix.target}}_ISO
+        path: ${{ env.FIRMWARE }}/*.iso
+    
     - name: Upload ipk-package for artifact
       uses: actions/upload-artifact@main
       continue-on-error: true
