@@ -1,0 +1,19 @@
+
+config ddns 'global'
+	option ddns_dateformat '%F %R'
+	option ddns_loglines '250'
+	option upd_privateip '0'
+
+config service 'Old_Cloudflare'
+	option service_name 'cloudflare.com-v4'
+	option enabled '1'
+	option lookup_host 'old.terrytyc.com'
+	option domain 'old@terrytyc.com'
+	option username 'terrytyc@icloud.com'
+	option password 'a64cb03953dfdb167ef9cc8e50ff232e3a72d'
+	option use_https '1'
+	option cacert 'IGNORE'
+	option check_interval '5'
+	option force_interval '24'
+	option dns_server '1.1.1.1'
+

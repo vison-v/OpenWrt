@@ -1,0 +1,6 @@
+config watchcat
+        option period '30m'
+        option pingperiod '120'
+        option mode 'ping_reboot'
+        option pinghosts '114.114.114.114'
+        option forcedelay '60'

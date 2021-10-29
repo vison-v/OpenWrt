@@ -1,0 +1,27 @@
+
+config upnpd 'config'
+	option internal_iface 'lan'
+	option upnp_lease_file '/var/upnp.leases'
+	option enabled '1'
+	option uuid '19c1736c-1133-43af-9599-a549b09b4a83'
+	option download '128000'
+	option upload '12800'
+	option secure_mode '0'
+	option model_number 'OpenWRT'
+	option port '5000'
+	option presentation_url 'http://10.10.10.254'
+
+config perm_rule
+	option action 'allow'
+	option ext_ports '1024-65535'
+	option int_addr '0.0.0.0/0'
+	option int_ports '1024-65535'
+	option comment 'Allow high ports'
+
+config perm_rule
+	option action 'deny'
+	option ext_ports '0-65535'
+	option int_addr '0.0.0.0/0'
+	option int_ports '0-65535'
+	option comment 'Default deny'
+

@@ -1,0 +1,129 @@
+
+config rule
+	option src 'wan'
+	option dest_port '22'
+	option proto 'tcp'
+	option target 'ACCEPT'
+	option name 'SSH'
+
+config rule
+	option target 'ACCEPT'
+	option proto 'tcp'
+	option src 'wan'
+	option name 'Manager'
+	option dest_port '9998 9999'
+
+config rule
+	option target 'ACCEPT'
+	option src 'wan'
+	option proto 'tcp'
+	option dest_port '3000'
+	option name 'AdguardHome'
+	option enabled '0'
+
+config rule
+	option name 'Allow-Ping'
+	option src 'wan'
+	option proto 'icmp'
+	option icmp_type 'echo-request'
+	option family 'ipv4'
+	option target 'ACCEPT'
+	option enabled '0'
+
+config rule
+	option name 'Allow-DHCP-Renew'
+	option src 'wan'
+	option proto 'udp'
+	option dest_port '68'
+	option target 'ACCEPT'
+	option family 'ipv4'
+
+config rule
+	option name 'Allow-IGMP'
+	option src 'wan'
+	option proto 'igmp'
+	option target 'ACCEPT'
+
+config rule
+	option name 'Allow-IPSec-ESP'
+	option src 'wan'
+	option dest 'lan'
+	option proto 'esp'
+	option target 'ACCEPT'
+
+config rule
+	option name 'Allow-ISAKMP'
+	option src 'wan'
+	option dest 'lan'
+	option dest_port '500'
+	option proto 'udp'
+	option target 'ACCEPT'
+
+config rule
+	option target 'ACCEPT'
+	option src 'wan'
+	option proto 'udp'
+	option dest_port '123'
+	option name 'NTP'
+	option enabled '0'
+
+config rule
+	option name 'Deny ALL'
+	option proto 'all'
+	option target 'REJECT'
+	option src 'wan'
+
+config defaults
+	option output 'ACCEPT'
+	option flow_offloading_hw '0'
+	option flow_offloading '0'
+	option fullcone '1'
+	option forward 'REJECT'
+	option input 'ACCEPT'
+
+config zone
+	option name 'lan'
+	option output 'ACCEPT'
+	option network 'lan'
+	option input 'ACCEPT'
+	option forward 'ACCEPT'
+	option masq '1'
+
+config zone
+	option name 'wan'
+	option output 'ACCEPT'
+	option masq '1'
+	option mtu_fix '1'
+	option network 'wan'
+	option log '1'
+	option forward 'REJECT'
+	option input 'REJECT'
+
+config include
+	option path '/etc/firewall.user'
+
+config forwarding
+	option dest 'wan'
+	option src 'lan'
+
+config include 'miniupnpd'
+	option type 'script'
+	option path '/usr/share/miniupnpd/firewall.include'
+	option family 'any'
+	option reload '1'
+
+config include 'passwall'
+	option type 'script'
+	option path '/var/etc/passwall.include'
+	option reload '1'
+
+config include 'vssr'
+	option type 'script'
+	option path '/var/etc/vssr.include'
+	option reload '1'
+
+config include 'wrtbwmon'
+	option type 'script'
+	option path '/etc/wrtbwmon.include'
+	option reload '1'
+

@@ -1,0 +1,342 @@
+
+config rule
+	option src 'wan'
+	option dest_port '22'
+	option proto 'tcp'
+	option target 'ACCEPT'
+	option name 'SSH'
+
+config rule
+	option target 'ACCEPT'
+	option proto 'tcp'
+	option src 'wan'
+	option name 'Manager'
+	option dest_port '9998 9999'
+
+config rule
+	option target 'ACCEPT'
+	option src 'wan'
+	option proto 'tcp'
+	option dest_port '3000'
+	option name 'AdguardHome'
+	option enabled '0'
+
+config rule
+	option name 'Allow-Ping'
+	option src 'wan'
+	option proto 'icmp'
+	option icmp_type 'echo-request'
+	option family 'ipv4'
+	option target 'ACCEPT'
+	option enabled '0'
+
+config rule
+	option name 'Allow-DHCP-Renew'
+	option src 'wan'
+	option proto 'udp'
+	option dest_port '68'
+	option target 'ACCEPT'
+	option family 'ipv4'
+
+config rule
+	option name 'Allow-IGMP'
+	option src 'wan'
+	option proto 'igmp'
+	option target 'ACCEPT'
+
+config rule
+	option name 'Allow-IPSec-ESP'
+	option src 'wan'
+	option dest 'lan'
+	option proto 'esp'
+	option target 'ACCEPT'
+
+config rule
+	option name 'Allow-ISAKMP'
+	option src 'wan'
+	option dest 'lan'
+	option dest_port '500'
+	option proto 'udp'
+	option target 'ACCEPT'
+
+config rule
+	option target 'ACCEPT'
+	option src 'wan'
+	option proto 'udp'
+	option dest_port '123'
+	option name 'NTP'
+	option enabled '0'
+
+config rule
+	option name 'Deny ALL'
+	option proto 'all'
+	option target 'REJECT'
+	option src 'wan'
+
+config redirect
+	option target 'DNAT'
+	option src 'wan'
+	option dest 'lan'
+	option proto 'tcp'
+	option src_dport '22501'
+	option dest_ip '10.10.10.3'
+	option name 'NAS-SSH'
+	option dest_port '22'
+
+config redirect
+	option target 'DNAT'
+	option src 'wan'
+	option dest 'lan'
+	option proto 'tcp'
+	option dest_ip '10.10.10.3'
+	option name 'NAS-DSM'
+	option src_dport '5000-5001'
+	option dest_port '5000-5001'
+
+config redirect
+	option target 'DNAT'
+	option src 'wan'
+	option dest 'lan'
+	option proto 'tcp'
+	option dest_ip '10.10.10.3'
+	option name 'NAS-WebDAV-SSL'
+	option src_dport '5002'
+	option dest_port '5002'
+
+config redirect
+	option target 'DNAT'
+	option src 'wan'
+	option dest 'lan'
+	option proto 'tcp'
+	option src_dport '6690'
+	option dest_ip '10.10.10.3'
+	option dest_port '6690'
+	option name 'NAS-Driver'
+
+config redirect
+	option target 'DNAT'
+	option src 'wan'
+	option dest 'lan'
+	option proto 'tcp udp'
+	option src_dport '9025-9040'
+	option dest_ip '10.10.10.3'
+	option name 'NAS-VideoStation'
+
+config redirect
+	option target 'DNAT'
+	option src 'wan'
+	option dest 'lan'
+	option proto 'tcp'
+	option dest_ip '10.10.10.3'
+	option name 'NAS-Emby'
+	option src_dport '8096'
+	option dest_port '8096'
+
+config redirect
+	option target 'DNAT'
+	option src 'wan'
+	option dest 'lan'
+	option proto 'tcp udp'
+	option src_dport '8097'
+	option dest_ip '10.10.10.3'
+	option dest_port '8920'
+	option name 'NAS-Emby-SSL'
+
+config redirect
+	option target 'DNAT'
+	option src 'wan'
+	option dest 'lan'
+	option proto 'tcp'
+	option src_dport '32400'
+	option dest_ip '10.10.10.3'
+	option dest_port '32400'
+	option name 'NAS-Plex'
+	option enabled '0'
+
+config redirect
+	option target 'DNAT'
+	option src 'wan'
+	option dest 'lan'
+	option proto 'tcp'
+	option src_dport '8443'
+	option dest_ip '10.10.10.3'
+	option dest_port '8443'
+	option name 'NAS-CardDAV-SSL'
+	option enabled '0'
+
+config redirect
+	option target 'DNAT'
+	option src 'wan'
+	option dest 'lan'
+	option proto 'tcp'
+	option dest_ip '10.10.10.3'
+	option name 'NAS-Calendar-SSL'
+	option src_dport '38443'
+	option dest_port '38443'
+	option enabled '0'
+
+config redirect
+	option target 'DNAT'
+	option src 'wan'
+	option dest 'lan'
+	option proto 'tcp'
+	option src_dport '25'
+	option dest_ip '10.10.10.3'
+	option dest_port '25'
+	option name 'SMTP'
+	option enabled '0'
+
+config redirect
+	option target 'DNAT'
+	option src 'wan'
+	option dest 'lan'
+	option proto 'tcp'
+	option src_dport '465'
+	option dest_ip '10.10.10.3'
+	option dest_port '465'
+	option name 'SMTP-SSL'
+	option enabled '0'
+
+config redirect
+	option target 'DNAT'
+	option src 'wan'
+	option dest 'lan'
+	option proto 'tcp'
+	option src_dport '587'
+	option dest_ip '10.10.10.3'
+	option dest_port '587'
+	option name 'SMTP-TLS'
+	option enabled '0'
+
+config redirect
+	option target 'DNAT'
+	option src 'wan'
+	option dest 'lan'
+	option proto 'tcp'
+	option src_dport '995'
+	option dest_ip '10.10.10.3'
+	option dest_port '995'
+	option name 'POP3-SSL'
+	option enabled '0'
+
+config redirect
+	option target 'DNAT'
+	option src 'wan'
+	option dest 'lan'
+	option proto 'tcp'
+	option src_dport '993'
+	option dest_ip '10.10.10.3'
+	option dest_port '993'
+	option name 'IMAP-SSL'
+	option enabled '0'
+
+config redirect
+	option target 'DNAT'
+	option src 'wan'
+	option dest 'lan'
+	option proto 'tcp'
+	option src_dport '1723'
+	option dest_ip '10.10.10.3'
+	option dest_port '1723'
+	option name 'VPN-PPTP'
+
+config redirect
+	option target 'DNAT'
+	option src 'wan'
+	option dest 'lan'
+	option proto 'tcp'
+	option src_dport '444'
+	option dest_ip '10.10.10.3'
+	option name 'Web-444'
+	option dest_port '444'
+
+config redirect
+	option target 'DNAT'
+	option src 'wan'
+	option dest 'lan'
+	option proto 'tcp'
+	option src_dport '81'
+	option dest_ip '10.10.10.3'
+	option name 'Web-81'
+	option dest_port '81'
+
+config redirect
+	option target 'DNAT'
+	option src 'wan'
+	option dest 'lan'
+	option proto 'tcp udp'
+	option src_dport '14662-14663'
+	option dest_ip '10.10.10.3'
+	option dest_port '14662-14663'
+	option name 'eMule'
+
+config redirect
+	option target 'DNAT'
+	option src 'wan'
+	option dest 'lan'
+	option src_dport '6881'
+	option dest_ip '10.10.10.3'
+	option dest_port '6881'
+	option proto 'tcp udp'
+	option name 'BT-6881'
+
+config redirect
+	option target 'DNAT'
+	option src 'wan'
+	option dest 'lan'
+	option src_dport '16881'
+	option dest_ip '10.10.10.3'
+	option dest_port '16881'
+	option proto 'tcp udp'
+	option name 'BT-16881'
+
+config defaults
+	option output 'ACCEPT'
+	option flow_offloading_hw '0'
+	option flow_offloading '0'
+	option fullcone '1'
+	option forward 'REJECT'
+	option input 'ACCEPT'
+
+config zone
+	option name 'lan'
+	option output 'ACCEPT'
+	option network 'lan'
+	option input 'ACCEPT'
+	option forward 'ACCEPT'
+	option masq '1'
+
+config zone
+	option name 'wan'
+	option output 'ACCEPT'
+	option masq '1'
+	option mtu_fix '1'
+	option network 'wan'
+	option log '1'
+	option forward 'REJECT'
+	option input 'REJECT'
+
+config include
+	option path '/etc/firewall.user'
+
+config forwarding
+	option dest 'wan'
+	option src 'lan'
+
+config include 'miniupnpd'
+	option type 'script'
+	option path '/usr/share/miniupnpd/firewall.include'
+	option family 'any'
+	option reload '1'
+
+config include 'passwall'
+	option type 'script'
+	option path '/var/etc/passwall.include'
+	option reload '1'
+
+config include 'vssr'
+	option type 'script'
+	option path '/var/etc/vssr.include'
+	option reload '1'
+	
+

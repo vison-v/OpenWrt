@@ -1,0 +1,33 @@
+
+config interface 'loopback'
+	option device 'lo'
+	option proto 'static'
+	option ipaddr '127.0.0.1'
+	option netmask '255.0.0.0'
+
+config globals 'globals'
+	option ula_prefix 'fd1d:45fc:d08c::/48'
+	option packet_steering '1'
+
+config device
+	option name 'br-lan'
+	option type 'bridge'
+	list ports 'eth1'
+
+config interface 'lan'
+	option device 'br-lan'
+	option proto 'static'
+	option netmask '255.255.255.0'
+	option ip6assign '60'
+	option ipaddr '10.10.10.254'
+
+config interface 'wan'
+	option proto 'pppoe'
+	option device 'eth0'
+	option metric '40'
+	option username 'ad77054513'
+	option password '98523199'
+	option keepalive '5 5'
+	option mtu '1492'
+	option ipv6 '0'
+
