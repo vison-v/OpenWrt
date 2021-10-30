@@ -3,57 +3,55 @@ bind_port: 3000
 beta_bind_port: 0
 users:
 - name: root
-  password: $2y$10$S0mbmcm/7uIzkoZMPgR60OZk7DkvjStFTdwUJwXiZoFsnlnlE7bDG
+  password: $2y$10$dwn0hTYoECQMZETBErGlzOId2VANOVsPHsuH13TM/8KnysM5Dh/ve
 auth_attempts: 5
 block_auth_min: 15
 http_proxy: ""
-language: ""
+language: zh-cn
 rlimit_nofile: 0
 debug_pprof: false
 web_session_ttl: 720
 dns:
   bind_hosts:
   - 0.0.0.0
-  port: 12306
-  statistics_interval: 7
+  port: 5553
+  statistics_interval: 90
   querylog_enabled: true
   querylog_file_enabled: true
   querylog_interval: 7
   querylog_size_memory: 1000
   anonymize_client_ip: false
   protection_enabled: true
-  blocking_mode: default
+  blocking_mode: nxdomain
   blocking_ipv4: ""
   blocking_ipv6: ""
-  blocked_response_ttl: 10
+  blocked_response_ttl: 60
   parental_block_host: family-block.dns.adguard.com
   safebrowsing_block_host: standard-block.dns.adguard.com
   ratelimit: 0
   ratelimit_whitelist: []
   refuse_any: false
   upstream_dns:
-  - 180.168.255.118
-  - 119.29.29.29
-  - 223.5.5.5
-  - 114.114.114.114
+  - 127.0.0.1:5337
   upstream_dns_file: ""
   bootstrap_dns:
-  - 180.168.255.118
+  - 119.29.29.29
+  - 223.5.5.5
   all_servers: false
-  fastest_addr: true
+  fastest_addr: false
   allowed_clients: []
   disallowed_clients: []
   blocked_hosts:
   - version.bind
   - id.server
   - hostname.bind
-  cache_size: 52428800
-  cache_ttl_min: 600
-  cache_ttl_max: 43200
+  cache_size: 4194304
+  cache_ttl_min: 0
+  cache_ttl_max: 0
   bogus_nxdomain: []
-  aaaa_disabled: true
+  aaaa_disabled: false
   enable_dnssec: false
-  edns_client_subnet: true
+  edns_client_subnet: false
   max_goroutines: 300
   ipset: []
   filtering_enabled: true
@@ -68,7 +66,7 @@ dns:
   rewrites: []
   blocked_services: []
   local_domain_name: lan
-  resolve_clients: false
+  resolve_clients: true
   local_ptr_upstreams: []
 tls:
   enabled: false
@@ -86,40 +84,16 @@ tls:
   certificate_path: ""
   private_key_path: ""
 filters:
-- enabled: false
+- enabled: true
   url: https://adguardteam.github.io/AdGuardSDNSFilter/Filters/filter.txt
-  name: AdGuard Simplified Domain Names filter
-  id: 1
-- enabled: false
-  url: https://adaway.org/hosts.txt
-  name: AdAway
-  id: 2
+  name: AdGuard DNS filter
+  id: 1628750870
 - enabled: true
-  url: https://easylist.to/easylist/easylist.txt
-  name: EasyList
-  id: 1589471104
-- enabled: true
-  url: https://easylist-downloads.adblockplus.org/easylistchina.txt
-  name: EasyList China
-  id: 1589471105
-- enabled: false
-  url: https://easylist-downloads.adblockplus.org/easyprivacy.txt
-  name: EasyPrivacy
-  id: 1589471106
-- enabled: true
-  url: https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/filters.txt
-  name: ublock
-  id: 1614049825
-- enabled: true
-  url: https://raw.githubusercontent.com/cjx82630/cjxlist/master/cjx-annoyance.txt
-  name: cjx-annoyance
-  id: 1614754401
+  url: https://anti-ad.net/easylist.txt
+  name: 'CHN: anti-AD'
+  id: 1628750871
 whitelist_filters: []
 user_rules:
-- '@@||vd.l.qq.com^$important'
-- '@@||lmbsy.qq.com^$important'
-- '@@||api.trakt.tv^$important'
-- '||https://app-measurement.com/sdk-exp^$important'
 - ""
 dhcp:
   enabled: false
