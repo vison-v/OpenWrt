@@ -131,6 +131,11 @@ sed -i 's/TTYD 终端/命令终端/g' package/lean/luci-app-ttyd/po/zh-cn/termin
 sed -i 's/解锁网易云灰色歌曲/网易音乐/g' package/lean/luci-app-unblockmusic/po/zh-cn/unblockmusic.po
 sed -i 's/services/vpn/g'  `grep services -rl package/lean/luci-app-unblockmusic/luasrc`
 
+
+sed -i 's/Go 阿里云盘 WebDAV/阿里云盘/g' package/lean/luci-app-go-aliyundrive-webdav/po/zh-cn/go-aliyundrive-webdav.po
+sed -i 's/Go 阿里云盘/阿里云盘/g' package/lean/luci-app-go-aliyundrive-webdav/po/zh-cn/go-aliyundrive-webdav.po
+sed -i 's/services/vpn/g'  `grep services -rl package/lean/luci-app-go-aliyundrive-webdav/luasrc`
+
 sed -i '/msgid "UU GameAcc"/{n;s/UU游戏加速器/UU加速器/;}' package/lean/luci-app-uugamebooster/po/zh-cn/uuplugin.po
 
 sed -i 's/上网时间控制/时间控制/g' package/lean/luci-app-accesscontrol/po/zh-cn/mia.po
