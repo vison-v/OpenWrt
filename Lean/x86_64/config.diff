@@ -16,7 +16,7 @@ CONFIG_TARGET_ROOTFS_TARGZ=n
 CONFIG_PACKAGE_open-vm-tools=y
 
 # 打开适用于PVE的qemu-guest-agent:
-# CONFIG_PACKAGE_qemu-ga=y
+CONFIG_PACKAGE_qemu-ga=y
 
 # Applications
 # CONFIG_PACKAGE_luci-app-frpc=y
