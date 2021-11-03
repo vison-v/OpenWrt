@@ -178,6 +178,7 @@ jobs:
         -or -name "*socat*.ipk" \
         -or -name "*dnsfilter*.ipk" \
         -or -name "*theme*.ipk" \
+        -or -name "*aliyundrive*.ipk" \
         | xargs -i mv -f {} ./ipk-package/
         cd ipk-package
         echo "IPK-PACKAGE=$PWD" >> $GITHUB_ENV
