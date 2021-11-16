@@ -133,13 +133,6 @@ jobs:
         if [ -n "$(ls -A "Lean/${{matrix.target}}/patches" 2>/dev/null)" ]; then
           find "Lean/${{matrix.target}}/patches" -type f -name '*.patch' -print0 | sort -z | xargs -I % -t -0 -n 1 sh -c "cat '%'  | patch -d './' -p1 -E --forward --no-backup-if-mismatch"
         fi
-        
-    - name: Default PPPOE Setting
-      if: env.PPPOE_USERNAME && env.PPPOE_PASSWD
-      run: |
-        sed -i '$i uci set network.wan.username=${{ env.PPPOE_USERNAME }}' openwrt/package/*/*/default-settings/root/etc/uci-defaults/99-default-settings
-        sed -i '$i uci set network.wan.password=${{ env.PPPOE_PASSWD }}' openwrt/package/*/*/default-settings/root/etc/uci-defaults/99-default-settings
-        sed -i '$i uci commit network' openwrt/package/*/*/default-settings/root/etc/uci-defaults/99-default-settings
               
     - name: SSH connection to Actions
       uses: garypang13/debugger-action@master
