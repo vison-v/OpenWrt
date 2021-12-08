@@ -18,7 +18,7 @@ on:
     paths:
       - '.github/workflows/Test.yml'
   #schedule:
-  #  - cron: 0 20 * * *
+  #  - cron: 58 59 * * * *
   #watch:
   #  types: started
 
