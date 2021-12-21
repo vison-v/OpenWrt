@@ -6,7 +6,7 @@
 # Blog: https://p3terx.com
 #=================================================
 
-name: Openwrt-AutoBuild-Lean
+name: Openwrt-Lean-App
 
 on: 
   repository_dispatch:
@@ -141,6 +141,7 @@ jobs:
       id: package
       run: |
         cd openwrt
+        make defconfig
         make download -j8
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
