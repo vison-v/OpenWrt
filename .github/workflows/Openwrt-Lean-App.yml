@@ -109,6 +109,7 @@ jobs:
       run: |
         cd openwrt
         make defconfig
+        cat .config
         # make menuconfig
         # make kernel_menuconfig
         make download -j8
@@ -119,7 +120,7 @@ jobs:
       id: compile
       run: |
         cd openwrt
-        make package/openwrt-packages /luci-app-koolddns/compile V=s
+        make  V=s
 
     - name: Organize files
       id: organize
