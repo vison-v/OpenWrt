@@ -150,7 +150,7 @@ jobs:
       id: compile
       run: |
         cd openwrt
-        make package/lean/luci-app-autoreboot/compile V=s
+        make package/openwrt-packages /luci-app-koolddns/compile V=s
 
     - name: Organize files
       id: organize
