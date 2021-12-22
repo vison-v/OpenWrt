@@ -120,7 +120,7 @@ jobs:
       id: compile
       run: |
         cd openwrt
-        make package/openwrt-packages/luci-app-koolddns/compile V=s
+        make package/openwrt-packages/luci-app-bypass/compile V=s
 
     - name: Organize files
       id: organize
