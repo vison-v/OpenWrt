@@ -49,7 +49,7 @@ jobs:
   
     - name: Load Settings.ini
       run: |
-        source "${GITHUB_WORKSPACE}/app/settings.ini"
+        source "${GITHUB_WORKSPACE}/App/settings.ini"
         echo "REPO_URL=${REPO_URL}" >> $GITHUB_ENV
         echo "REPO_BRANCH=${REPO_BRANCH}" >> $GITHUB_ENV
         echo "CONFIG_FILE=${CONFIG_FILE}" >> $GITHUB_ENV
