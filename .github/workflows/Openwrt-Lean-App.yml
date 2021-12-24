@@ -97,7 +97,7 @@ jobs:
     
     - name: Load custom configuration
       run: |
-        cp -rf Lean/common.config openwrt-sdk-18.06.2-x86-64_gcc-7.3.0_musl.Linux-x86_64/
+        cp -rf App/common.config openwrt-sdk-18.06.2-x86-64_gcc-7.3.0_musl.Linux-x86_64/
         cd openwrt-sdk-18.06.2-x86-64_gcc-7.3.0_musl.Linux-x86_64
         chmod +x common.config
         /bin/bash "common.config"
