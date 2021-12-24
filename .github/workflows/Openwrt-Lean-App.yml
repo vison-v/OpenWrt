@@ -78,7 +78,7 @@ jobs:
     - name: Clone source code
       run: |
         wget https://downloads.openwrt.org/releases/18.06.2/targets/x86/64/openwrt-sdk-18.06.2-x86-64_gcc-7.3.0_musl.Linux-x86_64.tar.xz
-        tar -jxvf openwrt-sdk-18.06.2-x86-64_gcc-7.3.0_musl.Linux-x86_64.tar.xz
+        tar -zxvf openwrt-sdk-18.06.2-x86-64_gcc-7.3.0_musl.Linux-x86_64.tar.xz
         rename openwrt-sdk-18.06.2-x86-64_gcc-7.3.0_musl.Linux-x86_64 openwrt
         
     - name: Free up disk space
