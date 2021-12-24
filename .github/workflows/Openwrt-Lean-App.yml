@@ -79,10 +79,9 @@ jobs:
       run: |
         wget https://downloads.openwrt.org/releases/18.06.2/targets/x86/64/openwrt-sdk-18.06.2-x86-64_gcc-7.3.0_musl.Linux-x86_64.tar.xz
         tar -xf openwrt-sdk-18.06.2-x86-64_gcc-7.3.0_musl.Linux-x86_64.tar.xz
-        rename openwrt-sdk-18.06.2-x86-64_gcc-7.3.0_musl.Linux-x86_64 openwrt
         
     - name: Free up disk space
-      if: env.FREE_UP_DISK == 'true'
+      if: env.FREE_UP_DISK == 'false'
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
@@ -92,16 +91,16 @@ jobs:
     
     - name: Load && Update feeds
       run: |
-        cp -rf App/* openwrt/
-        cd openwrt
+        cp -rf App/* openwrt-sdk-18.06.2-x86-64_gcc-7.3.0_musl.Linux-x86_64/
+        cd openwrt-sdk-18.06.2-x86-64_gcc-7.3.0_musl.Linux-x86_64
         ./scripts/feeds update -a
     
     - name: Load custom configuration
       run: |
-        cp -rf Lean/common/$ADD_SH openwrt/
-        cd openwrt
-        chmod +x $ADD_SH
-        /bin/bash "$ADD_SH"
+        cp -rf Lean/common.config openwrt-sdk-18.06.2-x86-64_gcc-7.3.0_musl.Linux-x86_64/
+        cd openwrt-sdk-18.06.2-x86-64_gcc-7.3.0_musl.Linux-x86_64
+        chmod +x common.config
+        /bin/bash "common.config"
         mv $CONFIG_FILE .config
         echo >> .config
         cat ${{matrix.target}}.config >> .config
@@ -109,7 +108,7 @@ jobs:
     - name: Download package
       id: package
       run: |
-        cd openwrt
+        cd openwrt-sdk-18.06.2-x86-64_gcc-7.3.0_musl.Linux-x86_64
         make defconfig
         cat .config
         # make menuconfig
@@ -121,7 +120,7 @@ jobs:
     - name: Compile the App
       id: compile
       run: |
-        cd openwrt
+        cd openwrt-sdk-18.06.2-x86-64_gcc-7.3.0_musl.Linux-x86_64
         make package/openwrt-packages/luci-app-passwall/compile V=s
         du -h --max-depth=1 ./ --exclude=build_dir --exclude=bin
         du -h --max-depth=1 ./build_dir
