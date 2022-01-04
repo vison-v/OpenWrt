@@ -79,4 +79,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: $APP_NAME
-        path: ./artifact/package/        
+        path: ./artifact/ipk/        
