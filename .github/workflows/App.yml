@@ -45,14 +45,8 @@ jobs:
     - name: Clone 项目
       run: |
         cd OpenWrt-SDK-x86-64_gcc-5.3.0_musl-1.1.16.Linux-x86_64
-        mkdir package/$APP_NAME
-        cd package/$APP_NAME
-        git init
-        git remote add -f origin $REPO_URL
-        git config core.sparsecheckout true
-        echo "$APP_NAME" >> .git/info/sparse-checkout
-        git pull --depth 1 origin $REPO_BRANCH
-        git branch --set-upstream-to=origin/$REPO_BRANCH $REPO_BRANCH
+        cd package
+        git clone --depth 1 $REPO_URL -b $REPO_BRANCH $APP_NAME
     
     - name: 编译 po2lmo
       if: env.PO2lMO == 'true'
