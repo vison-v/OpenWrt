@@ -18,7 +18,7 @@ jobs:
   build:
     runs-on: Ubuntu-20.04
     
-    name: $APP_NAME
+    name: ${{APP_NAME}}
     strategy:
       fail-fast: false
       matrix:
@@ -47,7 +47,7 @@ jobs:
         mkdir package/$APP_NAME
         cd package/$APP_NAME
         git init
-        git remote add -f origin $REPO_URL -b $REPO_BRANCH
+        git remote add -f origin $REPO_URL
         git config core.sparsecheckout true
         echo "$APP_NAME" >> .git/info/sparse-checkout
         git pull --depth 1 origin master
