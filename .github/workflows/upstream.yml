@@ -57,7 +57,7 @@ jobs:
         sed -i '/COWTRANSFER/s/true/false/' ./Garypang/common/settings.ini
         sed -i 's/"10.0.0.1"/"192.168.10.1"/g' ./Garypang/common/default-settings
         sed -i 's/by GaryPang/Build By ViS0N/g' ./Garypang/common/diy.sh
-        sed -i 's/by GaryPang/Build By ViS0N/g' ./Garypang/common/diy/package/base-files/files/etc/banner
+        # sed -i 's/by GaryPang/Build By ViS0N/g' ./Garypang/common/diy/package/base-files/files/etc/banner
     
     - name: Apply
       run: |
