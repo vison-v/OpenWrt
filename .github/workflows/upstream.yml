@@ -36,7 +36,7 @@ jobs:
         git config --global user.name "github-actions[bot]"
     - name: Syn upstream
       run: |
-        rm -rf `find -maxdepth 1 -type d -name "[!.]*" ! -path "./Lean" ! -path "./Lienol" ! -path "./App"`
+        rm -rf `find -maxdepth 1 -type d -name "[!.]*" ! -path "./Lean" ! -path "./Lienol" ! -path "./App" ! -path "./Pic"`
         git rm -r --cache *
        
         echo -e "\q" | svn co https://github.com/kiddin9/OpenWrt_x86-r2s-r4s/trunk/devices ./Garypang
