@@ -14,10 +14,10 @@ svn co https://github.com/apollo-ng/luci-theme-darkmatter/trunk/luci package/ope
 svn co https://github.com/kenzok8/openwrt-packages/trunk/luci-app-eqos package/openwrt-packages/luci-app-eqos
 git clone https://github.com/binge8/luci-app-koolddns.git package/openwrt-packages/luci-app-koolddns
 svn co https://github.com/lisaac/luci-app-dockerman/trunk/applications/luci-app-dockerman package/openwrt-packages/luci-app-dockerman
+
 svn co https://github.com/sirpdboy/sirpdboy-package/trunk/netdata package/openwrt-packages/netdata
 git clone https://github.com/sirpdboy/luci-app-netdata package/openwrt-packages/luci-app-netdata
 git clone https://github.com/sirpdboy/luci-theme-opentopd package/openwrt-packages/luci-theme-opentopd
-#git clone https://github.com/vison-v/luci-app-xunlei.git package/openwrt-packages/luci-app-xunlei
 
 git clone https://github.com/jerrykuku/luci-app-vssr.git package/openwrt-packages/luci-app-vssr
 git clone https://github.com/jerrykuku/luci-app-argon-config.git package/openwrt-packages/luci-app-argon-config
@@ -25,8 +25,8 @@ git clone https://github.com/jerrykuku/luci-theme-argon.git -b 18.06 package/ope
 git clone https://github.com/jerrykuku/node-request.git package/openwrt-packages/node-request
 git clone https://github.com/jerrykuku/luci-app-jd-dailybonus.git package/openwrt-packages/luci-app-jd-dailybonus
 
-svn co https://github.com/Lienol/openwrt/trunk/package/diy/luci-app-adguardhome package/openwrt-packages/luci-app-adguardhome
-svn co https://github.com/Lienol/openwrt/trunk/package/diy/luci-app-tcpdump package/openwrt-packages/luci-app-tcpdump
+svn co https://github.com/KFERMercer/OpenWrt/trunk/package/kferm/luci-app-tcpdump package/openwrt-packages/luci-app-tcpdump
+
 svn co https://github.com/Lienol/openwrt-package/trunk/luci-app-socat package/openwrt-packages/luci-app-socat
 svn co https://github.com/Lienol/openwrt-luci/trunk/applications/luci-app-smartdns package/openwrt-packages/luci-app-smartdns
 svn co https://github.com/Lienol/openwrt-packages/trunk/net/smartdns package/openwrt-packages/smartdns
@@ -37,7 +37,7 @@ svn co https://github.com/Lienol/openwrt-package/trunk/luci-app-control-weburl p
 svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-aliddns package/openwrt-packages/luci-app-aliddns
 git clone https://github.com/kiddin9/luci-app-baidupcs-web package/openwrt-packages/luci-app-baidupcs-web
 git clone https://github.com/kiddin9/luci-app-dnsfilter package/openwrt-packages/luci-app-dnsfilter
-git clone https://github.com/kiddin9/luci-app-bypass package/openwrt-packages/luci-app-bypass
+svn co https://github.com/kiddin9/openwrt-bypass/trunk/luci-app-bypass package/openwrt-packages/luci-app-bypass
 svn co https://github.com/kiddin9/openwrt-packages/trunk/aria2 package/openwrt-packages/aria2
 svn co https://github.com/kiddin9/openwrt-packages/trunk/AdGuardHome package/openwrt-packages/adguardhome
 svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-serverchan package/openwrt-packages/luci-app-serverchan
