@@ -6,6 +6,7 @@ svn export --force https://github.com/friendlyarm/friendlywrt/branches/master/pa
 rm -rf target/linux/rockchip/!(Makefile|patches-5.10)
 svn co https://github.com/friendlyarm/friendlywrt/branches/master/target/linux/rockchip target/linux/rockchip
 rm -rf target/linux/rockchip/{.svn,patches-5.10/.svn}
+svn co https://github.com/friendlyarm/friendlywrt/branches/master/target/linux/rockchip/patches-5.10 target/linux/rockchip/patches-5.10
 
 svn co https://github.com/friendlyarm/friendlywrt/trunk/target/linux/rockchip/armv8/base-files/usr/bin files/usr/bin
 rm -rf files/usr/bin/.svn
@@ -14,7 +15,7 @@ chmod +x files/usr/bin/* files/etc/init.d/fa-fancontrol
 
 sed -i 's,-mcpu=generic,-march=armv8-a+crypto+crc -mabi=lp64,g' include/target.mk
 
-rm -rf target/linux/rockchip/armv8/base-files/etc/uci-defaults/vendor.defaults
+rm -rf target/linux/rockchip/armv8/base-files/etc/{uci-defaults/vendor.defaults,inittab}
 
 sed -i '/;;/i\ethtool -K eth1 rx off tx off && logger -t disable-offloading "disabed rk3328 ethernet tcp/udp offloading tx/rx"' target/linux/rockchip/armv8/base-files/etc/hotplug.d/net/40-net-smp-affinity
 
