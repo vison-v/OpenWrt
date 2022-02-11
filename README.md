@@ -3,6 +3,7 @@
 ![Merge-upstream](https://github.com/vison-v/OpenWrt/workflows/Merge-upstream/badge.svg)
 ```Brach 
     # 每天自动编译Lean x86-64固件，同步使用上游最新源码！
+    # 如需同时编译多个固件，需在Lean文件夹下放置配置文件夹（可参考AC58U或x86_64文件夹），同时修改Openwrt-AutoBuild-Lean.yml文件的44行为：target: [x86_64,配置文件夹名字]
     # 固件默认地址：192.168.10.1
     # 固件默认用户：root
     # 固件默认密码：password
