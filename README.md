@@ -9,10 +9,13 @@
 + Openwrt-AutoBuild-Lienol仓库地址：https://github.com/Lienol/openwrt
 
 ## 自动编译
- ```Brach 
-    ![Openwrt-AutoBuild-Lean](https://github.com/vison-v/OpenWrt/workflows/Openwrt-AutoBuild-Lean/badge.svg)
-    ![Merge-upstream](https://github.com/vison-v/OpenWrt/workflows/Merge-upstream/badge.svg)
+![Openwrt-AutoBuild-Lean](https://github.com/vison-v/OpenWrt/workflows/Openwrt-AutoBuild-Lean/badge.svg)
+![Merge-upstream](https://github.com/vison-v/OpenWrt/workflows/Merge-upstream/badge.svg)
+```Brach 
     # 每天自动编译Lean x86-64固件，同步使用上游最新源码！
+    # 固件默认地址：192.168.10.1
+    # 固件默认用户：root
+    # 固件默认密码：password
  ```
  
 ## 插件截图 
