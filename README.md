@@ -10,13 +10,7 @@
  
 ## 插件截图 
 ![xm1](Pic/状态.png)
-![xm2](Pic/系统.png)
-![xm3](Pic/服务.png)
-![xm3](Pic/管控.png)
-![xm3](Pic/存储.png)
-![xm3](Pic/酷软.png)
-![xm3](Pic/网络.png)
-![xm3](Pic/监控.png)
+![xm2](Pic/插件.png)
 
 ## 参考感谢
 ```Brach 
