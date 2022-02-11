@@ -39,6 +39,7 @@ git clone https://github.com/kiddin9/luci-app-baidupcs-web package/openwrt-packa
 git clone https://github.com/kiddin9/luci-app-dnsfilter package/openwrt-packages/luci-app-dnsfilter
 svn co https://github.com/kiddin9/openwrt-bypass/trunk/luci-app-bypass package/openwrt-packages/luci-app-bypass
 svn co https://github.com/kiddin9/openwrt-packages/trunk/aria2 package/openwrt-packages/aria2
+svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-adguardhome package/openwrt-packages/luci-app-adguardhome
 svn co https://github.com/kiddin9/openwrt-packages/trunk/AdGuardHome package/openwrt-packages/adguardhome
 svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-serverchan package/openwrt-packages/luci-app-serverchan
 svn co https://github.com/kiddin9/openwrt-packages/trunk/qBittorrent-Enhanced-Edition package/openwrt-packages/qBittorrent-Enhanced-Edition
