@@ -31,7 +31,7 @@ sed -i '/	refresh_config();/d' scripts/feeds
 sed -i '$a src-git kiddin9 https://github.com/kiddin9/openwrt-packages.git;master' feeds.conf.default
 }
 
-rm -rf package/{base-files,network/config/firewall,network/services/dnsmasq,network/services/ppp,system/opkg,libs/mbedtls}
+rm -rf package/{base-files,network/config/firewall,network/services/dnsmasq,network/services/uhttpd,network/services/ppp,system/opkg,libs/mbedtls}
 
 ./scripts/feeds update -a
 ./scripts/feeds install -a -p kiddin9
@@ -42,8 +42,10 @@ cd feeds/kiddin9; git pull; cd -
 svn export --force https://github.com/coolsnowwolf/lede/trunk/tools/upx tools/upx
 svn export --force https://github.com/coolsnowwolf/lede/trunk/tools/ucl tools/ucl
 svn co https://github.com/coolsnowwolf/lede/trunk/target/linux/generic/hack-5.10 target/linux/generic/hack-5.10
-rm -rf target/linux/generic/hack-5.10/{220-gc_sections*,781-dsa-register*}
+rm -rf target/linux/generic/hack-5.10/{220-gc_sections*,781-dsa-register*,780-drivers-net*}
 ) &
+
+chmod +x files/usr/bin/* files/etc/init.d/*
 
 sed -i 's?zstd$?zstd ucl upx\n$(curdir)/upx/compile := $(curdir)/ucl/compile?g' tools/Makefile
 sed -i 's/\/cgi-bin\/\(luci\|cgi-\)/\/\1/g' `find package/feeds/kiddin9/luci-*/ -name "*.lua" -or -name "*.htm*" -or -name "*.js"` &
