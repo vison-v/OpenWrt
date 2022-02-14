@@ -25,7 +25,7 @@ git clone https://github.com/jerrykuku/luci-theme-argon.git -b 18.06 package/ope
 git clone https://github.com/jerrykuku/node-request.git package/openwrt-packages/node-request
 git clone https://github.com/jerrykuku/luci-app-jd-dailybonus.git package/openwrt-packages/luci-app-jd-dailybonus
 
-svn co https://github.com/KFERMercer/OpenWrt/trunk/package/kferm/luci-app-tcpdump package/openwrt-packages/luci-app-tcpdump
+git clone https://github.com/KFERMercer/luci-app-tcpdump.git package/openwrt-packages/luci-app-tcpdump
 
 svn co https://github.com/Lienol/openwrt-package/trunk/luci-app-socat package/openwrt-packages/luci-app-socat
 svn co https://github.com/Lienol/openwrt-luci/trunk/applications/luci-app-smartdns package/openwrt-packages/luci-app-smartdns
