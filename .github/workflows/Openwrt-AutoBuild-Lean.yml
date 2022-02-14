@@ -172,6 +172,7 @@ jobs:
         -or -name "*tcpdump*.ipk" \
         -or -name "*koolproxyR*.ipk" \
         -or -name "*socat*.ipk" \
+        -or -name "*watchcat*.ipk" \
         -or -name "*dnsfilter*.ipk" \
         -or -name "*theme*.ipk" \
         -or -name "*aliyundrive*.ipk" \
