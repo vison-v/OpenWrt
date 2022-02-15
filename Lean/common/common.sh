@@ -65,7 +65,7 @@ svn co https://github.com/kiddin9/openwrt-packages/trunk/lua-maxminddb package/o
 # Modify default IP
 sed -i 's/192.168.1.1/192.168.10.1/g' package/base-files/files/bin/config_generate
 
-sed -i '18,28d' package/lean/default-settings/files/zzz-default-settings
+sed -i '18,30d' package/lean/default-settings/files/zzz-default-settings
 
 sed -i '1391s/主机名/主机映射/g' feeds/luci/modules/luci-base/po/zh-cn/base.po
 
