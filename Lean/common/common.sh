@@ -1,6 +1,6 @@
 #!/bin/bash 
 
-rm -Rf feeds/packages/net/{smartdns,aria2} feeds/packages/admin/netdata package/lean/{luci-theme-argon,luci-app-netdata,luci-app-baidupcs-web,luci-app-jd-dailybonus,ipt2socks,dns2socks,kcptun,microsocks,pdnsd-alt,shadowsocksr-libev,simple-obfs,tcping,v2ray-plugin,v2ray,xray}
+rm -Rf feeds/packages/net/{smartdns,aria2} feeds/packages/admin/netdata feeds/luci/applications/{luci-theme-argon,luci-app-netdata,luci-app-baidupcs-web,luci-app-jd-dailybonus,ipt2socks,dns2socks,kcptun,microsocks,pdnsd-alt,shadowsocksr-libev,simple-obfs,tcping,v2ray-plugin,v2ray,xray}
 ##############加载自定义app################
 svn co https://github.com/fw876/helloworld/trunk/luci-app-ssr-plus package/openwrt-packages/luci-app-ssr-plus
 git clone https://github.com/xiaorouji/openwrt-passwall package/openwrt-packages/luci-app-passwall
