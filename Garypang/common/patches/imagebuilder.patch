@@ -80,7 +80,7 @@
  		-nopad -noappend -root-owned \
  		-comp $(SQUASHFSCOMP) $(SQUASHFSOPT) \
 -		-processors 1
-+		-processors 1 -mem `expr $$(grep MemAvailable /proc/meminfo | awk '{print $$2}') / 1250`M
++		-processors `nproc` -mem `expr $$(grep MemAvailable /proc/meminfo | awk '{print $$2}') / 1250`M
  endef
  
  ifeq ($(CONFIG_TARGET_ROOTFS_SECURITY_LABELS),y)
