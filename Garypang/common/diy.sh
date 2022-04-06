@@ -27,6 +27,10 @@ sed -i "/dnsmasq \\\/d" include/target.mk
 
 curl -sfL https://raw.githubusercontent.com/coolsnowwolf/lede/master/package/kernel/linux/modules/video.mk -o package/kernel/linux/modules/video.mk
 
+sh -c "curl -sfL https://github.com/coolsnowwolf/lede/commit/af9ddeb7c95186854733262554c944d29513a58a.patch | patch -d './' -p1 --forward"
+sh -c "curl -sfL https://github.com/coolsnowwolf/lede/commit/b4a6d7f974f7b17052ade15a3cf63086bd52736d.patch | patch -d './' -p1 --forward"
+sh -c "curl -sfL https://github.com/coolsnowwolf/lede/commit/06fcdca1bb9c6de6ccd0450a042349892b372220.patch | patch -d './' -p1 --forward"
+
 sed -i '/	refresh_config();/d' scripts/feeds
 [ ! -f feeds.conf ] && {
 sed -i '$a src-git kiddin9 https://github.com/kiddin9/openwrt-packages.git;master' feeds.conf.default
