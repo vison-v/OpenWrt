@@ -1,4 +1,4 @@
-sed -i 's/DEFAULT_PACKAGES +=/DEFAULT_PACKAGES += my-autocore-arm luci-app-amlogic wpad-basic-wolfssl iw kmod-usb-net-asix-ax88179 kmod-usb-net-rtl8152/' target/linux/armvirt/Makefile
+sed -i 's/DEFAULT_PACKAGES +=/DEFAULT_PACKAGES += my-autocore-arm luci-app-amlogic wpad-basic-wolfssl iw kmod-usb-net-asix kmod-usb-net-asix-ax88179 kmod-usb-net-rtl8152/' target/linux/armvirt/Makefile
 
 echo '
 CONFIG_ARM64_CRYPTO=y
