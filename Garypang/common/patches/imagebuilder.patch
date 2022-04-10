@@ -56,7 +56,7 @@
  	@echo Building images...
  	rm -rf $(BUILD_DIR)/json_info_files/
 -	$(NO_TRACE_MAKE) -C target/linux/$(BOARD)/image install TARGET_BUILD=1 IB=1 EXTRA_IMAGE_NAME="$(EXTRA_IMAGE_NAME)" \
-+	nice $(NO_TRACE_MAKE) -C target/linux/$(BOARD)/image install TARGET_BUILD=1 IB=1 EXTRA_IMAGE_NAME="$(EXTRA_IMAGE_NAME)" VIP=$(VIP) \
++	nice -n 19 $(NO_TRACE_MAKE) -C target/linux/$(BOARD)/image install TARGET_BUILD=1 IB=1 EXTRA_IMAGE_NAME="$(EXTRA_IMAGE_NAME)" \
  		$(if $(USER_PROFILE),PROFILE="$(USER_PROFILE)")
  
  $(BIN_DIR)/profiles.json: FORCE
@@ -67,9 +67,8 @@
  $(eval $(foreach S,$(NAND_BLOCKSIZE),$(call Image/mkfs/jffs2-nand/template,$(S))))
  
  define Image/mkfs/squashfs-common
--	$(STAGING_DIR_HOST)/bin/mksquashfs4 $(call mkfs_target_dir,$(1)) $@ \
 +	echo -998 > /proc/$$$$/oom_score_adj || true
-+	nice -n 19 $(STAGING_DIR_HOST)/bin/mksquashfs4 $(call mkfs_target_dir,$(1)) $@ \
+ 	$(STAGING_DIR_HOST)/bin/mksquashfs4 $(call mkfs_target_dir,$(1)) $@ \
  		-nopad -noappend -root-owned \
 -		-comp $(SQUASHFSCOMP) $(SQUASHFSOPT) \
 -		-processors 1
