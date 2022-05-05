@@ -2,6 +2,8 @@
 
 shopt -s extglob
 
+svn export --force https://github.com/x-wrt/x-wrt/trunk/package/boot/uboot-envtools package/boot/uboot-envtools
+
 svn export --force https://github.com/x-wrt/x-wrt/trunk/package/kernel/mt76 package/kernel/mt76
 rm -rf target/linux/ramips/!(patches-5.15)
 svn co https://github.com/x-wrt/x-wrt/trunk/target/linux/ramips target/linux/ramips

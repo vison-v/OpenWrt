@@ -1,21 +1,15 @@
 #!/bin/bash
 #=================================================
 shopt -s extglob
-
+rm -rf target/linux package/kernel package/boot package/firmware/linux-firmware include/{kernel-*,netfilter.mk} tools/firmware-utils
 #latest="$(curl -sfL https://github.com/openwrt/openwrt/tree/master/include | grep -o 'href=".*>kernel: bump 5.15' | head -1 | cut -d / -f 5 | cut -d '"' -f 1)"
-latest="master"
-current="$(git rev-parse HEAD)"
-[ "$latest" ] && git checkout $latest || git checkout master
-#git checkout HEAD^
+mkdir new; cp -rf .git new/.git
+cd new
+[ "$latest" ] && git reset --hard $latest || git checkout master && git reset --hard HEAD
+#git reset --hard HEAD^
 [ "$(echo $(git log -1 --pretty=short) | grep "kernel: bump 5.15")" ] && git checkout $latest
-mv -f target/linux package/kernel package/boot package/firmware/linux-firmware include/{kernel-*,netfilter.mk} .github/
-git checkout $current
-rm -rf target/linux package/kernel package/boot package/firmware/linux-firmware include/kernel-version.mk include/kernel-5.15 include/kernel-defaults.mk
-mv -f .github/linux target/
-mv -f .github/kernel package/
-mv -f .github/boot package/
-mv -f .github/linux-firmware package/firmware/
-mv -f  .github/{kernel-*,netfilter.mk} include/
+cp -rf --parents target/linux package/kernel package/boot package/firmware/linux-firmware include/{kernel-*,netfilter.mk} tools/firmware-utils ../
+cd -
 sed -i 's/ libelf//' tools/Makefile
 
 kernel_v="$(cat include/kernel-5.15 | grep LINUX_KERNEL_HASH-* | cut -f 2 -d - | cut -f 1 -d ' ')"
