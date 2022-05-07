@@ -5,7 +5,7 @@ rm -rf target/linux package/kernel package/boot package/firmware/linux-firmware 
 #latest="$(curl -sfL https://github.com/openwrt/openwrt/tree/master/include | grep -o 'href=".*>kernel: bump 5.15' | head -1 | cut -d / -f 5 | cut -d '"' -f 1)"
 mkdir new; cp -rf .git new/.git
 cd new
-[ "$latest" ] && git reset --hard $latest || git checkout master && git reset --hard HEAD
+[ "$latest" ] && git reset --hard $latest || (git checkout master && git reset --hard HEAD)
 #git reset --hard HEAD^
 [ "$(echo $(git log -1 --pretty=short) | grep "kernel: bump 5.15")" ] && git checkout $latest
 cp -rf --parents target/linux package/kernel package/boot package/firmware/linux-firmware include/{kernel-*,netfilter.mk} tools/firmware-utils ../
@@ -36,7 +36,7 @@ rm -rf package/{base-files,network/config/firewall,network/services/dnsmasq,netw
 ./scripts/feeds install -a
 cd feeds/kiddin9; git pull; cd -
 
-sed -i "s/192.168.1/10.0.0/" package/base-files/files/bin/config_generate
+sed -i "s/192.168.1/10.0.0/" package/feeds/kiddin9/base-files/files/bin/config_generate
 rm -f package/feeds/packages/libpfring; svn export https://github.com/openwrt/packages/trunk/libs/libpfring package/feeds/kiddin9/libpfring
 rm -f package/feeds/packages/xtables-addons; svn export https://github.com/openwrt/packages/trunk/net/xtables-addons package/feeds/kiddin9/xtables-addons
 curl -sfL https://raw.githubusercontent.com/coolsnowwolf/packages/master/libs/xr_usb_serial_common/patches/0001-fix-build-with-kernel-5.15.patch -o package/feeds/packages/xr_usb_serial_common/patches/0001-fix-build-with-kernel-5.15.patch
