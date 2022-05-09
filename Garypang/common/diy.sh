@@ -81,8 +81,7 @@ if [ -f sdk.tar.xz ]; then
 	mkdir sdk
 	tar -xJf sdk.tar.xz -C sdk
 	cp -rf sdk/*/staging_dir/* ./staging_dir/
-	rm -rf ./staging_dir/host/bin/.*
-	rm -rf sdk.tar.xz
+	rm -rf sdk.tar.xz sdk
 	rm -rf `find "staging_dir/host/" -maxdepth 2 -name 'libelf*'` || true
 	sed -i '/\(tools\|toolchain\)\/Makefile/d' Makefile
 	if [ -f /usr/bin/python ]; then
