@@ -82,20 +82,7 @@
  
  ifndef IB
    ifdef CONFIG_TARGET_PER_DEVICE_ROOTFS
-@@ -225,10 +226,10 @@ $(eval $(foreach S,$(JFFS2_BLOCKSIZE),$(call Image/mkfs/jffs2/template,$(S))))
- $(eval $(foreach S,$(NAND_BLOCKSIZE),$(call Image/mkfs/jffs2-nand/template,$(S))))
- 
- define Image/mkfs/squashfs-common
-+	echo -998 > /proc/$$$$/oom_score_adj || true
- 	$(STAGING_DIR_HOST)/bin/mksquashfs4 $(call mkfs_target_dir,$(1)) $@ \
- 		-nopad -noappend -root-owned \
--		-comp $(SQUASHFSCOMP) $(SQUASHFSOPT) \
--		-processors 1
-+		-comp $(SQUASHFSCOMP) $(SQUASHFSOPT)
- endef
- 
- ifeq ($(CONFIG_TARGET_ROOTFS_SECURITY_LABELS),y)
-@@ -291,11 +292,34 @@ define Image/gzip-ext4-padded-squashfs
+@@ -292,11 +293,36 @@ define Image/gzip-ext4-padded-squashfs
  
  endef
  
@@ -114,6 +101,8 @@
 +	BIN_DIR="$(BIN_DIR)" \
 +	SOURCE_DATE_EPOCH=$(SOURCE_DATE_EPOCH) \
 +	IMAGE_NAME="$(ROOTFSTZ)" \
++	FILE_NAME="$(DEVICE_IMG_NAME)" \
++	FILE_DIR="$(KDIR)/tmp" \
 +	IMAGE_TYPE="rootfs" \
 +	IMAGE_FILESYSTEM="rootfs" \
 +	IMAGE_PREFIX="$(IMG_PREFIX)" \

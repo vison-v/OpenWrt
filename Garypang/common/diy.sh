@@ -2,15 +2,14 @@
 #=================================================
 shopt -s extglob
 rm -rf target/linux package/kernel package/boot package/firmware/linux-firmware include/{kernel-*,netfilter.mk} tools/firmware-utils
-#latest="$(curl -sfL https://github.com/openwrt/openwrt/tree/master/include | grep -o 'href=".*>kernel: bump 5.15' | head -1 | cut -d / -f 5 | cut -d '"' -f 1)"
+latest="$(curl -sfL https://github.com/openwrt/openwrt/commits/master/include | grep -o 'href=".*>kernel: bump 5.15' | head -1 | cut -d / -f 5 | cut -d '"' -f 1)"
 mkdir new; cp -rf .git new/.git
 cd new
 [ "$latest" ] && git reset --hard $latest || (git checkout master && git reset --hard HEAD)
-#git reset --hard HEAD^
+git checkout HEAD^
 [ "$(echo $(git log -1 --pretty=short) | grep "kernel: bump 5.15")" ] && git checkout $latest
-cp -rf --parents target/linux package/kernel package/boot package/firmware/linux-firmware include/{kernel-*,netfilter.mk} tools/firmware-utils ../
+cp -rf --parents target/linux package/kernel package/boot package/firmware/linux-firmware include/{kernel-*,netfilter.mk} tools/firmware-utils package/utils/ucode ../
 cd -
-sed -i 's/ libelf//' tools/Makefile
 
 kernel_v="$(cat include/kernel-5.15 | grep LINUX_KERNEL_HASH-* | cut -f 2 -d - | cut -f 1 -d ' ')"
 echo "KERNEL=${kernel_v}" >> $GITHUB_ENV || true
@@ -29,7 +28,7 @@ sed -i '/	refresh_config();/d' scripts/feeds
 sed -i '$a src-git kiddin9 https://github.com/kiddin9/openwrt-packages.git;master' feeds.conf.default
 }
 
-rm -rf package/{base-files,network/config/firewall,network/services/dnsmasq,network/services/ppp,system/opkg,libs/mbedtls}
+rm -rf package/{base-files,network/config/firewall4,network/services/dnsmasq,network/services/ppp,system/opkg,libs/mbedtls}
 
 ./scripts/feeds update -a
 ./scripts/feeds install -a -p kiddin9
@@ -79,7 +78,6 @@ if [ -f sdk.tar.xz ]; then
 	tar -xJf sdk.tar.xz -C sdk
 	cp -rf sdk/*/staging_dir/* ./staging_dir/
 	rm -rf sdk.tar.xz sdk
-	rm -rf `find "staging_dir/host/" -maxdepth 2 -name 'libelf*'` || true
 	sed -i '/\(tools\|toolchain\)\/Makefile/d' Makefile
 	if [ -f /usr/bin/python ]; then
 		ln -sf /usr/bin/python staging_dir/host/bin/python
