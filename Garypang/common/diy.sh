@@ -17,7 +17,7 @@ echo "KERNEL=${kernel_v}" >> $GITHUB_ENV || true
 echo "$(date +"%s")" >version.date
 sed -i '/$(curdir)\/compile:/c\$(curdir)/compile: package/opkg/host/compile' package/Makefile
 sed -i "s/DEFAULT_PACKAGES:=/DEFAULT_PACKAGES:=luci-app-advanced luci-app-firewall luci-app-gpsysupgrade luci-app-opkg luci-app-upnp luci-app-autoreboot \
-luci-app-wizard luci-app-attendedsysupgrade dnsmasq-full luci-base luci-compat luci-lib-ipkg fdisk \
+luci-app-wizard luci-app-attendedsysupgrade dnsmasq-full luci-base luci-compat luci-lib-ipkg \
 coremark wget-ssl curl htop nano zram-swap kmod-lib-zstd kmod-tcp-bbr bash /" include/target.mk
 sed -i "/dnsmasq \\\/d" include/target.mk
 

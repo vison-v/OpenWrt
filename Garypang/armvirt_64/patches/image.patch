@@ -7,12 +7,12 @@
 +ROOTFSTZ = $(IMG_PREFIX)$(if $(PROFILE_SANITIZED),-$(PROFILE_SANITIZED)).tar.gz
  ifdef CONFIG_TARGET_ROOTFS_TARGZ
    define Image/Build/targz
-@@ -310,6 +310,6 @@
- 	FILE_NAME="$(DEVICE_IMG_NAME)" \
- 	FILE_DIR="$(KDIR)/tmp" \
--	IMAGE_TYPE="rootfs" \
--	IMAGE_FILESYSTEM="rootfs" \
-+	IMAGE_TYPE="sysupgrade" \
-++	IMAGE_FILESYSTEM="ext4" \
- 	IMAGE_PREFIX="$(IMG_PREFIX)" \
+@@ -308,6 +308,6 @@
+ 	FILE_NAME="$(ROOTFSTZ)" \
+ 	FILE_DIR="$(BIN_DIR)" \
+-	FILE_TYPE="rootfs" \
+-	FILE_FILESYSTEM="rootfs" \
++	FILE_TYPE="sysupgrade" \
++	FILE_FILESYSTEM="ext4" \
+ 	DEVICE_IMG_PREFIX="$(DEVICE_IMG_PREFIX)" \
  	DEVICE_VENDOR="$(shell echo $($(PROFILE)_NAME) | cut -d " " -f1)" \

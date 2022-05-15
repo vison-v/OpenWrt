@@ -82,7 +82,7 @@
  
  ifndef IB
    ifdef CONFIG_TARGET_PER_DEVICE_ROOTFS
-@@ -292,11 +293,36 @@ define Image/gzip-ext4-padded-squashfs
+@@ -292,11 +293,34 @@ define Image/gzip-ext4-padded-squashfs
  
  endef
  
@@ -98,17 +98,15 @@
 +	touch $(BUILD_DIR)/json_info_files/$(ROOTFSTZ).json
 +	@mkdir -p $$(shell dirname $$@)
 +	DEVICE_ID="$(PROFILE_SANITIZED)" \
-+	BIN_DIR="$(BIN_DIR)" \
 +	SOURCE_DATE_EPOCH=$(SOURCE_DATE_EPOCH) \
-+	IMAGE_NAME="$(ROOTFSTZ)" \
-+	FILE_NAME="$(DEVICE_IMG_NAME)" \
-+	FILE_DIR="$(KDIR)/tmp" \
-+	IMAGE_TYPE="rootfs" \
-+	IMAGE_FILESYSTEM="rootfs" \
-+	IMAGE_PREFIX="$(IMG_PREFIX)" \
++	FILE_NAME="$(ROOTFSTZ)" \
++	FILE_DIR="$(BIN_DIR)" \
++	FILE_TYPE="rootfs" \
++	FILE_FILESYSTEM="rootfs" \
++	DEVICE_IMG_PREFIX="$(DEVICE_IMG_PREFIX)" \
 +	DEVICE_VENDOR="$(shell echo $($(PROFILE)_NAME) | cut -d " " -f1)" \
 +	DEVICE_MODEL="$(shell echo $($(PROFILE)_NAME) | cut -d " " -f2-)" \
-+	DEVICE_VARIANT="$$(DEVICE_VARIANT)" \
++	DEVICE_VARIANT="$(DEVICE_VARIANT)" \
 +	DEVICE_TITLE="$($(PROFILE)_NAME)" \
 +	DEVICE_PACKAGES="$($(PROFILE)_PACKAGES)" \
 +	TARGET="$(BOARD)" \
@@ -120,7 +118,6 @@
    endef
  endif
  
-
 --- a/scripts/json_overview_image_info.py
 +++ b/scripts/json_overview_image_info.py
 @@ -47,7 +47,7 @@ def get_initial_output(image_info):
