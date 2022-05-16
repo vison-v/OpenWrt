@@ -13,13 +13,13 @@ cd -
 
 kernel_v="$(cat include/kernel-5.15 | grep LINUX_KERNEL_HASH-* | cut -f 2 -d - | cut -f 1 -d ' ')"
 echo "KERNEL=${kernel_v}" >> $GITHUB_ENV || true
-# sed -i "s?targets/%S/packages?packages/%A/kmods/$kernel_v?" include/feeds.mk
+sed -i "s?targets/%S/packages?targets/%S/$kernel_v?" include/feeds.mk
 echo "$(date +"%s")" >version.date
 sed -i '/$(curdir)\/compile:/c\$(curdir)/compile: package/opkg/host/compile' package/Makefile
 sed -i "s/DEFAULT_PACKAGES:=/DEFAULT_PACKAGES:=luci-app-advanced luci-app-firewall luci-app-gpsysupgrade luci-app-opkg luci-app-upnp luci-app-autoreboot \
-luci-app-wizard luci-app-attendedsysupgrade dnsmasq-full luci-base luci-compat luci-lib-ipkg \
+luci-app-wizard luci-app-attendedsysupgrade luci-base luci-compat luci-lib-ipkg \
 coremark wget-ssl curl htop nano zram-swap kmod-lib-zstd kmod-tcp-bbr bash /" include/target.mk
-sed -i "/dnsmasq \\\/d" include/target.mk
+sed -i "s/procd-ujail//" include/target.mk
 
 sh -c "curl -sfL https://github.com/coolsnowwolf/lede/commit/06fcdca1bb9c6de6ccd0450a042349892b372220.patch | patch -d './' -p1 --forward"
 
@@ -28,7 +28,7 @@ sed -i '/	refresh_config();/d' scripts/feeds
 sed -i '$a src-git kiddin9 https://github.com/kiddin9/openwrt-packages.git;master' feeds.conf.default
 }
 
-rm -rf package/{base-files,network/config/firewall4,network/services/dnsmasq,network/services/ppp,system/opkg,libs/mbedtls}
+rm -rf package/{base-files,network/config/firewall,network/config/firewall4,network/services/dnsmasq,network/services/ppp,system/opkg,libs/mbedtls}
 
 ./scripts/feeds update -a
 ./scripts/feeds install -a -p kiddin9
