@@ -35,6 +35,8 @@ rm -rf package/{base-files,network/config/firewall,network/config/firewall4,netw
 ./scripts/feeds install -a
 cd feeds/kiddin9; git pull; cd -
 
+mv -f feeds/kiddin9/r81* tmp/
+
 sed -i "s/192.168.1/10.0.0/" package/feeds/kiddin9/base-files/files/bin/config_generate
 rm -f package/feeds/packages/libpfring; svn export https://github.com/openwrt/packages/trunk/libs/libpfring package/feeds/kiddin9/libpfring
 rm -f package/feeds/packages/xtables-addons; svn export https://github.com/openwrt/packages/trunk/net/xtables-addons package/feeds/kiddin9/xtables-addons
@@ -72,18 +74,9 @@ sed -i \
 	package/feeds/kiddin9/*/Makefile
 
 (
-if [ -f sdk.tar.xz ]; then
-	sed -i 's,$(STAGING_DIR_HOST)/bin/upx,upx,' package/feeds/kiddin9/*/Makefile
-	mkdir sdk
-	tar -xJf sdk.tar.xz -C sdk
-	cp -rf sdk/*/staging_dir/* ./staging_dir/
-	rm -rf sdk.tar.xz sdk
-	sed -i '/\(tools\|toolchain\)\/Makefile/d' Makefile
-	if [ -f /usr/bin/python ]; then
-		ln -sf /usr/bin/python staging_dir/host/bin/python
-	else
-		ln -sf /usr/bin/python3 staging_dir/host/bin/python
-	fi
-	ln -sf /usr/bin/python3 staging_dir/host/bin/python3
+if [ -f cache.tar.gz ]; then
+	tar -zxf cache.tar.gz
+	rm -f cache.tar.gz
+	find build_dir/{host*,toolchain-*} -name .built* -exec touch {} \;; touch staging_dir/{host*,toolchain-*}/stamp/.*
 fi
 ) &
