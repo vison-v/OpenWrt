@@ -10,12 +10,13 @@ svn export https://github.com/Boos4721/openwrt/trunk/package/firmware/ath11k-fir
 svn export https://github.com/Boos4721/openwrt/trunk/package/qca package/qca
 svn export https://github.com/Boos4721/openwrt/trunk/package/qat package/qat
 svn export https://github.com/Boos4721/openwrt/trunk/package/kernel/mac80211 package/kernel/mac80211
-curl -sfL https://raw.githubusercontent.com/Boos4721/openwrt/master/target/linux/generic/pending-5.15/930-qcom-qmi-helpers.patch -o target/linux/generic/pending-5.15/930-qcom-qmi-helpers.patch
 
-rm -rf target/linux/ipq807x/!(patches-5.15)
+rm -rf target/linux/ipq807x/!(patches-5.15) target/linux/generic
 svn co https://github.com/Boos4721/openwrt/trunk/target/linux/ipq807x target/linux/ipq807x
 rm -rf target/linux/ipq807x/{.svn,patches-5.15/.svn}
 svn co https://github.com/Boos4721/openwrt/trunk/target/linux/ipq807x/patches-5.15 target/linux/ipq807x/patches-5.15
+svn export https://github.com/Boos4721/openwrt/trunk/target/linux/generic target/linux/generic
+rm -rf target/linux/generic/hack-5.15/531-debloat_lzma.patch target/linux/generic/hack-5.15/600-bridge_offload.patch
 
 sed -i 's/autocore-arm /my-autocore-arm /' target/linux/ipq807x/Makefile
 sed -i 's/DEFAULT_PACKAGES +=/DEFAULT_PACKAGES += luci-app-turboacc/' target/linux/ipq807x/Makefile
