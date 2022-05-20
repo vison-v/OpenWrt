@@ -2,16 +2,21 @@
 
 shopt -s extglob
 
-rm -rf package/kernel package/network
+rm -rf package/boot/uboot-envtools package/firmware/ipq-wifi package/firmware/ath11k* package/qca package/qat package/kernel
+svn export --force https://github.com/Boos4721/openwrt/trunk/package/boot/uboot-envtools package/boot/uboot-envtools
+svn export --force https://github.com/Boos4721/openwrt/trunk/package/firmware/ipq-wifi package/firmware/ipq-wifi
+svn export --force https://github.com/Boos4721/openwrt/trunk/package/firmware/ath11k-board package/firmware/ath11k-board
+svn export --force https://github.com/Boos4721/openwrt/trunk/package/firmware/ath11k-firmware package/firmware/ath11k-firmware
+svn export --force https://github.com/Boos4721/openwrt/trunk/package/qca package/qca
+svn export --force https://github.com/Boos4721/openwrt/trunk/package/qat package/qat
 svn export --force https://github.com/Boos4721/openwrt/trunk/package/kernel package/kernel
-svn export --force https://github.com/Boos4721/openwrt/trunk/package/network package/network
-rm -rf package/lean package/libs/openssl
-svn export --force https://github.com/openwrt/openwrt/branches/openwrt-22.03/package/libs/openssl package/libs/openssl
 
 
-rm -rf target/linux
-svn export --force https://github.com/Boos4721/openwrt/trunk/target/linux target/linux
+rm -rf target/linux/!(Makefile)
+svn export --force https://github.com/Boos4721/openwrt/trunk/target/linux target/linux/generic
 rm -rf target/linux/generic/hack-5.15/531-debloat_lzma.patch target/linux/generic/hack-5.15/600-bridge_offload.patch
+rm -rf target/linux/ipq807x
+svn export --force https://github.com/Boos4721/openwrt/trunk/target/linux/ipq807x target/linux/ipq807x
 
 sed -i 's/autocore-arm /my-autocore-arm /' target/linux/ipq807x/Makefile
 sed -i 's/DEFAULT_PACKAGES +=/DEFAULT_PACKAGES += luci-app-turboacc/' target/linux/ipq807x/Makefile
