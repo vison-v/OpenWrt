@@ -1,6 +1,6 @@
 #!/bin/bash 
 
-rm -Rf feeds/packages/net/{smartdns,aria2} feeds/packages/admin/netdata feeds/luci/themes/luci-theme-argon feeds/luci/applications/{luci-app-netdata,luci-app-baidupcs-web}
+rm -Rf feeds/packages/net/{smartdns,aria2} feeds/luci/themes/luci-theme-argon feeds/luci/applications/{luci-app-netdata,luci-app-baidupcs-web}
 ##############加载自定义app################
 svn co https://github.com/fw876/helloworld/trunk/luci-app-ssr-plus package/openwrt-packages/luci-app-ssr-plus
 git clone https://github.com/xiaorouji/openwrt-passwall package/openwrt-packages/luci-app-passwall
@@ -15,7 +15,7 @@ svn co https://github.com/kenzok8/openwrt-packages/trunk/luci-app-eqos package/o
 git clone https://github.com/binge8/luci-app-koolddns.git package/openwrt-packages/luci-app-koolddns
 svn co https://github.com/lisaac/luci-app-dockerman/trunk/applications/luci-app-dockerman package/openwrt-packages/luci-app-dockerman
 
-svn co https://github.com/sirpdboy/sirpdboy-package/trunk/netdata package/openwrt-packages/netdata
+# svn co https://github.com/coolsnowwolf/packages/trunk/admin/netdata package/openwrt-packages/netdata
 git clone https://github.com/sirpdboy/luci-app-netdata package/openwrt-packages/luci-app-netdata
 git clone https://github.com/sirpdboy/luci-theme-opentopd package/openwrt-packages/luci-theme-opentopd
 
