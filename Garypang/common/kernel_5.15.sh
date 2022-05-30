@@ -1,6 +1,6 @@
 #!/bin/bash
 
-rm -rf target/linux package/kernel package/boot package/firmware/linux-firmware include/{kernel-*,netfilter.mk}
+rm -rf target/linux package/kernel package/boot package/firmware/linux-firmware include/{kernel-*,netfilter.mk} package/feeds/packages/xtables-addons
 latest="$(curl -sfL https://github.com/openwrt/openwrt/commits/master/include | grep -o 'href=".*>kernel: bump 5.15' | head -1 | cut -d / -f 5 | cut -d '"' -f 1)"
 mkdir new; cp -rf .git new/.git
 cd new
@@ -26,4 +26,5 @@ echo "
 CONFIG_TESTING_KERNEL=y
 CONFIG_PACKAGE_kmod-ipt-coova=n
 CONFIG_PACKAGE_kmod-usb-serial-xr_usb_serial_common=n
+CONFIG_PACKAGE_kmod-pf-ring=n
 " >> devices/common/.config
