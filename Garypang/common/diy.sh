@@ -17,11 +17,8 @@ sed -i '/	refresh_config();/d' scripts/feeds
 sed -i '$a src-git kiddin9 https://github.com/kiddin9/openwrt-packages.git;master' feeds.conf.default
 }
 
-rm -rf package/{base-files,network/config/firewall,network/config/firewall4,network/services/dnsmasq,network/services/ppp,system/opkg,libs/mbedtls,firmware/wireless-regdb}
-
 ./scripts/feeds update -a
-./scripts/feeds install -a -p kiddin9
-./scripts/feeds install -a
+./scripts/feeds install -a -p kiddin9 -f
 cd feeds/kiddin9; git pull; cd -
 
 mv -f feeds/kiddin9/r81* tmp/

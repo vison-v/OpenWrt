@@ -1,6 +1,6 @@
 #!/bin/bash
 
-rm -rf target/linux package/kernel package/boot package/firmware/linux-firmware include/{kernel-*,netfilter.mk} package/feeds/packages/xtables-addons
+rm -rf target/linux package/kernel package/boot package/firmware/linux-firmware include/{kernel-*,netfilter.mk}
 latest="$(curl -sfL https://github.com/openwrt/openwrt/commits/master/include | grep -o 'href=".*>kernel: bump 5.15' | head -1 | cut -d / -f 5 | cut -d '"' -f 1)"
 mkdir new; cp -rf .git new/.git
 cd new
@@ -16,7 +16,7 @@ sed -i "s?targets/%S/packages?targets/%S/$kernel_v?" include/feeds.mk
 
 sh -c "curl -sfL https://github.com/coolsnowwolf/lede/commit/06fcdca1bb9c6de6ccd0450a042349892b372220.patch | patch -d './' -p1 --forward"
 svn export --force https://github.com/openwrt/packages/trunk/kernel feeds/packages/kernel
-svn export --force  https://github.com/openwrt/packages/trunk/net/xtables-addons package/feeds/kiddin9/xtables-addons
+svn export --force  https://github.com/openwrt/packages/trunk/net/xtables-addons packages/net/xtables-addons
 
 svn co https://github.com/coolsnowwolf/lede/trunk/target/linux/generic/hack-5.15 target/linux/generic/hack-5.15
 rm -rf target/linux/generic/hack-5.15/{220-gc_sections*,781-dsa-register*,780-drivers-net*}
