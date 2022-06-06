@@ -11,6 +11,8 @@ rm -rf target/linux/rockchip/{.svn,patches-5.10/.svn}
 svn co https://github.com/coolsnowwolf/lede/trunk/target/linux/rockchip/patches-5.10 target/linux/rockchip/patches-5.10
 rm -rf target/linux/rockchip/patches-5.10/{002-net-usb*,003-dt-bindings*,006-rockchip-rk3399*}
 
+mv -f tmp/r8125 feeds/kiddin9/
+
 sed -i -e 's,kmod-r8168,kmod-r8169,g' target/linux/rockchip/image/armv8.mk
 
 sed -i 's/DEFAULT_PACKAGES +=/DEFAULT_PACKAGES += my-autocore-arm fdisk lsblk luci-app-cpufreq kmod-drm-rockchip kmod-gpu-lima kmod-usb2 kmod-usb3/' target/linux/rockchip/Makefile
