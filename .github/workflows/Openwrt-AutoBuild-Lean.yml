@@ -175,6 +175,7 @@ jobs:
         -or -name "*watchcat*.ipk" \
         -or -name "*dnsfilter*.ipk" \
         -or -name "*theme*.ipk" \
+        -or -name "*openclash*.ipk" \
         -or -name "*aliyundrive*.ipk" \
         | xargs -i mv -f {} ./ipk-package/
         cd ipk-package
@@ -283,6 +284,15 @@ jobs:
         name: ${{ env.date3 }} ${{matrix.target}} IPK
         path: |
           ${{ env.IPK-PACKAGE }}/
+    
+    - name: Upload ipk-package for artifact
+      uses: actions/upload-artifact@main
+      continue-on-error: true
+      if: env.UPLOAD_IPK_FOR_ARTIFACT == 'true'
+      with:
+        name: ${{ env.date3 }} ${{matrix.target}} OpenClash IPK
+        path: |
+          ${{ env.IPK-PACKAGE }}/*openclash*.ipk
     
     - name: WeChat notification
       continue-on-error: true
