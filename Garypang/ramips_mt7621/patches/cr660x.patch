@@ -1,16 +1,4 @@
-From 593d238ebf777c36c9ee819a1e20f59da5adc361 Mon Sep 17 00:00:00 2001
-From: kiddin9 <48883331+kiddin9@users.noreply.github.com>
-Date: Tue, 5 Jul 2022 17:54:53 +0800
-Subject: [PATCH] Update mt7621.mk
-
-Signed-off-by: kiddin9 <48883331+kiddin9@users.noreply.github.com>
----
- target/linux/ramips/image/mt7621.mk | 46 +++++++++--------------------
- 1 file changed, 14 insertions(+), 32 deletions(-)
-
-diff --git a/target/linux/ramips/image/mt7621.mk b/target/linux/ramips/image/mt7621.mk
-index bdaeac2cb16e..72fbd3930a80 100644
---- a/target/linux/ramips/image/mt7621.mk
+---- a/target/linux/ramips/image/mt7621.mk
 +++ b/target/linux/ramips/image/mt7621.mk
 @@ -223,7 +223,7 @@ define Device/asus_rt-n56u-b1
    DEVICE_VARIANT := B1
@@ -21,12 +9,43 @@ index bdaeac2cb16e..72fbd3930a80 100644
  endef
  TARGET_DEVICES += asus_rt-n56u-b1
  
+@@ -476,8 +476,8 @@ define Device/d-team_newifi-d2
+   IMAGE_SIZE := 32448k
+   DEVICE_VENDOR := Newifi
+   DEVICE_MODEL := D2
+-  DEVICE_PACKAGES := kmod-mt7603 kmod-mt76x2 kmod-usb3 \
+-	kmod-usb-ledtrig-usbport
++  DEVICE_PACKAGES := kmod-mt7603e kmod-mt76x2e kmod-usb3 \
++	kmod-usb-ledtrig-usbport luci-app-mtwifi -wpad-basic-wolfssl
+ endef
+ TARGET_DEVICES += d-team_newifi-d2
+ 
+@@ -663,8 +663,8 @@ define Device/gehua_ghl-r-001
+   IMAGE_SIZE := 32448k
+   DEVICE_VENDOR := GeHua
+   DEVICE_MODEL := GHL-R-001
+-  DEVICE_PACKAGES := kmod-mt7603 kmod-mt76x2 kmod-usb3 \
+-	kmod-usb-ledtrig-usbport
++  DEVICE_PACKAGES := kmod-mt7603e kmod-mt76x2e kmod-usb3 \
++	kmod-usb-ledtrig-usbport luci-app-mtwifi -wpad-basic-wolfssl
+ endef
+ TARGET_DEVICES += gehua_ghl-r-001
+ 
+@@ -673,7 +673,7 @@ define Device/glinet_gl-mt1300
+   IMAGE_SIZE := 32448k
+   DEVICE_VENDOR := GL.iNet
+   DEVICE_MODEL := GL-MT1300
+-  DEVICE_PACKAGES := kmod-mt7615e kmod-mt7615-firmware kmod-usb3
++  DEVICE_PACKAGES := kmod-mt7615d luci-app-mtwifi -wpad-basic-wolfssl kmod-usb3
+ endef
+ TARGET_DEVICES += glinet_gl-mt1300
+ 
 @@ -984,7 +984,7 @@ define Device/jcg_y2
    JCG_MAXSIZE := 16064k
    DEVICE_VENDOR := JCG
    DEVICE_MODEL := Y2
 -  DEVICE_PACKAGES := kmod-mt7615e kmod-mt7615-firmware kmod-usb3
-+  DEVICE_PACKAGES := kmod-mt7615e kmod-mt7615-firmware kmod-usb3 wpad-mini -wpad-basic-wolfssl -coremark -htop -bash -openssh-sftp-server
++  DEVICE_PACKAGES := kmod-mt7615d luci-app-mtwifi kmod-usb3 -wpad-basic-wolfssl -coremark -htop -bash -openssh-sftp-server
  endef
  TARGET_DEVICES += jcg_y2
  
@@ -53,7 +72,7 @@ index bdaeac2cb16e..72fbd3930a80 100644
    DEVICE_ALT0_MODEL := KE 2P
    SUPPORTED_DEVICES += k2p
 -  DEVICE_PACKAGES := kmod-mt7615e kmod-mt7615-firmware
-+  DEVICE_PACKAGES := kmod-mt7615e kmod-mt7615-firmware wpad-mini -wpad-basic-wolfssl -coremark -htop -bash -openssh-sftp-server
++  DEVICE_PACKAGES := kmod-mt7615d luci-app-mtwifi -wpad-basic-wolfssl -coremark -htop -bash -openssh-sftp-server
  endef
  TARGET_DEVICES += phicomm_k2p
  
@@ -100,7 +119,16 @@ index bdaeac2cb16e..72fbd3930a80 100644
  endef
  TARGET_DEVICES += xiaomi_mi-router-4a-gigabit
  
-@@ -1927,30 +1925,14 @@ define Device/xiaomi_mi-router-cr660x
+@@ -1914,7 +1912,7 @@ define Device/xiaomi_mi-router-ac2100
+   $(Device/xiaomi_nand_separate)
+   DEVICE_MODEL := Mi Router AC2100
+   IMAGE_SIZE := 120320k
+-  DEVICE_PACKAGES += kmod-mt7603 kmod-mt7615e kmod-mt7615-firmware
++  DEVICE_PACKAGES += kmod-mt7603e kmod-mt7615d luci-app-mtwifi -wpad-basic-wolfssl
+ endef
+ TARGET_DEVICES += xiaomi_mi-router-ac2100
+ 
+@@ -1927,36 +1925,20 @@ define Device/xiaomi_mi-router-cr660x
    KERNEL_SIZE := 4096k
    UBINIZE_OPTS := -E 5
    IMAGE_SIZE := 128512k
@@ -135,6 +163,13 @@ index bdaeac2cb16e..72fbd3930a80 100644
  
  define Device/xiaomi_redmi-router-ac2100
    $(Device/xiaomi_nand_separate)
+   DEVICE_MODEL := Redmi Router AC2100
+   IMAGE_SIZE := 120320k
+-  DEVICE_PACKAGES += kmod-mt7603 kmod-mt7615e kmod-mt7615-firmware
++  DEVICE_PACKAGES += kmod-mt7603e kmod-mt7615d luci-app-mtwifi -wpad-basic-wolfssl
+ endef
+ TARGET_DEVICES += xiaomi_redmi-router-ac2100
+ 
 @@ -1985,7 +1967,7 @@ define Device/youhua_wr1200js
    DEVICE_VENDOR := YouHua
    DEVICE_MODEL := WR1200JS
@@ -220,3 +255,19 @@ index bdaeac2cb16e..72fbd3930a80 100644
  	ubootenv_add_uci_config "/dev/mtd1" "0x0" "0x10000" "0x20000"
  	;;
  esac
+
+--- a/target/linux/ramips/mt7621/base-files/etc/board.d/02_network
++++ b/target/linux/ramips/mt7621/base-files/etc/board.d/02_network
+@@ -75,6 +75,12 @@ ramips_setup_interfaces()
+ 	mikrotik,routerboard-760igs)
+ 		ucidef_set_interfaces_lan_wan "lan2 lan3 lan4 lan5" "wan sfp"
+ 		;;
++	jcg,y2|\
++	phicomm,k2p|\
++	xiaoyu,xy-c5)
++		ucidef_add_switch "switch0" \
++			"0:lan" "1:lan" "2:lan" "3:lan" "4:wan" "6u@eth0" "5u@eth1"
++		;;
+ 	tplink,eap235-wall-v1|\
+ 	tplink,eap615-wall-v1)
+ 		ucidef_set_interface_lan "lan0 lan1 lan2 lan3"
