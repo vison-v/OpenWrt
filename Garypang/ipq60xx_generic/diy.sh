@@ -1,18 +1,14 @@
 #!/bin/bash
 shopt -s extglob
 
-svn export --force https://github.com/openwrt/openwrt/branches/openwrt-22.03/target/imagebuilder target/imagebuilder
-svn export --force https://github.com/kiddin9/openwrt-packages/tree/master/base-files package/base-files
+rm -rf package/boot/uboot-envtools package/firmware/ath11k* package/qca target/linux/generic target/linux/ipq60xx
+svn export --force https://github.com/kiddin9/openwrt-ax1800/trunk/package/boot/uboot-envtools package/boot/uboot-envtools
+svn export --force https://github.com/kiddin9/openwrt-ax1800/trunk/package/firmware/ath11k-firmware package/firmware/ath11k-firmware
+svn export --force https://github.com/kiddin9/openwrt-ax1800/trunk/package/qca package/qca
+svn export --force https://github.com/kiddin9/openwrt-ax1800/trunk/package/kernel/mac80211 package/kernel/mac80211
 
-rm -rf devices/common/patches/{targets.patch,usb.patch}
-echo "KERNEL=4.4.60" >> $GITHUB_ENV || true
-
-rm -rf package/libs package/utils package/network package/system package/devel
-svn co https://github.com/openwrt/openwrt/branches/openwrt-22.03/package/libs package/libs
-
-./scripts/feeds update -a
-./scripts/feeds install -a -p kiddin9 -f
-./scripts/feeds install -a
+svn co https://github.com/kiddin9/openwrt-ax1800/trunk/target/linux/generic target/linux/generic
+svn co https://github.com/kiddin9/openwrt-ax1800/trunk/target/linux/ipq60xx target/linux/ipq60xx
 
 sed -i 's/DEFAULT_PACKAGES +=/DEFAULT_PACKAGES += luci-app-cpufreq automount/' target/linux/ipq60xx/Makefile
 

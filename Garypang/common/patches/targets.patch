@@ -1,12 +1,14 @@
 --- a/include/target.mk
 +++ b/include/target.mk
-@@@ -54,9 +54,7 @@ DEFAULT_PACKAGES.nas:=\
+@@ -53,10 +53,8 @@ DEFAULT_PACKAGES.nas:=\
+ 	mdadm
  # For router targets
  DEFAULT_PACKAGES.router:=\
- 	dnsmasq \
+-	dnsmasq \
 -	firewall4 \
 -	nftables \
 -	kmod-nft-offload \
++	dnsmasq-full \
 +	firewall \
  	odhcp6c \
  	odhcpd-ipv6only \
