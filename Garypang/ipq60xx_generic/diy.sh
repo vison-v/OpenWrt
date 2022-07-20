@@ -1,14 +1,20 @@
 #!/bin/bash
 shopt -s extglob
 
-rm -rf package/boot/uboot-envtools package/firmware/ath11k* package/qca target/linux/generic target/linux/ipq60xx
+rm -rf package/boot/uboot-envtools package/kernel package/firmware/ath11k* package/qca target/linux/generic target/linux/ipq60xx toolchain
 svn export --force https://github.com/kiddin9/openwrt-ax1800/trunk/package/boot/uboot-envtools package/boot/uboot-envtools
 svn export --force https://github.com/kiddin9/openwrt-ax1800/trunk/package/firmware/ath11k-firmware package/firmware/ath11k-firmware
 svn export --force https://github.com/kiddin9/openwrt-ax1800/trunk/package/qca package/qca
-svn export --force https://github.com/kiddin9/openwrt-ax1800/trunk/package/kernel/mac80211 package/kernel/mac80211
 
 svn co https://github.com/kiddin9/openwrt-ax1800/trunk/target/linux/generic target/linux/generic
 svn co https://github.com/kiddin9/openwrt-ax1800/trunk/target/linux/ipq60xx target/linux/ipq60xx
+svn co https://github.com/openwrt/openwrt/branches/openwrt-21.02/toolchain toolchain
+https://github.com/openwrt/openwrt/branches/openwrt-21.02/package/kernel package/kernel
+rm -rf target/linux/generic/files
+
+curl -sfL https://raw.githubusercontent.com/tsingui/openwrt-ax1800/master/include/netfilter.mk -o include/netfilter.mk
+curl -sfL https://raw.githubusercontent.com/tsingui/openwrt-ax1800/master/include/quilt.mk -o include/quilt.mk
+curl -sfL https://raw.githubusercontent.com/tsingui/openwrt-ax1800/master/include/target.mk -o include/target.mk
 
 sed -i 's/DEFAULT_PACKAGES +=/DEFAULT_PACKAGES += luci-app-cpufreq automount/' target/linux/ipq60xx/Makefile
 
