@@ -18,7 +18,6 @@ rm -rf package/network/config/netifd/patches
 
 curl -sfL https://raw.githubusercontent.com/tsingui/openwrt-ax1800/master/include/netfilter.mk -o include/netfilter.mk
 curl -sfL https://raw.githubusercontent.com/tsingui/openwrt-ax1800/master/include/quilt.mk -o include/quilt.mk
-curl -sfL https://raw.githubusercontent.com/tsingui/openwrt-ax1800/master/include/target.mk -o include/target.mk
 
 sed -i 's/DEFAULT_PACKAGES +=/DEFAULT_PACKAGES += luci-app-cpufreq automount/' target/linux/ipq60xx/Makefile
 
