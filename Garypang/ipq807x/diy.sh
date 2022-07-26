@@ -19,6 +19,8 @@ svn co https://github.com/Boos4721/openwrt/trunk/target/linux/ipq807x target/lin
 rm -rf target/linux/ipq807x/{.svn,patches-5.15/.svn}
 svn co https://github.com/Boos4721/openwrt/trunk/target/linux/ipq807x/patches-5.15 target/linux/ipq807x/patches-5.15
 
+curl -sfL https://raw.githubusercontent.com/Boos4721/openwrt/master/package/kernel/linux/modules/netsupport.mk -o package/kernel/linux/modules/netsupport.mk
+
 sed -i 's/DEFAULT_PACKAGES +=/DEFAULT_PACKAGES += luci-app-turboacc/' target/linux/ipq807x/Makefile
 
 echo '
