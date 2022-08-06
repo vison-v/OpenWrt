@@ -4,7 +4,7 @@ shopt -s extglob
 SHELL_FOLDER=$(dirname $(readlink -f "$0"))
 bash $SHELL_FOLDER/../common/kernel_5.15.sh
 	
-rm -rf package/boot/uboot-envtools package/firmware/ipq-wifi package/firmware/ath11k* package/qca package/qat target/linux/generic
+rm -rf package/boot/uboot-envtools package/firmware/ipq-wifi package/firmware/ath11k* package/qca package/qat target/linux/generic package/kernel/mac80211
 
 svn export --force https://github.com/Boos4721/openwrt/trunk/package/boot/uboot-envtools package/boot/uboot-envtools
 svn export --force https://github.com/Boos4721/openwrt/trunk/package/firmware/ipq-wifi package/firmware/ipq-wifi
@@ -25,10 +25,15 @@ function git_sparse_clone() (
           git sparse-checkout set $@
           )
 
-git_sparse_clone 1f6a1e0d872d373d904cd4c16dec87ac3c03a042 "https://github.com/Boos4721/openwrt" "boos" target/linux/ipq807x target/linux/generic include
+git_sparse_clone 0890af20fadfd30b9e201fc7c279cdcabf2120f1 "https://github.com/Boos4721/openwrt" "boos" target/linux/ipq807x target/linux/generic include package/kernel/mac80211
 cp -rf boos/target/linux/ipq807x target/linux/
 cp -rf boos/target/linux/generic target/linux/
+cp -rf boos/package/kernel/mac80211 package/kernel/
 cp -rf boos/include/kernel-5.15.mk include/kernel-5.15
+
+kernel_v="$(cat include/kernel-5.15 | grep LINUX_KERNEL_HASH-* | cut -f 2 -d - | cut -f 1 -d ' ')"
+echo "KERNEL=${kernel_v}" >> $GITHUB_ENV || true
+sed -i "s?targets/%S/.*'?targets/%S/$kernel_v'?" include/feeds.mk
 
 curl -sfL https://raw.githubusercontent.com/Lstions/openwrt-boos/master/target/linux/ipq807x/patches-5.15/608-5.15-qca-nss-ssdk-delete-fdb-entry-using-netdev -o target/linux/ipq807x/patches-5.15/608-5.15-qca-nss-ssdk-delete-fdb-entry-using-netdev.patch
 
