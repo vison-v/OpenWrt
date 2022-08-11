@@ -1,3 +1,15 @@
+--- a/target/linux/ipq807x/Makefile
++++ b/target/linux/ipq807x/Makefile
+@@ -12,7 +12,7 @@ KERNEL_PATCHVER:=5.15
+ 
+ include $(INCLUDE_DIR)/target.mk
+ DEFAULT_PACKAGES += \
+-	kmod-usb3 kmod-usb-dwc3 kmod-usb-dwc3-qcom \
++	autocore-arm luci-app-cpufreq kmod-qca-nss-drv kmod-qca-nss-dp nss-firmware-ipq8074 qca-ssdk-shell \
+ 	kmod-leds-gpio kmod-gpio-button-hotplug \
+ 	ath11k-firmware-ipq8074 kmod-ath11k-ahb \
+ 	wpad-basic-wolfssl uboot-envtools
+
 --- a/target/linux/ipq807x/image/generic.mk
 +++ b/target/linux/ipq807x/image/generic.mk
 @@ -61,7 +61,7 @@ define Device/qnap_301w

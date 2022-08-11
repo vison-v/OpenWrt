@@ -27,6 +27,5 @@ sed -i "s/tty\(0\|1\)::askfirst/tty\1::respawn/g" target/linux/*/base-files/etc/
 echo "
 CONFIG_TESTING_KERNEL=y
 CONFIG_PACKAGE_kmod-ipt-coova=n
-CONFIG_PACKAGE_kmod-usb-serial-xr_usb_serial_common=n
 CONFIG_PACKAGE_kmod-pf-ring=n
 " >> devices/common/.config
