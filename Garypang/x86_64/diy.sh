@@ -6,10 +6,11 @@ bash $SHELL_FOLDER/../common/kernel_5.15.sh
 svn co https://github.com/coolsnowwolf/lede/trunk/target/linux/x86/patches-5.15 target/linux/x86/patches-5.15
 rm -rf target/linux/x86/patches-5.15/.svn
 
-sed -i 's/DEFAULT_PACKAGES +=/DEFAULT_PACKAGES += autocore-x86 lm-sensors-detect kmod-alx kmod-vmxnet3 kmod-igbvf kmod-iavf kmod-bnx2x kmod-pcnet32 kmod-tulip kmod-8139cp kmod-8139too kmod-i40e kmod-drm-i915 kmod-i915-gvt kmod-mlx4-core kmod-mlx5-core kmod-usb2 kmod-usb3 fdisk lsblk/' target/linux/x86/Makefile
-sed -i 's/kmod-igb /kmod-igb-intel /' target/linux/x86/image/64.mk
+sed -i 's/DEFAULT_PACKAGES +=/DEFAULT_PACKAGES += autocore-x86 kmod-usb-hid kmod-mmc kmod-sdhci usbutils pciutils lm-sensors-detect kmod-alx kmod-vmxnet3 kmod-igbvf kmod-iavf kmod-bnx2x kmod-pcnet32 kmod-tulip kmod-8139cp kmod-8139too kmod-i40e kmod-drm-i915 kmod-i915-gvt kmod-mlx4-core kmod-mlx5-core fdisk lsblk/' target/linux/x86/Makefile
 
-mv -f tmp/{r81*,igb-intel} feeds/kiddin9/
+sed -i 's/FEATURES:=/FEATURES:=usb usbgadget/' target/linux/x86/Makefile
+
+mv -f tmp/r81* feeds/kiddin9/
 sed -i 's/256/1024/g' target/linux/x86/image/Makefile
 
 echo '

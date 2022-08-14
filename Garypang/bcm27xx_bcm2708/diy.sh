@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sed -i 's/DEFAULT_PACKAGES +=/DEFAULT_PACKAGES += autocore-arm fdisk lsblk luci-app-cpufreq kmod-usb-net-asix-ax88179 kmod-usb-net-rtl8152 kmod-usb2 automount/' target/linux/bcm27xx/Makefile
+sed -i 's/DEFAULT_PACKAGES +=/DEFAULT_PACKAGES += fdisk lsblk kmod-usb-net-asix-ax88179 kmod-usb-net-rtl8152/' target/linux/bcm27xx/Makefile
 
 sed -i 's/factory.img.gz //' target/linux/bcm27xx/image/Makefile
 
