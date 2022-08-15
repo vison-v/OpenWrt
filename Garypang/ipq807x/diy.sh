@@ -3,6 +3,8 @@ shopt -s extglob
 
 SHELL_FOLDER=$(dirname $(readlink -f "$0"))
 
+git clone https://github.com/robimarko/nss-packages --depth 1 package/nss-packages
+
 kernel_v="$(cat include/kernel-5.15 | grep LINUX_KERNEL_HASH-* | cut -f 2 -d - | cut -f 1 -d ' ')"
 echo "KERNEL=${kernel_v}" >> $GITHUB_ENV || true
 sed -i "s?targets/%S/.*'?targets/%S/$kernel_v'?" include/feeds.mk
