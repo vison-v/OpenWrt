@@ -25,10 +25,6 @@ rm -f devices/common/patches/usb.patch
 rm -rf feeds/packages/net/openvswitch feeds/kiddin9/shortcut-fe feeds/packages/net/xtables-addons package/kernel/mt76
 
 echo '
-CONFIG_CPU_FREQ_GOV_USERSPACE=y
-CONFIG_CPU_FREQ_GOV_ONDEMAND=y
-CONFIG_CPU_FREQ_GOV_CONSERVATIVE=y
-CONFIG_ACPI=n
 CONFIG_PNP_DEBUG_MESSAGES=y
 CONFIG_PINCTRL_BAYTRAIL=n
 CONFIG_PINCTRL_CHERRYVIEW=n

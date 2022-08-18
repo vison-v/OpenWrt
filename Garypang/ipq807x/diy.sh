@@ -19,8 +19,3 @@ CONFIG_PACKAGE_kmod-ipt-coova=n
 CONFIG_PACKAGE_kmod-pf-ring=n
 " >> devices/common/.config
 
-echo '
-CONFIG_CPU_FREQ_GOV_USERSPACE=y
-CONFIG_CPU_FREQ_GOV_ONDEMAND=y
-CONFIG_CPU_FREQ_GOV_CONSERVATIVE=y
-' >> ./target/linux/ipq807x/config-5.15

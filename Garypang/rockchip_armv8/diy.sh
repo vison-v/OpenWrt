@@ -19,8 +19,5 @@ sed -i -e 's,kmod-r8168,kmod-r8169,g' target/linux/rockchip/image/armv8.mk
 sed -i 's/DEFAULT_PACKAGES +=/DEFAULT_PACKAGES += fdisk lsblk kmod-drm-rockchip kmod-gpu-lima/' target/linux/rockchip/Makefile
 
 echo '
-CONFIG_CPU_FREQ_GOV_USERSPACE=y
-CONFIG_CPU_FREQ_GOV_ONDEMAND=y
-CONFIG_CPU_FREQ_GOV_CONSERVATIVE=y
 CONFIG_SENSORS_PWM_FAN=y
 ' >> ./target/linux/rockchip/armv8/config-5.10
