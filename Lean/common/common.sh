@@ -2,8 +2,8 @@
 
 rm -Rf feeds/packages/net/{smartdns,aria2} feeds/luci/themes/luci-theme-argon feeds/luci/applications/{luci-app-netdata,luci-app-baidupcs-web}
 ##############加载自定义app################
-svn co https://github.com/fw876/helloworld/trunk/luci-app-ssr-plus package/openwrt-packages/luci-app-ssr-plus
-git clone https://github.com/xiaorouji/openwrt-passwall package/openwrt-packages/luci-app-passwall
+git clone https://github.com/fw876/helloworld.git package/openwrt-packages/luci-app-ssr-plus
+# git clone https://github.com/xiaorouji/openwrt-passwall package/openwrt-packages/luci-app-passwall
 git clone https://github.com/vernesong/OpenClash.git package/openwrt-packages/OpenClash
 git clone https://github.com/jefferymvp/luci-app-koolproxyR package/openwrt-packages/luci-app-koolproxyR
 git clone https://github.com/Leo-Jo-My/luci-theme-opentomato.git package/openwrt-packages/luci-theme-opentomato
