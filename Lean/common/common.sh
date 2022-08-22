@@ -1,9 +1,10 @@
 #!/bin/bash 
 
-rm -Rf feeds/packages/net/{smartdns,aria2} feeds/luci/themes/luci-theme-argon feeds/luci/applications/{luci-app-netdata,luci-app-baidupcs-web}
+rm -Rf feeds/packages/net/{smartdns,aria2,adguardhome} feeds/luci/themes/luci-theme-argon feeds/luci/applications/{luci-app-netdata,luci-app-baidupcs-web,luci-app-dockerman}
 ##############加载自定义app################
-git clone https://github.com/fw876/helloworld.git package/openwrt-packages/luci-app-ssr-plus
-# git clone https://github.com/xiaorouji/openwrt-passwall package/openwrt-packages/luci-app-passwall
+git submodule add -f --name helloworld https://github.com/fw876/helloworld.git
+git submodule update --remote package/helloworld
+
 git clone https://github.com/vernesong/OpenClash.git package/openwrt-packages/OpenClash
 git clone https://github.com/jefferymvp/luci-app-koolproxyR package/openwrt-packages/luci-app-koolproxyR
 git clone https://github.com/Leo-Jo-My/luci-theme-opentomato.git package/openwrt-packages/luci-theme-opentomato
@@ -15,7 +16,6 @@ svn co https://github.com/kenzok8/openwrt-packages/trunk/luci-app-eqos package/o
 git clone https://github.com/binge8/luci-app-koolddns.git package/openwrt-packages/luci-app-koolddns
 svn co https://github.com/lisaac/luci-app-dockerman/trunk/applications/luci-app-dockerman package/openwrt-packages/luci-app-dockerman
 
-# svn co https://github.com/coolsnowwolf/packages/trunk/admin/netdata package/openwrt-packages/netdata
 git clone https://github.com/sirpdboy/luci-app-netdata package/openwrt-packages/luci-app-netdata
 git clone https://github.com/sirpdboy/luci-theme-opentopd package/openwrt-packages/luci-theme-opentopd
 
@@ -23,11 +23,9 @@ git clone https://github.com/jerrykuku/luci-app-vssr.git package/openwrt-package
 git clone https://github.com/jerrykuku/luci-app-argon-config.git package/openwrt-packages/luci-app-argon-config
 git clone https://github.com/jerrykuku/luci-theme-argon.git -b 18.06 package/openwrt-packages/luci-theme-argon
 git clone https://github.com/jerrykuku/node-request.git package/openwrt-packages/node-request
-git clone https://github.com/jerrykuku/luci-app-jd-dailybonus.git package/openwrt-packages/luci-app-jd-dailybonus
 
 git clone https://github.com/KFERMercer/luci-app-tcpdump.git package/openwrt-packages/luci-app-tcpdump
 
-svn co https://github.com/Lienol/openwrt-package/trunk/luci-app-socat package/openwrt-packages/luci-app-socat
 svn co https://github.com/Lienol/openwrt-luci/trunk/applications/luci-app-smartdns package/openwrt-packages/luci-app-smartdns
 svn co https://github.com/Lienol/openwrt-packages/trunk/net/smartdns package/openwrt-packages/smartdns
 svn co https://github.com/Lienol/openwrt-package/trunk/luci-app-control-timewol package/openwrt-packages/luci-app-control-timewol
@@ -41,7 +39,6 @@ svn co https://github.com/kiddin9/openwrt-bypass/trunk/luci-app-bypass package/o
 svn co https://github.com/kiddin9/openwrt-packages/trunk/aria2 package/openwrt-packages/aria2
 svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-adguardhome package/openwrt-packages/luci-app-adguardhome
 svn co https://github.com/kiddin9/openwrt-packages/trunk/AdGuardHome package/openwrt-packages/adguardhome
-svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-serverchan package/openwrt-packages/luci-app-serverchan
 svn co https://github.com/kiddin9/openwrt-packages/trunk/qBittorrent-Enhanced-Edition package/openwrt-packages/qBittorrent-Enhanced-Edition
 svn co https://github.com/kiddin9/openwrt-packages/trunk/lua-maxminddb package/openwrt-packages/lua-maxminddb
 ##############菜单整理美化#################
@@ -95,7 +92,7 @@ sed -i 's/msgstr "诊断"/msgstr "网络诊断"/g' feeds/luci/applications/luci-
 sed -i 's/msgstr "诊断"/msgstr "网络诊断"/g' package/lean/default-settings/i18n/more.zh-cn.po
 sed -i 's/msgstr "诊断"/msgstr "网络诊断"/g' feeds/luci/applications/luci-app-mwan3/po/zh-cn/mwan3.po
 
-sed -i 's/msgstr "Socat"/msgstr "端口转发"/g' package/openwrt-packages/luci-app-socat/po/zh-cn/socat.po
+sed -i 's/msgstr "Socat"/msgstr "端口转发"/g' pfeeds/luci/applications/luci-app-socat/po/zh-cn/socat.po
 
 sed -i 's/BaiduPCS Web/百度网盘/g' package/openwrt-packages/luci-app-baidupcs-web/luasrc/controller/baidupcs-web.lua
 
@@ -229,6 +226,6 @@ sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/luci-app-
 sed -i 's/DNSFilter/广告过滤/g' package/openwrt-packages/luci-app-dnsfilter/luasrc/controller/dnsfilter.lua
 sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/luci-app-dnsfilter/luasrc`
 
-sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/luci-app-serverchan/luasrc`
+sed -i 's/services/vpn/g'  `grep services -rl feeds/luci/applications/luci-app-serverchan/luasrc`
 
 ##############自定义结束#################
