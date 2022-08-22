@@ -2,8 +2,8 @@
 
 rm -Rf feeds/packages/net/{smartdns,aria2,adguardhome} feeds/luci/themes/luci-theme-argon feeds/luci/applications/{luci-app-netdata,luci-app-baidupcs-web,luci-app-dockerman}
 ##############加载自定义app################
-git submodule add -f --name helloworld https://github.com/fw876/helloworld.git
-git submodule update --remote package/helloworld
+git submodule add -f --name helloworld https://github.com/fw876/helloworld.git package/openwrt-packages/luci-app-ssr-plus
+git submodule update --remote package/openwrt-packages/luci-app-ssr-plus
 
 git clone https://github.com/vernesong/OpenClash.git package/openwrt-packages/OpenClash
 git clone https://github.com/jefferymvp/luci-app-koolproxyR package/openwrt-packages/luci-app-koolproxyR
