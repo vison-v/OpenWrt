@@ -84,7 +84,7 @@ sed -i 's/网络存储/存储/g' feeds/luci/applications/luci-app-usb-printer/po
 
 sed -i '/msgid "miniDLNA"/{n;s/miniDLNA/DLNA服务/;}' feeds/luci/applications/luci-app-minidlna/po/zh-cn/minidlna.po
 
-sed -i 's/IP\/MAC绑定/地址绑定/g' feeds/luci/applications/luci-app-arpbind/po/zh-cn/arpbind.po
+sed -i 's/IP\/MAC 绑定/地址绑定/g' feeds/luci/applications/luci-app-arpbind/po/zh-cn/arpbind.po
 
 sed -i 's/"ZeroTier"/"内网穿透"/g' feeds/luci/applications/luci-app-zerotier/luasrc/controller/zerotier.lua
 
@@ -92,7 +92,7 @@ sed -i 's/msgstr "诊断"/msgstr "网络诊断"/g' feeds/luci/applications/luci-
 sed -i 's/msgstr "诊断"/msgstr "网络诊断"/g' package/lean/default-settings/i18n/more.zh-cn.po
 sed -i 's/msgstr "诊断"/msgstr "网络诊断"/g' feeds/luci/applications/luci-app-mwan3/po/zh-cn/mwan3.po
 
-sed -i 's/msgstr "Socat"/msgstr "端口转发"/g' pfeeds/luci/applications/luci-app-socat/po/zh-cn/socat.po
+sed -i 's/msgstr "Socat"/msgstr "端口转发"/g' feeds/luci/applications/luci-app-socat/po/zh-cn/socat.po
 
 sed -i 's/BaiduPCS Web/百度网盘/g' package/openwrt-packages/luci-app-baidupcs-web/luasrc/controller/baidupcs-web.lua
 
