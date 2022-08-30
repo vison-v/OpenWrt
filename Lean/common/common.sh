@@ -1,6 +1,6 @@
 #!/bin/bash 
 
-rm -Rf feeds/packages/net/{smartdns,aria2,adguardhome} feeds/luci/themes/luci-theme-argon feeds/luci/applications/{luci-app-netdata,luci-app-baidupcs-web,luci-app-dockerman}
+rm -Rf feeds/packages/net/{smartdns,aria2,adguardhome} feeds/luci/themes/luci-theme-argon feeds/luci/applications/{luci-app-netdata,luci-app-wrtbwmon,luci-app-baidupcs-web,luci-app-dockerman}
 ##############加载自定义app################
 git submodule add -f --name helloworld https://github.com/fw876/helloworld.git package/openwrt-packages/luci-app-ssr-plus
 git submodule update --remote package/openwrt-packages/luci-app-ssr-plus
@@ -18,6 +18,8 @@ svn co https://github.com/lisaac/luci-app-dockerman/trunk/applications/luci-app-
 
 git clone https://github.com/sirpdboy/luci-app-netdata package/openwrt-packages/luci-app-netdata
 git clone https://github.com/sirpdboy/luci-theme-opentopd package/openwrt-packages/luci-theme-opentopd
+svn co https://github.com/sirpdboy/sirpdboy-package/trunk/wrtbwmon package/openwrt-packages/wrtbwmon
+svn co https://github.com/sirpdboy/sirpdboy-package/trunk/luci-app-wrtbwmon package/openwrt-packages/luci-app-wrtbwmon
 
 git clone https://github.com/jerrykuku/luci-app-vssr.git package/openwrt-packages/luci-app-vssr
 git clone https://github.com/jerrykuku/luci-app-argon-config.git package/openwrt-packages/luci-app-argon-config
