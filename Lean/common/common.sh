@@ -1,6 +1,6 @@
 #!/bin/bash 
 
-rm -Rf feeds/packages/net/{smartdns,aria2,adguardhome} feeds/luci/themes/luci-theme-argon feeds/luci/applications/{luci-app-netdata,luci-app-wrtbwmon,luci-app-baidupcs-web,luci-app-dockerman}
+rm -Rf feeds/packages/net/{smartdns,aria2,adguardhome} feeds/luci/themes/luci-theme-argon feeds/luci/applications/{luci-app-netdata,luci-app-baidupcs-web,luci-app-dockerman}
 ##############加载自定义app################
 git submodule add -f --name helloworld https://github.com/fw876/helloworld.git package/openwrt-packages/luci-app-ssr-plus
 git submodule update --remote package/openwrt-packages/luci-app-ssr-plus
@@ -18,8 +18,6 @@ svn co https://github.com/lisaac/luci-app-dockerman/trunk/applications/luci-app-
 
 git clone https://github.com/sirpdboy/luci-app-netdata package/openwrt-packages/luci-app-netdata
 git clone https://github.com/sirpdboy/luci-theme-opentopd package/openwrt-packages/luci-theme-opentopd
-svn co https://github.com/sirpdboy/sirpdboy-package/trunk/wrtbwmon package/openwrt-packages/wrtbwmon
-svn co https://github.com/sirpdboy/sirpdboy-package/trunk/luci-app-wrtbwmon package/openwrt-packages/luci-app-wrtbwmon
 
 git clone https://github.com/jerrykuku/luci-app-vssr.git package/openwrt-packages/luci-app-vssr
 git clone https://github.com/jerrykuku/luci-app-argon-config.git package/openwrt-packages/luci-app-argon-config
@@ -72,7 +70,7 @@ sed -i 's/OpenWrt /OpenWrt Build By ViS0N /' package/lean/default-settings/files
 
 sed -i '/localtime  = os.date()/s/()/("%Y年%m月%d日") .. " " .. translate(os.date("%A")) .. " " .. os.date("%X")/g' package/lean/autocore/files/x86/index.htm package/lean/autocore/files/arm/index.htm
 sed -i '/local cpu_usage/a\\t\tlocal up_time = luci.sys.exec("cntime")' package/lean/autocore/files/x86/index.htm package/lean/autocore/files/arm/index.htm
-sed -i 's/e.innerHTML = String.format('%t', info.uptime);/e.innerHTML = info.uptime;/' package/lean/autocore/files/x86/index.htm package/lean/autocore/files/arm/index.htm
+sed -i 's/String.format('%t', info.uptime)/info.uptime/g' package/lean/autocore/files/x86/index.htm package/lean/autocore/files/arm/index.htm
 sed -i 's/= sysinfo.uptime or 0/= up_time/' package/lean/autocore/files/x86/index.htm package/lean/autocore/files/arm/index.htm
 sed -i '/$(INSTALL_DIR) $(1)\/sbin/a\\t$(INSTALL_BIN) .\/files\/generic\/cntime $(1)\/sbin\/cntime' package/lean/autocore/Makefile
 
