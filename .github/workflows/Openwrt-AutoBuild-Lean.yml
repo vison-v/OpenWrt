@@ -106,7 +106,6 @@ jobs:
     - name: Load && Update feeds
       run: |
         cp -rf Lean/common/files/. openwrt/
-        cp -rf Lean/${{matrix.target}}/files/. openwrt/
         cd openwrt
         ./scripts/feeds update -a
 
