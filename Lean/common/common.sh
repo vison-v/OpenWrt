@@ -70,7 +70,7 @@ sed -i 's/OpenWrt /OpenWrt Build By ViS0N /' package/lean/default-settings/files
 
 sed -i '/localtime  = os.date()/s/()/("%Y年%m月%d日") .. " " .. translate(os.date("%A")) .. " " .. os.date("%X")/g' package/lean/autocore/files/x86/index.htm package/lean/autocore/files/arm/index.htm
 sed -i '/local cpu_usage/a\\t\tlocal up_time = luci.sys.exec("cntime")' package/lean/autocore/files/x86/index.htm package/lean/autocore/files/arm/index.htm
-sed -i 's/String.format('%t', info.uptime)/info.uptime/g' package/lean/autocore/files/x86/index.htm package/lean/autocore/files/arm/index.htm
+sed -i "s/String.format('%t', info.uptime)/info.uptime/g" package/lean/autocore/files/x86/index.htm package/lean/autocore/files/arm/index.htm
 sed -i 's/= sysinfo.uptime or 0/= up_time/' package/lean/autocore/files/x86/index.htm package/lean/autocore/files/arm/index.htm
 sed -i '/$(INSTALL_DIR) $(1)\/sbin/a\\t$(INSTALL_BIN) .\/files\/generic\/cntime $(1)\/sbin\/cntime' package/lean/autocore/Makefile
 
