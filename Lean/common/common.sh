@@ -134,9 +134,8 @@ sed -i 's/解锁网易云灰色歌曲/网易音乐/g' feeds/luci/applications/lu
 sed -i 's/services/vpn/g'  `grep services -rl feeds/luci/applications/luci-app-unblockmusic/luasrc`
 
 
-sed -i 's/Go 阿里云盘 WebDAV/阿里云盘/g' feeds/luci/applications/luci-app-go-aliyundrive-webdav/po/zh-cn/go-aliyundrive-webdav.po
-sed -i 's/Go 阿里云盘/阿里云盘/g' feeds/luci/applications/luci-app-go-aliyundrive-webdav/po/zh-cn/go-aliyundrive-webdav.po
-sed -i 's/services/vpn/g'  `grep services -rl feeds/luci/applications/luci-app-go-aliyundrive-webdav/luasrc`
+sed -i 's/阿里云盘 WebDAV/阿里云盘/g' feeds/luci/applications/luci-app-aliyundrive-webdav/po/zh-cn/go-aliyundrive-webdav.po
+sed -i 's/services/vpn/g'  `grep services -rl feeds/luci/applications/luci-app-aliyundrive-webdav/luasrc`
 
 sed -i '/msgid "UU GameAcc"/{n;s/UU游戏加速器/UU加速器/;}' feeds/luci/applications/luci-app-uugamebooster/po/zh-cn/uuplugin.po
 
