@@ -6,8 +6,8 @@ latest="$(curl -sfL https://github.com/openwrt/openwrt/commits/master/include | 
 mkdir new; cp -rf .git new/.git
 cd new
 [ "$latest" ] && git reset --hard $latest || git reset --hard origin/master
-#git checkout HEAD^
-#[ "$(echo $(git log -1 --pretty=short) | grep "kernel: bump 5.15")" ] && git checkout $latest
+git checkout HEAD^
+[ "$(echo $(git log -1 --pretty=short) | grep "kernel: bump 5.15")" ] && git checkout $latest
 cp -rf --parents target/linux package/kernel package/boot package/firmware/linux-firmware include/{kernel-*,netfilter.mk} ../
 cd -
 
@@ -20,7 +20,6 @@ svn export --force https://github.com/openwrt/packages/trunk/kernel feeds/packag
 svn export --force  https://github.com/openwrt/packages/trunk/net/xtables-addons feeds/packages/net/xtables-addons
 
 svn co https://github.com/coolsnowwolf/lede/trunk/target/linux/generic/hack-5.15 target/linux/generic/hack-5.15
-curl -sfL https://raw.githubusercontent.com/openwrt/openwrt/openwrt-22.03/package/kernel/linux/modules/video.mk -o package/kernel/linux/modules/video.mk
 
 sed -i "s/tty\(0\|1\)::askfirst/tty\1::respawn/g" target/linux/*/base-files/etc/inittab
 
