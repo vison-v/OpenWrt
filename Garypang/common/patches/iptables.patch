@@ -1,0 +1,10 @@
+--- a/package/network/utils/iptables/Makefile
++++ b/package/network/utils/iptables/Makefile
+@@ -133,7 +133,6 @@ define Package/iptables-nft
+ $(call Package/iptables/Default)
+   TITLE:=IP firewall administration tool nft
+   DEPENDS:=+kmod-ipt-core +xtables-nft
+-  PROVIDES:=iptables
+   ALTERNATIVES:=\
+     300:/usr/sbin/iptables:/usr/sbin/xtables-nft-multi \
+     300:/usr/sbin/iptables-restore:/usr/sbin/xtables-nft-multi \
