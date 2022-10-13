@@ -64,7 +64,8 @@ jobs:
         git add .
         git commit -m "update" || true
         git push
-        
+        echo "::set-output name=status::success" >> $GITHUB_ENV
+    
     - name: Delete workflow runs
       uses: Mattraks/delete-workflow-runs@v2
       with:
