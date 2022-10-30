@@ -18,11 +18,11 @@ jobs:
   build:
     runs-on: Ubuntu-20.04
     
-    name: App
+    name: Build ${{matrix.target}}
     strategy:
       fail-fast: false
       matrix:
-        target: [x86_64]
+        target: [app.openclash,app.bypass,app.passwall]
         
     steps:
     - name: Checkout
