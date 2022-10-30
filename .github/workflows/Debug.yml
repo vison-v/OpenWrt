@@ -46,7 +46,6 @@ jobs:
       
     - name: Load Settings.ini
       run: |
-        echo ${{matrix.target}}
         source "${GITHUB_WORKSPACE}/Lean/common/settings.ini"
         if [ -f "Lean/${{matrix.target}}/settings.ini" ]; then
           source "${GITHUB_WORKSPACE}/Lean/${{matrix.target}}/settings.ini"
@@ -73,7 +72,7 @@ jobs:
     #    curl -k --data chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" --data "text=Debug结束！" "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage"
    
     - name: Echo
-      if: env.UPLOAD_IPK_FOR_ARTIFACT == 'false'
+      if: env.UPLOAD_IPK_FOR_ARTIFACT == 'true'
       continue-on-error: true
       run: |
         cat ${GITHUB_WORKSPACE}/Lean/${{matrix.target}}/settings.ini
