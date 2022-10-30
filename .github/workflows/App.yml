@@ -46,7 +46,7 @@ jobs:
       id: ENV
       run: |
         source "${GITHUB_WORKSPACE}/App/${{matrix.target}}"
-        echo "date=$(date +'%m/%d_%Y_%H/%M')" >> $GITHUB_ENV
+        echo "date=$(date +'%m.%d')" >> $GITHUB_ENV
         echo "APP_NAME=${APP_NAME}" >> $GITHUB_ENV
       
     - name: 准备SDK
