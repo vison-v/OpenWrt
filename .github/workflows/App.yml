@@ -22,19 +22,31 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [app.openclash,app.bypass,app.passwall]
+        target: [app.openclash]
         
     steps:
     - name: Checkout
       uses: actions/checkout@main
       
-    - name: Load app.ini
+    - name: Initialization environment
+      env:
+        DEBIAN_FRONTEND: noninteractive
       run: |
-        source "${GITHUB_WORKSPACE}/App/app.openclash"
-        echo "REPO_URL=${REPO_URL}" >> $GITHUB_ENV
-        echo "REPO_BRANCH=${REPO_BRANCH}" >> $GITHUB_ENV
-        echo "APP_NAME=${APP_NAME}" >> $GITHUB_ENV
-        echo "PO2lMO=${PO2lMO}" >> $GITHUB_ENV
+        docker rmi `docker images -q`
+        sudo rm -rf /usr/share/dotnet /etc/mysql /etc/php /etc/apt/sources.list.d /usr/local/lib/android
+        sudo -E apt-get -y purge azure-cli ghc* zulu* hhvm llvm* firefox google* dotnet* powershell openjdk* adoptopenjdk* mysql* php* mongodb* dotnet* moby* snapd* || true
+        sudo -E apt-get update
+        sudo -E apt-get -y install build-essential asciidoc binutils bzip2 gawk gettext git libncurses5-dev libz-dev patch python3 unzip zlib1g-dev lib32gcc1 libc6-dev-i386 subversion flex uglifyjs gcc-multilib g++-multilib p7zip p7zip-full msmtp libssl-dev texinfo libglib2.0-dev xmlto qemu-utils upx libelf-dev autoconf automake libtool autopoint device-tree-compiler antlr3 gperf swig rename
+        sudo -E apt-get -y autoremove --purge
+        sudo -E apt-get clean
+        
+        df -h
+    
+    - name: Set ENV
+      id: ENV
+      run: |
+        echo "date=$(date +'%m/%d_%Y_%H/%M')" >> $GITHUB_ENV
+        echo "APP_NAME=${{matrix.target}}" >> $GITHUB_ENV
       
     - name: 准备SDK
       run: |
@@ -42,25 +54,26 @@ jobs:
         tar xjf OpenWrt-SDK-x86-64_gcc-5.3.0_musl-1.1.16.Linux-x86_64.tar.bz2
         cd OpenWrt-SDK-x86-64_gcc-5.3.0_musl-1.1.16.Linux-x86_64
         
+    - name: Free up disk space
+      if: env.FREE_UP_DISK == 'true'
+      env:
+        DEBIAN_FRONTEND: noninteractive
+      run: |
+        sudo mkdir -p -m 777 /mnt/OpenWrt-SDK-x86-64_gcc-5.3.0_musl-1.1.16.Linux-x86_64/dl /mnt/OpenWrt-SDK-x86-64_gcc-5.3.0_musl-1.1.16.Linux-x86_64/staging_dir
+        ln -sf /mnt/OpenWrt-SDK-x86-64_gcc-5.3.0_musl-1.1.16.Linux-x86_64/dl OpenWrt-SDK-x86-64_gcc-5.3.0_musl-1.1.16.Linux-x86_64/dl
+        ln -sf /mnt/OpenWrt-SDK-x86-64_gcc-5.3.0_musl-1.1.16.Linux-x86_64/staging_dir OpenWrt-SDK-x86-64_gcc-5.3.0_musl-1.1.16.Linux-x86_64/staging_dir
+    
     - name: Clone 项目
       run: |
+        cp -rf App/. OpenWrt-SDK-x86-64_gcc-5.3.0_musl-1.1.16.Linux-x86_64/
         cd OpenWrt-SDK-x86-64_gcc-5.3.0_musl-1.1.16.Linux-x86_64
-        cd package
-        git clone --depth 1 $REPO_URL -b $REPO_BRANCH $APP_NAME
-    
-    - name: 编译 po2lmo
-      if: env.PO2lMO == 'true'
-      run: |
-        cd OpenWrt-SDK-x86-64_gcc-5.3.0_musl-1.1.16.Linux-x86_64
-        svn co https://github.com/vernesong/OpenClash/trunk/luci-app-openclash/tools package/$APP_NAME/tools
-        pushd package/$APP_NAME/tools/po2lmo
-        make && sudo make install
-        popd
+        chmod +x ${{matrix.target}}
+        /bin/bash "${{matrix.target}}"
 
     - name: 开始编译
       run: | 
         cd OpenWrt-SDK-x86-64_gcc-5.3.0_musl-1.1.16.Linux-x86_64
-        make package/$APP_NAME/$APP_NAME/compile V=99
+        make package/$APP_NAME/compile V=99
         du -h --max-depth=4 ./bin
         
     - name: 准备编译好的ipk
@@ -72,7 +85,7 @@ jobs:
         echo "IPK=$PWD" >> $GITHUB_ENV
         
     - name: 上传ipk
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@main
       with:
-        name: ${{ env.APP_NAME }}
+        name: ${{ env.date }} ${{ env.APP_NAME }}
         path: ${{ env.IPK }}/        
