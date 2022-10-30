@@ -28,7 +28,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@main
       
-    - name: Initialization environment
+    - name: 加载环境
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
@@ -42,11 +42,12 @@ jobs:
         
         df -h
     
-    - name: Set ENV
+    - name: 设置变量
       id: ENV
       run: |
+        source "${GITHUB_WORKSPACE}/App/${{matrix.target}}"
         echo "date=$(date +'%m/%d_%Y_%H/%M')" >> $GITHUB_ENV
-        echo "APP_NAME=${{matrix.target}}" >> $GITHUB_ENV
+        echo "APP_NAME=${APP_NAME}" >> $GITHUB_ENV
       
     - name: 准备SDK
       run: |
@@ -54,7 +55,7 @@ jobs:
         tar xjf OpenWrt-SDK-x86-64_gcc-5.3.0_musl-1.1.16.Linux-x86_64.tar.bz2
         cd OpenWrt-SDK-x86-64_gcc-5.3.0_musl-1.1.16.Linux-x86_64
         
-    - name: Free up disk space
+    - name: 清理磁盘
       if: env.FREE_UP_DISK == 'true'
       env:
         DEBIAN_FRONTEND: noninteractive
@@ -63,7 +64,7 @@ jobs:
         ln -sf /mnt/OpenWrt-SDK-x86-64_gcc-5.3.0_musl-1.1.16.Linux-x86_64/dl OpenWrt-SDK-x86-64_gcc-5.3.0_musl-1.1.16.Linux-x86_64/dl
         ln -sf /mnt/OpenWrt-SDK-x86-64_gcc-5.3.0_musl-1.1.16.Linux-x86_64/staging_dir OpenWrt-SDK-x86-64_gcc-5.3.0_musl-1.1.16.Linux-x86_64/staging_dir
     
-    - name: Clone 项目
+    - name: 克隆项目
       run: |
         cp -rf App/. OpenWrt-SDK-x86-64_gcc-5.3.0_musl-1.1.16.Linux-x86_64/
         cd OpenWrt-SDK-x86-64_gcc-5.3.0_musl-1.1.16.Linux-x86_64
