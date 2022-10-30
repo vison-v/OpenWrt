@@ -76,4 +76,4 @@ jobs:
       if: env.UPLOAD_IPK_FOR_ARTIFACT == 'true'
       continue-on-error: true
       run: |
-        cat lean/${{matrix.target}}/settings.ini
+        cat ${GITHUB_WORKSPACE}/Lean/${{matrix.target}}/settings.ini
