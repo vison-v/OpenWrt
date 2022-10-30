@@ -47,9 +47,9 @@ jobs:
     - name: Load Settings.ini
       run: |
         echo ${{matrix.target}}
-        source "${GITHUB_WORKSPACE}/lean/common/settings.ini"
-        if [ -f "lean/${{matrix.target}}/settings.ini" ]; then
-          source "${GITHUB_WORKSPACE}/lean/${{matrix.target}}/settings.ini"
+        source "${GITHUB_WORKSPACE}/Lean/common/settings.ini"
+        if [ -f "Lean/${{matrix.target}}/settings.ini" ]; then
+          source "${GITHUB_WORKSPACE}/Lean/${{matrix.target}}/settings.ini"
         fi
         echo "REPO_URL=${REPO_URL}" >> $GITHUB_ENV
         echo "REPO_BRANCH=${REPO_BRANCH}" >> $GITHUB_ENV
