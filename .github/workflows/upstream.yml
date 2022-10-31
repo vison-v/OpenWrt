@@ -12,9 +12,15 @@ on:
     paths:
       - '.github/workflows/upstream.yml'
   schedule:
-    - cron: 30 19 * * *
-  #watch:
-  #  types: started
+    - cron: 0 */12 * * *
+  workflow_dispatch:
+    inputs:
+      ssh:
+        description: 'ssh'
+        required: false
+        default: 'true'
+  watch:
+    types: started
   repository_dispatch:
 
 jobs:
