@@ -1,0 +1,5 @@
+#!/bin/bash
+APP_NAME="luci-app-smartdns"
+svn co https://github.com/Lienol/openwrt-luci/trunk/applications/luci-app-smartdns package/openwrt-packages/luci-app-smartdns
+svn co https://github.com/Lienol/openwrt-packages/trunk/net/smartdns package/openwrt-packages/smartdns
+svn co https://github.com/Lienol/openwrt-packages/trunk/net/smartdns package/openwrt-packages/luci-app-smartdns/smartdns
