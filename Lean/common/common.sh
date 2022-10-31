@@ -223,7 +223,7 @@ sed -i '/SmartDNS/s/60/10/g' package/openwrt-packages/luci-app-smartdns/luasrc/c
 sed -i '/msgid "SmartDNS"/{n;s/SmartDNS/DNS 加速/;}' package/openwrt-packages/luci-app-smartdns/po/zh-cn/smartdns.po
 sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/luci-app-smartdns/luasrc`
 
-sed -i 's/= 10/= 8/g' package/openwrt-packages/luci-app-adguardhome/luasrc/controller/AdGuardHome.lua
+sed -i 's/= 10/= 6/g' package/openwrt-packages/luci-app-adguardhome/luasrc/controller/AdGuardHome.lua
 sed -i 's/AdGuard Home/广告过滤/g' package/openwrt-packages/luci-app-adguardhome/luasrc/controller/AdGuardHome.lua
 sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/luci-app-adguardhome/luasrc`
 
