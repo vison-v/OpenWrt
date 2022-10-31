@@ -25,6 +25,8 @@ CONFIG_PACKAGE_luci-app-netdata=m
 # CONFIG_PACKAGE_luci-app-dockerman=y
 # CONFIG_PACKAGE_luci-app-netkeeper-interception=m
 # CONFIG_PACKAGE_luci-app-kodexplorer=y
+CONFIG_PACKAGE_luci-app-aliyundrive-webdav=m
+CONFIG_PACKAGE_luci-app-aliyundrive-fuse=m
 
 # 网咯加速
 # CONFIG_PACKAGE_luci-app-turboacc is not set
