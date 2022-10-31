@@ -223,11 +223,11 @@ sed -i '/SmartDNS/s/60/10/g' package/openwrt-packages/luci-app-smartdns/luasrc/c
 sed -i '/msgid "SmartDNS"/{n;s/SmartDNS/DNS 加速/;}' package/openwrt-packages/luci-app-smartdns/po/zh-cn/smartdns.po
 sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/luci-app-smartdns/luasrc`
 
-sed -i '/AdGuard Home/s/10/6/g' package/openwrt-packages/luci-app-adguardhome/luasrc/controller/AdGuardHome.lua
+sed -i 's/= 10/= 8/g' package/openwrt-packages/luci-app-adguardhome/luasrc/controller/AdGuardHome.lua
 sed -i 's/AdGuard Home/广告过滤/g' package/openwrt-packages/luci-app-adguardhome/luasrc/controller/AdGuardHome.lua
 sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/luci-app-adguardhome/luasrc`
 
-sed -i 's/广告屏蔽大师 Plus+/广告过滤/g' feeds/luci/applications/luci-app-adbyby-plus/po/zh-cn/adbyby.po
+sed -i 's/广告屏蔽大师 Plus+/广告屏蔽/g' feeds/luci/applications/luci-app-adbyby-plus/po/zh-cn/adbyby.po
 sed -i 's/services/vpn/g'  `grep services -rl feeds/luci/applications/luci-app-adbyby-plus/luasrc`
 
 sed -i '/KoolProxyR plus+/s/1/7/g' package/openwrt-packages/luci-app-koolproxyR/files/usr/lib/lua/luci/controller/koolproxy.lua
