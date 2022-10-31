@@ -22,7 +22,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [app.openclash,app.passwall]
+        target: [app.smartdns]
         
     steps:
     - name: Checkout
