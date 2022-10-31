@@ -8,6 +8,7 @@ cd new
 [ "$latest" ] && git reset --hard $latest || git reset --hard origin/master
 git checkout HEAD^
 [ "$(echo $(git log -1 --pretty=short) | grep "kernel: bump 5.15")" ] && git checkout $latest
+
 cp -rf --parents target/linux package/kernel package/boot package/firmware/linux-firmware include/{kernel-*,netfilter.mk} ../
 cd -
 
@@ -15,7 +16,6 @@ kernel_v="$(cat include/kernel-5.15 | grep LINUX_KERNEL_HASH-* | cut -f 2 -d - |
 echo "KERNEL=${kernel_v}" >> $GITHUB_ENV || true
 sed -i "s?targets/%S/.*'?targets/%S/$kernel_v'?" include/feeds.mk
 
-sh -c "curl -sfL https://github.com/coolsnowwolf/lede/commit/06fcdca1bb9c6de6ccd0450a042349892b372220.patch | patch -d './' -p1 --forward"
 svn export --force https://github.com/openwrt/packages/trunk/kernel feeds/packages/kernel
 svn export --force  https://github.com/openwrt/packages/trunk/net/xtables-addons feeds/packages/net/xtables-addons
 
