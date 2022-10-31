@@ -166,6 +166,10 @@ jobs:
         -or -name "*adguardhome*.ipk" \
         -or -name "*AdGuard*.ipk" \
         -or -name "*smartdns*.ipk" \
+        -or -name "*kodexplorer*.ipk" \
+        -or -name "*vssr*.ipk" \
+        -or -name "*bypass*.ipk" \
+        -or -name "*passwall*.ipk" \
         -or -name "*tcpdump*.ipk" \
         -or -name "*koolproxyR*.ipk" \
         -or -name "*socat*.ipk" \
