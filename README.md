@@ -17,7 +17,7 @@
 
 ## 参考感谢
 ```Brach 
-    # 固件默认使用Lean为上游源码编译！Lean仓库地址：https://github.com/coolsnowwolf/lede
+    # 固件默认使用Lean为上游源码编译！Lean仓库地址：https://github.com/coolsnowwolf/lede(http://forgotfun.org/2018/04/openwrt-training-2018.html "报名")
     # 增减插件需自行修改Lean/common/common.sh和Lean/common/config.diff文件
     # 插件都为网上寻找，插件作者可在Lean/common/common.sh文件中查看，在此表示感谢！
     # 固件主要个人使用，不提供任何技术支持和解答！
