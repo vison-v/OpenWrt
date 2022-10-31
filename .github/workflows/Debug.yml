@@ -12,9 +12,9 @@ on:
   repository_dispatch:
   release:
     types: published
-  #push:
-  #  branches:
-  #    - main
+  push:
+    branches:
+      - main
   #  paths:
   #    - '.github/workflows/Debug.yml'
   #schedule:
@@ -41,8 +41,8 @@ jobs:
     - name: Checkout
       uses: actions/checkout@main
   
-    #- name: SSH connection to Actions
-    #  uses: garypang13/debugger-action@master
+    - name: SSH connection to Actions
+      uses: garypang13/debugger-action@master
       
     - name: Load Settings.ini
       run: |
