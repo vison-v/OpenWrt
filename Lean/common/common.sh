@@ -27,8 +27,9 @@ git clone https://github.com/jerrykuku/node-request.git package/openwrt-packages
 
 git clone https://github.com/KFERMercer/luci-app-tcpdump.git package/openwrt-packages/luci-app-tcpdump
 
-svn co https://github.com/Lienol/openwrt-luci/trunk/applications/luci-app-smartdns package/openwrt-packages/luci-app-smartdns
-svn co https://github.com/Lienol/openwrt-packages/trunk/net/smartdns package/openwrt-packages/smartdns
+git clone https://github.com/pymumu/luci-app-smartdns -b lede package/openwrt-packages/luci-app-smartdns
+git clone https://github.com/pymumu/openwrt-smartdns.git package/openwrt-packages/smartdns
+
 svn co https://github.com/Lienol/openwrt-package/trunk/luci-app-control-timewol package/openwrt-packages/luci-app-control-timewol
 svn co https://github.com/Lienol/openwrt-package/trunk/luci-app-control-webrestriction package/openwrt-packages/luci-app-control-webrestriction
 svn co https://github.com/Lienol/openwrt-package/trunk/luci-app-control-weburl package/openwrt-packages/luci-app-control-weburl
