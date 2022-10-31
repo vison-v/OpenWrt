@@ -12,9 +12,11 @@ svn co https://github.com/rosywrt/luci-theme-rosy/trunk/luci-theme-rosy package/
 git clone https://github.com/destan19/OpenAppFilter.git package/openwrt-packages/OpenAppFilter
 git clone https://github.com/CCnut/feed-netkeeper.git -b LUCI-LUA-UCITRACK package/openwrt-packages/netkeeper
 svn co https://github.com/apollo-ng/luci-theme-darkmatter/trunk/luci package/openwrt-packages/luci-theme-darkmatter
-svn co https://github.com/kenzok8/openwrt-packages/trunk/luci-app-eqos package/openwrt-packages/luci-app-eqos
 git clone https://github.com/binge8/luci-app-koolddns.git package/openwrt-packages/luci-app-koolddns
 svn co https://github.com/lisaac/luci-app-dockerman/trunk/applications/luci-app-dockerman package/openwrt-packages/luci-app-dockerman
+
+svn co https://github.com/kenzok8/openwrt-packages/trunk/luci-app-eqos package/openwrt-packages/luci-app-eqos
+svn co https://github.com/kenzok8/openwrt-packages/trunk/luci-app-passwall package/openwrt-packages/luci-app-passwall
 
 git clone https://github.com/sirpdboy/luci-app-netdata package/openwrt-packages/luci-app-netdata
 git clone https://github.com/sirpdboy/luci-theme-opentopd package/openwrt-packages/luci-theme-opentopd
