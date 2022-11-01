@@ -39,7 +39,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [x86_64_docker]
+        target: [x86_64]
         
     steps:
     - name: Checkout
@@ -167,7 +167,8 @@ jobs:
         -or -name "*AdGuard*.ipk" \
         -or -name "*smartdns*.ipk" \
         -or -name "*kodexplorer*.ipk" \
-        -or -name "*ssr*.ipk" \
+        -or -name "*vssr*.ipk" \
+        -or -name "*ssr-plus*.ipk" \
         -or -name "*bypass*.ipk" \
         -or -name "*passwall*.ipk" \
         -or -name "*tcpdump*.ipk" \
