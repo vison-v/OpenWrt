@@ -15,7 +15,7 @@ svn co https://github.com/apollo-ng/luci-theme-darkmatter/trunk/luci package/ope
 git clone https://github.com/binge8/luci-app-koolddns.git package/openwrt-packages/luci-app-koolddns
 svn co https://github.com/lisaac/luci-app-dockerman/trunk/applications/luci-app-dockerman package/openwrt-packages/luci-app-dockerman
 
-git clone https://github.com/xiaorouji/openwrt-passwall.git package/openwrt-packages/openwrt-passwall
+# git clone https://github.com/xiaorouji/openwrt-passwall.git package/openwrt-packages/openwrt-passwall
 svn co https://github.com/kenzok8/openwrt-packages/trunk/luci-app-eqos package/openwrt-packages/luci-app-eqos
 svn co https://github.com/kenzok8/openwrt-packages/trunk/luci-app-passwall package/openwrt-packages/luci-app-passwall
 
