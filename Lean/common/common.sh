@@ -16,6 +16,10 @@ git clone https://github.com/binge8/luci-app-koolddns.git package/openwrt-packag
 svn co https://github.com/lisaac/luci-app-dockerman/trunk/applications/luci-app-dockerman package/openwrt-packages/luci-app-dockerman
 
 # git clone https://github.com/xiaorouji/openwrt-passwall.git package/openwrt-packages/openwrt-passwall
+svn co https://github.com/kenzok8/small/trunk/brook package/openwrt-packages/brook
+svn co https://github.com/kenzok8/small/trunk/ssocks package/openwrt-packages/ssocks
+svn co https://github.com/kenzok8/small/trunk/trojan-go package/openwrt-packages/trojan-go
+svn co https://github.com/kenzok8/small/trunk/trojan-plus package/openwrt-packages/trojan-plus
 svn co https://github.com/kenzok8/openwrt-packages/trunk/luci-app-eqos package/openwrt-packages/luci-app-eqos
 svn co https://github.com/kenzok8/openwrt-packages/trunk/luci-app-passwall package/openwrt-packages/luci-app-passwall
 
