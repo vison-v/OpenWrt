@@ -184,7 +184,28 @@ jobs:
         | xargs -i mv -f {} ./ipk-package/
         cd ipk-package
         echo "IPK-PACKAGE=$PWD" >> $GITHUB_ENV
+        
         cd ..
+        mkdir ipk-package/dependency && find openwrt/bin/packages/*/*/ -maxdepth 1 \
+        -name "*pdnsd-alt*.ipk" \
+        -or -name "*luasocket*.ipk" \
+        -or -name "*lua-cjson*.ipk" \
+        -or -name "*shadowsocksr-libev-ssr-check*.ipk" \
+        -or -name "*trojan*.ipk" \
+        -or -name "*xray-plugin*.ipk" \
+        -or -name "*hysteria*.ipk" \
+        -or -name "*lua-neturl*.ipk" \
+        -or -name "*shadowsocksr-libev-ssr-server*.ipk" \
+        -or -name "*chinadns-ng*.ipk" \
+        -or -name "*luci-lib-ipkg" \
+        -or -name "*lua-maxminddb*.ipk" \
+        -or -name "*shadowsocksr-libev-alt*.ipk" \
+        -or -name "*shadowsocksr-libev-server*.ipk" \
+        | xargs -i mv -f {} ./ipk-package/dependency
+        cd ipk-package/dependency
+        echo "Dependency=$PWD" >> $GITHUB_ENV
+        
+        cd .. && cd ..
         mkdir firmware && find openwrt/bin/targets/*/*/ -maxdepth 1 \
         -name "*combined*" \
         -or -name "*sysupgrade*" \
@@ -294,9 +315,9 @@ jobs:
       continue-on-error: true
       if: env.UPLOAD_IPK_FOR_ARTIFACT == 'true'
       with:
-        name: ${{ env.date3 }} ${{matrix.target}} OpenClash IPK
+        name: ${{ env.date3 }} ${{matrix.target}} vssr-bypass-ssr_Dependency
         path: |
-          ${{ env.IPK-PACKAGE }}/*openclash*.ipk
+          ${{ env.Dependency }}/
     
     - name: WeChat notification
       continue-on-error: true
