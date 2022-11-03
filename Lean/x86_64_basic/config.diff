@@ -52,15 +52,15 @@ CONFIG_PACKAGE_luci-app-ttyd=y
 # CONFIG_PACKAGE_luci-app-rclone is not set
 # CONFIG_PACKAGE_luci-app-koolddns is not set
 
-# luci-app-ddns is not set
-# luci-app-wol is not set
-# luci-app-vlmcsd is not set
-# luci-app-samba4 is not set
-# luci-app-upnp is not set
-# luci-app-zerotier is not set
-# luci-app-unblockmusic is not set
-# luci-app-nlbwmon is not set
-# luci-app-arpbind is not set
+# CONFIG_PACKAGE_luci-app-ddns is not set
+# CONFIG_PACKAGE_luci-app-wol is not set
+# CONFIG_PACKAGE_luci-app-vlmcsd is not set
+# CONFIG_PACKAGE_luci-app-samba4 is not set
+# CONFIG_PACKAGE_luci-app-upnp is not set
+# CONFIG_PACKAGE_luci-app-zerotier is not set
+# CONFIG_PACKAGE_luci-app-unblockmusic is not set
+# CONFIG_PACKAGE_luci-app-nlbwmon is not set
+# CONFIG_PACKAGE_luci-app-arpbind is not set
 
 # 网咯加速
 # CONFIG_PACKAGE_luci-app-turboacc is not set
