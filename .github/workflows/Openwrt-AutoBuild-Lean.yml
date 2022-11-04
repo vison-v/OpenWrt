@@ -167,9 +167,6 @@ jobs:
         -or -name "*AdGuard*.ipk" \
         -or -name "*smartdns*.ipk" \
         -or -name "*kodexplorer*.ipk" \
-        -or -name "*vssr*.ipk" \
-        -or -name "*ssr-plus*.ipk" \
-        -or -name "*bypass*.ipk" \
         -or -name "*passwall*.ipk" \
         -or -name "*tcpdump*.ipk" \
         -or -name "*koolproxyR*.ipk" \
@@ -186,26 +183,26 @@ jobs:
         echo "IPK-PACKAGE=$PWD" >> $GITHUB_ENV
         
         cd ..
-        mkdir ipk-package/dependency && find openwrt/bin/packages/*/*/ -maxdepth 1 \
+        mkdir vssr-ssr-bypass && find openwrt/bin/packages/*/*/ -maxdepth 1 \
         -name "*pdnsd-alt*.ipk" \
         -or -name "*luasocket*.ipk" \
-        -or -name "*lua-cjson*.ipk" \
-        -or -name "*shadowsocksr-libev-ssr-check*.ipk" \
+        -or -name "*cjson*.ipk" \
+        -or -name "*shadowsocksr-libev*.ipk" \
         -or -name "*trojan*.ipk" \
         -or -name "*xray-plugin*.ipk" \
         -or -name "*hysteria*.ipk" \
-        -or -name "*lua-neturl*.ipk" \
-        -or -name "*shadowsocksr-libev-ssr-server*.ipk" \
+        -or -name "*neturl*.ipk" \
         -or -name "*chinadns-ng*.ipk" \
         -or -name "*luci-lib-ipkg" \
-        -or -name "*lua-maxminddb*.ipk" \
-        -or -name "*shadowsocksr-libev-alt*.ipk" \
-        -or -name "*shadowsocksr-libev-server*.ipk" \
-        | xargs -i mv -f {} ./ipk-package/dependency
-        cd ipk-package/dependency
+        -or -name "*maxminddb*.ipk" \
+        -or -name "*vssr*.ipk" \
+        -or -name "*ssr-plus*.ipk" \
+        -or -name "*bypass*.ipk" \
+        | xargs -i mv -f {} ./vssr-ssr-bypass/
+        cd vssr-ssr-bypass
         echo "Dependency=$PWD" >> $GITHUB_ENV
         
-        cd .. && cd ..
+        cd ..
         mkdir firmware && find openwrt/bin/targets/*/*/ -maxdepth 1 \
         -name "*combined*" \
         -or -name "*sysupgrade*" \
@@ -315,7 +312,7 @@ jobs:
       continue-on-error: true
       if: env.UPLOAD_IPK_FOR_ARTIFACT == 'true'
       with:
-        name: ${{ env.date3 }} ${{matrix.target}} vssr-bypass-ssr_Dependency
+        name: ${{ env.date3 }} ${{matrix.target}} vssr-bypass-ssr
         path: |
           ${{ env.Dependency }}/
     
