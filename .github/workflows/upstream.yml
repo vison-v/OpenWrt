@@ -35,19 +35,11 @@ jobs:
         ref: main
         fetch-depth: 0
         lfs: true
-
-    - name: Set git identity
-      run : |
-        git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-        git config --global user.name "github-actions[bot]"
+        
     - name: Syn upstream
       run: |
         rm -rf `find -maxdepth 1 -type d -name "[!.]*" ! -path "./Lean" ! -path "./Lienol" ! -path "./App" ! -path "./Pic"`
         git rm -r --cache *
-
-    - name: SSH connection to Actions
-      uses: garypang13/debugger-action@master
-      if: 1 == 0
 
     - name: Delete workflow runs
       uses: Mattraks/delete-workflow-runs@v2
