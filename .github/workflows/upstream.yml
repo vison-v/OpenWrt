@@ -41,7 +41,7 @@ jobs:
         git rm -r --cache *
        
         echo -e "\q" | svn co https://github.com/vison-v/OpenWrt/trunk/Lean ./immortalwrt
-        rm -rf ./Garypang/.svn
+        rm -rf ./immortalwrt/.svn
     
     - name: SSH connection to Actions
       uses: garypang13/debugger-action@master
