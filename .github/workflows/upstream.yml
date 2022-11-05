@@ -40,7 +40,7 @@ jobs:
         rm -rf `find -maxdepth 1 -type d -name "[!.]*" ! -path "./Lean" ! -path "./Lienol" ! -path "./App" ! -path "./Pic"`
         git rm -r --cache *
        
-        echo -e "\q" | svn co https://github.com/vison-v/OpenWrt/trunk/Lean ./Garypang
+        echo -e "\q" | svn co https://github.com/vison-v/OpenWrt/trunk/Lean ./immortalwrt
         rm -rf ./Garypang/.svn
     
     - name: SSH connection to Actions
