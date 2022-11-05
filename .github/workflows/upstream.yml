@@ -38,7 +38,7 @@ jobs:
         
     - name: Syn upstream
       run: |
-        rm -rf `find -maxdepth 1 -type d -name "[!.]*" ! -path "./Lean" ! -path "./Lienol" ! -path "./App" ! -path "./Pic"`
+        rm -rf Garypang
         git rm -r --cache *
 
     - name: Delete workflow runs
