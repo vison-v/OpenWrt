@@ -1,3 +1,4 @@
+
 #
 # This is free software, lisence use MIT
 # 
@@ -13,14 +14,8 @@ on:
       - '.github/workflows/upstream.yml'
   schedule:
     - cron: 30 19 * * *
-  workflow_dispatch:
-    inputs:
-      ssh:
-        description: 'ssh'
-        required: false
-        default: 'true'
-  watch:
-    types: started
+  #watch:
+  #  types: started
   repository_dispatch:
 
 jobs:
@@ -35,12 +30,43 @@ jobs:
         ref: main
         fetch-depth: 0
         lfs: true
-        
+
+    - name: Set git identity
+      run : |
+        git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git config --global user.name "github-actions[bot]"
     - name: Syn upstream
       run: |
-        rm -rf /Garypang
+        rm -rf `find -maxdepth 1 -type d -name "[!.]*" ! -path "./Lean" ! -path "./Lienol" ! -path "./App" ! -path "./Pic"`
         git rm -r --cache *
+       
+        echo -e "\q" | svn co https://github.com/kiddin9/OpenWrt_x86-r2s-r4s/trunk/devices ./Garypang
+        rm -rf ./Garypang/.svn
+    
+    - name: SSH connection to Actions
+      uses: garypang13/debugger-action@master
+      if: 1 == 0
 
+    - name: Modify
+      run: |
+        curl -fsSL  https://raw.githubusercontent.com/vison-v/patches/main/addon.sh > ./Garypang/common/addon.sh
+        curl -fsSL  https://raw.githubusercontent.com/vison-v/patches/main/addon >> ./Garypang/x86_64/.config
+        sed -i '/DIY_SH="diy.sh"/a\ADD_SH="addon.sh"' ./Garypang/common/settings.ini
+        sed -i '/CONFIG_PACKAGE_luci-app-gpsysupgrade=y/d' ./Garypang/common/.config
+        sed -i '/PARTSIZE/s/1000/170/' ./Garypang/x86_64/.config
+        sed -i '/WETRANSFER/s/true/false/' ./Garypang/common/settings.ini
+        sed -i '/COWTRANSFER/s/true/false/' ./Garypang/common/settings.ini
+        # sed -i 's/"10.0.0.1"/"192.168.10.1"/g' ./Garypang/common/default-settings
+        sed -i 's/by GaryPang/Build By ViS0N/g' ./Garypang/common/diy.sh
+        # sed -i 's/by GaryPang/Build By ViS0N/g' ./Garypang/common/diy/package/base-files/files/etc/banner
+    
+    - name: Apply
+      run: |
+        git add .
+        git commit -m "update" || true
+        git push
+        echo "::set-output name=status::success" >> $GITHUB_ENV
+    
     - name: Delete workflow runs
       uses: Mattraks/delete-workflow-runs@v2
       with:
