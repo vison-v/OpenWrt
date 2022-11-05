@@ -38,7 +38,7 @@ jobs:
         
     - name: Syn upstream
       run: |
-        rm -rf ./Garypang
+        rm -rf /Garypang
         git rm -r --cache *
 
     - name: Delete workflow runs
