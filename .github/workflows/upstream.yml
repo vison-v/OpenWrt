@@ -46,19 +46,6 @@ jobs:
     - name: SSH connection to Actions
       uses: garypang13/debugger-action@master
       if: 1 == 0
-
-    - name: Modify
-      run: |
-        curl -fsSL  https://raw.githubusercontent.com/vison-v/patches/main/addon.sh > ./Garypang/common/addon.sh
-        curl -fsSL  https://raw.githubusercontent.com/vison-v/patches/main/addon >> ./Garypang/x86_64/.config
-        sed -i '/DIY_SH="diy.sh"/a\ADD_SH="addon.sh"' ./Garypang/common/settings.ini
-        sed -i '/CONFIG_PACKAGE_luci-app-gpsysupgrade=y/d' ./Garypang/common/.config
-        sed -i '/PARTSIZE/s/1000/170/' ./Garypang/x86_64/.config
-        sed -i '/WETRANSFER/s/true/false/' ./Garypang/common/settings.ini
-        sed -i '/COWTRANSFER/s/true/false/' ./Garypang/common/settings.ini
-        # sed -i 's/"10.0.0.1"/"192.168.10.1"/g' ./Garypang/common/default-settings
-        sed -i 's/by GaryPang/Build By ViS0N/g' ./Garypang/common/diy.sh
-        # sed -i 's/by GaryPang/Build By ViS0N/g' ./Garypang/common/diy/package/base-files/files/etc/banner
     
     - name: Apply
       run: |
