@@ -44,9 +44,6 @@ jobs:
       run: |
         rm -rf `find -maxdepth 1 -type d -name "[!.]*" ! -path "./Lean" ! -path "./Lienol" ! -path "./App" ! -path "./Pic"`
         git rm -r --cache *
-       
-        # echo -e "\q" | svn co https://github.com/kiddin9/OpenWrt_x86-r2s-r4s-r5s-N1/trunk/devices ./Garypang
-        # rm -rf ./Garypang/.svn
 
     - name: SSH connection to Actions
       uses: garypang13/debugger-action@master
