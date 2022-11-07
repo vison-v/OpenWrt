@@ -1,0 +1,3 @@
+#!/bin/sh
+T=`awk '{a=$1/86400;b=($1%86400)/3600;c=($1%3600)/60;d=($1%60)} {printf("%d 天 %d 小时 %d 分钟 %d 秒\n",a,b,c,d)}' /proc/uptime`
+echo $T
