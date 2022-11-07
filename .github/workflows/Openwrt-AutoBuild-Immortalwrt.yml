@@ -9,14 +9,14 @@
 name: Openwrt-AutoBuild-Immortalwrt
 
 on: 
-  #repository_dispatch:
-  #release:
-  #  types: published
-  #push:
-  #  branches:
-  #    - main
-  #  paths:
-  #    - '.github/workflows/Openwrt-AutoBuild-Immortalwrt.yml'
+  repository_dispatch:
+  release:
+    types: published
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/Openwrt-AutoBuild-Immortalwrt.yml'
   #schedule:
   #  - cron: 19 19 * * *
 
@@ -39,7 +39,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [x86_64,x86_64_basic]
+        target: [x86_64_basic]
         
     steps:
     - name: Checkout
