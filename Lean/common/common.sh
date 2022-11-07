@@ -79,6 +79,8 @@ sed -i '/msgid "Hostnames"/{n;s/主机名/主机映射/;}' feeds/luci/modules/lu
 
 sed -i 's/OpenWrt /OpenWrt Build By ViS0N /' package/lean/default-settings/files/zzz-default-settings
 
+echo "src/gz openwrt_kiddin9 https://op.supes.top/packages/x86_64" >> package/system/opkg/files/customfeeds.conf
+
 sed -i '/localtime  = os.date()/s/()/("%Y年%m月%d日") .. " " .. translate(os.date("%A")) .. " " .. os.date("%X")/g' package/lean/autocore/files/x86/index.htm package/lean/autocore/files/arm/index.htm
 sed -i '/local cpu_usage/a\\t\tlocal up_time = luci.sys.exec("cntime")' package/lean/autocore/files/x86/index.htm package/lean/autocore/files/arm/index.htm
 sed -i "s/String.format('%t', info.uptime)/info.uptime/" package/lean/autocore/files/x86/index.htm package/lean/autocore/files/arm/index.htm
