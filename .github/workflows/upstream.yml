@@ -9,11 +9,11 @@
 
 name: Merge-upstream
 on:
-  push:
-    paths:
-      - '.github/workflows/upstream.yml'
-  schedule:
-    - cron: 30 19 * * *
+  #push:
+  #  paths:
+  #    - '.github/workflows/upstream.yml'
+  #schedule:
+  #  - cron: 30 19 * * *
   #watch:
   #  types: started
   repository_dispatch:
@@ -40,7 +40,7 @@ jobs:
         rm -rf `find -maxdepth 1 -type d -name "[!.]*" ! -path "./Lean" ! -path "./immortalwrt" ! -path "./App" ! -path "./Pic"`
         git rm -r --cache *
        
-        echo -e "\q" | svn co https://github.com/vison-v/OpenWrt/trunk/Pic ./immortalwrt
+        echo -e "\q" | svn co https://github.com/vison-v/OpenWrt/trunk/Immortalwrt ./Immortalwrt
         rm -rf ./immortalwrt/.svn
     
     - name: SSH connection to Actions
