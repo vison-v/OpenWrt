@@ -53,6 +53,7 @@ sed -i 's/网络存储/存储/g' feeds/luci/applications/luci-app-usb-printer/po
 
 sed -i 's/nas/services/g' feeds/luci/applications/luci-app-minidlna/root/usr/share/luci/menu.d/luci-app-minidlna.json
 sed -i 's/nas/services/g' feeds/luci/applications/luci-app-hd-idle/root/usr/share/luci/menu.d/luci-app-hd-idle.json
+sed -i 's/nas/services/g' feeds/luci/applications/luci-app-samba4/root/usr/share/luci/menu.d/luci-app-samba4.json
 
 sed -i '/"title": "Terminal",/a\		"order": 47,' feeds/luci/applications/luci-app-ttyd/root/usr/share/luci/menu.d/luci-app-ttyd.json
 sed -i 's/services/system/g' feeds/luci/applications/luci-app-ttyd/root/usr/share/luci/menu.d/luci-app-ttyd.json
@@ -104,6 +105,8 @@ sed -i 's/TTYD 终端/命令终端/g' feeds/luci/applications/luci-app-ttyd/po/z
 
 sed -i 's/解锁网易云灰色歌曲/网易音乐/g' feeds/luci/applications/luci-app-unblockmusic/po/zh_Hans/unblockmusic.po
 sed -i 's/services/vpn/g'  `grep services -rl feeds/luci/applications/luci-app-unblockmusic/luasrc`
+sed -i 's/解除网易云音乐播放限制/网易音乐/g' feeds/luci/applications/luci-app-unblockneteasemusic/luasrc/controller/unblockneteasemusic.lua
+sed -i 's/services/vpn/g'  `grep services -rl feeds/luci/applications/luci-app-unblockneteasemusic/luasrc`
 
 sed -i 's/阿里云盘 WebDAV/阿里云盘/g' package/openwrt-packages/luci-app-aliyundrive-webdav/po/zh_Hans/aliyundrive-webdav.po
 sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/luci-app-aliyundrive-webdav/luasrc`
