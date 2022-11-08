@@ -56,6 +56,8 @@ sed -i 's/msgstr "诊断"/msgstr "网络诊断"/g' feeds/luci/applications/luci-
 
 sed -i 's/msgstr "Socat"/msgstr "端口转发"/g' feeds/luci/applications/luci-app-socat/po/zh_Hans/socat.po
 
+sed -i 's/msgstr "软件包"/msgstr "软件管理"/g' feeds/luci/applications/luci-app-opkg/po/zh_Hans/opkg.po
+
 sed -i 's/BaiduPCS Web/百度网盘/g' feeds/luci/applications/luci-app-baidupcs-web/luasrc/controller/baidupcs-web.lua
 
 sed -i 's/msgstr "设置向导"/msgstr "向导"/g' package/openwrt-packages/luci-app-wizard/files/luci/i18n/wizard.zh_Hans.po
