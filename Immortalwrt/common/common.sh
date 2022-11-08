@@ -15,14 +15,6 @@ svn co https://github.com/coolsnowwolf/luci/trunk/applications/luci-app-aliyundr
 ./scripts/feeds update -a
 ./scripts/feeds install -a
 
-for e in $(ls -d package/openwrt-packages/luci-app-*/po); do
-	if [[ -d $e/zh-cn && ! -d $e/zh_Hans ]]; then
-		ln -s zh-cn $e/zh_Hans 2>/dev/null
-	elif [[ -d $e/zh_Hans && ! -d $e/zh-cn ]]; then
-		ln -s zh_Hans $e/zh-cn 2>/dev/null
-	fi
-done
-
 sed -i "s/tty\(0\|1\)::askfirst/tty\1::respawn/g" target/linux/*/base-files/etc/inittab
 
 # Modify default IP
@@ -53,6 +45,9 @@ sed -i 's/USB 打印服务器/打印服务/g' feeds/luci/applications/luci-app-u
 sed -i 's/网络存储/存储/g' feeds/luci/applications/luci-app-usb-printer/po/zh_Hans/usb-printer.po
 
 sed -i '/msgid "miniDLNA"/{n;s/miniDLNA/DLNA服务/;}' feeds/luci/applications/luci-app-minidlna/po/zh_Hans/minidlna.po
+
+sed -i '/"title": "Terminal",/a\		"order": 47,' feeds/luci/applications/luci-app-ttyd/root/usr/share/luci/menu.d/luci-app-ttyd.json
+sed -i 's/services/system/g' feeds/luci/applications/luci-app-ttyd/root/usr/share/luci/menu.d/luci-app-ttyd.json
 
 sed -i 's/IP\/MAC 绑定/地址绑定/g' feeds/luci/applications/luci-app-arpbind/po/zh_Hans/arpbind.po
 
