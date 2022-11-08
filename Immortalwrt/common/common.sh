@@ -30,6 +30,9 @@ sed -i '/msgid "Mount Points"/{n;s/挂载点/挂载路径/;}' feeds/luci/modules
 sed -i '/msgid "Reboot"/{n;s/重启/立即重启/;}' feeds/luci/modules/luci-base/po/zh_Hans/base.po
 sed -i '/msgid "VPN"/{n;s/VPN/酷软/;}' feeds/luci/modules/luci-base/po/zh_Hans/base.po
 
+echo -e "\nmsgid \"Control\"" >> package/emortal/default-settings/i18n/default.zh_Hans.po
+echo -e "msgstr \"管控\"" >> package/emortal/default-settings/i18n/default.zh_Hans.po
+
 sed -i 's/msgstr "网络存储"/msgstr "存储"/g' package/emortal/default-settings/i18n/default.zh_Hans.po
 sed -i 's/msgstr "网络存储"/msgstr "存储"/g' feeds/luci/applications/luci-app-vsftpd/po/zh_Hans/vsftpd.po
 sed -i 's/msgstr "网络存储"/msgstr "存储"/g' feeds/luci/applications/luci-app-amule/po/zh_Hans/amule.po
