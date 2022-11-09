@@ -123,3 +123,52 @@ sed -i 's/上网时间控制/时间控制/g' feeds/luci/applications/luci-app-ti
 
 sed -i 's/上网时间控制/时间控制/g' feeds/luci/applications/luci-app-accesscontrol/po/zh_Hans/mia.po
 sed -i 's/services/control/g'  `grep services -rl feeds/luci/applications/luci-app-accesscontrol/luasrc`
+
+sed -i 's/Tcpdump 流量监控/流量监控/g' package/openwrt-packages/luci-app-tcpdump/po/zh-cn/tcpdump.po
+
+sed -i 's/services/control/g'  `grep network -rl package/openwrt-packages/OpenAppFilter/luci-app-oaf/luasrc`
+
+sed -i 's/90/56/g' feeds/luci/applications/luci-app-argon-config/luasrc/controller/argon-config.lua
+sed -i 's/"Argon 主题设置"/"主题设置"/g' feeds/luci/applications/luci-app-argon-config/po/zh_Hans/argon-config.po
+
+sed -i 's/network/control/g'  `grep network -rl feeds/luci/applications/luci-app-eqos/luasrc`
+sed -i '/msgid "EQoS"/{n;s/IP限速/网速控制/;}' feeds/luci/applications/luci-app-eqos/po/zh_Hans/eqos.po
+
+sed -i 's/CPU 性能优化调节/CPU 调节/g' feeds/luci/applications/luci-app-cpufreq/po/zh_Hans/cpufreq.po
+
+sed -i 's/带宽监控/监控/g' package/emortal/default-settings/i18n/more.zh_Hans.po
+sed -i 's/带宽监控/监控/g' feeds/luci/applications/luci-app-nlbwmon/po/zh_Hans/nlbwmon.po
+
+sed -i 's/services/system/g'  feeds/luci/applications/luci-app-watchcat/root/usr/share/luci/menu.d/luci-app-watchcat.json
+sed -i 's/msgstr "Watchcat"/msgstr "智能重启"/g' feeds/luci/applications/luci-app-watchcat/po/zh_Hans/watchcat.po
+
+sed -i 's/services/nas/g'  `grep services -rl feeds/luci/applications/luci-app-aria2/luasrc`
+sed -i 's/msgstr "Aria2"/msgstr "通用下载"/g' feeds/luci/applications/luci-app-aria2/po/zh_Hans/aria2.po
+
+sed -i '/msgid "Transmission"/{n;s/Transmission/BtPt下载/;}' feeds/luci/applications/luci-app-transmission/po/zh_Hans/transmission.po
+
+sed -i '/msgid "UPnP"/{n;s/UPnP/UPnP服务/;}' feeds/luci/applications/luci-app-upnp/po/zh_Hans/upnp.po
+
+sed -i 's/KMS 服务器/KMS 服务/g' feeds/luci/applications/luci-app-vlmcsd/po/zh_Hans/vlmcsd.po
+
+sed -i '/msgid "Pass Wall"/{n;s/PassWall/翻越长城/;}' feeds/luci/applications/luci-app-passwall/po/zh_Hans/passwall.po
+sed -i '/Pass Wall/s/-1/4/g' feeds/luci/applications/luci-app-passwall/luasrc/controller/passwall.lua
+sed -i 's/services/vpn/g'  `grep services -rl feeds/luci/applications/luci-app-passwall/luasrc`
+
+#sed -i '/Bypass/s/2/8/g' feeds/luci/applications/luci-app-bypass/luasrc/controller/bypass.lua
+sed -i 's/Bypass/世界,你好/g' package/openwrt-packages/luci-app-bypass/luasrc/controller/bypass.lua
+sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/luci-app-bypass/luasrc`
+
+sed -i '/msgid "OpenClash"/{n;s/OpenClash/世界,你好/;}' feeds/luci/applications/luci-app-openclash/po/zh-cn/openclash.zh-cn.po
+sed -i '/OpenClash/s/50/3/g' feeds/luci/applications/luci-app-openclash/luasrc/controller/openclash.lua
+sed -i 's/services/vpn/g'  `grep services -rl feeds/luci/applications/luci-app-openclash/luasrc`
+
+echo -e "\nmsgid \"ShadowSocksR Plus+\"" >> feeds/luci/applications/luci-app-ssr-plus/po/zh_Hans/ssr-plus.po
+echo -e "msgstr \"跨越大河\"" >> feeds/luci/applications/luci-app-ssr-plus/po/zh_Hans/ssr-plus.po
+sed -i '/ShadowSocksR Plus+/s/10/4/g' feeds/luci/applications/luci-app-ssr-plus/luasrc/controller/shadowsocksr.lua
+sed -i 's/ShadowSocksR Plus+ 设置/SSR Plus设置/g' feeds/luci/applications/luci-app-ssr-plus/po/zh_Hans/ssr-plus.po
+sed -i 's/services/vpn/g'  `grep services -rl feeds/luci/applications/luci-app-ssr-plus/luasrc`
+
+sed -i '/Hello World/s/0/5/g' feeds/luci/applications/luci-app-vssr/luasrc/controller/vssr.lua
+sed -i 's/Hello World/世界,你好/g' feeds/luci/applications/luci-app-vssr/luasrc/controller/vssr.lua
+sed -i 's/services/vpn/g'  `grep services -rl feeds/luci/applications/luci-app-vssr/luasrc`
