@@ -92,6 +92,8 @@ sed -i 's/%D %V, %C/%D %V, %C, Build By ViS0N/g' package/base-files/files/etc/ba
 curl -fsSL  https://raw.githubusercontent.com/vison-v/patches/main/base >> feeds/luci/modules/luci-base/po/zh-cn/base.po
 
 sed -i 's/40)./45)./g' package/openwrt-packages/luci-app-dockerman/luasrc/controller/dockerman.lua
+sed -i 's/msgstr "存储卷"/msgstr "卷标"/g' package/openwrt-packages/luci-app-dockerman/po/zh-cn/dockerman.po
+sed -i 's/msgstr "Docker"/msgstr "容器"/g' package/openwrt-packages/luci-app-dockerman/po/zh-cn/dockerman.po
 
 sed -i 's/44/43/g' feeds/luci/applications/luci-app-usb-printer/luasrc/controller/usb_printer.lua
 sed -i 's/nas/services/g' feeds/luci/applications/luci-app-usb-printer/luasrc/controller/usb_printer.lua
