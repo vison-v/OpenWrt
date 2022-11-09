@@ -1,5 +1,5 @@
 #=================================================
-# https://github.com/P3TERX/Actions-OpenWrt.
+# https://github.com/P3TERX/Actions-OpenWrt
 # Description: Build OpenWrt using GitHub Actions
 # Lisence: MIT
 # Author: P3TERX
@@ -17,8 +17,8 @@ on:
       - main
     paths:
       - '.github/workflows/Openwrt-AutoBuild-Immortalwrt.yml'
-  #schedule:
-  #  - cron: 19 19 * * *
+  schedule:
+    - cron: 19 19 * * *
 
 env:
   REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
