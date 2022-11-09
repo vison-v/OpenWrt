@@ -1,5 +1,5 @@
 #!/bin/bash
-echo Star...................
+echo Star..................
 for e in $(ls -d package/openwrt-packages/luci-app-*/po); do
 	if [[ -d $e/zh-cn && ! -d $e/zh_Hans ]]; then
 		ln -s zh-cn $e/zh_Hans 2>/dev/null
