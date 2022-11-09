@@ -11,6 +11,10 @@ svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-adguardhome pa
 svn co https://github.com/coolsnowwolf/luci/trunk/applications/luci-app-aliyundrive-webdav package/openwrt-packages/luci-app-aliyundrive-webdav
 svn co https://github.com/coolsnowwolf/luci/trunk/applications/luci-app-aliyundrive-fuse package/openwrt-packages/luci-app-aliyundrive-fuse
 
+##############转换app语言包################
+curl -fsSL  https://raw.githubusercontent.com/vison-v/OpenWrt/main/Immortalwrt/x86_64/custom.sh >> package/openwrt-packages/custom.sh
+chmod +x package/openwrt-packages/custom.sh && bash package/openwrt-packages/custom.sh
+
 ##############菜单整理美化#################
 ./scripts/feeds update -a
 ./scripts/feeds install -a
