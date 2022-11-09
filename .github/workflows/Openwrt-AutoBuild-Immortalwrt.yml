@@ -39,7 +39,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [x86_64_docker]
+        target: [x86_64_docker,x86_64_basicr,x86_64]
         
     steps:
     - name: Checkout
