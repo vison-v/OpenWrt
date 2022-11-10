@@ -1,21 +1,21 @@
 #!/bin/bash 
 rm -Rf feeds/luci/applications/{luci-app-aliyundrive-webdav,luci-app-aliyundrive-fuse,luci-app-appfilter,luci-app-bypass,luci-app-adguardhome,luci-app-koolproxyR}
 ##############加载自定义app################
-svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-wizard package/openwrt-packages/luci-app-wizard
 svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-tcpdump package/openwrt-packages/luci-app-tcpdump
 svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-oaf package/openwrt-packages/luci-app-oaf
 svn co https://github.com/kiddin9/openwrt-packages/trunk/oaf package/openwrt-packages/luci-app-oaf/oaf
-svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-koolproxyR package/openwrt-packages/luci-app-koolproxyR
 svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-dnsfilter package/openwrt-packages/luci-app-dnsfilter
 svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-bypass package/openwrt-packages/luci-app-bypass
 svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-adguardhome package/openwrt-packages/luci-app-adguardhome
 svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-aliyundrive-webdav package/openwrt-packages/luci-app-aliyundrive-webdav
 svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-aliyundrive-fuse package/openwrt-packages/luci-app-aliyundrive-fuse
 
+git clone https://github.com/jefferymvp/luci-app-koolproxyR package/openwrt-packages/luci-app-koolproxyR
+git clone https://github.com/sirpdboy/luci-app-wizard.git package/openwrt-packages/luci-app-wizard
 
 ##############转换app语言包################
-# curl -fsSL  https://raw.githubusercontent.com/vison-v/OpenWrt/main/Immortalwrt/common/custom.sh >> package/openwrt-packages/custom.sh
-# chmod +x package/openwrt-packages/custom.sh && bash package/openwrt-packages/custom.sh
+curl -fsSL  https://raw.githubusercontent.com/vison-v/OpenWrt/main/Immortalwrt/common/custom.sh >> package/openwrt-packages/custom.sh
+chmod +x package/openwrt-packages/custom.sh && bash package/openwrt-packages/custom.sh
 
 ##############菜单整理美化#################
 ./scripts/feeds update -a
