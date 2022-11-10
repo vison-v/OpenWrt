@@ -13,7 +13,7 @@ CONFIG_ISO_IMAGES=y
 CONFIG_TARGET_ROOTFS_TARGZ=n
 
 # 打开适用于VMware的VM Tools:
-CONFIG_PACKAGE_open-vm-tools=y
+# CONFIG_PACKAGE_open-vm-tools=y
 
 # 打开适用于PVE的qemu-guest-agent:
 # CONFIG_PACKAGE_qemu-ga=y 
