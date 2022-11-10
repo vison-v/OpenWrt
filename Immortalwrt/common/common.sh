@@ -1,19 +1,21 @@
 #!/bin/bash 
 rm -Rf feeds/luci/applications/{luci-app-aliyundrive-webdav,luci-app-aliyundrive-fuse,luci-app-appfilter,luci-app-bypass,luci-app-adguardhome,luci-app-koolproxyR}
 ##############加载自定义app################
-git clone https://github.com/sirpdboy/luci-app-wizard.git package/openwrt-packages/luci-app-wizard
-git clone https://github.com/KFERMercer/luci-app-tcpdump.git package/openwrt-packages/luci-app-tcpdump
-git clone https://github.com/destan19/OpenAppFilter.git package/openwrt-packages/OpenAppFilter
-git clone https://github.com/jefferymvp/luci-app-koolproxyR package/openwrt-packages/luci-app-koolproxyR
-git clone https://github.com/kiddin9/luci-app-dnsfilter package/openwrt-packages/luci-app-dnsfilter
-svn co https://github.com/kiddin9/openwrt-bypass/trunk/luci-app-bypass package/openwrt-packages/luci-app-bypass
+svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-wizard package/openwrt-packages/luci-app-wizard
+svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-tcpdump package/openwrt-packages/luci-app-tcpdump
+svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-oaf package/openwrt-packages/luci-app-oaf
+svn co https://github.com/kiddin9/openwrt-packages/trunk/oaf package/openwrt-packages/luci-app-oaf/oaf
+svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-koolproxyR package/openwrt-packages/luci-app-koolproxyR
+svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-dnsfilter package/openwrt-packages/luci-app-dnsfilter
+svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-bypass package/openwrt-packages/luci-app-bypass
 svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-adguardhome package/openwrt-packages/luci-app-adguardhome
-svn co https://github.com/coolsnowwolf/luci/trunk/applications/luci-app-aliyundrive-webdav package/openwrt-packages/luci-app-aliyundrive-webdav
-svn co https://github.com/coolsnowwolf/luci/trunk/applications/luci-app-aliyundrive-fuse package/openwrt-packages/luci-app-aliyundrive-fuse
+svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-aliyundrive-webdav package/openwrt-packages/luci-app-aliyundrive-webdav
+svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-aliyundrive-fuse package/openwrt-packages/luci-app-aliyundrive-fuse
+
 
 ##############转换app语言包################
-curl -fsSL  https://raw.githubusercontent.com/vison-v/OpenWrt/main/Immortalwrt/x86_64/custom.sh >> package/openwrt-packages/custom.sh
-chmod +x package/openwrt-packages/custom.sh && bash package/openwrt-packages/custom.sh
+# curl -fsSL  https://raw.githubusercontent.com/vison-v/OpenWrt/main/Immortalwrt/common/convert_translation.sh >> package/openwrt-packages/custom.sh
+# chmod +x package/openwrt-packages/custom.sh && bash package/openwrt-packages/custom.sh
 
 ##############菜单整理美化#################
 ./scripts/feeds update -a
@@ -131,7 +133,7 @@ sed -i 's/services/control/g'  `grep services -rl feeds/luci/applications/luci-a
 sed -i 's/Tcpdump 流量监控/流量监控/g' package/openwrt-packages/luci-app-tcpdump/po/zh-cn/tcpdump.po
 sed -i 's/"Tcpdump"/"流量监控"/g' package/openwrt-packages/luci-app-tcpdump/luasrc/controller/tcpdump.lua
 
-sed -i 's/services/control/g'  `grep network -rl package/openwrt-packages/OpenAppFilter/luci-app-oaf/luasrc`
+sed -i 's/services/control/g'  `grep network -rl package/openwrt-packages/luci-app-oaf/luasrc`
 
 sed -i 's/90/56/g' feeds/luci/applications/luci-app-argon-config/luasrc/controller/argon-config.lua
 sed -i 's/"Argon 主题设置"/"主题设置"/g' feeds/luci/applications/luci-app-argon-config/po/zh_Hans/argon-config.po
