@@ -14,7 +14,7 @@ svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-aliyundrive-fu
 
 
 ##############转换app语言包################
-# curl -fsSL  https://raw.githubusercontent.com/vison-v/OpenWrt/main/Immortalwrt/common/convert_translation.sh >> package/openwrt-packages/custom.sh
+# curl -fsSL  https://raw.githubusercontent.com/vison-v/OpenWrt/main/Immortalwrt/common/custom.sh >> package/openwrt-packages/custom.sh
 # chmod +x package/openwrt-packages/custom.sh && bash package/openwrt-packages/custom.sh
 
 ##############菜单整理美化#################
