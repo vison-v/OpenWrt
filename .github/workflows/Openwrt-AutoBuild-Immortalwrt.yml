@@ -18,7 +18,7 @@ on:
     paths:
       - '.github/workflows/Openwrt-AutoBuild-Immortalwrt.yml'
   schedule:
-    - cron: 19 19 * * *
+    - cron: 18 18 * * *
 
 env:
   REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
@@ -39,7 +39,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [x86_64_basic]
+        target: [x86_64_basic,x86_64_docker]
         
     steps:
     - name: Checkout
