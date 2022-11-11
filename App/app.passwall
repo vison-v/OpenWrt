@@ -1,4 +1,0 @@
-#!/bin/bash
-APP_NAME="luci-app-passwall"
-svn co https://github.com/kenzok8/openwrt-packages/trunk/luci-app-passwall package/luci-app-passwall
-git clone https://github.com/xiaorouji/openwrt-passwall package/openwrt-passwall
