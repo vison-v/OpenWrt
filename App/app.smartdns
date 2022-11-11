@@ -2,3 +2,4 @@
 APP_NAME="luci-app-smartdns"
 git clone https://github.com/pymumu/luci-app-smartdns -b lede package/luci-app-smartdns
 git clone https://github.com/pymumu/openwrt-smartdns.git package/luci-app-smartdns/smartdns
+echo -----------------START-------------------
