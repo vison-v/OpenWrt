@@ -70,6 +70,7 @@ jobs:
         cd openwrt
         chmod +x ${{matrix.target}}
         /bin/bash "${{matrix.target}}"
+        ./scripts/feeds update -a && ./scripts/feeds install -a
 
     - name: 开始编译
       run: | 
