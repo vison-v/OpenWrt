@@ -22,4 +22,5 @@
     # 增减插件需自行修改Lean/common/common.sh和Lean/common/config.diff文件
     # 插件都为网上寻找，插件作者可在Lean/common/common.sh文件中查看，在此表示感谢！
     # 固件主要个人使用，不提供任何技术支持和解答！
+    ![Openwrt-AutoBuild-Immortalwrt](https://github.com/vison-v/OpenWrt/workflows/Openwrt-AutoBuild-Immortalwrt/badge.svg)
  ```
