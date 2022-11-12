@@ -1,5 +1,6 @@
 ## 自动编译
 ![Openwrt-AutoBuild-Lean](https://github.com/vison-v/OpenWrt/workflows/Openwrt-AutoBuild-Lean/badge.svg)
+![Openwrt-AutoBuild-Immortalwrt](https://github.com/vison-v/OpenWrt/workflows/Openwrt-AutoBuild-Immortalwrt/badge.svg)
 ![Merge-upstream](https://github.com/vison-v/OpenWrt/workflows/Merge-upstream/badge.svg)
 ```Brach 
     # 每天自动编译Lean x86-64固件，同步使用上游最新源码！
