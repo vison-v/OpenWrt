@@ -1,5 +1,5 @@
 #!/bin/bash 
-rm -Rf feeds/luci/applications/{luci-app-aliyundrive-webdav,luci-app-aliyundrive-fuse,luci-app-appfilter,luci-app-bypass,luci-app-adguardhome,luci-app-smartdns,luci-app-koolproxyR} feeds/packages/net/{smartdns,adguardhome}
+rm -Rf feeds/luci/applications/{luci-app-aliyundrive-webdav,luci-app-aliyundrive-fuse,luci-app-appfilter,luci-app-bypass,luci-app-adguardhome,luci-app-smartdns,luci-app-koolproxyR} feeds/packages/net/{aliyundrive-fuse,aliyundrive-webdav,smartdns,adguardhome}
 ##############加载自定义app################
 svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-tcpdump package/openwrt-packages/luci-app-tcpdump
 svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-oaf package/openwrt-packages/luci-app-oaf
@@ -11,7 +11,9 @@ svn co https://github.com/kiddin9/openwrt-packages/trunk/adguardhome package/ope
 svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-smartdns package/openwrt-packages/luci-app-smartdns
 svn co https://github.com/kiddin9/openwrt-packages/trunk/smartdns package/openwrt-packages/smartdns
 svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-aliyundrive-webdav package/openwrt-packages/luci-app-aliyundrive-webdav
+svn co https://github.com/kiddin9/openwrt-packages/trunk/aliyundrive-webdav package/openwrt-packages/aliyundrive-webdav
 svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-aliyundrive-fuse package/openwrt-packages/luci-app-aliyundrive-fuse
+svn co https://github.com/kiddin9/openwrt-packages/trunk/aliyundrive-fuse package/openwrt-packages/aliyundrive-fuse
 
 git clone https://github.com/jefferymvp/luci-app-koolproxyR package/openwrt-packages/luci-app-koolproxyR
 git clone https://github.com/sirpdboy/luci-app-wizard.git package/openwrt-packages/luci-app-wizard
@@ -93,7 +95,6 @@ sed -i 's/Setting/其它设置/g' feeds/luci/applications/luci-app-netdata/luasr
 
 echo -e "\nmsgid \"qBittorrent\"" >> feeds/luci/applications/luci-app-qbittorrent/po/zh_Hans/qbittorrent.po
 echo -e "msgstr \"BT  下载\"" >> feeds/luci/applications/luci-app-qbittorrent/po/zh_Hans/qbittorrent.po
-sed -i 's/+qBittorrent/+qBittorrent-Enhanced-Edition/g' feeds/luci/applications/luci-app-qbittorrent/Makefile
 
 sed -i 's/aMule设置/电驴下载/g' feeds/luci/applications/luci-app-amule/po/zh_Hans/amule.po
 sed -i 's/网络存储/存储/g' feeds/luci/applications/luci-app-amule/po/zh_Hans/amule.po
