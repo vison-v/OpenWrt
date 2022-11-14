@@ -134,6 +134,8 @@ sed -i 's/88/89/g' feeds/luci/applications/luci-app-autoreboot/luasrc/controller
 sed -i 's/nas/services/g' feeds/luci/applications/luci-app-cifs-mount/luasrc/controller/cifs.lua
 sed -i 's/"挂载 SMB 网络共享"/"挂载 SMB"/g' feeds/luci/applications/luci-app-cifs-mount/po/zh-cn/cifs.po
 
+sed -i 's/msgstr "实时流量监测"/msgstr "流量监测"/g' feeds/luci/applications/luci-app-wrtbwmon/po/zh-cn/wrtbwmon.po
+
 sed -i 's/nas/services/g' feeds/luci/applications/luci-app-rclone/luasrc/controller/rclone.lua
 sed -i 's/NAS/Services/g' feeds/luci/applications/luci-app-rclone/luasrc/controller/rclone.lua
 sed -i 's/msgstr "Rclone"/msgstr "挂载网盘"/g' feeds/luci/applications/luci-app-rclone/po/zh_Hans/rclone.po
