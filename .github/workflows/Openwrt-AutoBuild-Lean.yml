@@ -167,14 +167,13 @@ jobs:
         -or -name "*AdGuard*.ipk" \
         -or -name "*smartdns*.ipk" \
         -or -name "*kodexplorer*.ipk" \
-        -or -name "*passwall*.ipk" \
         -or -name "*tcpdump*.ipk" \
         -or -name "*koolproxyR*.ipk" \
         -or -name "*socat*.ipk" \
         -or -name "*watchcat*.ipk" \
         -or -name "*dnsfilter*.ipk" \
         -or -name "*theme*.ipk" \
-        -or -name "*openclash*.ipk" \
+        -or -name "*wrtbwmon*.ipk" \
         -or -name "*netdata*.ipk" \
         -or -name "*wizard*.ipk" \
         -or -name "*aliyundrive*.ipk" \
@@ -183,7 +182,7 @@ jobs:
         echo "IPK-PACKAGE=$PWD" >> $GITHUB_ENV
         
         cd ..
-        mkdir vssr-ssr-bypass && find openwrt/bin/packages/*/*/ -maxdepth 1 \
+        mkdir vssr-ssr-bypass-passwall-openclash && find openwrt/bin/packages/*/*/ -maxdepth 1 \
         -name "*pdnsd-alt*.ipk" \
         -or -name "*luasocket*.ipk" \
         -or -name "*cjson*.ipk" \
@@ -195,11 +194,13 @@ jobs:
         -or -name "*chinadns-ng*.ipk" \
         -or -name "*luci-lib-ipkg" \
         -or -name "*maxminddb*.ipk" \
+        -or -name "*openclash*.ipk" \
+        -or -name "*passwall*.ipk" \
         -or -name "*vssr*.ipk" \
         -or -name "*ssr-plus*.ipk" \
         -or -name "*bypass*.ipk" \
-        | xargs -i mv -f {} ./vssr-ssr-bypass/
-        cd vssr-ssr-bypass
+        | xargs -i mv -f {} ./vssr-ssr-bypass-passwall-openclash/
+        cd vssr-ssr-bypass-passwall-openclash
         echo "Dependency=$PWD" >> $GITHUB_ENV
         
         cd ..
@@ -312,7 +313,7 @@ jobs:
       continue-on-error: true
       if: env.UPLOAD_IPK_FOR_ARTIFACT == 'true'
       with:
-        name: ${{ env.date3 }} ${{matrix.target}} vssr-bypass-ssr
+        name: ${{ env.date3 }} ${{matrix.target}} vssr-ssr-bypass-passwall-openclash
         path: |
           ${{ env.Dependency }}/
     
