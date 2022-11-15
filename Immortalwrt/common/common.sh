@@ -13,6 +13,7 @@ svn co https://github.com/kiddin9/openwrt-packages/trunk/smartdns package/openwr
 svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-aliyundrive-webdav package/openwrt-packages/luci-app-aliyundrive-webdav
 svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-aliyundrive-fuse package/openwrt-packages/luci-app-aliyundrive-fuse
 svn co https://github.com/kiddin9/openwrt-packages/trunk/aliyundrive-fuse package/openwrt-packages/aliyundrive-fuse
+svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-bridge package/openwrt-packages/luci-app-bridge
 
 svn co https://github.com/coolsnowwolf/packages/trunk/multimedia/aliyundrive-webdav package/openwrt-packages/aliyundrive-webdav
 git clone https://github.com/jefferymvp/luci-app-koolproxyR package/openwrt-packages/luci-app-koolproxyR
