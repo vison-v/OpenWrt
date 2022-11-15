@@ -27,6 +27,8 @@ chmod +x package/openwrt-packages/custom.sh && bash package/openwrt-packages/cus
 ./scripts/feeds update -a
 ./scripts/feeds install -a
 
+curl -fsSL  https://raw.githubusercontent.com/vison-v/patches/main/I.base >> feeds/luci/modules/luci-base/po/zh_Hans/base.po
+
 sed -i "s/tty\(0\|1\)::askfirst/tty\1::respawn/g" target/linux/*/base-files/etc/inittab
 
 # Modify default IP
