@@ -20,7 +20,8 @@ CONFIG_TARGET_ROOTFS_TARGZ=n
 
 # CONFIG_PACKAGE_luci-app-wizard=y
 # CONFIG_PACKAGE_luci-app-smartdns=y
-CONFIG_PACKAGE_luci-app-adguardhome=y
+# CONFIG_PACKAGE_luci-app-adguardhome=y
+CONFIG_PACKAGE_luci-app-haproxy-tcp=y
 
 # 你好，世界
 # CONFIG_PACKAGE_luci-app-vssr=y
@@ -30,6 +31,6 @@ CONFIG_PACKAGE_luci-app-bypass=y
 # CONFIG_PACKAGE_luci-app-ssr-plus=y
 
 # 主题
-CONFIG_PACKAGE_luci-theme-opentopd=y
+# CONFIG_PACKAGE_luci-theme-opentopd=y
 CONFIG_PACKAGE_luci-theme-argon=y
 CONFIG_PACKAGE_luci-app-argon-config=y
