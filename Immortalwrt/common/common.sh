@@ -17,7 +17,7 @@ svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-bridge package
 
 svn co https://github.com/coolsnowwolf/packages/trunk/multimedia/aliyundrive-webdav package/openwrt-packages/aliyundrive-webdav
 git clone https://github.com/jefferymvp/luci-app-koolproxyR package/openwrt-packages/luci-app-koolproxyR
-git clone https://github.com/sirpdboy/luci-app-netwizard.git package/openwrt-packages/luci-app-wizard
+git clone https://github.com/sirpdboy/luci-app-netwizard.git package/openwrt-packages/luci-app-netwizard
 
 ##############转换app语言包################
 curl -fsSL  https://raw.githubusercontent.com/vison-v/OpenWrt/main/Immortalwrt/common/custom.sh >> package/openwrt-packages/custom.sh
@@ -92,7 +92,7 @@ sed -i 's/msgstr "软件包"/msgstr "软件管理"/g' feeds/luci/applications/lu
 sed -i 's/BaiduPCS Web/百度网盘/g' feeds/luci/applications/luci-app-baidupcs-web/luasrc/controller/baidupcs-web.lua
 
 sed -i 's/"Inital Setup"/"向导"/g' package/openwrt-packages/luci-app-wizard/files/luci/controller/wizard.lua
-sed -i "s/lan_ipaddr '*.*.*.*'/lan_ipaddr '192.168.10.1'/g" package/openwrt-packages/luci-app-wizard/files/root/etc/config/wizard
+sed -i "s/lan_ipaddr '*.*.*.*'/lan_ipaddr '192.168.10.1'/g" package/openwrt-packages/luci-app-netwizard/files/root/etc/config/netwizard
 
 sed -i 's/Setting/其它设置/g' feeds/luci/applications/luci-app-netdata/luasrc/controller/netdata.lua
 
