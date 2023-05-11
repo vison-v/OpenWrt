@@ -17,7 +17,7 @@ svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-bridge package
 
 svn co https://github.com/coolsnowwolf/packages/trunk/multimedia/aliyundrive-webdav package/openwrt-packages/aliyundrive-webdav
 git clone https://github.com/jefferymvp/luci-app-koolproxyR package/openwrt-packages/luci-app-koolproxyR
-git clone https://github.com/sirpdboy/luci-app-wizard.git package/openwrt-packages/luci-app-wizard
+git clone https://github.com/sirpdboy/luci-app-netwizard.git package/openwrt-packages/luci-app-wizard
 
 ##############转换app语言包################
 curl -fsSL  https://raw.githubusercontent.com/vison-v/OpenWrt/main/Immortalwrt/common/custom.sh >> package/openwrt-packages/custom.sh
