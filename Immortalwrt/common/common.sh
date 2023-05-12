@@ -91,8 +91,8 @@ sed -i 's/msgstr "软件包"/msgstr "软件管理"/g' feeds/luci/applications/lu
 
 sed -i 's/BaiduPCS Web/百度网盘/g' feeds/luci/applications/luci-app-baidupcs-web/luasrc/controller/baidupcs-web.lua
 
-sed -i 's/"Inital Setup"/"向导"/g' package/openwrt-packages/luci-app-netwizard/controller/netwizard.lua
-sed -i "s/lan_ipaddr '*.*.*.*'/lan_ipaddr '192.168.10.1'/g" package/openwrt-packages/luci-app-netwizar/root/etc/config/netwizard
+sed -i 's/"Inital Setup"/"向导"/g' package/openwrt-packages/luci-app-netwizard/luasrc/controller/netwizard.lua
+sed -i "s/lan_ipaddr '*.*.*.*'/lan_ipaddr '192.168.10.1'/g" package/openwrt-packages/luci-app-netwizard/root/etc/config/netwizard
 
 sed -i 's/Setting/其它设置/g' feeds/luci/applications/luci-app-netdata/luasrc/controller/netdata.lua
 
