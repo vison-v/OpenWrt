@@ -207,6 +207,6 @@ sed -i '/DNSFilter/s/1/8/g' package/openwrt-packages/luci-app-dnsfilter/luasrc/c
 sed -i 's/DNSFilter/广告过滤/g' package/openwrt-packages/luci-app-dnsfilter/luasrc/controller/dnsfilter.lua
 sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/luci-app-dnsfilter/luasrc`
 
-sed -i 's/services/vpn/g'  `grep services -rl feeds/luci/applications/luci-app-serverchan/htdocs/luci-static/resources/view/serverchan`
+# sed -i 's/services/vpn/g'  `grep services -rl feeds/luci/applications/luci-app-serverchan/htdocs/luci-static/resources/view/serverchan`
 
 ##############自定义结束#################
