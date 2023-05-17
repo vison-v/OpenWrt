@@ -64,10 +64,10 @@ CONFIG_PACKAGE_luci-app-zerotier=y
 
 # 你好，世界
 # CONFIG_PACKAGE_luci-app-vssr=y
-CONFIG_PACKAGE_luci-app-bypass=y
+# CONFIG_PACKAGE_luci-app-bypass=y
 CONFIG_PACKAGE_luci-app-passwall=y
-# CONFIG_PACKAGE_luci-app-openclash=m
-# CONFIG_PACKAGE_luci-app-ssr-plus=m
+# CONFIG_PACKAGE_luci-app-openclash=y
+CONFIG_PACKAGE_luci-app-ssr-plus=y
 
 # 广告过滤
 # CONFIG_PACKAGE_luci-app-dnsfilter=m
