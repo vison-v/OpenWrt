@@ -5,24 +5,32 @@ rm -Rf feeds/packages/net/{smartdns,aria2,adguardhome} feeds/luci/themes/luci-th
 git submodule add -f --name helloworld https://github.com/fw876/helloworld.git package/openwrt-packages/luci-app-ssr-plus
 git submodule update --remote package/openwrt-packages/luci-app-ssr-plus
 
-git clone https://github.com/vernesong/OpenClash.git package/openwrt-packages/OpenClash
-git clone https://github.com/jefferymvp/luci-app-koolproxyR package/openwrt-packages/luci-app-koolproxyR
-git clone https://github.com/Leo-Jo-My/luci-theme-opentomato.git package/openwrt-packages/luci-theme-opentomato
-svn co https://github.com/rosywrt/luci-theme-rosy/trunk/luci-theme-rosy package/openwrt-packages/luci-theme-rosy
-git clone https://github.com/destan19/OpenAppFilter.git package/openwrt-packages/OpenAppFilter
-git clone https://github.com/CCnut/feed-netkeeper.git -b LUCI-LUA-UCITRACK package/openwrt-packages/netkeeper
-svn co https://github.com/apollo-ng/luci-theme-darkmatter/trunk/luci package/openwrt-packages/luci-theme-darkmatter
-git clone https://github.com/binge8/luci-app-koolddns.git package/openwrt-packages/luci-app-koolddns
-svn co https://github.com/lisaac/luci-app-dockerman/trunk/applications/luci-app-dockerman package/openwrt-packages/luci-app-dockerman
-
-svn co https://github.com/kenzok8/small/trunk/brook package/openwrt-packages/brook
-svn co https://github.com/kenzok8/small/trunk/ssocks package/openwrt-packages/ssocks
-svn co https://github.com/kenzok8/small/trunk/trojan-go package/openwrt-packages/trojan-go
-svn co https://github.com/kenzok8/small/trunk/trojan-plus package/openwrt-packages/trojan-plus
-svn co https://github.com/kenzok8/small/trunk/luci-app-passwall package/openwrt-packages/luci-app-passwall
-svn co https://github.com/kenzok8/openwrt-packages/trunk/luci-app-eqos package/openwrt-packages/luci-app-eqos
 
 
+git clone https://github.com/sirpdboy/luci-app-netdata package/openwrt-packages/luci-app-netdata
+git clone https://github.com/sirpdboy/luci-theme-opentopd package/openwrt-packages/luci-theme-opentopd
+git clone https://github.com/sirpdboy/luci-app-netwizard package/openwrt-packages/luci-app-netwizard
+
+git clone https://github.com/jerrykuku/luci-app-vssr.git package/openwrt-packages/luci-app-vssr
+git clone https://github.com/jerrykuku/luci-app-argon-config.git package/openwrt-packages/luci-app-argon-config
+git clone https://github.com/jerrykuku/luci-theme-argon.git -b 18.06 package/openwrt-packages/luci-theme-argon
+git clone https://github.com/jerrykuku/node-request.git package/openwrt-packages/node-request
+
+git clone https://github.com/KFERMercer/luci-app-tcpdump.git package/openwrt-packages/luci-app-tcpdump
+
+git clone https://github.com/pymumu/luci-app-smartdns -b lede package/openwrt-packages/luci-app-smartdns
+git clone https://github.com/pymumu/openwrt-smartdns.git package/openwrt-packages/smartdns
+
+svn co https://github.com/Lienol/openwrt-package/trunk/luci-app-control-timewol package/openwrt-packages/luci-app-control-timewol
+svn co https://github.com/Lienol/openwrt-package/trunk/luci-app-control-webrestriction package/openwrt-packages/luci-app-control-webrestriction
+svn co https://github.com/Lienol/openwrt-package/trunk/luci-app-control-weburl package/openwrt-packages/luci-app-control-weburl
+
+svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-aliddns package/openwrt-packages/luci-app-aliddns
+svn co https://github.com/kiddin9/openwrt-packages/trunk/aria2 package/openwrt-packages/aria2
+svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-adguardhome package/openwrt-packages/luci-app-adguardhome
+svn co https://github.com/kiddin9/openwrt-packages/trunk/adguardhome package/openwrt-packages/adguardhome
+svn co https://github.com/kiddin9/openwrt-packages/trunk/qBittorrent-Enhanced-Edition package/openwrt-packages/qBittorrent-Enhanced-Edition
+svn co https://github.com/kiddin9/openwrt-packages/trunk/lua-maxminddb package/openwrt-packages/lua-maxminddb
 
 ##############菜单整理美化#################
 ./scripts/feeds update -a
