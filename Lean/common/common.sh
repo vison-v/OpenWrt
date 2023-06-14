@@ -5,6 +5,24 @@ rm -Rf feeds/packages/net/{smartdns,aria2,adguardhome} feeds/luci/themes/luci-th
 git submodule add -f --name helloworld https://github.com/fw876/helloworld.git package/openwrt-packages/luci-app-ssr-plus
 git submodule update --remote package/openwrt-packages/luci-app-ssr-plus
 
+git clone https://github.com/vernesong/OpenClash.git package/openwrt-packages/OpenClash
+git clone https://github.com/jefferymvp/luci-app-koolproxyR package/openwrt-packages/luci-app-koolproxyR
+git clone https://github.com/Leo-Jo-My/luci-theme-opentomato.git package/openwrt-packages/luci-theme-opentomato
+svn co https://github.com/rosywrt/luci-theme-rosy/trunk/luci-theme-rosy package/openwrt-packages/luci-theme-rosy
+git clone https://github.com/destan19/OpenAppFilter.git package/openwrt-packages/OpenAppFilter
+git clone https://github.com/CCnut/feed-netkeeper.git -b LUCI-LUA-UCITRACK package/openwrt-packages/netkeeper
+svn co https://github.com/apollo-ng/luci-theme-darkmatter/trunk/luci package/openwrt-packages/luci-theme-darkmatter
+git clone https://github.com/binge8/luci-app-koolddns.git package/openwrt-packages/luci-app-koolddns
+svn co https://github.com/lisaac/luci-app-dockerman/trunk/applications/luci-app-dockerman package/openwrt-packages/luci-app-dockerman
+
+svn co https://github.com/kenzok8/small/trunk/brook package/openwrt-packages/brook
+svn co https://github.com/kenzok8/small/trunk/ssocks package/openwrt-packages/ssocks
+svn co https://github.com/kenzok8/small/trunk/trojan-go package/openwrt-packages/trojan-go
+svn co https://github.com/kenzok8/small/trunk/trojan-plus package/openwrt-packages/trojan-plus
+svn co https://github.com/kenzok8/small/trunk/luci-app-passwall package/openwrt-packages/luci-app-passwall
+svn co https://github.com/kenzok8/openwrt-packages/trunk/luci-app-eqos package/openwrt-packages/luci-app-eqos
+
+
 
 ##############菜单整理美化#################
 ./scripts/feeds update -a
