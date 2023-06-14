@@ -125,7 +125,8 @@ jobs:
           echo >> .config
           cat Lean/${{matrix.target}}/$CONFIG_FILE >> .config
         fi
-
+        df -hT
+    
     - name: Apply patches
       run: |
         cd openwrt
