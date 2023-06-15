@@ -22,7 +22,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [app.smartdns]
+        target: [app.openclash]
         
     steps:
     - name: Checkout
@@ -75,7 +75,7 @@ jobs:
     - name: 开始编译
       run: | 
         cd openwrt
-        make package/$APP_NAME/compile V=99
+        make package/$APP_NAME/$APP_NAME/compile V=99
         du -h --max-depth=4 ./bin
         
     - name: 准备编译好的ipk
