@@ -7,5 +7,4 @@ sed -i 's/services/vpn/g'  `grep services -rl package/luci-app-openclash/luci-ap
 pushd package/luci-app-openclash/luci-app-openclash/tools/po2lmo
 make && sudo make install
 popd
-cd openwrt
 echo -----------------START-------------------
