@@ -27,7 +27,7 @@ git clone https://github.com/sirpdboy/luci-theme-opentopd package/openwrt-packag
 git clone https://github.com/sirpdboy/luci-app-netwizard package/openwrt-packages/luci-app-netwizard
 
 git clone https://github.com/jerrykuku/luci-app-vssr.git package/openwrt-packages/luci-app-vssr
-git clone https://github.com/jerrykuku/luci-app-argon-config.git package/openwrt-packages/luci-app-argon-config
+git clone https://github.com/jerrykuku/luci-app-argon-config.git -b 18.06 package/openwrt-packages/luci-app-argon-config
 git clone https://github.com/jerrykuku/luci-theme-argon.git -b 18.06 package/openwrt-packages/luci-theme-argon
 git clone https://github.com/jerrykuku/node-request.git package/openwrt-packages/node-request
 
