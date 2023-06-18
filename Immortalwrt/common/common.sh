@@ -1,5 +1,5 @@
 #!/bin/bash 
-rm -Rf feeds/luci/applications/{luci-app-aliyundrive-webdav,luci-app-aliyundrive-fuse,luci-app-appfilter,luci-app-bypass,luci-app-adguardhome,luci-app-smartdns,luci-app-koolproxyR} feeds/packages/net/{aliyundrive-fuse,aliyundrive-webdav,smartdns,adguardhome}
+
 ##############加载自定义app################
 svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-tcpdump package/openwrt-packages/luci-app-tcpdump
 svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-oaf package/openwrt-packages/luci-app-oaf
@@ -8,14 +8,8 @@ svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-dnsfilter pack
 svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-bypass package/openwrt-packages/luci-app-bypass
 svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-adguardhome package/openwrt-packages/luci-app-adguardhome
 svn co https://github.com/kiddin9/openwrt-packages/trunk/adguardhome package/openwrt-packages/adguardhome
-svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-smartdns package/openwrt-packages/luci-app-smartdns
-svn co https://github.com/kiddin9/openwrt-packages/trunk/smartdns package/openwrt-packages/smartdns
-svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-aliyundrive-webdav package/openwrt-packages/luci-app-aliyundrive-webdav
-svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-aliyundrive-fuse package/openwrt-packages/luci-app-aliyundrive-fuse
-svn co https://github.com/kiddin9/openwrt-packages/trunk/aliyundrive-fuse package/openwrt-packages/aliyundrive-fuse
 svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-bridge package/openwrt-packages/luci-app-bridge
 
-svn co https://github.com/coolsnowwolf/packages/trunk/multimedia/aliyundrive-webdav package/openwrt-packages/aliyundrive-webdav
 git clone https://github.com/jefferymvp/luci-app-koolproxyR package/openwrt-packages/luci-app-koolproxyR
 git clone https://github.com/sirpdboy/luci-app-netwizard.git package/openwrt-packages/luci-app-netwizard
 
@@ -57,7 +51,7 @@ sed -i 's/msgstr "网络存储"/msgstr "存储"/g' feeds/luci/applications/luci-
 #sed -i '/local cpu_usage/a\\t\tlocal up_time = luci.sys.exec("cntime")' package/lean/autocore/files/x86/index.htm package/lean/autocore/files/arm/index.htm
 #sed -i "s/String.format('%t', info.uptime)/info.uptime/" package/lean/autocore/files/x86/index.htm package/lean/autocore/files/arm/index.htm
 #sed -i 's/= sysinfo.uptime or 0/= up_time/' package/lean/autocore/files/x86/index.htm package/lean/autocore/files/arm/index.htm
-sed -i '/$(INSTALL_DIR) $(1)\/sbin/a\\t$(INSTALL_BIN) .\/files\/generic\/cntime $(1)\/sbin\/cntime' package/emortal/autocore/Makefile
+#sed -i '/$(INSTALL_DIR) $(1)\/sbin/a\\t$(INSTALL_BIN) .\/files\/generic\/cntime $(1)\/sbin\/cntime' package/emortal/autocore/Makefile
 
 sed -i 's/40)./45)./g' feeds/luci/applications/luci-app-dockerman/luasrc/controller/dockerman.lua
 sed -i 's/msgstr "Docker"/msgstr "容器"/g' feeds/luci/applications/luci-app-dockerman/po/zh_Hans/dockerman.po
@@ -88,8 +82,6 @@ sed -i 's/msgstr "诊断"/msgstr "网络诊断"/g' feeds/luci/applications/luci-
 sed -i 's/msgstr "Socat"/msgstr "端口转发"/g' feeds/luci/applications/luci-app-socat/po/zh_Hans/socat.po
 
 sed -i 's/msgstr "软件包"/msgstr "软件管理"/g' feeds/luci/applications/luci-app-opkg/po/zh_Hans/opkg.po
-
-sed -i 's/BaiduPCS Web/百度网盘/g' feeds/luci/applications/luci-app-baidupcs-web/luasrc/controller/baidupcs-web.lua
 
 sed -i 's/"Inital Setup"/"向导"/g' package/openwrt-packages/luci-app-netwizard/luasrc/controller/netwizard.lua
 sed -i "s/lan_ipaddr '*.*.*.*'/lan_ipaddr '192.168.10.1'/g" package/openwrt-packages/luci-app-netwizard/root/etc/config/netwizard
@@ -123,12 +115,6 @@ sed -i 's/解锁网易云灰色歌曲/网易音乐/g' feeds/luci/applications/lu
 sed -i 's/services/vpn/g'  `grep services -rl feeds/luci/applications/luci-app-unblockmusic/luasrc`
 sed -i 's/解除网易云音乐播放限制/网易音乐/g' feeds/luci/applications/luci-app-unblockneteasemusic/root/usr/share/luci/menu.d/luci-app-unblockneteasemusic.json
 sed -i 's/services/vpn/g' feeds/luci/applications/luci-app-unblockneteasemusic/root/usr/share/luci/menu.d/luci-app-unblockneteasemusic.json
-
-sed -i 's/AliyunDrive WebDAV/阿里云盘/g' package/openwrt-packages/luci-app-aliyundrive-webdav/luasrc/controller/aliyundrive-webdav.lua
-sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/luci-app-aliyundrive-webdav/luasrc`
-
-sed -i 's/AliyunDrive FUSE/云盘FUSE/g' package/openwrt-packages/luci-app-aliyundrive-fuse/luasrc/controller/aliyundrive-fuse.lua
-sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/luci-app-aliyundrive-fuse/luasrc`
 
 sed -i '/msgid "UU GameAcc"/{n;s/UU游戏加速器/UU加速器/;}' feeds/luci/applications/luci-app-uugamebooster/po/zh_Hans/uugamebooster.po
 
@@ -188,8 +174,8 @@ sed -i '/Hello World/s/0/5/g' feeds/luci/applications/luci-app-vssr/luasrc/contr
 sed -i 's/Hello World/世界,你好/g' feeds/luci/applications/luci-app-vssr/luasrc/controller/vssr.lua
 sed -i 's/services/vpn/g'  `grep services -rl feeds/luci/applications/luci-app-vssr/luasrc`
 
-sed -i '/msgid "SmartDNS"/{n;s/SmartDNS/DNS 加速/;}' package/openwrt-packages/luci-app-smartdns/po/zh_Hans/smartdns.po
-sed -i 's/services/vpn/g'  package/openwrt-packages/luci-app-smartdns/root/usr/share/luci/menu.d/luci-app-smartdns.json
+sed -i '/msgid "SmartDNS"/{n;s/SmartDNS/DNS 加速/;}' feeds/luci/applications/luci-app-smartdns/po/zh_Hans/smartdns.po
+sed -i 's/services/vpn/g'  feeds/luci/applications/luci-app-smartdns/root/usr/share/luci/menu.d/luci-app-smartdns.json
 
 sed -i 's/= 10/= 6/g' package/openwrt-packages/luci-app-adguardhome/luasrc/controller/AdGuardHome.lua
 sed -i 's/AdGuard Home/广告过滤/g' package/openwrt-packages/luci-app-adguardhome/luasrc/controller/AdGuardHome.lua
