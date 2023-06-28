@@ -2,10 +2,10 @@
 
 rm -Rf feeds/packages/net/{smartdns,aria2,adguardhome} feeds/luci/themes/luci-theme-argon feeds/luci/applications/{luci-app-netdata,luci-app-baidupcs-web,luci-app-dockerman}
 ##############加载自定义app################
-git submodule add -f --name helloworld https://github.com/fw876/helloworld.git package/openwrt-packages/luci-app-ssr-plus
-git submodule update --remote package/openwrt-packages/luci-app-ssr-plus
+#git submodule add -f --name helloworld https://github.com/fw876/helloworld.git package/openwrt-packages/luci-app-ssr-plus
+#git submodule update --remote package/openwrt-packages/luci-app-ssr-plus
 
-#git clone https://github.com/vernesong/OpenClash.git package/openwrt-packages/OpenClash
+svn co https://github.com/vernesong/OpenClash/trunk/luci-app-openclash package/openwrt-packages/luci-app-openclash
 git clone https://github.com/jefferymvp/luci-app-koolproxyR package/openwrt-packages/luci-app-koolproxyR
 git clone https://github.com/Leo-Jo-My/luci-theme-opentomato.git package/openwrt-packages/luci-theme-opentomato
 svn co https://github.com/rosywrt/luci-theme-rosy/trunk/luci-theme-rosy package/openwrt-packages/luci-theme-rosy
@@ -15,21 +15,18 @@ svn co https://github.com/apollo-ng/luci-theme-darkmatter/trunk/luci package/ope
 git clone https://github.com/binge8/luci-app-koolddns.git package/openwrt-packages/luci-app-koolddns
 svn co https://github.com/lisaac/luci-app-dockerman/trunk/applications/luci-app-dockerman package/openwrt-packages/luci-app-dockerman
 
-svn co https://github.com/kenzok8/small/trunk/brook package/openwrt-packages/brook
-svn co https://github.com/kenzok8/small/trunk/ssocks package/openwrt-packages/ssocks
-svn co https://github.com/kenzok8/small/trunk/trojan-go package/openwrt-packages/trojan-go
-svn co https://github.com/kenzok8/small/trunk/trojan-plus package/openwrt-packages/trojan-plus
-svn co https://github.com/kenzok8/small/trunk/luci-app-passwall package/openwrt-packages/luci-app-passwall
+git clone https://github.com/kenzok8/small.git package/openwrt-packages/small
+#svn co https://github.com/kenzok8/small/trunk/luci-app-passwall package/openwrt-packages/luci-app-passwall
 svn co https://github.com/kenzok8/openwrt-packages/trunk/luci-app-eqos package/openwrt-packages/luci-app-eqos
 
 git clone https://github.com/sirpdboy/luci-app-netdata package/openwrt-packages/luci-app-netdata
 git clone https://github.com/sirpdboy/luci-theme-opentopd package/openwrt-packages/luci-theme-opentopd
 git clone https://github.com/sirpdboy/luci-app-netwizard package/openwrt-packages/luci-app-netwizard
 
-git clone https://github.com/jerrykuku/luci-app-vssr.git package/openwrt-packages/luci-app-vssr
+#git clone https://github.com/jerrykuku/luci-app-vssr.git package/openwrt-packages/luci-app-vssr
 git clone https://github.com/jerrykuku/luci-app-argon-config.git -b 18.06 package/openwrt-packages/luci-app-argon-config
 git clone https://github.com/jerrykuku/luci-theme-argon.git -b 18.06 package/openwrt-packages/luci-theme-argon
-git clone https://github.com/jerrykuku/node-request.git package/openwrt-packages/node-request
+#git clone https://github.com/jerrykuku/node-request.git package/openwrt-packages/node-request
 
 git clone https://github.com/KFERMercer/luci-app-tcpdump.git package/openwrt-packages/luci-app-tcpdump
 
@@ -45,7 +42,7 @@ svn co https://github.com/kiddin9/openwrt-packages/trunk/aria2 package/openwrt-p
 svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-adguardhome package/openwrt-packages/luci-app-adguardhome
 svn co https://github.com/kiddin9/openwrt-packages/trunk/adguardhome package/openwrt-packages/adguardhome
 svn co https://github.com/kiddin9/openwrt-packages/trunk/qBittorrent-Enhanced-Edition package/openwrt-packages/qBittorrent-Enhanced-Edition
-svn co https://github.com/kiddin9/openwrt-packages/trunk/lua-maxminddb package/openwrt-packages/lua-maxminddb
+#svn co https://github.com/kiddin9/openwrt-packages/trunk/lua-maxminddb package/openwrt-packages/lua-maxminddb
 
 ##############菜单整理美化#################
 ./scripts/feeds update -a
@@ -197,27 +194,27 @@ sed -i '/msgid "Reboot"/{n;s/重启/立即重启/;}' feeds/luci/modules/luci-bas
 
 sed -i 's/KMS 服务器/KMS 服务/g' feeds/luci/applications/luci-app-vlmcsd/po/zh-cn/vlmcsd.po
 
-sed -i '/msgid "Pass Wall"/{n;s/PassWall/翻越长城/;}' package/openwrt-packages/luci-app-passwall/po/zh-cn/passwall.po
-sed -i '/Pass Wall/s/-1/4/g' package/openwrt-packages/luci-app-passwall/luasrc/controller/passwall.lua
-sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/luci-app-passwall/luasrc`
+sed -i '/msgid "Pass Wall"/{n;s/PassWall/翻越长城/;}' package/openwrt-packages/small/luci-app-passwall/po/zh-cn/passwall.po
+sed -i '/Pass Wall/s/-1/4/g' package/openwrt-packages/small/luci-app-passwall/luasrc/controller/passwall.lua
+sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/small/luci-app-passwall/luasrc`
 
-#sed -i '/Bypass/s/2/8/g' package/openwrt-packages/luci-app-bypass/luasrc/controller/bypass.lua
-#sed -i 's/Bypass/世界,你好/g' package/openwrt-packages/luci-app-bypass/luasrc/controller/bypass.lua
-#sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/luci-app-bypass/luasrc`
+#sed -i '/Bypass/s/2/8/g' package/openwrt-packages/small/luci-app-bypass/luasrc/controller/bypass.lua
+#sed -i 's/Bypass/世界,你好/g' package/openwrt-packages/small/luci-app-bypass/luasrc/controller/bypass.lua
+#sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/small/luci-app-bypass/luasrc`
 
-sed -i '/msgid "OpenClash"/{n;s/OpenClash/世界,你好/;}' package/openwrt-packages/OpenClash/luci-app-openclash/po/zh-cn/openclash.zh-cn.po
-sed -i '/OpenClash/s/50/3/g' package/openwrt-packages/OpenClash/luci-app-openclash/luasrc/controller/openclash.lua
-sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/OpenClash/luci-app-openclash/luasrc`
+sed -i '/msgid "OpenClash"/{n;s/OpenClash/世界,你好/;}' package/openwrt-packages/luci-app-openclash/po/zh-cn/openclash.zh-cn.po
+sed -i '/OpenClash/s/50/3/g' package/openwrt-packages/luci-app-openclash/luasrc/controller/openclash.lua
+sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/luci-app-openclash/luasrc`
 
-echo -e "\nmsgid \"ShadowSocksR Plus+\"" >> package/openwrt-packages/luci-app-ssr-plus/luci-app-ssr-plus/po/zh-cn/ssr-plus.po
-echo -e "msgstr \"跨越大河\"" >> package/openwrt-packages/luci-app-ssr-plus/luci-app-ssr-plus/po/zh-cn/ssr-plus.po
-sed -i '/ShadowSocksR Plus+/s/10/4/g' package/openwrt-packages/luci-app-ssr-plus/luci-app-ssr-plus/luasrc/controller/shadowsocksr.lua
-sed -i 's/ShadowSocksR Plus+ 设置/SSR Plus设置/g' package/openwrt-packages/luci-app-ssr-plus/luci-app-ssr-plus/po/zh-cn/ssr-plus.po
-sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/luci-app-ssr-plus/luci-app-ssr-plus/luasrc`
+echo -e "\nmsgid \"ShadowSocksR Plus+\"" >> package/openwrt-packages/small/luci-app-ssr-plus/po/zh-cn/ssr-plus.po
+echo -e "msgstr \"跨越大河\"" >> package/openwrt-packages/small/luci-app-ssr-plus/po/zh-cn/ssr-plus.po
+sed -i '/ShadowSocksR Plus+/s/10/4/g' package/openwrt-packages/small/luci-app-ssr-plus/luasrc/controller/shadowsocksr.lua
+sed -i 's/ShadowSocksR Plus+ 设置/SSR Plus设置/g' package/openwrt-packages/small/luci-app-ssr-plus/po/zh-cn/ssr-plus.po
+sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/small/luci-app-ssr-plus/luasrc`
 
-sed -i '/Hello World/s/0/5/g' package/openwrt-packages/luci-app-vssr/luasrc/controller/vssr.lua
-sed -i 's/Hello World/世界,你好/g' package/openwrt-packages/luci-app-vssr/luasrc/controller/vssr.lua
-sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/luci-app-vssr/luasrc`
+sed -i '/Hello World/s/0/5/g' package/openwrt-packages/small/luci-app-vssr/luasrc/controller/vssr.lua
+sed -i 's/Hello World/世界,你好/g' package/openwrt-packages/small/luci-app-vssr/luasrc/controller/vssr.lua
+sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/small/luci-app-vssr/luasrc`
 
 sed -i '/SmartDNS/s/60/9/g' package/openwrt-packages/luci-app-smartdns/luasrc/controller/smartdns.lua
 sed -i '/msgid "SmartDNS"/{n;s/SmartDNS/DNS 加速/;}' package/openwrt-packages/luci-app-smartdns/po/zh-cn/smartdns.po
