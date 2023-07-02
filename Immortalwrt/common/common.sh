@@ -2,10 +2,6 @@
 
 ##############加载自定义app################
 #svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-tcpdump package/openwrt-packages/luci-app-tcpdump
-#svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-oaf package/openwrt-packages/luci-app-oaf
-#svn co https://github.com/kiddin9/openwrt-packages/trunk/oaf package/openwrt-packages/luci-app-oaf/oaf
-#svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-dnsfilter package/openwrt-packages/luci-app-dnsfilter
-#svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-bypass package/openwrt-packages/luci-app-bypass
 #svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-adguardhome package/openwrt-packages/luci-app-adguardhome
 #svn co https://github.com/kiddin9/openwrt-packages/trunk/adguardhome package/openwrt-packages/adguardhome
 #svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-bridge package/openwrt-packages/luci-app-bridge
