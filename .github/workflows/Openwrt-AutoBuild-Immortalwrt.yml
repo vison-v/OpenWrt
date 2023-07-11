@@ -8,17 +8,17 @@
 
 name: Openwrt-AutoBuild-Immortalwrt
 
-on: 
-  repository_dispatch:
-  release:
-    types: published
-  push:
-    branches:
-      - main
-    paths:
-      - '.github/workflows/Openwrt-AutoBuild-Immortalwrt.yml'
-  schedule:
-    - cron: 18 18 * * *
+#on: 
+#  repository_dispatch:
+#  release:
+#    types: published
+#  push:
+#    branches:
+#      - main
+#    paths:
+#      - '.github/workflows/Openwrt-AutoBuild-Immortalwrt.yml'
+#  schedule:
+#    - cron: 18 18 * * *
 
 env:
   REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
