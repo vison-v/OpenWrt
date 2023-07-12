@@ -14,11 +14,24 @@ on:
 permissions:
   contents: read
 
+env:
+  REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
+  SCKEY: ${{ secrets.SCKEY }}
+  PAT: ${{ secrets.PAT }}
+  TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+  TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+  SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+  TZ: Asia/Shanghai
+
 jobs:
 
   build_openwrt:
 
-    name: Build OpenWrt Firmware
+    name: Build ${{matrix.target}}
+    strategy:
+      fail-fast: false
+      matrix:
+        target: [x86_64]
 
     runs-on: ubuntu-latest
 
@@ -42,14 +55,69 @@ jobs:
       - name: Checkout OpenWrt
         uses: actions/checkout@v3
 
-      - name: Update feeds
+      - name: Load Settings.ini
         run: |
-          sed -i 's/#src-git helloworld/src-git helloworld/g' ./feeds.conf.default
+          source "${GITHUB_WORKSPACE}/Lean/common/settings.ini"
+          if [ -f "Lean/${{matrix.target}}/settings.ini" ]; then
+            source "${GITHUB_WORKSPACE}/Lean/${{matrix.target}}/settings.ini"
+          fi
+          echo "REPO_URL=${REPO_URL}" >> $GITHUB_ENV
+          echo "REPO_BRANCH=${REPO_BRANCH}" >> $GITHUB_ENV
+          echo "CONFIG_FILE=${CONFIG_FILE}" >> $GITHUB_ENV
+          echo "DIY_SH=${DIY_SH}" >> $GITHUB_ENV
+          echo "ADD_SH=${ADD_SH}" >> $GITHUB_ENV
+          echo "FREE_UP_DISK=${FREE_UP_DISK}" >> $GITHUB_ENV
+          echo "UPLOAD_BIN_DIR_FOR_ARTIFACT=${UPLOAD_BIN_DIR_FOR_ARTIFACT}" >> $GITHUB_ENV
+          echo "UPLOAD_FIRMWARE_FOR_ARTIFACT=${UPLOAD_FIRMWARE_FOR_ARTIFACT}" >> $GITHUB_ENV
+          echo "UPLOAD_EFI_FIRMWARE_FOR_ARTIFACT=${UPLOAD_EFI_FIRMWARE_FOR_ARTIFACT}" >> $GITHUB_ENV
+          echo "UPLOAD_ISO_FIRMWARE_FOR_ARTIFACT=${UPLOAD_ISO_FIRMWARE_FOR_ARTIFACT}" >> $GITHUB_ENV
+          echo "UPLOAD_IPK_FOR_ARTIFACT=${UPLOAD_IPK_FOR_ARTIFACT}" >> $GITHUB_ENV
+          echo "UPLOAD_FIRMWARE_FOR_RELEASE=${UPLOAD_FIRMWARE_FOR_RELEASE}" >> $GITHUB_ENV
+      
+      - name: Get current date
+        id: date
+        run: |
+          echo "date=$(date +'%m/%d_%Y_%H/%M')" >> $GITHUB_ENV
+          echo "date2=$(date +'%m/%d %Y')" >> $GITHUB_ENV
+          echo "date3=$(date +'%m.%d')" >> $GITHUB_ENV
+          echo "date4=$(date +'%m.%d.%Y')" >> $GITHUB_ENV
+      
+      - name: Clone source code
+        run: |
+          git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
+
+      - name: Load && Update feeds
+        run: |
+          cp -rf Lean/common/files/. openwrt/
+          cd openwrt
           ./scripts/feeds update -a
           ./scripts/feeds install -a
 
-      - name: Generate configuration file
-        run: make defconfig
+      - name: Load custom configuration
+        run: |
+          cp -rf Lean openwrt/
+          cd openwrt
+          chmod +x Lean/common/$ADD_SH
+          /bin/bash "Lean/common/$ADD_SH"
+          if [ -f "Lean/${{matrix.target}}/$DIY_SH" ]; then
+            chmod +x Lean/${{matrix.target}}/$DIY_SH
+            /bin/bash "Lean/${{matrix.target}}/$DIY_SH"
+          fi
+          mv Lean/common/$CONFIG_FILE .config
+          if [ -f "Lean/${{matrix.target}}/$CONFIG_FILE" ]; then
+            echo >> .config
+            cat Lean/${{matrix.target}}/$CONFIG_FILE >> .config
+          fi
+          make defconfig
+          df -hT
+    
+      - name: Apply patches
+        run: |
+          cd openwrt
+          find "Lean/common/patches" -type f ! -path 'Lean/common/patches/china_mirrors.patch' -name '*.patch' -print0 | sort -z | xargs -I % -t -0 -n 1 sh -c "cat '%'  | patch -d './' -p1 -E --forward --no-backup-if-mismatch"
+          if [ -n "$(ls -A "Lean/${{matrix.target}}/patches" 2>/dev/null)" ]; then
+            find "Lean/${{matrix.target}}/patches" -type f -name '*.patch' -print0 | sort -z | xargs -I % -t -0 -n 1 sh -c "cat '%'  | patch -d './' -p1 -E --forward --no-backup-if-mismatch"
+          fi
 
       - name: Download packages
         run: make download -j16
