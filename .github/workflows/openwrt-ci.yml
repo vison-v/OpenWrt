@@ -11,6 +11,10 @@ on:
   schedule:
     - cron: 0 20 * * *
 
+  push:
+    paths:
+      - '.github/workflows/openwrt-ci.yml'
+
 permissions:
   contents: read
 
