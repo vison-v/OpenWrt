@@ -6,17 +6,17 @@
 # Blog: https://p3terx.com
 #=================================================
 
-#name: Openwrt-AutoBuild-Immortalwrt
+name: Openwrt-AutoBuild-Immortalwrt
 
-#on: 
-#  repository_dispatch:
-#  release:
-#    types: published
-#  push:
-#    branches:
-#      - main
-#    paths:
-#      - '.github/workflows/Openwrt-AutoBuild-Immortalwrt.yml'
+on: 
+  repository_dispatch:
+  release:
+    types: published
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/Openwrt-AutoBuild-Immortalwrt.yml'
 #  schedule:
 #    - cron: 18 18 * * *
 
