@@ -17,8 +17,8 @@ on:
       - main
     paths:
       - '.github/workflows/Openwrt-AutoBuild-Lean.yml'
-  schedule:
-    - cron: 19 19 * * *
+  #schedule:
+  #  - cron: 19 19 * * *
 
 env:
   REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
