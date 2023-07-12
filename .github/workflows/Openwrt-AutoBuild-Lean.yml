@@ -39,6 +39,11 @@ jobs:
         
     steps:
     
+    - name: Checkout
+      uses: actions/checkout@main
+      with:
+          fetch-depth: 0
+    
     - name: Load Settings.ini
       run: |
         source "${GITHUB_WORKSPACE}/Lean/common/settings.ini"
