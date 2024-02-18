@@ -86,9 +86,6 @@ jobs:
           sudo -E timedatectl set-timezone "Asia/Shanghai"
           df -h
     
-    - name: Checkout OpenWrt
-      uses: actions/checkout@main
-    
     - name: Clone source code
       run: |
         git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
@@ -98,6 +95,15 @@ jobs:
         cp -rf Lean/common/files/. openwrt/
         cd openwrt
         ./scripts/feeds update -a
+
+       - name: Free up disk space
+      env:
+        DEBIAN_FRONTEND: noninteractive
+      run: |
+        sudo mkdir -p -m 777 /mnt/openwrt/dl /mnt/openwrt/bin /mnt/openwrt/staging_dir
+        ln -sf /mnt/openwrt/dl openwrt/dl
+        ln -sf /mnt/openwrt/bin openwrt/bin
+        ln -sf /mnt/openwrt/staging_dir openwrt/staging_dir 
     
     - name: Load custom configuration
       run: |
