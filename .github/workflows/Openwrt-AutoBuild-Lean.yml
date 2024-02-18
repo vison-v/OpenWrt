@@ -61,6 +61,12 @@ jobs:
         echo "UPLOAD_ISO_FIRMWARE_FOR_ARTIFACT=${UPLOAD_ISO_FIRMWARE_FOR_ARTIFACT}" >> $GITHUB_ENV
         echo "UPLOAD_IPK_FOR_ARTIFACT=${UPLOAD_IPK_FOR_ARTIFACT}" >> $GITHUB_ENV
         echo "UPLOAD_FIRMWARE_FOR_RELEASE=${UPLOAD_FIRMWARE_FOR_RELEASE}" >> $GITHUB_ENV
+        if [ ${{matrix.target}} == "x86_64" ]; then
+            echo "ARCH=linux/amd64" >> $GITHUB_ENV
+            echo "MTARGET=x86_64" >> $GITHUB_ENV
+        elif [ ${{matrix.target}} == "AC58U" ]; then
+            echo "MTARGET=AC58U" >> $GITHUB_ENV
+        fi    
 
     - name: Get current date
       id: date
@@ -138,12 +144,31 @@ jobs:
         make download -j16
         df -hT
 
+    - name: Cache
+      uses: stupidloud/cachewrtbuild@main
+      with:
+        ccache: 'true'
+        mixkey: ${{ matrix.target }}
+        clean: ${{ contains(github.event.action, 'nocache') }}
+        prefix: ${{ github.workspace }}/openwrt
+    
+    - name: Check space usage
+      run: |
+        shopt -s extglob
+        cd openwrt
+        if [[ -f staging_dir/*${{ env.MTARGET }}*/bin ]]; then
+            rm -rf staging_dir/!(*${{ env.MTARGET }}*|host|hostpkg) build_dir/!(*${{ env.MTARGET }}*|host|hostpkg)
+        fi
+        df -hT
+
     - name: Compile the firmware
       id: compile
       run: |
         cd openwrt
         echo -e "$(($(nproc)+1)) thread compile"
         make -j$(($(nproc)+1)) || make -j1 V=s
+        rm -rf staging_dir/toolchain-*/bin/*openwrt-linux-musl-lto-dump
+        rm -rf staging_dir/toolchain-*/initial
         df -hT
       
     - name: Upload bin directory
