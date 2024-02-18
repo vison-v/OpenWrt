@@ -96,7 +96,7 @@ jobs:
         cd openwrt
         ./scripts/feeds update -a
 
-       - name: Free up disk space
+    - name: Free up disk space
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
