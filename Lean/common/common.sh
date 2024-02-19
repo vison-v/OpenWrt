@@ -2,26 +2,47 @@
 
 rm -Rf feeds/packages/net/{smartdns,aria2,adguardhome} feeds/luci/themes/luci-theme-argon feeds/luci/applications/{luci-app-netdata,luci-app-baidupcs-web,luci-app-dockerman}
 ##############加载自定义app################
-#git submodule add -f --name helloworld https://github.com/fw876/helloworld.git package/openwrt-packages/luci-app-ssr-plus
-#git submodule update --remote package/openwrt-packages/luci-app-ssr-plus
 
-svn co https://github.com/vernesong/OpenClash/trunk/luci-app-openclash package/openwrt-packages/luci-app-openclash
-git clone https://github.com/jefferymvp/luci-app-koolproxyR package/openwrt-packages/luci-app-koolproxyR
+function git_clone() {
+          git clone --depth 1 $1 $2
+          if [ "$?" != 0 ]; then
+            echo "error on $1"
+            pid="$( ps -q $$ )"
+            kill $pid
+          fi
+        }
+function git_sparse_clone() {
+          branch="$1" rurl="$2" localdir="$3" && shift 3
+          git clone -b $branch --depth 1 --filter=blob:none --sparse $rurl $localdir
+          if [ "$?" != 0 ]; then
+            echo "error on $rurl"
+            pid="$( ps -q $$ )"
+            kill $pid
+          fi
+          cd $localdir
+          git sparse-checkout init --cone
+          git sparse-checkout set $@
+          mv -n $@ ../ || true
+          cd ..
+          rm -rf $localdir
+          }
+function mvdir() {
+        mv -n `find $1/* -maxdepth 0 -type d` ./
+        rm -rf $1
+        }
+        
+#git_clone https://github.com/vernesong/OpenClash && mv -n OpenClash/luci-app-openclash package/openwrt-packages/luci-app-openclash ; rm -rf OpenClash
 git clone https://github.com/Leo-Jo-My/luci-theme-opentomato.git package/openwrt-packages/luci-theme-opentomato
-svn co https://github.com/rosywrt/luci-theme-rosy/trunk/luci-theme-rosy package/openwrt-packages/luci-theme-rosy
 git clone https://github.com/destan19/OpenAppFilter.git package/openwrt-packages/OpenAppFilter
-git clone https://github.com/CCnut/feed-netkeeper.git -b LUCI-LUA-UCITRACK package/openwrt-packages/netkeeper
-svn co https://github.com/apollo-ng/luci-theme-darkmatter/trunk/luci package/openwrt-packages/luci-theme-darkmatter
+#git_clone https://github.com/apollo-ng/luci-theme-darkmatter && mv -n luci-theme-darkmatter/luci package/openwrt-packages/luci-theme-darkmatter ; rm -rf luci-theme-darkmatter
 git clone https://github.com/binge8/luci-app-koolddns.git package/openwrt-packages/luci-app-koolddns
-svn co https://github.com/lisaac/luci-app-dockerman/trunk/applications/luci-app-dockerman package/openwrt-packages/luci-app-dockerman
+#git_clone https://github.com/lisaac/luci-app-dockerman.git && mv -n luci-app-dockerman/applications/luci-app-dockerman package/openwrt-packages/luci-app-dockerman ; rm -rf luci-app-dockerman   
 
 git clone https://github.com/kenzok8/small.git package/openwrt-packages/small
-#svn co https://github.com/kenzok8/small/trunk/luci-app-passwall package/openwrt-packages/luci-app-passwall
-svn co https://github.com/kenzok8/openwrt-packages/trunk/luci-app-eqos package/openwrt-packages/luci-app-eqos
 
-git clone https://github.com/sirpdboy/luci-app-netdata package/openwrt-packages/luci-app-netdata
-git clone https://github.com/sirpdboy/luci-theme-opentopd package/openwrt-packages/luci-theme-opentopd
-git clone https://github.com/sirpdboy/luci-app-netwizard package/openwrt-packages/luci-app-netwizard
+#git clone https://github.com/sirpdboy/luci-app-netdata package/openwrt-packages/luci-app-netdata
+#git clone https://github.com/sirpdboy/luci-theme-opentopd package/openwrt-packages/luci-theme-opentopd
+#git clone https://github.com/sirpdboy/luci-app-netwizard package/openwrt-packages/luci-app-netwizard
 
 #git clone https://github.com/jerrykuku/luci-app-vssr.git package/openwrt-packages/luci-app-vssr
 git clone https://github.com/jerrykuku/luci-app-argon-config.git -b 18.06 package/openwrt-packages/luci-app-argon-config
@@ -33,16 +54,7 @@ git clone https://github.com/KFERMercer/luci-app-tcpdump.git package/openwrt-pac
 git clone https://github.com/pymumu/luci-app-smartdns -b lede package/openwrt-packages/luci-app-smartdns
 git clone https://github.com/pymumu/openwrt-smartdns.git package/openwrt-packages/smartdns
 
-svn co https://github.com/Lienol/openwrt-package/trunk/luci-app-control-timewol package/openwrt-packages/luci-app-control-timewol
-svn co https://github.com/Lienol/openwrt-package/trunk/luci-app-control-webrestriction package/openwrt-packages/luci-app-control-webrestriction
-svn co https://github.com/Lienol/openwrt-package/trunk/luci-app-control-weburl package/openwrt-packages/luci-app-control-weburl
-
-svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-aliddns package/openwrt-packages/luci-app-aliddns
-svn co https://github.com/kiddin9/openwrt-packages/trunk/aria2 package/openwrt-packages/aria2
-svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-adguardhome package/openwrt-packages/luci-app-adguardhome
-svn co https://github.com/kiddin9/openwrt-packages/trunk/adguardhome package/openwrt-packages/adguardhome
-svn co https://github.com/kiddin9/openwrt-packages/trunk/qBittorrent-Enhanced-Edition package/openwrt-packages/qBittorrent-Enhanced-Edition
-#svn co https://github.com/kiddin9/openwrt-packages/trunk/lua-maxminddb package/openwrt-packages/lua-maxminddb
+git_clone https://github.com/Lienol/openwrt-package.git && mv -n openwrt-package/{luci-app-control-timewol,luci-app-control-webrestriction,luci-app-control-weburl} package/openwrt-packages/{luci-app-control-timewol,luci-app-control-webrestriction,luci-app-control-weburl}; rm -rf openwrt-package
 
 ##############菜单整理美化#################
 ./scripts/feeds update -a
@@ -163,8 +175,7 @@ sed -i 's/services/control/g'  `grep network -rl package/openwrt-packages/OpenAp
 sed -i 's/90/56/g' package/openwrt-packages/luci-app-argon-config/luasrc/controller/argon-config.lua
 sed -i 's/"Argon 主题设置"/"主题设置"/g' package/openwrt-packages/luci-app-argon-config/po/zh_Hans/argon-config.po
 
-sed -i 's/network/control/g'  `grep network -rl package/openwrt-packages/luci-app-eqos/luasrc`
-sed -i '/msgid "EQoS"/{n;s/IP限速/网速控制/;}' package/openwrt-packages/luci-app-eqos/po/zh_Hans/eqos.po
+sed -i 's/network/control/g'  `grep network -rl feeds/luci/applications/luci-app-eqos/luasrc`
 
 sed -i 's/CPU 性能优化调节/CPU 调节/g' feeds/luci/applications/luci-app-cpufreq/po/zh-cn/cpufreq.po
 
