@@ -54,7 +54,7 @@ git clone https://github.com/KFERMercer/luci-app-tcpdump.git package/openwrt-pac
 git clone https://github.com/pymumu/luci-app-smartdns -b lede package/openwrt-packages/luci-app-smartdns
 git clone https://github.com/pymumu/openwrt-smartdns.git package/openwrt-packages/smartdns
 
-git_clone https://github.com/Lienol/openwrt-package.git && mv -n openwrt-package/{luci-app-control-timewol,luci-app-control-webrestriction,luci-app-control-weburl} package/openwrt-packages/{luci-app-control-timewol,luci-app-control-webrestriction,luci-app-control-weburl}; rm -rf openwrt-package
+git_clone https://github.com/Lienol/openwrt-package.git && mv -n openwrt-package/{luci-app-control-timewol,luci-app-control-webrestriction,luci-app-control-weburl} package/openwrt-packages/; rm -rf openwrt-package
 
 ##############菜单整理美化#################
 ./scripts/feeds update -a
