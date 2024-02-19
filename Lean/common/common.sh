@@ -32,10 +32,10 @@ function mvdir() {
         }
         
 #git_clone https://github.com/vernesong/OpenClash && mv -n OpenClash/luci-app-openclash package/openwrt-packages/luci-app-openclash ; rm -rf OpenClash
-git clone https://github.com/Leo-Jo-My/luci-theme-opentomato.git package/openwrt-packages/luci-theme-opentomato
+#git clone https://github.com/Leo-Jo-My/luci-theme-opentomato.git package/openwrt-packages/luci-theme-opentomato
 git clone https://github.com/destan19/OpenAppFilter.git package/openwrt-packages/OpenAppFilter
 #git_clone https://github.com/apollo-ng/luci-theme-darkmatter && mv -n luci-theme-darkmatter/luci package/openwrt-packages/luci-theme-darkmatter ; rm -rf luci-theme-darkmatter
-git clone https://github.com/binge8/luci-app-koolddns.git package/openwrt-packages/luci-app-koolddns
+#git clone https://github.com/binge8/luci-app-koolddns.git package/openwrt-packages/luci-app-koolddns
 #git_clone https://github.com/lisaac/luci-app-dockerman.git && mv -n luci-app-dockerman/applications/luci-app-dockerman package/openwrt-packages/luci-app-dockerman ; rm -rf luci-app-dockerman   
 
 git clone https://github.com/kenzok8/small.git package/openwrt-packages/small
