@@ -38,7 +38,7 @@ git clone https://github.com/destan19/OpenAppFilter.git package/openwrt-packages
 #git clone https://github.com/binge8/luci-app-koolddns.git package/openwrt-packages/luci-app-koolddns
 #git_clone https://github.com/lisaac/luci-app-dockerman.git && mv -n luci-app-dockerman/applications/luci-app-dockerman package/openwrt-packages/luci-app-dockerman ; rm -rf luci-app-dockerman   
 
-git clone https://github.com/kenzok8/small.git package/openwrt-packages/small
+git clone https://github.com/kenzok8/small.git package/openwrt-packages/small ; rm -Rf package/openwrt-packages/small/v2ray-plugin
 
 #git clone https://github.com/sirpdboy/luci-app-netdata package/openwrt-packages/luci-app-netdata
 #git clone https://github.com/sirpdboy/luci-theme-opentopd package/openwrt-packages/luci-theme-opentopd
