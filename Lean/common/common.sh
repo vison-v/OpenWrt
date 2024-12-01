@@ -118,8 +118,8 @@ sed -i 's/msgstr "诊断"/msgstr "网络诊断"/g' feeds/luci/applications/luci-
 
 sed -i 's/msgstr "Socat"/msgstr "端口转发"/g' feeds/luci/applications/luci-app-socat/po/zh_Hans/socat.po
 
-sed -i 's/"Inital Setup"/"向导"/g' package/openwrt-packages/luci-app-netwizard/luasrc/controller/netwizard.lua
-sed -i "s/lan_ipaddr '*.*.*.*'/lan_ipaddr '192.168.10.1'/g" package/openwrt-packages/luci-app-netwizard/root/etc/config/netwizard
+#sed -i 's/"Inital Setup"/"向导"/g' package/openwrt-packages/luci-app-netwizard/luasrc/controller/netwizard.lua
+#sed -i "s/lan_ipaddr '*.*.*.*'/lan_ipaddr '192.168.10.1'/g" package/openwrt-packages/luci-app-netwizard/root/etc/config/netwizard
 
 sed -i 's/Setting/其它设置/g' package/openwrt-packages/luci-app-netdata/luasrc/controller/netdata.lua
 
