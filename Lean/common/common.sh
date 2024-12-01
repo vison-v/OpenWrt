@@ -246,6 +246,6 @@ sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/luci-app-
 #sed -i 's/DNSFilter/广告过滤/g' package/openwrt-packages/luci-app-dnsfilter/luasrc/controller/dnsfilter.lua
 #sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/luci-app-dnsfilter/luasrc`
 
-sed -i 's/services/vpn/g'  `grep services -rl feeds/luci/applications/luci-app-serverchan/luasrc`
+sed -i 's/services/vpn/g'  feeds/luci/applications/luci-app-zerotier/root/usr/share/luci/menu.d/luci-app-zerotier.json
 
 ##############自定义结束#################
