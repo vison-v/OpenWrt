@@ -91,7 +91,6 @@ jobs:
           sudo -E apt-get -qq clean
           sudo -E timedatectl set-timezone "Asia/Shanghai"
           df -h
-          ls
     
     - name: Clone source code
       run: |
@@ -128,6 +127,7 @@ jobs:
           cat Lean/${{matrix.target}}/$CONFIG_FILE >> .config
         fi
         df -hT
+        ls
     
     - name: Apply patches
       run: |
