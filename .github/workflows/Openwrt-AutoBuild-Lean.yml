@@ -91,6 +91,7 @@ jobs:
           sudo -E apt-get -qq clean
           sudo -E timedatectl set-timezone "Asia/Shanghai"
           df -h
+          ls
     
     - name: Clone source code
       run: |
