@@ -45,13 +45,12 @@ git clone https://github.com/KFERMercer/luci-app-tcpdump.git package/openwrt-pac
 git clone https://github.com/pymumu/luci-app-smartdns -b lede package/openwrt-packages/luci-app-smartdns
 git clone https://github.com/pymumu/openwrt-smartdns.git package/openwrt-packages/smartdns
 
-git_sparse_clone master "https://github.com/coolsnowwolf/luci" applications/{luci-app-wrtbwmon,luci-app-rclone,luci-app-watchcat,luci-app-ttyd,luci-app-unblockmusic,luci-app-serverchan}
-
-git_clone https://github.com/Lienol/openwrt-package.git && mv -n openwrt-package/{luci-app-control-timewol,luci-app-control-webrestriction,luci-app-control-weburl} package/openwrt-packages/; rm -rf openwrt-package
+git_sparse_clone master "https://github.com/coolsnowwolf/luci" applications/{luci-app-wrtbwmon,luci-app-rclone,luci-app-watchcat,luci-app-ttyd,luci-app-unblockmusic,luci-app-serverchan} feeds/luci/applications
 
 git_clone https://github.com/Lienol/openwrt-package.git && mv -n openwrt-package/{luci-app-control-timewol,luci-app-control-webrestriction,luci-app-control-weburl} package/openwrt-packages/; rm -rf openwrt-package
 
 ##############菜单整理美化#################
+
 ./scripts/feeds update -a
 ./scripts/feeds install -a
 
