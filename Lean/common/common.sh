@@ -99,13 +99,13 @@ sed -i 's/88/89/g' feeds/luci/applications/luci-app-autoreboot/luasrc/controller
 sed -i 's/nas/services/g' feeds/luci/applications/luci-app-cifs-mount/luasrc/controller/cifs.lua
 sed -i 's/"挂载 SMB 网络共享"/"挂载 SMB"/g' feeds/luci/applications/luci-app-cifs-mount/po/zh_Hans/cifs.po
 
-sed -i 's/msgstr "实时流量监测"/msgstr "流量"/g' feeds/luci/applications/luci-app-wrtbwmon/po/zh_Hans/wrtbwmon.po
+sed -i 's/msgstr "实时流量监测"/msgstr "流量"/g' feeds/luci/applications/luci-app-wrtbwmon/po/zh-cn/wrtbwmon.po
 
 sed -i 's/89/88/g' feeds/luci/applications/luci-app-filetransfer/luasrc/controller/filetransfer.lua
 
-sed -i 's/TTYD 终端/命令终端/g' feeds/luci/applications/luci-app-ttyd/po/zh_Hans/terminal.po
+sed -i 's/TTYD 终端/命令终端/g' feeds/luci/applications/luci-app-ttyd/po/zh_cn/terminal.po
 
-sed -i 's/解锁网易云灰色歌曲/网易音乐/g' feeds/luci/applications/luci-app-unblockmusic/po/zh_Hans/unblockmusic.po
+sed -i 's/解锁网易云灰色歌曲/网易音乐/g' feeds/luci/applications/luci-app-unblockmusic/po/zh_cn/unblockmusic.po
 sed -i 's/services/vpn/g'  `grep services -rl feeds/luci/applications/luci-app-unblockmusic/luasrc`
 
 sed -i 's/上网时间控制/时间控制/g' feeds/luci/applications/luci-app-accesscontrol/po/zh_Hans/mia.po
@@ -121,7 +121,7 @@ sed -i 's/"Argon 主题设置"/"主题设置"/g' package/openwrt-packages/luci-a
 sed -i 's/带宽监控/监控/g' feeds/luci/applications/luci-app-nlbwmon/po/zh_Hans/nlbwmon.po
 
 sed -i 's/services/system/g'  `grep services -rl feeds/luci/applications/luci-app-watchcat/luasrc`
-sed -i '50s/WatchCat/智能重启/g' feeds/luci/applications/luci-app-watchcat/po/zh_Hans/watchcat.po
+sed -i '50s/WatchCat/智能重启/g' feeds/luci/applications/luci-app-watchcat/po/zh_cn/watchcat.po
 sed -i '17s/Reboot on internet connection lost/互联网连接丢失时重启/g' feeds/luci/applications/luci-app-watchcat/luasrc/model/cbi/watchcat/watchcat.lua
 sed -i '18s/Periodic reboot/定期重启/g' feeds/luci/applications/luci-app-watchcat/luasrc/model/cbi/watchcat/watchcat.lua
 sed -i 's/90/89/g' feeds/luci/applications/luci-app-watchcat/luasrc/controller/watchcat.lua
