@@ -41,9 +41,11 @@ function mvdir() {
 mkdir package/openwrt-packages
 ##--------------------------##
 git_sparse_clone main "https://github.com/kiddin9/kwrt-packages.git" luci-app-tcpdump
+git_sparse_clone main "https://github.com/kenzok8/small.git" luci-app-passwall
 #git_sparse_clone master "https://github.com/lunatickochiya/Matrix-Action-Openwrt" package/kochiya/brlaser package/kochiya/luci-app-banmac-ipt package/kochiya/luci-app-banmac-nft package/kochiya/luci-app-nvr package/kochiya/luci-app-openvpn-server
 ##--------------------------##
 mv luci-app-tcpdump package/openwrt-packages/
+mv luci-app-passwall package/openwrt-packages/
 ##############转换app语言包################
 #curl -fsSL  https://raw.githubusercontent.com/vison-v/OpenWrt/main/Immortalwrt/common/custom.sh >> package/openwrt-packages/custom.sh
 #chmod +x package/openwrt-packages/custom.sh && bash package/openwrt-packages/custom.sh
@@ -177,9 +179,9 @@ sed -i 's/KMS 服务器/KMS 服务/g' feeds/luci/applications/luci-app-vlmcsd/po
 sed -i 's/services/vpn/g' feeds/luci/applications/luci-app-haproxy-tcp/luasrc/controller/haproxy.lua
 sed -i 's/"HAProxy"/"负载优选"/g' feeds/luci/applications/luci-app-haproxy-tcp/luasrc/controller/haproxy.lua
 
-sed -i '/msgid "Pass Wall"/{n;s/PassWall/翻越长城/;}' feeds/luci/applications/luci-app-passwall/po/zh_Hans/passwall.po
-sed -i '/Pass Wall/s/-1/4/g' feeds/luci/applications/luci-app-passwall/luasrc/controller/passwall.lua
-sed -i 's/services/vpn/g'  `grep services -rl feeds/luci/applications/luci-app-passwall/luasrc`
+sed -i '/msgid "Pass Wall"/{n;s/PassWall/翻越长城/;}' package/openwrt-packages/luci-app-passwall/po/zh_Hans/passwall.po
+sed -i '/Pass Wall/s/-1/4/g' package/openwrt-packages/luci-app-passwall/luasrc/controller/passwall.lua
+sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/luci-app-passwall/luasrc`
 
 #sed -i '/Bypass/s/2/8/g' package/openwrt-packages/luci-app-bypass/luasrc/controller/bypass.lua
 #sed -i 's/Bypass/世界,你好/g' package/openwrt-packages/luci-app-bypass/luasrc/controller/bypass.lua
