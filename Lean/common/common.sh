@@ -12,20 +12,27 @@ function git_clone() {
           fi
         }
 function git_sparse_clone() {
-          branch="$1" rurl="$2" localdir="$3" && shift 3
-          git clone -b $branch --depth 1 --filter=blob:none --sparse $rurl $localdir
-          if [ "$?" != 0 ]; then
-            echo "error on $rurl"
-            pid="$( ps -q $$ )"
-            kill $pid
-          fi
-          cd $localdir
-          git sparse-checkout init --cone
-          git sparse-checkout set $@
-          mv -n $@ ../ || true
-          cd ..
-          rm -rf $localdir
-          }
+        trap 'rm -rf "$tmpdir"' EXIT
+        branch="$1" curl="$2" && shift 2
+        rootdir="$PWD"
+        tmpdir="$(mktemp -d)" || exit 1
+        if [ ${#branch} -lt 10 ]; then
+        git clone -b "$branch" --depth 1 --filter=blob:none --sparse "$curl" "$tmpdir"
+        cd "$tmpdir"
+        else
+        git clone --filter=blob:none --sparse "$curl" "$tmpdir"
+        cd "$tmpdir"
+        git checkout $branch
+        fi
+        if [ "$?" != 0 ]; then
+            echo "error on $curl"
+            exit 1
+        fi
+        git sparse-checkout init --cone
+        git sparse-checkout set "$@"
+        mv -n $@ $rootdir/ || true
+        cd $rootdir
+        }
 function mvdir() {
         mv -n `find $1/* -maxdepth 0 -type d` ./
         rm -rf $1
