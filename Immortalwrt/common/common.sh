@@ -1,12 +1,47 @@
 #!/bin/bash 
 
+##############自定义git clone################
+function git_clone() {
+          git clone --depth 1 $1 $2
+          if [ "$?" != 0 ]; then
+            echo "error on $1"
+            pid="$( ps -q $$ )"
+            kill $pid
+          fi
+        }
+        
+function git_sparse_clone() {
+        trap 'rm -rf "$tmpdir"' EXIT
+        branch="$1" curl="$2" && shift 2
+        rootdir="$PWD"
+        tmpdir="$(mktemp -d)" || exit 1
+        if [ ${#branch} -lt 10 ]; then
+        git clone -b "$branch" --depth 1 --filter=blob:none --sparse "$curl" "$tmpdir"
+        cd "$tmpdir"
+        else
+        git clone --filter=blob:none --sparse "$curl" "$tmpdir"
+        cd "$tmpdir"
+        git checkout $branch
+        fi
+        if [ "$?" != 0 ]; then
+            echo "error on $curl"
+            exit 1
+        fi
+        git sparse-checkout init --cone
+        git sparse-checkout set "$@"
+        mv -n $@ $rootdir/ || true
+        cd $rootdir
+        }
+        
+function mvdir() {
+        mv -n `find $1/* -maxdepth 0 -type d` ./
+        rm -rf $1
+        }
 ##############加载自定义app################
 #svn co https://github.com/kiddin9/openwrt-packages/trunk/luci-app-tcpdump package/openwrt-packages/luci-app-tcpdump
-
 ##############转换app语言包################
 #curl -fsSL  https://raw.githubusercontent.com/vison-v/OpenWrt/main/Immortalwrt/common/custom.sh >> package/openwrt-packages/custom.sh
 #chmod +x package/openwrt-packages/custom.sh && bash package/openwrt-packages/custom.sh
-
 ##############菜单整理美化#################
 ./scripts/feeds update -a
 ./scripts/feeds install -a
