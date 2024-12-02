@@ -1,5 +1,5 @@
 #!/bin/bash 
-rm -Rf feeds/luci/applications/luci-app-passwall
+rm -Rf feeds/luci/applications/luci-app-passwall feeds/packages/net/{xray-plugin,xray-core,v2raya,v2ray-plugin,v2ray-geoview,v2ray-geodata,v2ray-core,v2dat,tuic-client,trojan,trojan-plus,trojan-go,tcping,ssocks,sing-box,simple-obfs,shadowsocksr-libev,shadowsocks-rust,shadow-tls,redsocks2,pdnsd-alt,naiveproxy,mosdns,mihomo,microsocks,lua-neturl,ipt2socks,hysteria,gn,dns2tcp,dns2socks,chinadns-ng,brook}
 ##############自定义git clone################
 function git_clone() {
           git clone --depth 1 $1 $2
