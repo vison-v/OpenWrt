@@ -1,5 +1,5 @@
 #!/bin/bash 
-rm -Rf feeds/luci/applications/{luci-app-passwall,luci-app-bypass,luci-app-homeproxy,luci-app-mihomo,luci-app-mosdns,luci-app-openclash,luci-app-passwall2,luci-app-ssr-plus} feeds/packages/net/{xray-plugin,xray-core,v2raya,v2ray-plugin,v2ray-geoview,v2ray-geodata,v2ray-core,v2dat,tuic-client,trojan,trojan-plus,trojan-go,tcping,ssocks,sing-box,simple-obfs,shadowsocksr-libev,shadowsocks-rust,shadow-tls,redsocks2,pdnsd-alt,naiveproxy,mosdns,mihomo,microsocks,lua-neturl,ipt2socks,hysteria,gn,dns2tcp,dns2socks,chinadns-ng,brook}
+rm -Rf feeds/luci/applications/{luci-app-passwall,luci-app-bypass,luci-app-homeproxy,luci-app-mihomo,luci-app-mosdns,luci-app-openclash,luci-app-passwall2,luci-app-ssr-plus} feeds/packages/net/{xray-plugin,xray-core,v2raya,v2ray-plugin,v2ray-geoview,v2ray-geodata,v2ray-core,v2dat,tuic-client,trojan,trojan-plus,trojan-go,tcping,ssocks,simple-obfs,shadowsocksr-libev,shadowsocks-rust,shadow-tls,redsocks2,pdnsd-alt,naiveproxy,mosdns,mihomo,microsocks,lua-neturl,ipt2socks,hysteria,gn,dns2tcp,dns2socks,chinadns-ng,brook}
 ##############自定义git clone################
 function git_clone() {
           git clone --depth 1 $1 $2
@@ -41,10 +41,10 @@ function mvdir() {
 mkdir package/openwrt-packages
 ##--------------------------##
 git_sparse_clone main "https://github.com/kiddin9/kwrt-packages.git" luci-app-tcpdump
-git clone https://github.com/kenzok8/small.git && mv small/* package/openwrt-packages/
+git clone https://github.com/kenzok8/small.git && mv small/* package/openwrt-packages/; rm -rf package/openwrt-packages/sing-box
 #git_sparse_clone master "https://github.com/lunatickochiya/Matrix-Action-Openwrt" package/kochiya/brlaser package/kochiya/luci-app-banmac-ipt package/kochiya/luci-app-banmac-nft package/kochiya/luci-app-nvr package/kochiya/luci-app-openvpn-server
 ##--------------------------##
-mv luci-app-tcpdump package/openwrt-packages/
+mv luci-* package/openwrt-packages/
 ##############转换app语言包################
 #curl -fsSL  https://raw.githubusercontent.com/vison-v/OpenWrt/main/Immortalwrt/common/custom.sh >> package/openwrt-packages/custom.sh
 #chmod +x package/openwrt-packages/custom.sh && bash package/openwrt-packages/custom.sh
