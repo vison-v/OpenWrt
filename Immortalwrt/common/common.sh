@@ -1,5 +1,5 @@
 #!/bin/bash 
-
+rm -Rf feeds/luci/applications/luci-app-passwall
 ##############自定义git clone################
 function git_clone() {
           git clone --depth 1 $1 $2
