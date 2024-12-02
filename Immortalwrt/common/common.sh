@@ -193,16 +193,16 @@ sed -i '/ShadowSocksR Plus+/s/10/4/g' package/openwrt-packages/luci-app-ssr-plus
 sed -i 's/ShadowSocksR Plus+ 设置/SSR Plus设置/g' package/openwrt-packages/luci-app-ssr-plus/po/zh_Hans/ssr-plus.po
 sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/luci-app-ssr-plus/luasrc`
 
-sed -i '/Hello World/s/0/5/g' package/openwrt-packages/luci-app-vssr/luasrc/controller/vssr.lua
-sed -i 's/Hello World/世界,你好/g' package/openwrt-packages/luci-app-vssr/luasrc/controller/vssr.lua
-sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/luci-app-vssr/luasrc`
+#sed -i '/Hello World/s/0/5/g' package/openwrt-packages/luci-app-vssr/luasrc/controller/vssr.lua
+#sed -i 's/Hello World/世界,你好/g' package/openwrt-packages/luci-app-vssr/luasrc/controller/vssr.lua
+#sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/luci-app-vssr/luasrc`
 
 sed -i '/msgid "SmartDNS"/{n;s/SmartDNS/DNS 加速/;}' feeds/luci/applications/luci-app-smartdns/po/zh_Hans/smartdns.po
 sed -i 's/services/vpn/g'  feeds/luci/applications/luci-app-smartdns/root/usr/share/luci/menu.d/luci-app-smartdns.json
 
-sed -i 's/= 10/= 6/g' feeds/luci/applications/luci-app-adguardhome/luasrc/controller/AdGuardHome.lua
-sed -i 's/AdGuard Home/广告过滤/g' feeds/luci/applications/luci-app-adguardhome/luasrc/controller/AdGuardHome.lua
-sed -i 's/services/vpn/g'  `grep services -rl feeds/luci/applications/luci-app-adguardhome/luasrc`
+#sed -i 's/= 10/= 6/g' package/openwrt-packages/luci-app-adguardhome/luasrc/controller/AdGuardHome.lua
+#sed -i 's/AdGuard Home/广告过滤/g' package/openwrt-packages/luci-app-adguardhome/luasrc/controller/AdGuardHome.lua
+#sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/luci-app-adguardhome/luasrc`
 
 sed -i 's/广告屏蔽大师 Plus+/广告屏蔽/g' feeds/luci/applications/luci-app-adbyby-plus/po/zh_Hans/adbyby.po
 sed -i 's/services/vpn/g'  `grep services -rl feeds/luci/applications/luci-app-adbyby-plus/luasrc`
