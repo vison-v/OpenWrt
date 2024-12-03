@@ -52,8 +52,8 @@ git clone https://github.com/KFERMercer/luci-app-tcpdump.git package/openwrt-pac
 git clone https://github.com/pymumu/luci-app-smartdns -b lede package/openwrt-packages/luci-app-smartdns
 git clone https://github.com/pymumu/openwrt-smartdns.git package/openwrt-packages/smartdns
 
-git_sparse_clone master "https://github.com/kiddin9/kwrt-packages.git" luci-app-wrtbwmon luci-app-watchcat luci-app-ttyd luci-app-unblockmusic luci-app-pushbot
-git_sparse_clone master "https://github.com/kiddin9/luci.git" applications/luci-app-ttyd
+git_sparse_clone main "https://github.com/kiddin9/kwrt-packages.git" luci-app-wrtbwmon luci-app-watchcat luci-app-ttyd luci-app-unblockmusic luci-app-pushbot
+git_sparse_clone main "https://github.com/kiddin9/luci.git" applications/luci-app-ttyd
 
 git_clone https://github.com/Lienol/openwrt-package.git && mv -n openwrt-package/{luci-app-control-timewol,luci-app-control-webrestriction,luci-app-control-weburl} package/openwrt-packages/; rm -rf openwrt-package
 ##--------------------------##
