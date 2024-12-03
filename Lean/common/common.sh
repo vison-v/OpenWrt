@@ -108,6 +108,10 @@ sed -i 's/services/vpn/g'  feeds/luci/applications/luci-app-zerotier/root/usr/sh
 
 sed -i 's/上网时间控制/时间控制/g' feeds/luci/applications/luci-app-accesscontrol/po/zh_Hans/mia.po
 sed -i 's/services/control/g'  `grep services -rl feeds/luci/applications/luci-app-accesscontrol/luasrc`
+
+
+sed -i 's/解除网易云音乐播放限制/网易音乐/g' feeds/luci/applications/luci-app-unblockneteasemusic/root/usr/share/luci/menu.d/luci-app-unblockneteasemusic.json
+sed -i 's/services/vpn/g' feeds/luci/applications/luci-app-unblockneteasemusic/root/usr/share/luci/menu.d/luci-app-unblockneteasemusic.json
 ###--------------------------------------------------------------------------------------------------------###
 sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/luci-app-pushbot/luasrc`
 sed -i 's/Tcpdump 流量监控/流量监控/g' package/openwrt-packages/luci-app-tcpdump/po/zh_Hans/tcpdump.po
@@ -128,4 +132,5 @@ sed -i 's/msgstr "Watchcat"/msgstr "智能重启"/g' package/openwrt-packages/lu
 
 sed -i 's/解锁网易云灰色歌曲/网易音乐/g' package/openwrt-packages/luci-app-unblockmusic/po/zh_Hans/unblockmusic.po
 sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/luci-app-unblockmusic/luasrc`
+
 ##############自定义结束#################
