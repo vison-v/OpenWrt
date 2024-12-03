@@ -41,6 +41,8 @@ mkdir package/openwrt-packages
 ##--------------------------##
 git clone https://github.com/destan19/OpenAppFilter.git package/openwrt-packages/OpenAppFilter
 
+git clone https://github.com/tty228/luci-app-wechatpush.git package/openwrt-packages/luci-app-wechatpush
+
 git clone https://github.com/kenzok8/small.git package/openwrt-packages/small
 git clone https://github.com/kenzok8/golang feeds/packages/lang/golang
 
@@ -112,6 +114,7 @@ sed -i 's/Tcpdump 流量监控/流量监控/g' package/openwrt-packages/luci-app
 sed -i 's/services/control/g'  `grep network -rl package/openwrt-packages/OpenAppFilter/luci-app-oaf/luasrc`
 sed -i 's/"Argon 主题设置"/"主题设置"/g' package/openwrt-packages/luci-app-argon-config/po/zh_Hans/argon-config.po
 #sed -i 's/TTYD 终端/命令终端/g' package/openwrt-packages/luci-app-ttyd/po/zh_Hans/terminal.po
+sed -i 's/services/vpn/g'  package/openwrt-packages/luci-app-wechatpush/root/usr/share/luci/menu.d/luci-app-wechatpush.json
 
 sed -i '/msgid "Pass Wall"/{n;s/PassWall/翻越长城/;}' package/openwrt-packages/small/luci-app-passwall/po/zh_Hans/passwall.po
 sed -i '/Pass Wall/s/-1/4/g' package/openwrt-packages/small/luci-app-passwall/luasrc/controller/passwall.lua
