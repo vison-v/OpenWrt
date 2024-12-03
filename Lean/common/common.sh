@@ -117,7 +117,7 @@ sed -i 's/解除网易云音乐播放限制/网易音乐/g' feeds/luci/applicati
 sed -i 's/services/vpn/g' feeds/luci/applications/luci-app-unblockneteasemusic/root/usr/share/luci/menu.d/luci-app-unblockneteasemusic.json
 ###--------------------------------------------------------------------------------------------------------###
 sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/luci-app-pushbot/luasrc`
-sed -i 's/Tcpdump 流量监控/流量监控/g' package/openwrt-packages/luci-app-tcpdump/po/zh_Hans/tcpdump.po
+sed -i 's/Tcpdump 流量监控/流量截取/g' package/openwrt-packages/luci-app-tcpdump/po/zh_Hans/tcpdump.po
 sed -i 's/services/control/g'  `grep network -rl package/openwrt-packages/OpenAppFilter/luci-app-oaf/luasrc`
 sed -i 's/"Argon 主题设置"/"主题设置"/g' package/openwrt-packages/luci-app-argon-config/po/zh_Hans/argon-config.po
 #sed -i 's/TTYD 终端/命令终端/g' package/openwrt-packages/luci-app-ttyd/po/zh_Hans/terminal.po
