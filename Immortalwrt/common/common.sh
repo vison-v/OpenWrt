@@ -40,7 +40,6 @@ function mvdir() {
 ##############加载自定义app################
 mkdir package/openwrt-packages
 ##--------------------------##
-git_sparse_clone main "https://github.com/kiddin9/kwrt-packages.git" luci-app-tcpdump luci-app-pushbot
 git_sparse_clone master "https://github.com/kenzok8/small.git" luci-app-passwall chinadns-ng && mv chinadns-ng package/openwrt-packages/
 #git clone https://github.com/kenzok8/small.git && mv small/* package/openwrt-packages/; rm -rf package/openwrt-packages/{sing-box,v2ray-geoview}
 #git_sparse_clone master "https://github.com/lunatickochiya/Matrix-Action-Openwrt" package/kochiya/brlaser package/kochiya/luci-app-banmac-ipt package/kochiya/luci-app-banmac-nft package/kochiya/luci-app-nvr package/kochiya/luci-app-openvpn-server
@@ -172,8 +171,6 @@ sed -i '/msgid "Transmission"/{n;s/Transmission/BtPt下载/;}' feeds/luci/applic
 sed -i '/msgid "UPnP"/{n;s/UPnP/UPnP服务/;}' feeds/luci/applications/luci-app-upnp/po/zh_Hans/upnp.po
 
 sed -i 's/KMS 服务器/KMS 服务/g' feeds/luci/applications/luci-app-vlmcsd/po/zh_Hans/vlmcsd.po
-
-sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/luci-app-pushbot/luasrc`
 
 sed -i 's/services/vpn/g' feeds/luci/applications/luci-app-haproxy-tcp/luasrc/controller/haproxy.lua
 sed -i 's/"HAProxy"/"负载优选"/g' feeds/luci/applications/luci-app-haproxy-tcp/luasrc/controller/haproxy.lua
