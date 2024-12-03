@@ -40,10 +40,9 @@ function mvdir() {
 ##############加载自定义app################
 mkdir package/openwrt-packages
 ##--------------------------##
-git_sparse_clone master "https://github.com/kenzok8/small.git" luci-app-passwall
-git_sparse_clone master "https://github.com/kenzok8/small.git" chinadns-ng && mv chinadns-ng package/openwrt-packages/
 git_sparse_clone main "https://github.com/kiddin9/kwrt-packages.git" luci-app-tcpdump
-git_sparse_clone main "https://github.com/kiddin9/luci.git" applications/luci-app-pushbot
+git_sparse_clone main "https://github.com/kiddin9/kwrt-packages.git" applications/luci-app-pushbot
+git_sparse_clone master "https://github.com/kenzok8/small.git" luci-app-passwall chinadns-ng && mv chinadns-ng package/openwrt-packages/
 #git clone https://github.com/kenzok8/small.git && mv small/* package/openwrt-packages/; rm -rf package/openwrt-packages/{sing-box,v2ray-geoview}
 #git_sparse_clone master "https://github.com/lunatickochiya/Matrix-Action-Openwrt" package/kochiya/brlaser package/kochiya/luci-app-banmac-ipt package/kochiya/luci-app-banmac-nft package/kochiya/luci-app-nvr package/kochiya/luci-app-openvpn-server
 ##--------------------------##
@@ -182,19 +181,19 @@ sed -i '/msgid "Pass Wall"/{n;s/PassWall/翻越长城/;}' package/openwrt-packag
 sed -i '/Pass Wall/s/-1/4/g' package/openwrt-packages/luci-app-passwall/luasrc/controller/passwall.lua
 sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/luci-app-passwall/luasrc`
 
-sed -i '/Bypass/s/2/8/g' package/openwrt-packages/luci-app-bypass/luasrc/controller/bypass.lua
-sed -i 's/Bypass/世界,你好/g' package/openwrt-packages/luci-app-bypass/luasrc/controller/bypass.lua
-sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/luci-app-bypass/luasrc`
+#sed -i '/Bypass/s/2/8/g' package/openwrt-packages/luci-app-bypass/luasrc/controller/bypass.lua
+#sed -i 's/Bypass/世界,你好/g' package/openwrt-packages/luci-app-bypass/luasrc/controller/bypass.lua
+#sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/luci-app-bypass/luasrc`
 
-sed -i '/msgid "OpenClash"/{n;s/OpenClash/世界,你好/;}' package/openwrt-packages/luci-app-openclash/po/zh-cn/openclash.zh-cn.po
-sed -i '/OpenClash/s/50/3/g' package/openwrt-packages/luci-app-openclash/luasrc/controller/openclash.lua
-sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/luci-app-openclash/luasrc`
+#sed -i '/msgid "OpenClash"/{n;s/OpenClash/世界,你好/;}' package/openwrt-packages/luci-app-openclash/po/zh-cn/openclash.zh-cn.po
+#sed -i '/OpenClash/s/50/3/g' package/openwrt-packages/luci-app-openclash/luasrc/controller/openclash.lua
+#sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/luci-app-openclash/luasrc`
 
-echo -e "\nmsgid \"ShadowSocksR Plus+\"" >> package/openwrt-packages/luci-app-ssr-plus/po/zh_Hans/ssr-plus.po
-echo -e "msgstr \"跨越大河\"" >> package/openwrt-packages/luci-app-ssr-plus/po/zh_Hans/ssr-plus.po
-sed -i '/ShadowSocksR Plus+/s/10/4/g' package/openwrt-packages/luci-app-ssr-plus/luasrc/controller/shadowsocksr.lua
-sed -i 's/ShadowSocksR Plus+ 设置/SSR Plus设置/g' package/openwrt-packages/luci-app-ssr-plus/po/zh_Hans/ssr-plus.po
-sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/luci-app-ssr-plus/luasrc`
+#echo -e "\nmsgid \"ShadowSocksR Plus+\"" >> package/openwrt-packages/luci-app-ssr-plus/po/zh_Hans/ssr-plus.po
+#echo -e "msgstr \"跨越大河\"" >> package/openwrt-packages/luci-app-ssr-plus/po/zh_Hans/ssr-plus.po
+#sed -i '/ShadowSocksR Plus+/s/10/4/g' package/openwrt-packages/luci-app-ssr-plus/luasrc/controller/shadowsocksr.lua
+#sed -i 's/ShadowSocksR Plus+ 设置/SSR Plus设置/g' package/openwrt-packages/luci-app-ssr-plus/po/zh_Hans/ssr-plus.po
+#sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/luci-app-ssr-plus/luasrc`
 
 #sed -i '/Hello World/s/0/5/g' package/openwrt-packages/luci-app-vssr/luasrc/controller/vssr.lua
 #sed -i 's/Hello World/世界,你好/g' package/openwrt-packages/luci-app-vssr/luasrc/controller/vssr.lua
@@ -207,8 +206,8 @@ sed -i 's/services/vpn/g'  feeds/luci/applications/luci-app-smartdns/root/usr/sh
 #sed -i 's/AdGuard Home/广告过滤/g' package/openwrt-packages/luci-app-adguardhome/luasrc/controller/AdGuardHome.lua
 #sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/luci-app-adguardhome/luasrc`
 
-sed -i 's/广告屏蔽大师 Plus+/广告屏蔽/g' feeds/luci/applications/luci-app-adbyby-plus/po/zh_Hans/adbyby.po
-sed -i 's/services/vpn/g'  `grep services -rl feeds/luci/applications/luci-app-adbyby-plus/luasrc`
+#sed -i 's/广告屏蔽大师 Plus+/广告屏蔽/g' feeds/luci/applications/luci-app-adbyby-plus/po/zh_Hans/adbyby.po
+#sed -i 's/services/vpn/g'  `grep services -rl feeds/luci/applications/luci-app-adbyby-plus/luasrc`
 
 #sed -i '/KoolProxyR plus+/s/1/7/g' package/openwrt-packages/luci-app-koolproxyR/files/usr/lib/lua/luci/controller/koolproxy.lua
 #sed -i 's/KoolProxyR plus+/广告过滤/g' package/openwrt-packages/luci-app-koolproxyR/files/usr/lib/lua/luci/controller/koolproxy.lua
