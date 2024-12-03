@@ -47,12 +47,12 @@ git clone https://github.com/kenzok8/golang feeds/packages/lang/golang
 git clone https://github.com/jerrykuku/luci-app-argon-config.git package/openwrt-packages/luci-app-argon-config
 git clone https://github.com/jerrykuku/luci-theme-argon.git package/openwrt-packages/luci-theme-argon
 
-git clone https://github.com/KFERMercer/luci-app-tcpdump.git package/openwrt-packages/luci-app-tcpdump
+#git clone https://github.com/KFERMercer/luci-app-tcpdump.git package/openwrt-packages/luci-app-tcpdump
 
-git clone https://github.com/pymumu/luci-app-smartdns -b lede package/openwrt-packages/luci-app-smartdns
+#git clone https://github.com/pymumu/luci-app-smartdns -b lede package/openwrt-packages/luci-app-smartdns
 git clone https://github.com/pymumu/openwrt-smartdns.git package/openwrt-packages/smartdns
 
-git_sparse_clone main "https://github.com/kiddin9/kwrt-packages.git" luci-app-wrtbwmon luci-app-watchcat luci-app-ttyd luci-app-unblockmusic luci-app-pushbot
+git_sparse_clone main "https://github.com/kiddin9/kwrt-packages.git" luci-app-wrtbwmon luci-app-watchcat luci-app-ttyd luci-app-unblockmusic luci-app-pushbot luci-app-smartdns luci-app-tcpdump
 git_sparse_clone main "https://github.com/kiddin9/luci.git" applications/luci-app-ttyd
 
 git_clone https://github.com/Lienol/openwrt-package.git && mv -n openwrt-package/{luci-app-control-timewol,luci-app-control-webrestriction,luci-app-control-weburl} package/openwrt-packages/; rm -rf openwrt-package
@@ -120,7 +120,7 @@ sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/small/luc
 sed -i '/msgid "SmartDNS"/{n;s/SmartDNS/DNS 加速/;}' package/openwrt-packages/luci-app-smartdns/po/zh_Hans/smartdns.po
 sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/luci-app-smartdns/luasrc`
 
-sed -i 's/services/system/g'  `grep services -rl package/openwrt-packages/luci-app-watchcat/luasrc`
+sed -i 's/services/system/g' package/openwrt-packages/luci-app-watchcat/root/usr/share/luci/menu.d/luci-app-watchcat.json
 sed -i 's/msgstr "Watchcat"/msgstr "智能重启"/g' package/openwrt-packages/luci-app-watchcat/po/zh_Hans/watchcat.po
 
 sed -i 's/解锁网易云灰色歌曲/网易音乐/g' package/openwrt-packages/luci-app-unblockmusic/po/zh_Hans/unblockmusic.po
