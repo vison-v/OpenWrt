@@ -41,6 +41,7 @@ function mvdir() {
 mkdir package/openwrt-packages
 ##--------------------------##
 git_sparse_clone main "https://github.com/kiddin9/kwrt-packages.git" luci-app-tcpdump
+git_sparse_clone main "https://github.com/kiddin9/luci.git" applications/luci-app-pushbot
 git clone https://github.com/kenzok8/small.git && mv small/* package/openwrt-packages/; rm -rf package/openwrt-packages/{sing-box,v2ray-geoview}
 #git_sparse_clone master "https://github.com/lunatickochiya/Matrix-Action-Openwrt" package/kochiya/brlaser package/kochiya/luci-app-banmac-ipt package/kochiya/luci-app-banmac-nft package/kochiya/luci-app-nvr package/kochiya/luci-app-openvpn-server
 ##--------------------------##
@@ -215,6 +216,6 @@ sed -i 's/services/vpn/g'  `grep services -rl feeds/luci/applications/luci-app-a
 #sed -i 's/DNSFilter/广告过滤/g' package/openwrt-packages/luci-app-dnsfilter/luasrc/controller/dnsfilter.lua
 #sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/luci-app-dnsfilter/luasrc`
 
-# sed -i 's/services/vpn/g'  `grep services -rl feeds/luci/applications/luci-app-serverchan/htdocs/luci-static/resources/view/serverchan`
+sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/luci-app-pushbot/luasrc`
 
 ##############自定义结束#################
