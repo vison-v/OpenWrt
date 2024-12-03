@@ -42,7 +42,6 @@ mkdir package/openwrt-packages
 ##--------------------------##
 git_sparse_clone master "https://github.com/kenzok8/small.git" luci-app-passwall chinadns-ng && mv chinadns-ng package/openwrt-packages/
 #git clone https://github.com/kenzok8/small.git && mv small/* package/openwrt-packages/; rm -rf package/openwrt-packages/{sing-box,v2ray-geoview}
-#git_sparse_clone master "https://github.com/lunatickochiya/Matrix-Action-Openwrt" package/kochiya/brlaser package/kochiya/luci-app-banmac-ipt package/kochiya/luci-app-banmac-nft package/kochiya/luci-app-nvr package/kochiya/luci-app-openvpn-server
 ##--------------------------##
 mv luci-* package/openwrt-packages/
 ##############转换app语言包################
