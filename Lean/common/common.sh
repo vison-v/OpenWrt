@@ -118,7 +118,7 @@ sed -i '/Pass Wall/s/-1/4/g' package/openwrt-packages/small/luci-app-passwall/lu
 sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/small/luci-app-passwall/luasrc`
 
 sed -i '/msgid "SmartDNS"/{n;s/SmartDNS/DNS 加速/;}' package/openwrt-packages/luci-app-smartdns/po/zh_Hans/smartdns.po
-sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/luci-app-smartdns/luasrc`
+sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-smartdns/root/usr/share/luci/menu.d/luci-app-smartdns.json
 
 sed -i 's/services/system/g' package/openwrt-packages/luci-app-watchcat/root/usr/share/luci/menu.d/luci-app-watchcat.json
 sed -i 's/msgstr "Watchcat"/msgstr "智能重启"/g' package/openwrt-packages/luci-app-watchcat/po/zh_Hans/watchcat.po
