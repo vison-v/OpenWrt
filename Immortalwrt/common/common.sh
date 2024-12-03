@@ -173,6 +173,8 @@ sed -i '/msgid "UPnP"/{n;s/UPnP/UPnP服务/;}' feeds/luci/applications/luci-app-
 
 sed -i 's/KMS 服务器/KMS 服务/g' feeds/luci/applications/luci-app-vlmcsd/po/zh_Hans/vlmcsd.po
 
+sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/luci-app-pushbot/luasrc`
+
 sed -i 's/services/vpn/g' feeds/luci/applications/luci-app-haproxy-tcp/luasrc/controller/haproxy.lua
 sed -i 's/"HAProxy"/"负载优选"/g' feeds/luci/applications/luci-app-haproxy-tcp/luasrc/controller/haproxy.lua
 
@@ -215,7 +217,5 @@ sed -i 's/services/vpn/g'  feeds/luci/applications/luci-app-smartdns/root/usr/sh
 #sed -i '/DNSFilter/s/1/8/g' package/openwrt-packages/luci-app-dnsfilter/luasrc/controller/dnsfilter.lua
 #sed -i 's/DNSFilter/广告过滤/g' package/openwrt-packages/luci-app-dnsfilter/luasrc/controller/dnsfilter.lua
 #sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/luci-app-dnsfilter/luasrc`
-
-sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/luci-app-pushbot/luasrc`
 
 ##############自定义结束#################
