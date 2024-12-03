@@ -10,7 +10,7 @@ name: Openwrt-AutoBuild-Immortalwrt
 
 on: 
   schedule:
-    - cron: 0 3 */2 * *
+    - cron: 0 3 */3 * *
   push:
     paths:
       - '.github/workflows/Openwrt-AutoBuild-Immortalwrt.yml'
