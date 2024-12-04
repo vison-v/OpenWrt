@@ -45,8 +45,8 @@ git_sparse_clone master "https://github.com/kenzok8/small.git" luci-app-passwall
 ##--------------------------##
 mv luci-* package/openwrt-packages/
 ##############转换app语言包################
-#curl -fsSL  https://raw.githubusercontent.com/vison-v/OpenWrt/main/Immortalwrt/common/custom.sh >> package/openwrt-packages/custom.sh
-#chmod +x package/openwrt-packages/custom.sh && bash package/openwrt-packages/custom.sh
+curl -fsSL  https://raw.githubusercontent.com/vison-v/OpenWrt/main/Immortalwrt/common/custom.sh >> package/openwrt-packages/custom.sh
+chmod +x package/openwrt-packages/custom.sh && bash package/openwrt-packages/custom.sh
 ##############菜单整理美化#################
 ./scripts/feeds update -a
 ./scripts/feeds install -a
