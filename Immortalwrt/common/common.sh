@@ -91,6 +91,7 @@ sed -i 's/网络存储/存储/g' feeds/luci/applications/luci-app-usb-printer/po
 
 sed -i 's/nas/services/g' feeds/luci/applications/luci-app-minidlna/root/usr/share/luci/menu.d/luci-app-minidlna.json
 sed -i 's/'miniDLNA Settings'/'DLNA设置'/g' feeds/luci/applications/luci-app-minidlna/htdocs/luci-static/resources/view/minidlna.js
+sed -i '/msgid "miniDLNA"/{n;s/miniDLNA/DLNA服务/;}' feeds/luci/applications/luci-app-minidlna/po/zh_Hans/minidlna.po
 
 sed -i 's/nas/services/g' feeds/luci/applications/luci-app-hd-idle/root/usr/share/luci/menu.d/luci-app-hd-idle.json
 sed -i 's/nas/services/g' feeds/luci/applications/luci-app-samba4/root/usr/share/luci/menu.d/luci-app-samba4.json
