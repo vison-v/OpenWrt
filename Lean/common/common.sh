@@ -60,6 +60,9 @@ git_sparse_clone main "https://github.com/kiddin9/luci.git" applications/luci-ap
 git_clone https://github.com/Lienol/openwrt-package.git && mv -n openwrt-package/{luci-app-control-timewol,luci-app-control-webrestriction,luci-app-control-weburl} package/openwrt-packages/; rm -rf openwrt-package
 ##--------------------------##
 mv luci-* package/openwrt-packages/
+##############转换app语言包################
+curl -fsSL  https://raw.githubusercontent.com/vison-v/OpenWrt/main/Immortalwrt/common/custom.sh >> package/openwrt-packages/custom.sh
+chmod +x package/openwrt-packages/custom.sh && bash package/openwrt-packages/custom.sh
 ##############菜单整理美化#################
 
 ./scripts/feeds update -a
