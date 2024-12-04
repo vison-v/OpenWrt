@@ -142,7 +142,7 @@ sed -i 's/上网时间控制/时间控制/g' feeds/luci/applications/luci-app-ti
 sed -i 's/上网时间控制/时间控制/g' feeds/luci/applications/luci-app-accesscontrol/po/zh_Hans/mia.po
 sed -i 's/services/control/g'  `grep services -rl feeds/luci/applications/luci-app-accesscontrol/luasrc`
 
-sed -i 's/Tcpdump 流量监控/流量监控/g' package/openwrt-packages/luci-app-tcpdump/po/zh-cn/tcpdump.po
+sed -i 's/Tcpdump 流量监控/流量监控/g' package/openwrt-packages/luci-app-tcpdump/po/zh_Hans/tcpdump.po
 sed -i 's/"Tcpdump"/"流量监控"/g' package/openwrt-packages/luci-app-tcpdump/luasrc/controller/tcpdump.lua
 
 sed -i 's/services/control/g'  `grep network -rl feeds/luci/applications/luci-app-appfilter/luasrc`
