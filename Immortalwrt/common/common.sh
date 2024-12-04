@@ -40,6 +40,7 @@ function mvdir() {
 ##############加载自定义app################
 mkdir package/openwrt-packages
 ##--------------------------##
+git clone https://github.com/KFERMercer/luci-app-tcpdump.git package/openwrt-packages/luci-app-tcpdump
 git_sparse_clone master "https://github.com/kenzok8/small.git" luci-app-passwall chinadns-ng && mv -n chinadns-ng package/openwrt-packages/
 #git clone https://github.com/kenzok8/small.git && mv small/* package/openwrt-packages/; rm -rf package/openwrt-packages/{sing-box,v2ray-geoview}
 ##--------------------------##
