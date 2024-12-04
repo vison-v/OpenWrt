@@ -1,6 +1,6 @@
 #!/bin/bash 
 
-rm -Rf feeds/packages/net/{smartdns,aria2,adguardhome,wrtbwmon,chinadns-ng,v2ray-geodata,v2raya,dns2socks,microsocks,mosdns,pdnsd-alt,sing-box,tcping,trojan,xray-core} feeds/packages/lang/golang feeds/luci/themes/luci-theme-argon feeds/luci/applications/{luci-app-mosdns,luci-app-openclash,luci-app-passwall,luci-app-passwall2,luci-app-smartdns,luci-app-eqos,luci-app-netdata,luci-app-baidupcs-web,luci-app-dockerman,luci-app-wrtbwmon,luci-app-watchcat,luci-app-ttyd,luci-app-unblockmusic,luci-app-pushbot}
+rm -Rf feeds/packages/utils/v2dat feeds/packages/net/{smartdns,aria2,adguardhome,wrtbwmon,dns2tcp,chinadns-ng,v2ray-geodata,v2raya,dns2socks,microsocks,mosdns,pdnsd-alt,sing-box,tcping,trojan,xray-core} feeds/packages/lang/golang feeds/luci/themes/luci-theme-argon feeds/luci/applications/{luci-app-mosdns,luci-app-openclash,luci-app-passwall,luci-app-passwall2,luci-app-smartdns,luci-app-eqos,luci-app-netdata,luci-app-baidupcs-web,luci-app-dockerman,luci-app-wrtbwmon,luci-app-watchcat,luci-app-ttyd,luci-app-unblockmusic,luci-app-pushbot}
 ##############定义函数################
 function git_clone() {
           git clone --depth 1 $1 $2
@@ -55,7 +55,7 @@ git clone https://github.com/jerrykuku/luci-theme-argon.git package/openwrt-pack
 git clone https://github.com/pymumu/openwrt-smartdns.git package/openwrt-packages/smartdns
 
 git_sparse_clone main "https://github.com/kiddin9/kwrt-packages.git" aria2 wrtbwmon luci-app-eqosplus luci-app-wrtbwmon luci-app-watchcat luci-app-ttyd luci-app-unblockmusic luci-app-pushbot luci-app-smartdns luci-app-tcpdump && mv -n wrtbwmon aria2 package/openwrt-packages/
-git_sparse_clone master "https://github.com/kiddin9/luci.git" applications/luci-app-ttyd
+git_sparse_clone master "https://github.com/kiddin9/luci.git" applications/luci-app-ttyd && mv -n luci-app-ttyd package/openwrt-packages/
 
 git_clone https://github.com/Lienol/openwrt-package.git && mv -n openwrt-package/{luci-app-control-timewol,luci-app-control-webrestriction,luci-app-control-weburl} package/openwrt-packages/; rm -rf openwrt-package
 ##--------------------------##
