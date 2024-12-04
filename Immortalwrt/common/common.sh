@@ -40,10 +40,10 @@ function mvdir() {
 ##############加载自定义app################
 mkdir package/openwrt-packages
 ##--------------------------##
-git_sparse_clone master "https://github.com/kenzok8/small.git" luci-app-passwall chinadns-ng && mv chinadns-ng package/openwrt-packages/
+git_sparse_clone master "https://github.com/kenzok8/small.git" luci-app-passwall chinadns-ng && mv -n chinadns-ng package/openwrt-packages/
 #git clone https://github.com/kenzok8/small.git && mv small/* package/openwrt-packages/; rm -rf package/openwrt-packages/{sing-box,v2ray-geoview}
 ##--------------------------##
-mv luci-* package/openwrt-packages/
+mv -n luci-* package/openwrt-packages/
 ##############转换app语言包################
 curl -fsSL  https://raw.githubusercontent.com/vison-v/OpenWrt/main/Immortalwrt/common/custom.sh >> package/openwrt-packages/custom.sh
 chmod +x package/openwrt-packages/custom.sh && bash package/openwrt-packages/custom.sh
