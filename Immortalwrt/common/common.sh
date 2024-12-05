@@ -150,9 +150,6 @@ sed -i '/msgid "UU GameAcc"/{n;s/UU游戏加速器/UU加速器/;}' feeds/luci/ap
 
 sed -i 's/上网时间控制/时间控制/g' feeds/luci/applications/luci-app-timecontrol/po/zh_Hans/timecontrol.po
 
-sed -i 's/上网时间控制/时间控制/g' feeds/luci/applications/luci-app-accesscontrol/po/zh_Hans/mia.po
-sed -i 's/services/control/g'  `grep services -rl feeds/luci/applications/luci-app-accesscontrol/luasrc`
-
 sed -i 's/services/control/g'  `grep network -rl feeds/luci/applications/luci-app-appfilter/luasrc`
 sed -i 's/control/services/g'  `grep network -rl feeds/luci/applications/luci-app-timewol/luasrc`
 
