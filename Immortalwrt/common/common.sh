@@ -149,5 +149,3 @@ sed -i 's/services/vpn/g' feeds/luci/applications/luci-app-unblockneteasemusic/r
 
 sed -i 's/services/control/g'  `grep network -rl feeds/luci/applications/luci-app-appfilter/luasrc`
 sed -i 's/control/services/g'  `grep network -rl feeds/luci/applications/luci-app-timewol/luasrc`
-
-# sed -i 's/"Argon 主题设置"/"主题设置"/g' feeds/luci/applications/luci-app-argon-config/po/zh_Hans/argon-config.po
