@@ -130,11 +130,11 @@ sed -i 's/services/vpn/g' feeds/luci/applications/luci-app-unblockneteasemusic/r
 ###--------------------------------------------------------------------------------------------------------###
 sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/luci-app-pushbot/luasrc`
 sed -i 's/Tcpdump 流量监控/流量截取/g' package/openwrt-packages/luci-app-tcpdump/po/zh_Hans/tcpdump.po
-sed -i 's/services/control/g'  `grep network -rl package/openwrt-packages/OpenAppFilter/luci-app-oaf/luasrc`
+sed -i 's/services/control/g'  `grep services -rl package/openwrt-packages/OpenAppFilter/luci-app-oaf/luasrc`
 sed -i 's/"Argon 主题设置"/"主题设置"/g' package/openwrt-packages/luci-app-argon-config/po/zh_Hans/argon-config.po
 #sed -i 's/TTYD 终端/命令终端/g' package/openwrt-packages/luci-app-ttyd/po/zh_Hans/terminal.po
 sed -i 's/services/vpn/g'  package/openwrt-packages/luci-app-wechatpush/root/usr/share/luci/menu.d/luci-app-wechatpush.json
-sed -i 's/control/services/g'  `grep network -rl package/openwrt-packages/luci-app-control-timewol/luasrc`
+sed -i 's/control/services/g'  `grep control -rl package/openwrt-packages/luci-app-control-timewol/luasrc`
 
 sed -i '/msgid "Pass Wall"/{n;s/PassWall/翻越长城/;}' package/openwrt-packages/small/luci-app-passwall/po/zh_Hans/passwall.po
 sed -i '/Pass Wall/s/-1/4/g' package/openwrt-packages/small/luci-app-passwall/luasrc/controller/passwall.lua
