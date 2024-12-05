@@ -1,5 +1,5 @@
 #!/bin/bash 
-rm -Rf feeds/luci/applications/luci-app-passwall feeds/packages/net/chinadns-ng
+rm -Rf feeds/luci/applications/{luci-app-passwall,luci-app-eqosplus} feeds/packages/net/chinadns-ng
 ##############自定义git clone################
 function git_clone() {
           git clone --depth 1 $1 $2
@@ -41,6 +41,7 @@ function mvdir() {
 mkdir package/openwrt-packages
 ##--------------------------##
 git clone https://github.com/KFERMercer/luci-app-tcpdump.git package/openwrt-packages/luci-app-tcpdump
+git_sparse_clone main "https://github.com/kiddin9/kwrt-packages.git" luci-app-eqosplus
 git_sparse_clone master "https://github.com/kenzok8/small.git" luci-app-passwall chinadns-ng && mv -n chinadns-ng package/openwrt-packages/
 #git clone https://github.com/kenzok8/small.git && mv small/* package/openwrt-packages/; rm -rf package/openwrt-packages/{sing-box,v2ray-geoview}
 ##--------------------------##
