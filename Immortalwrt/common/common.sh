@@ -136,3 +136,46 @@ sed -i 's/"挂载 SMB 网络共享"/"挂载 SMB"/g' feeds/luci/applications/luci
 sed -i 's/nas/services/g' feeds/luci/applications/luci-app-rclone/luasrc/controller/rclone.lua
 sed -i 's/NAS/Services/g' feeds/luci/applications/luci-app-rclone/luasrc/controller/rclone.lua
 sed -i 's/msgstr "Rclone"/msgstr "挂载网盘"/g' feeds/luci/applications/luci-app-rclone/po/zh_Hans/luci-app-rclone.po
+
+sed -i 's/nas/services/g' feeds/luci/applications/luci-app-nfs/luasrc/controller/nfs.lua
+
+sed -i 's/89/88/g' feeds/luci/applications/luci-app-filetransfer/luasrc/controller/filetransfer.lua
+
+sed -i 's/"Turbo ACC 网络加速"/"网络加速"/g' feeds/luci/applications/luci-app-turboacc/po/zh_Hans/turboacc.po
+
+sed -i 's/解除网易云音乐播放限制/网易音乐/g' feeds/luci/applications/luci-app-unblockneteasemusic/root/usr/share/luci/menu.d/luci-app-unblockneteasemusic.json
+sed -i 's/services/vpn/g' feeds/luci/applications/luci-app-unblockneteasemusic/root/usr/share/luci/menu.d/luci-app-unblockneteasemusic.json
+
+# sed -i 's/上网时间控制/时间控制/g' feeds/luci/applications/luci-app-timecontrol/po/zh_Hans/timecontrol.po
+
+sed -i 's/services/control/g'  `grep network -rl feeds/luci/applications/luci-app-appfilter/luasrc`
+sed -i 's/control/services/g'  `grep network -rl feeds/luci/applications/luci-app-timewol/luasrc`
+
+sed -i 's/"Argon 主题设置"/"主题设置"/g' feeds/luci/applications/luci-app-argon-config/po/zh_Hans/argon-config.po
+
+sed -i 's/services/control/g' feeds/luci/applications/luci-app-eqos/root/usr/share/luci/menu.d/luci-app-eqos.json
+sed -i '/msgid "EQoS"/{n;s/IP限速/网速控制/;}' feeds/luci/applications/luci-app-eqos/po/zh_Hans/eqos.po
+
+sed -i 's/CPU 性能优化调节/CPU 调节/g' feeds/luci/applications/luci-app-cpufreq/po/zh_Hans/cpufreq.po
+
+sed -i 's/带宽监控/监控/g' package/emortal/default-settings/i18n/more.zh_Hans.po
+sed -i 's/带宽监控/监控/g' feeds/luci/applications/luci-app-nlbwmon/po/zh_Hans/nlbwmon.po
+sed -i 's/admin\/services\/nlbw/admin\/nlbw/g' feeds/luci/applications/luci-app-nlbwmon/root/usr/share/luci/menu.d/luci-app-nlbwmon.json
+
+sed -i 's/services/system/g'  feeds/luci/applications/luci-app-watchcat/root/usr/share/luci/menu.d/luci-app-watchcat.json
+sed -i 's/msgstr "Watchcat"/msgstr "智能重启"/g' feeds/luci/applications/luci-app-watchcat/po/zh_Hans/watchcat.po
+
+sed -i 's/services/vpn/g'  feeds/luci/applications/luci-app-wechatpush/root/usr/share/luci/menu.d/luci-app-wechatpush.json
+
+sed -i 's/msgstr "Aria2"/msgstr "通用下载"/g' feeds/luci/applications/luci-app-aria2/po/zh_Hans/aria2.po
+
+sed -i '/msgid "Transmission"/{n;s/Transmission/BtPt下载/;}' feeds/luci/applications/luci-app-transmission/po/zh_Hans/transmission.po
+
+sed -i '/msgid "UPnP"/{n;s/UPnP/UPnP服务/;}' feeds/luci/applications/luci-app-upnp/po/zh_Hans/upnp.po
+
+sed -i 's/KMS 服务器/KMS 服务/g' feeds/luci/applications/luci-app-vlmcsd/po/zh_Hans/vlmcsd.po
+
+sed -i 's/services/vpn/g' feeds/luci/applications/luci-app-haproxy-tcp/luasrc/controller/haproxy.lua
+sed -i 's/"HAProxy"/"负载优选"/g' feeds/luci/applications/luci-app-haproxy-tcp/luasrc/controller/haproxy.lua
+
+##---------------------------------------------------------------------------------------------------------##
