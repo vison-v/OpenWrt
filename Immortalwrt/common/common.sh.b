@@ -179,7 +179,7 @@ sed -i 's/services/vpn/g' feeds/luci/applications/luci-app-haproxy-tcp/luasrc/co
 sed -i 's/"HAProxy"/"负载优选"/g' feeds/luci/applications/luci-app-haproxy-tcp/luasrc/controller/haproxy.lua
 
 ##---------------------------------------------------------------------------------------------------------##
-sed -i 's/Tcpdump 流量监控/流量监控/g' package/openwrt-packages/luci-app-tcpdump/po/zh_Hans/tcpdump.po
+sed -i 's/Tcpdump/流量监控/g' package/openwrt-packages/luci-app-tcpdump/po/zh_Hans/tcpdump.po
 sed -i 's/"Tcpdump"/"流量监控"/g' package/openwrt-packages/luci-app-tcpdump/luasrc/controller/tcpdump.lua
 
 sed -i '/msgid "Pass Wall"/{n;s/PassWall/翻越长城/;}' package/openwrt-packages/luci-app-passwall/po/zh_Hans/passwall.po
