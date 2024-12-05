@@ -150,7 +150,7 @@ sed -i 's/services/vpn/g' feeds/luci/applications/luci-app-unblockneteasemusic/r
 sed -i 's/上网时间控制/时间控制/g' feeds/luci/applications/luci-app-timecontrol/po/zh_Hans/timecontrol.po
 
 sed -i 's/services/control/g'  `grep services -rl feeds/luci/applications/luci-app-appfilter/luasrc`
-sed -i 's/control/services/g'  `grep control -rl feeds/luci/applications/luci-app-timewol/luasrc`
+sed -i 's/"control"/"services"/g'  `grep control -rl feeds/luci/applications/luci-app-timewol/luasrc`
 
 sed -i 's/"Argon 主题设置"/"主题设置"/g' feeds/luci/applications/luci-app-argon-config/po/zh_Hans/argon-config.po
 
