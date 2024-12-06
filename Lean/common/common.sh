@@ -77,7 +77,6 @@ sed -i 's/%D %V, %C/%D %V, %C, Build By ViS0N/g' package/base-files/files/etc/ba
 curl -fsSL  https://raw.githubusercontent.com/vison-v/patches/main/base >> feeds/luci/modules/luci-base/po/zh_Hans/base.po
 sed -i 's/88/89/g' feeds/luci/applications/luci-app-autoreboot/luasrc/controller/autoreboot.lua
 sed -i 's/msgstr "Socat"/msgstr "端口转发"/g' feeds/luci/applications/luci-app-socat/po/zh_Hans/socat.po
-#sed -i 's/msgstr "实时流量监测"/msgstr "流量"/g' feeds/luci/applications/luci-app-wrtbwmon/po/zh-cn/wrtbwmon.po
 sed -i 's/89/88/g' feeds/luci/applications/luci-app-filetransfer/luasrc/controller/filetransfer.lua
 sed -i '/msgid "UPnP"/{n;s/UPnP/UPnP服务/;}' feeds/luci/applications/luci-app-upnp/po/zh_Hans/upnp.po
 sed -i '/msgid "Administration"/{n;s/管理权/权限管理/;}' feeds/luci/modules/luci-base/po/zh_Hans/base.po
@@ -135,6 +134,7 @@ sed -i 's/"Argon 主题设置"/"主题设置"/g' package/openwrt-packages/luci-a
 #sed -i 's/TTYD 终端/命令终端/g' package/openwrt-packages/luci-app-ttyd/po/zh_Hans/terminal.po
 sed -i 's/services/vpn/g'  package/openwrt-packages/luci-app-wechatpush/root/usr/share/luci/menu.d/luci-app-wechatpush.json
 sed -i 's/"control"/"services"/g'  `grep control -rl package/openwrt-packages/luci-app-control-timewol/luasrc`
+sed -i 's/msgstr "流量监控"/msgstr "实时流量"/g' package/openwrt-packages/luci-app-wrtbwmon/po/zh-cn/wrtbwmon.po
 
 sed -i '/msgid "Pass Wall"/{n;s/PassWall/翻越长城/;}' package/openwrt-packages/small/luci-app-passwall/po/zh_Hans/passwall.po
 sed -i '/Pass Wall/s/-1/4/g' package/openwrt-packages/small/luci-app-passwall/luasrc/controller/passwall.lua
