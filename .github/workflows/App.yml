@@ -32,13 +32,15 @@ jobs:
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
-        docker rmi `docker images -q`
-        sudo rm -rf /usr/share/dotnet /etc/mysql /etc/php /etc/apt/sources.list.d /usr/local/lib/android
-        sudo -E apt-get -y purge azure-cli ghc* zulu* hhvm llvm* firefox google* dotnet* powershell openjdk* adoptopenjdk* mysql* php* mongodb* dotnet* moby* snapd* || true
-        sudo -E apt-get update
-        sudo -E apt-get -y install build-essential asciidoc binutils bzip2 gawk gettext git libncurses5-dev libz-dev patch python3 unzip zlib1g-dev lib32gcc-s1 libc6-dev-i386 subversion flex uglifyjs gcc-multilib g++-multilib p7zip p7zip-full msmtp libssl-dev texinfo libglib2.0-dev xmlto qemu-utils upx libelf-dev autoconf automake libtool autopoint device-tree-compiler antlr3 gperf swig rename
-        sudo -E apt-get -y autoremove --purge
-        sudo -E apt-get clean
+        sudo -E apt-get -qq update
+        sudo -E apt-get -qq install build-essential clang llvm flex g++ gawk gcc-multilib gettext \
+        git libncurses5-dev libssl-dev python3-distutils python3-pyelftools python3-setuptools \
+        libpython3-dev rsync unzip zlib1g-dev swig aria2 jq subversion qemu-utils ccache rename \
+        libelf-dev device-tree-compiler libgnutls28-dev coccinelle libgmp3-dev libmpc-dev
+        sudo -E apt-get -qq purge azure-cli ghc* zulu* firefox powershell openjdk* dotnet* google* mysql* php* android*
+        sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
+        sudo -E apt-get -qq autoremove --purge
+        sudo -E apt-get -qq clean
         
         df -h
     
@@ -48,11 +50,12 @@ jobs:
         source "${GITHUB_WORKSPACE}/App/${{matrix.target}}"
         echo "date=$(date +'%m.%d')" >> $GITHUB_ENV
         echo "APP_NAME=${APP_NAME}" >> $GITHUB_ENV
+        echo "APP_LINK=${APP_LINK}" >> $GITHUB_ENV
       
     - name: 准备SDK
       run: |
-        wget https://archive.openwrt.org/snapshots/trunk/x86/64/OpenWrt-SDK-x86-64_gcc-5.3.0_musl-1.1.16.Linux-x86_64.tar.bz2
-        tar xjf OpenWrt-SDK-x86-64_gcc-5.3.0_musl-1.1.16.Linux-x86_64.tar.bz2 && mv OpenWrt-SDK-x86-64_gcc-5.3.0_musl-1.1.16.Linux-x86_64 openwrt
+        wget https://archive.openwrt.org/releases/23.05.4/targets/x86/64/openwrt-sdk-23.05.4-x86-64_gcc-12.3.0_musl.Linux-x86_64.tar.xz
+        mkdir openwrt && tar xf openwrt-*.tar.xz && mv openwrt-*/openwrt-*/* openwrt
         
     - name: 清理磁盘
       if: env.FREE_UP_DISK == 'true'
@@ -67,15 +70,24 @@ jobs:
       run: |
         cp -rf App/. openwrt/
         cd openwrt
+        echo "\nsrc-git $APP_NAME $APP_LINK" >> feeds.conf.default
+        ./scripts/feeds update -a
+        ./scripts/feeds install $APP_NAME
         chmod +x ${{matrix.target}}
         /bin/bash "${{matrix.target}}"
-        ./scripts/feeds update package
-        ./scripts/feeds install -a -p package
-
+        echo "\nCONFIG_PACKAGE_$APP_NAME=y" >> .config
+    
+    - name: 下载依赖包
+      id: package
+      run: |
+        cd openwrt
+        make defconfig
+        make download -j16
+        
     - name: 开始编译
       run: | 
         cd openwrt
-        make package/$APP_NAME/$APP_NAME/compile V=99
+        make package/$APP_NAME/compile V=99
         du -h --max-depth=4 ./bin
         
     - name: 准备编译好的ipk
