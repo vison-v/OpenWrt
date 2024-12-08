@@ -55,8 +55,9 @@ jobs:
     - name: 准备SDK
       run: |
         wget https://archive.openwrt.org/releases/23.05.4/targets/x86/64/openwrt-sdk-23.05.4-x86-64_gcc-12.3.0_musl.Linux-x86_64.tar.xz
-        mkdir openwrt && tar xf openwrt-*.tar.xz && rm openwrt-*.xz && mv openwrt-*/openwrt-*/* openwrt
+        mkdir openwrt && tar xf openwrt-*.tar.xz && rm openwrt-*.xz
         ls
+        mv openwrt-*/* openwrt
         
     - name: 清理磁盘
       if: env.FREE_UP_DISK == 'true'
