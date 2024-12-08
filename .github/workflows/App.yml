@@ -56,8 +56,7 @@ jobs:
       run: |
         wget https://archive.openwrt.org/releases/23.05.4/targets/x86/64/openwrt-sdk-23.05.4-x86-64_gcc-12.3.0_musl.Linux-x86_64.tar.xz
         mkdir openwrt && tar xf openwrt-*.tar.xz && rm openwrt-*.xz
-        ls
-        mv openwrt-*/* openwrt
+        mv openwrt-*/* openwrt && rm openwrt-*
         
     - name: 清理磁盘
       if: env.FREE_UP_DISK == 'true'
@@ -72,12 +71,12 @@ jobs:
       run: |
         cp -rf App/. openwrt/
         cd openwrt
-        echo "\nsrc-git $APP_NAME $APP_LINK" >> feeds.conf.default
+        echo "src-git $APP_NAME $APP_LINK" >> feeds.conf.default
         ./scripts/feeds update -a
         ./scripts/feeds install $APP_NAME
         chmod +x ${{matrix.target}}
         /bin/bash "${{matrix.target}}"
-        echo "\nCONFIG_PACKAGE_$APP_NAME=y" >> .config
+        echo "CONFIG_PACKAGE_$APP_NAME=y" >> .config
     
     - name: 下载依赖包
       id: package
