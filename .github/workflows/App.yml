@@ -71,12 +71,12 @@ jobs:
       run: |
         cp -rf App/. openwrt/
         cd openwrt
-        echo "src-git $APP_NAME $APP_LINK" >> feeds.conf.default
+        echo "src-git ${{env.APP_NAME}} ${{env.APP_LINK}}" >> feeds.conf.default
         ./scripts/feeds update -a
-        ./scripts/feeds install $APP_NAME
-        chmod +x ${{matrix.target}}
-        /bin/bash "${{matrix.target}}"
-        echo "CONFIG_PACKAGE_$APP_NAME=y" >> .config
+        ./scripts/feeds install ${{env.APP_NAME}}
+        #chmod +x ${{matrix.target}}
+        #/bin/bash "${{matrix.target}}"
+        echo "CONFIG_PACKAGE_${{env.APP_NAME}}=y" >> .config
     
     - name: 下载依赖包
       id: package
@@ -88,7 +88,7 @@ jobs:
     - name: 开始编译
       run: | 
         cd openwrt
-        make package/$APP_NAME/compile V=99
+        make package/${{env.APP_NAME}}/compile V=99
         du -h --max-depth=4 ./bin
         
     - name: 准备编译好的ipk
