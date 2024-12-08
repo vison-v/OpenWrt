@@ -1,8 +1,4 @@
 APP_NAME="luci-app-openclash"
 APP_LINK= "https://github.com/vernesong/OpenClash.git"
 
-#!/bin/bash
-sed -i '/msgid "OpenClash"/{n;s/OpenClash/世界,你好/;}' package/luci-app-openclash/luci-app-openclash/po/zh-cn/openclash.zh-cn.po
-sed -i '/OpenClash/s/50/3/g' package/luci-app-openclash/luci-app-openclash/luasrc/controller/openclash.lua
-sed -i 's/services/vpn/g'  `grep services -rl package/luci-app-openclash/luci-app-openclash/luasrc`
-echo -----------------START-------------------
+
