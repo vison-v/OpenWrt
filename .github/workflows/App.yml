@@ -1,4 +1,4 @@
-name: Openwrt-x86_64-App
+name: ${{matrix.target}}
 
 on: 
   repository_dispatch:
@@ -22,7 +22,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [app.openclash]
+        target: [luci-app-openclash]
         
     steps:
     - name: Checkout
@@ -49,8 +49,8 @@ jobs:
       run: |
         source "${GITHUB_WORKSPACE}/App/${{matrix.target}}"
         echo "date=$(date +'%m.%d')" >> $GITHUB_ENV
-        echo "APP_NAME=${APP_NAME}" >> $GITHUB_ENV
-        echo "APP_LINK=${APP_LINK}" >> $GITHUB_ENV
+        #echo "APP_NAME=${APP_NAME}" >> $GITHUB_ENV
+        #echo "APP_LINK=${APP_LINK}" >> $GITHUB_ENV
       
     - name: 准备SDK
       run: |
@@ -71,12 +71,13 @@ jobs:
       run: |
         cp -rf App/. openwrt/
         cd openwrt
-        echo "src-git ${{env.APP_NAME}} ${{env.APP_LINK}}" >> feeds.conf.default
+        git clone https://github.com/kiddin9/kwrt-packages.git
+        mv -n kwrt-packages/${{matrix.target}} ./ && rm -rf kwrt-packages
         ./scripts/feeds update -a
-        ./scripts/feeds install ${{env.APP_NAME}}
-        #chmod +x ${{matrix.target}}
-        #/bin/bash "${{matrix.target}}"
-        echo "CONFIG_PACKAGE_${{env.APP_NAME}}=y" >> .config
+        ./scripts/feeds install ${{matrix.target}}
+        chmod +x ${{matrix.target}}
+        /bin/bash "${{matrix.target}}"
+        echo "CONFIG_PACKAGE_${{matrix.target}}=y" >> .config
     
     - name: 下载依赖包
       id: package
@@ -88,7 +89,7 @@ jobs:
     - name: 开始编译
       run: | 
         cd openwrt
-        make package/${{env.APP_NAME}}/compile V=99
+        make ${{matrix.target}}/compile V=99
         du -h --max-depth=4 ./bin
         
     - name: 准备编译好的ipk
@@ -102,5 +103,5 @@ jobs:
     - name: 上传ipk
       uses: actions/upload-artifact@main
       with:
-        name: ${{ env.date }} ${{ env.APP_NAME }}
+        name: ${{ env.date }} ${{matrix.target}}
         path: ${{ env.IPK }}/        
