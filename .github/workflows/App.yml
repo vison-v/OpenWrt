@@ -22,7 +22,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [luci-app-smartdns,luci-app-passwall,luci-app-passwall2,luci-app-socat,luci-theme-argon,luci-app-argon-config,luci-app-openclash]
+        target: [luci-app-smartdns,luci-app-ttyd,luci-app-passwall,luci-app-passwall2,luci-app-socat,luci-theme-argon,luci-app-argon-config,luci-app-openclash]
         
     steps:
     - name: Checkout
