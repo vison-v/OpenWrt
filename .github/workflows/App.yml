@@ -78,6 +78,7 @@ jobs:
         #chmod +x ${{matrix.target}}
         #/bin/bash "${{matrix.target}}"
         echo "CONFIG_PACKAGE_${{matrix.target}}=y" >> .config
+        cat .config
     
     - name: 下载依赖包
       id: package
