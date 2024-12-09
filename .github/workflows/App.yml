@@ -77,7 +77,7 @@ jobs:
         cp -rf App/. openwrt/
         cd openwrt
         git clone https://github.com/kiddin9/kwrt-packages.git
-        mv -n kwrt-packages/${{matrix.target}} package/custom/ && rm -rf kwrt-packages
+        mv -n kwrt-packages/${{matrix.target}} package/custom/${{matrix.target}} && rm -rf kwrt-packages
         ./scripts/feeds update -a
         ./scripts/feeds install ${{matrix.target}}
         chmod +x ${{matrix.target}}
