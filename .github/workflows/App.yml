@@ -64,6 +64,14 @@ jobs:
         ln -sf /mnt/openwrt/dl openwrt/dl
         ln -sf /mnt/openwrt/staging_dir openwrt/staging_dir
     
+    - name: 编译 po2lmo
+      run: |
+        cd openwrt
+        git clone https://github.com/openwrt-dev/po2lmo.git
+        pushd po2lmo
+        make && sudo make install
+        popd
+    
     - name: 克隆项目
       run: |
         cp -rf App/. openwrt/
