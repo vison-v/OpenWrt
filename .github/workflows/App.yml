@@ -47,7 +47,7 @@ jobs:
     - name: 设置变量
       id: ENV
       run: |
-        source "${GITHUB_WORKSPACE}/App/${{matrix.target}}"
+        #source "${GITHUB_WORKSPACE}/App/${{matrix.target}}"
         echo "date=$(date +'%m.%d')" >> $GITHUB_ENV
         #echo "APP_NAME=${APP_NAME}" >> $GITHUB_ENV
         #echo "APP_LINK=${APP_LINK}" >> $GITHUB_ENV
