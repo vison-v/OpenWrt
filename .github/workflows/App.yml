@@ -75,8 +75,8 @@ jobs:
         mv -n kwrt-packages/${{matrix.target}} package/custom/ && rm -rf kwrt-packages
         ./scripts/feeds update -a
         ./scripts/feeds install ${{matrix.target}}
-        chmod +x ${{matrix.target}}
-        /bin/bash "${{matrix.target}}"
+        #chmod +x ${{matrix.target}}
+        #/bin/bash "${{matrix.target}}"
         echo "CONFIG_PACKAGE_${{matrix.target}}=y" >> .config
     
     - name: 下载依赖包
