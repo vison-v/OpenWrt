@@ -100,14 +100,12 @@ jobs:
         echo -------------------------
         ls bin/
         echo -------------------------
-        ls bin/x86/
+        ls bin/packages/
         echo -------------------------
-        ls bin/x86/packages/
-        echo -------------------------
-        ls bin/x86/packages/base/
+        ls bin/packages/base/
         echo -------------------------
         
-        find ./bin/x86/packages/base/ -type f -name "*.ipk" | xargs -i mv -f {} ./artifact/IPK/
+        find ./bin/packages/*/*/  -maxdepth 1 -type f -name "*.ipk" | xargs -i mv -f {} ./artifact/IPK/
         cd ./artifact/IPK
         echo "IPK=$PWD" >> $GITHUB_ENV
         
