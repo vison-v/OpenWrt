@@ -76,8 +76,9 @@ jobs:
       run: |
         cp -rf App/. openwrt/
         cd openwrt
+        ./scripts/feeds update -a && rm -rf feeds/luci/applications/luci-app-*
         git clone https://github.com/kiddin9/kwrt-packages.git
-        mv -n kwrt-packages/${{matrix.target}} package/custom/${{matrix.target}} && rm -rf kwrt-packages
+        mv -n kwrt-packages/${{matrix.target}} package/${{matrix.target}} && rm -rf kwrt-packages
         ./scripts/feeds update -a
         ./scripts/feeds install ${{matrix.target}}
         
