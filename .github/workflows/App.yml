@@ -90,7 +90,7 @@ jobs:
     - name: 开始编译
       run: | 
         cd openwrt
-        make package/custom/${{matrix.target}}/compile V=99
+        make package/custom/compile V=99
         du -h --max-depth=4 ./bin
         
     - name: 准备编译好的ipk
