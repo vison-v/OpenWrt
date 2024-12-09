@@ -22,7 +22,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [luci-app-smartdns,luci-app-passwall,luci-app-openclash]
+        target: [luci-app-smartdns,luci-app-passwall,luci-app-passwall2,luci-app-socat,luci-theme-argon,luci-app-argon-config,luci-app-openclash]
         
     steps:
     - name: Checkout
@@ -81,8 +81,6 @@ jobs:
         mv -n kwrt-packages/${{matrix.target}} package/${{matrix.target}} && rm -rf kwrt-packages
         ./scripts/feeds update -a
         ./scripts/feeds install ${{matrix.target}}
-        
-        du -h --max-depth=6 ./package
         chmod +x ${{matrix.target}}
         /bin/bash "${{matrix.target}}"
         echo "CONFIG_PACKAGE_${{matrix.target}}=y" >> .config
@@ -98,7 +96,7 @@ jobs:
       run: | 
         cd openwrt
         make package/${{matrix.target}}/compile V=99
-        du -h --max-depth=6 ./bin
+        du -h --max-depth=4 ./bin
         
     - name: 准备编译好的ipk
       run: |
