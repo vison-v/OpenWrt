@@ -22,7 +22,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [luci-app-smartdns]
+        target: [luci-app-smartdns,luci-app-passwall]
         
     steps:
     - name: Checkout
@@ -47,10 +47,7 @@ jobs:
     - name: 设置变量
       id: ENV
       run: |
-        #source "${GITHUB_WORKSPACE}/App/${{matrix.target}}"
         echo "date=$(date +'%m.%d')" >> $GITHUB_ENV
-        #echo "APP_NAME=${APP_NAME}" >> $GITHUB_ENV
-        #echo "APP_LINK=${APP_LINK}" >> $GITHUB_ENV
       
     - name: 准备SDK
       run: |
@@ -75,8 +72,8 @@ jobs:
         mv -n kwrt-packages/${{matrix.target}} package/custom/ && rm -rf kwrt-packages
         ./scripts/feeds update -a
         ./scripts/feeds install ${{matrix.target}}
-        #chmod +x ${{matrix.target}}
-        #/bin/bash "${{matrix.target}}"
+        chmod +x ${{matrix.target}}
+        /bin/bash "${{matrix.target}}"
         echo "CONFIG_PACKAGE_${{matrix.target}}=y" >> .config
     
     - name: 下载依赖包
