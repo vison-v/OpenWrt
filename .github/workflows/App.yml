@@ -77,7 +77,7 @@ jobs:
         cp -rf App/. openwrt/
         cd openwrt
         git clone https://github.com/kiddin9/kwrt-packages.git
-        mv -n kwrt-packages/${{matrix.target}} package/custom/ && rm -rf kwrt-packages
+        mv -n kwrt-packages/${{matrix.target}} package/ && rm -rf kwrt-packages
         ./scripts/feeds update -a
         ./scripts/feeds install ${{matrix.target}}
         chmod +x ${{matrix.target}}
@@ -94,7 +94,7 @@ jobs:
     - name: 开始编译
       run: | 
         cd openwrt
-        make package/custom/compile V=99
+        make package/${{matrix.target}}/compile V=99
         du -h --max-depth=4 ./bin
         
     - name: 准备编译好的ipk
