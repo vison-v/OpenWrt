@@ -85,7 +85,6 @@ jobs:
         cd openwrt
         make defconfig
         make download -j16
-        cat .config
         
     - name: 开始编译
       run: | 
@@ -97,6 +96,17 @@ jobs:
       run: |
         cd openwrt
         mkdir -p ./artifact/IPK
+        ls
+        echo -------------------------
+        ls bin/
+        echo -------------------------
+        ls bin/x86/
+        echo -------------------------
+        ls bin/x86/packages/
+        echo -------------------------
+        ls bin/x86/packages/base/
+        echo -------------------------
+        
         find ./bin/x86/packages/base/ -type f -name "*.ipk" | xargs -i mv -f {} ./artifact/IPK/
         cd ./artifact/IPK
         echo "IPK=$PWD" >> $GITHUB_ENV
