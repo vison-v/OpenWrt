@@ -22,7 +22,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [luci-app-smartdns,luci-app-passwall]
+        target: [luci-app-smartdns,luci-app-passwall,luci-app-openclash]
         
     steps:
     - name: Checkout
@@ -94,7 +94,7 @@ jobs:
     - name: 开始编译
       run: | 
         cd openwrt
-        make package/custom/compile V=99
+        make package/${{matrix.target}}/compile V=99
         du -h --max-depth=4 ./bin
         
     - name: 准备编译好的ipk
