@@ -96,15 +96,6 @@ jobs:
       run: |
         cd openwrt
         mkdir -p ./artifact/IPK
-        ls
-        echo -------------------------
-        ls bin/
-        echo -------------------------
-        ls bin/packages/
-        echo -------------------------
-        ls bin/packages/base/
-        echo -------------------------
-        
         find ./bin/packages/*/*/  -maxdepth 1 -type f -name "*.ipk" | xargs -i mv -f {} ./artifact/IPK/
         cd ./artifact/IPK
         echo "IPK=$PWD" >> $GITHUB_ENV
