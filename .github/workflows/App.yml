@@ -77,12 +77,13 @@ jobs:
         cp -rf App/. openwrt/
         cd openwrt
         git clone https://github.com/kiddin9/kwrt-packages.git
-        mv -n kwrt-packages/${{matrix.target}} package/ && rm -rf kwrt-packages
+        mv -n kwrt-packages/${{matrix.target}} package/custom/ && rm -rf kwrt-packages
         ./scripts/feeds update -a
         ./scripts/feeds install ${{matrix.target}}
         chmod +x ${{matrix.target}}
         /bin/bash "${{matrix.target}}"
         echo "CONFIG_PACKAGE_${{matrix.target}}=y" >> .config
+        du -h --max-depth=4 ./package/custom
     
     - name: 下载依赖包
       id: package
