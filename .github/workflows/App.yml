@@ -1,4 +1,4 @@
-name: ${{matrix.target}}
+name: Openwrt-x86_64-App
 
 on: 
   repository_dispatch:
