@@ -22,7 +22,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [luci-app-openclash]
+        target: [luci-app-smartdns]
         
     steps:
     - name: Checkout
