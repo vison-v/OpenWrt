@@ -1,6 +1,0 @@
-#!/bin/bash
-APP_NAME="luci-app-openclash"
-APP_LINK="https://github.com/vernesong/OpenClash.git"
-
-
-
