@@ -68,7 +68,7 @@ jobs:
         cp -rf App/. openwrt/
         cd openwrt
         ./scripts/feeds update -a && rm -rf feeds/luci/applications/luci-app-*
-        git clone https://github.com/kiddin9/kwrt-packages.git && mv -n kwrt-*/{v2dat,mihomo,mosdns,adguardhome,smartdns,${{matrix.target}}} package && rm -rf kwrt-*
+        git clone https://github.com/kiddin9/kwrt-packages.git && mv -n kwrt-*/{v2dat,mihomo,mosdns,adguardhome,${{matrix.target}}} package && rm -rf kwrt-*
         ./scripts/feeds update -a
         ./scripts/feeds install ${{matrix.target}}
         chmod +x ${{matrix.target}}
