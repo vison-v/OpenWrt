@@ -22,7 +22,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [luci-app-smartdns,luci-app-ttyd,luci-app-passwall,luci-app-passwall2,luci-app-socat,luci-theme-argon,luci-app-argon-config,luci-app-openclash]
+        target: [luci-app-smartdns,luci-app-passwall,luci-app-passwall2,luci-app-socat,luci-theme-argon,luci-app-argon-config,luci-app-openclash]
         
     steps:
     - name: Checkout
@@ -54,15 +54,6 @@ jobs:
         wget https://archive.openwrt.org/releases/23.05.4/targets/x86/64/openwrt-sdk-23.05.4-x86-64_gcc-12.3.0_musl.Linux-x86_64.tar.xz
         mkdir openwrt && tar xf openwrt-*.tar.xz && rm openwrt-*.xz
         mv openwrt-*/* openwrt && rm -rf openwrt-*
-        
-    - name: 清理磁盘
-      if: env.FREE_UP_DISK == 'true'
-      env:
-        DEBIAN_FRONTEND: noninteractive
-      run: |
-        sudo mkdir -p -m 777 /mnt/openwrt/dl /mnt/openwrt/staging_dir
-        ln -sf /mnt/openwrt/dl openwrt/dl
-        ln -sf /mnt/openwrt/staging_dir openwrt/staging_dir
     
     - name: 编译 po2lmo
       run: |
@@ -78,7 +69,7 @@ jobs:
         cd openwrt
         ./scripts/feeds update -a && rm -rf feeds/luci/applications/luci-app-*
         git clone https://github.com/kiddin9/kwrt-packages.git
-        mv -n kwrt-packages/${{matrix.target}} package/${{matrix.target}} && rm -rf kwrt-packages
+        mv -n kwrt-packages/${{matrix.target}} package/ && rm -rf kwrt-packages
         ./scripts/feeds update -a
         ./scripts/feeds install ${{matrix.target}}
         chmod +x ${{matrix.target}}
