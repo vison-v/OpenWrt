@@ -102,3 +102,10 @@ jobs:
       with:
         name: ${{ env.date }} ${{matrix.target}}
         path: ${{ env.IPK }}/        
+
+    - name: 清理文件
+      uses: Mattraks/delete-workflow-runs@main
+      with:
+        token: ${{ secrets.PAT }}
+        retain_days: 2
+        keep_minimum_runs: 1
