@@ -10,7 +10,7 @@ on:
     paths:
       - '.github/workflows/App.yml'
   schedule:
-    - cron: 0 20 * * *
+    - cron: 40 19 * * *
   #watch:
   #  types: started
 
