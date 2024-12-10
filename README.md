@@ -1,6 +1,6 @@
 # 编译状态
 
-![Openwrt-AppBuild-X86/64](https://github.com/vison-v/OpenWrt/workflows/App/badge.svg)
+![Openwrt-AppBuild-X86/64](https://github.com/vison-v/OpenWrt/workflows/Openwrt-x86_64-App/badge.svg)
 ![Openwrt-AutoBuild-Lean](https://github.com/vison-v/OpenWrt/workflows/Openwrt-AutoBuild-Lean/badge.svg)
 ![Openwrt-AutoBuild-Immortalwrt](https://github.com/vison-v/OpenWrt/workflows/Openwrt-AutoBuild-Immortalwrt/badge.svg)
 
