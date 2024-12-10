@@ -22,7 +22,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [luci-app-smartdns,luci-app-passwall,luci-app-passwall2,luci-app-socat,luci-theme-argon,luci-app-argon-config,luci-app-openclash]
+        target: [luci-app-smartdns,luci-app-passwall,luci-app-passwall2,luci-app-bypass,luci-app-adguardhome,luci-app-ssr-plus,luci-app-openclash]
         
     steps:
     - name: Checkout
@@ -67,9 +67,9 @@ jobs:
       run: |
         cp -rf App/. openwrt/
         cd openwrt
-        ./scripts/feeds update -a && rm -rf feeds/luci/applications/luci-app-*
+        ./scripts/feeds update -a && rm -rf feeds/luci/applications/* feeds/packages/net/*
         git clone https://github.com/kiddin9/kwrt-packages.git
-        mv -n kwrt-packages/${{matrix.target}} package/ && rm -rf kwrt-packages
+        mv -n kwrt-packages/* package/ && rm -rf kwrt-packages
         ./scripts/feeds update -a
         ./scripts/feeds install ${{matrix.target}}
         chmod +x ${{matrix.target}}
