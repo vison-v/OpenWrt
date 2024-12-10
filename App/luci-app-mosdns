@@ -1,0 +1,4 @@
+#!/bin/bash
+#sed -i 's/"MosDNS"/"DNS 加速"/' package/luci-app-mosdns/luasrc/controller/mosdns.lua
+sed -i 's/services/vpn/g'  `grep services -rl package/luci-app-mosdns/luasrc`
+echo -----------------START-------------------
