@@ -1,2 +1,5 @@
 #!/bin/bash
+sed -i '/msgid "Pass Wall"/{n;s/PassWall/翻越长城/;}' package/luci-app-passwall/po/zh-cn/passwall.po
+sed -i '/Pass Wall/s/-1/4/g' package/luci-app-passwall/luasrc/controller/passwall.lua
+sed -i 's/services/vpn/g'  `grep services -rl package/luci-app-passwall/luasrc`
 echo -----------------START-------------------
