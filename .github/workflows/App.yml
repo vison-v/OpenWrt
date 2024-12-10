@@ -22,7 +22,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [luci-app-smartdns,luci-app-passwall,luci-app-passwall2,luci-app-bypass,luci-app-adguardhome,luci-app-ssr-plus,luci-app-openclash]
+        target: [luci-app-homeproxy,luci-app-mihomo,luci-app-mosdns,luci-app-smartdns,luci-app-passwall,luci-app-passwall2,luci-app-bypass,luci-app-adguardhome,luci-app-ssr-plus,luci-app-openclash]
         
     steps:
     - name: Checkout
