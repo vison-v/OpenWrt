@@ -1,5 +1,5 @@
 #!/bin/bash 
-rm -Rf feeds/luci/applications/{luci-app-passwall,luci-app-eqosplus} feeds/packages/net/chinadns-ng
+rm -Rf feeds/luci/applications/luci-app-eqosplus
 ##############自定义git clone################
 function git_clone() {
           git clone --depth 1 $1 $2
