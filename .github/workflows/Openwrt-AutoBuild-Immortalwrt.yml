@@ -36,7 +36,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [x86_64_basic]
+        target: [x86_64]
         
     steps:
     
@@ -139,7 +139,6 @@ jobs:
         make defconfig
         make download -j16
         df -h
-        du -h
     
     - name: Compile the firmware
       id: compile
