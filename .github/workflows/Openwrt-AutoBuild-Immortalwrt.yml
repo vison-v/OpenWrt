@@ -139,6 +139,7 @@ jobs:
         make defconfig
         make download -j16
         df -h
+        du -h
     
     - name: Compile the firmware
       id: compile
