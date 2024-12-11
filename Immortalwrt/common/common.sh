@@ -42,8 +42,7 @@ mkdir package/openwrt-packages
 ##--------------------------##
 git clone https://github.com/KFERMercer/luci-app-tcpdump.git package/openwrt-packages/luci-app-tcpdump
 git_sparse_clone main "https://github.com/kiddin9/kwrt-packages.git" luci-app-eqosplus
-git_sparse_clone master "https://github.com/kenzok8/small.git" luci-app-passwall chinadns-ng && mv -n chinadns-ng package/openwrt-packages/
-#git clone https://github.com/kenzok8/small.git && mv small/* package/openwrt-packages/; rm -rf package/openwrt-packages/{sing-box,v2ray-geoview}
+git_sparse_clone main "https://github.com/Lienol/openwrt-package.git" luci-app-control-webrestriction luci-app-control-weburl
 ##--------------------------##
 mv -n luci-* package/openwrt-packages/
 ##############转换app语言包################
@@ -75,10 +74,6 @@ sed -i '/msgid "VPN"/{n;s/VPN/酷软/;}' feeds/luci/modules/luci-base/po/zh_Hans
 
 sed -i '/msgid "Reboot"/{n;s/"重启"/"立即重启"/;}' feeds/luci/applications/luci-app-advanced-reboot/po/zh_Hans/advanced-reboot.po
 
-echo -e "\nmsgid \"Control\"" >> package/emortal/default-settings/i18n/default.zh_Hans.po
-echo -e "msgstr \"管控\"" >> package/emortal/default-settings/i18n/default.zh_Hans.po
-
-sed -i 's/msgstr "网络存储"/msgstr "存储"/g' package/emortal/default-settings/i18n/default.zh_Hans.po
 sed -i 's/msgstr "网络存储"/msgstr "存储"/g' feeds/luci/applications/luci-app-vsftpd/po/zh_Hans/vsftpd.po
 sed -i 's/msgstr "网络存储"/msgstr "存储"/g' feeds/luci/applications/luci-app-amule/po/zh_Hans/amule.po
 
@@ -114,7 +109,6 @@ echo -e "msgstr \"规则\"" >> feeds/luci/applications/luci-app-arpbind/po/zh_Ha
 sed -i '/msgid "ZeroTier"/{n;s/msgstr ""/msgstr "内网穿透"/;}' feeds/luci/applications/luci-app-zerotier/po/zh_Hans/zerotier.po
 
 sed -i 's/msgstr "诊断"/msgstr "网络诊断"/g' feeds/luci/applications/luci-app-diag-core/po/zh_Hans/diag_core.po
-sed -i 's/msgstr "诊断"/msgstr "网络诊断"/g' package/emortal/default-settings/i18n/more.zh_Hans.po
 sed -i 's/msgstr "诊断"/msgstr "网络诊断"/g' feeds/luci/applications/luci-app-mwan3/po/zh_Hans/mwan3.po
 
 sed -i 's/msgstr "Socat"/msgstr "端口转发"/g' feeds/luci/applications/luci-app-socat/po/zh_Hans/socat.po
@@ -161,7 +155,6 @@ sed -i '/msgid "EQoS"/{n;s/IP限速/网速控制/;}' feeds/luci/applications/luc
 
 sed -i 's/CPU 性能优化调节/CPU 调节/g' feeds/luci/applications/luci-app-cpufreq/po/zh_Hans/cpufreq.po
 
-sed -i 's/带宽监控/监控/g' package/emortal/default-settings/i18n/more.zh_Hans.po
 sed -i 's/带宽监控/监控/g' feeds/luci/applications/luci-app-nlbwmon/po/zh_Hans/nlbwmon.po
 sed -i 's/admin\/services\/nlbw/admin\/nlbw/g' feeds/luci/applications/luci-app-nlbwmon/root/usr/share/luci/menu.d/luci-app-nlbwmon.json
 
@@ -184,9 +177,9 @@ sed -i 's/"HAProxy"/"负载优选"/g' feeds/luci/applications/luci-app-haproxy-t
 ##---------------------------------------------------------------------------------------------------------##
 sed -i 's/msgstr "Tcpdump 流量监控"/msgstr "流量监控"/g' package/openwrt-packages/luci-app-tcpdump/po/zh_Hans/tcpdump.po
 
-sed -i '/msgid "Pass Wall"/{n;s/PassWall/翻越长城/;}' package/openwrt-packages/luci-app-passwall/po/zh_Hans/passwall.po
-sed -i '/Pass Wall/s/-1/4/g' package/openwrt-packages/luci-app-passwall/luasrc/controller/passwall.lua
-sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/luci-app-passwall/luasrc`
+sed -i '/msgid "Pass Wall"/{n;s/PassWall/翻越长城/;}' feeds/luci/application/luci-app-passwall/po/zh_Hans/passwall.po
+sed -i '/Pass Wall/s/-1/4/g' feeds/luci/application/luci-app-passwall/luasrc/controller/passwall.lua
+sed -i 's/services/vpn/g'  `grep services -rl feeds/luci/application/luci-app-passwall/luasrc`
 
 #sed -i '/Bypass/s/2/8/g' package/openwrt-packages/luci-app-bypass/luasrc/controller/bypass.lua
 #sed -i 's/Bypass/世界,你好/g' package/openwrt-packages/luci-app-bypass/luasrc/controller/bypass.lua
