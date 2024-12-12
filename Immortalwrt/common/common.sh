@@ -106,10 +106,9 @@ sed -i 's/"IP\/MAC Binding"/"地址绑定"/g' feeds/luci/applications/luci-app-a
 echo -e "\nmsgid \"Rules\"" >> feeds/luci/applications/luci-app-arpbind/po/zh_Hans/arpbind.po
 echo -e "msgstr \"规则\"" >> feeds/luci/applications/luci-app-arpbind/po/zh_Hans/arpbind.po
 
-sed -i '/msgid "ZeroTier"/{n;s/msgstr ""/msgstr "内网穿透"/;}' feeds/luci/applications/luci-app-zerotier/po/zh_Hans/zerotier.po
+sed -i '/msgid "ZeroTier"/{n;s/msgstr "ZeroTier"/msgstr "内网穿透"/;}' feeds/luci/applications/luci-app-zerotier/po/zh_Hans/zerotier.po
 
-#sed -i 's/msgstr "诊断"/msgstr "网络诊断"/g' feeds/luci/applications/luci-app-diag-core/po/zh_Hans/diag_core.po
-sed -i 's/msgstr "诊断"/msgstr "网络诊断"/g' feeds/luci/applications/luci-app-mwan3/po/zh_Hans/mwan3.po
+sed -i 's/msgstr "MultiWAN 管理器"/msgstr "多播管理"/g' feeds/luci/applications/luci-app-mwan3/po/zh_Hans/mwan3.po
 
 sed -i 's/msgstr "Socat"/msgstr "端口转发"/g' feeds/luci/applications/luci-app-socat/po/zh_Hans/socat.po
 
