@@ -106,10 +106,11 @@ jobs:
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
-        sudo mkdir -p -m 777 /mnt/openwrt/dl /mnt/openwrt/bin /mnt/openwrt/staging_dir
+        sudo mkdir -p -m 777 /mnt/openwrt/dl /mnt/openwrt/bin /mnt/openwrt/staging_dir /mnt/openwrt/build_dir
         ln -sf /mnt/openwrt/dl openwrt/dl
         ln -sf /mnt/openwrt/bin openwrt/bin
-        ln -sf /mnt/openwrt/staging_dir openwrt/staging_dir 
+        ln -sf /mnt/openwrt/staging_dir openwrt/staging_dir
+        ln -sf /mnt/openwrt/build_dir openwrt/build_dir
     
     - name: Load custom configuration
       run: |
@@ -170,7 +171,15 @@ jobs:
         make -j$(($(nproc)+1)) || make -j1 V=s
         rm -rf staging_dir/toolchain-*/bin/*openwrt-linux-musl-lto-dump
         rm -rf staging_dir/toolchain-*/initial
-        df -hT
+        echo "=============================================="
+        echo "Space usage:"
+        echo "=============================================="
+        df -h
+        echo "=============================================="
+        du -h --max-depth=1 ./staging_dir
+        du -h --max-depth=1 ./build_dir
+        du -h --max-depth=1 ./bin
+        du -h --max-depth=1 ./dl
       
     - name: Upload bin directory
       uses: actions/upload-artifact@main
