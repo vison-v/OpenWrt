@@ -48,7 +48,7 @@ CONFIG_PACKAGE_luci-app-nginx-manager=y
 #CONFIG_PACKAGE_luci-app-zerotier=y
 #CONFIG_PACKAGE_luci-app-unblockneteasemusic=y
 #CONFIG_PACKAGE_luci-app-wechatpush=y
-#CONFIG_PACKAGE_luci-app-passwall=y
+CONFIG_PACKAGE_luci-app-passwall=y
 
 # 网络
 #CONFIG_PACKAGE_luci-app-arpbind=y
