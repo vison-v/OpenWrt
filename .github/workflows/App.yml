@@ -72,8 +72,8 @@ jobs:
         #git clone https://github.com/kenzok8/small.git && mv -n small/* package && rm -rf small
         ./scripts/feeds update -a
         ./scripts/feeds install ${{matrix.target}}
-        chmod +x ${{matrix.target}}
-        /bin/bash "${{matrix.target}}"
+        #chmod +x ${{matrix.target}}
+        #/bin/bash "${{matrix.target}}"
         echo "CONFIG_PACKAGE_${{matrix.target}}=y" >> .config
         du -h --max-depth=4 ./package
     
