@@ -53,7 +53,7 @@ chmod +x package/openwrt-packages/custom.sh && bash package/openwrt-packages/cus
 ./scripts/feeds install -a
 
 curl -fsSL  https://raw.githubusercontent.com/vison-v/patches/main/I.base >> feeds/luci/modules/luci-base/po/zh_Hans/base.po
-#rm -rf feeds/luci/collections/luci-light/Makefile && curl -fsSL  https://raw.githubusercontent.com/vison-v/patches/main/Makefile >> feeds/luci/collections/luci-light/Makefile
+rm -rf feeds/luci/collections/luci-light/Makefile && curl -fsSL  https://raw.githubusercontent.com/vison-v/patches/main/Makefile >> feeds/luci/collections/luci-light/Makefile
 sed -i '/DISTRIB_DESCRIPTION/d' package/base-files/files/etc/openwrt_release
 echo "DISTRIB_DESCRIPTION='ImmortalWrt Build By ViS0N '" >> package/base-files/files/etc/openwrt_release
 
