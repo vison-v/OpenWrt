@@ -41,7 +41,7 @@ function mvdir() {
 mkdir package/openwrt-packages
 ##--------------------------##
 git clone https://github.com/KFERMercer/luci-app-tcpdump.git package/openwrt-packages/luci-app-tcpdump
-git_sparse_clone main "https://github.com/kiddin9/kwrt-packages.git" luci-app-eqosplus
+git_sparse_clone main "https://github.com/kiddin9/kwrt-packages.git" luci-app-eqosplus luci-app-nginx-manager
 git_sparse_clone main "https://github.com/Lienol/openwrt-package.git" luci-app-control-webrestriction luci-app-control-weburl
 ##--------------------------##
 mv -n luci-* package/openwrt-packages/
