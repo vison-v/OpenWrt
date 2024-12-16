@@ -26,6 +26,7 @@ CONFIG_PACKAGE_luci-theme-argon=y
 CONFIG_PACKAGE_luci-app-argon-config=y
 
 # 服务
+CONFIG_PACKAGE_luci-app-acme=y
 CONFIG_PACKAGE_luci-app-timewol=y
 CONFIG_PACKAGE_luci-app-hd-idle=y
 CONFIG_PACKAGE_luci-app-upnp=y
