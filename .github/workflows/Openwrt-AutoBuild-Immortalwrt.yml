@@ -14,7 +14,6 @@ on:
   push:
     paths:
       - '.github/workflows/Openwrt-AutoBuild-Immortalwrt.yml'
-      - '.github/Immortalwrt/common/common.sh'
 
 permissions:
   contents: read
@@ -36,7 +35,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [x86_64_nginx]
+        target: [x86_64,x86_64_nginx]
         
     steps:
     
