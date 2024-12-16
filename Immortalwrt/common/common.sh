@@ -111,7 +111,7 @@ sed -i 's/msgstr "MultiWAN 管理器"/msgstr "多播管理"/g' feeds/luci/applic
 
 sed -i 's/msgstr "Socat"/msgstr "端口转发"/g' feeds/luci/applications/luci-app-socat/po/zh_Hans/socat.po
 
-sed -i 's/msgstr "ACME 证书"/msgstr "自动证书"/g' feeds/luci/applications/luci-app-acme/po/zh_Hans/acme.po
+sed -i 's/msgstr "ACME 证书"/msgstr "ACME证书"/g' feeds/luci/applications/luci-app-acme/po/zh_Hans/acme.po
 
 sed -i 's/msgstr "软件包"/msgstr "软件管理"/g' feeds/luci/applications/luci-app-package-manager/po/zh_Hans/package-manager.po
 
@@ -175,7 +175,7 @@ sed -i 's/"HAProxy"/"负载优选"/g' feeds/luci/applications/luci-app-haproxy-t
 ##---------------------------------------------------------------------------------------------------------##
 sed -i 's/msgstr "Tcpdump 流量监控"/msgstr "流量监控"/g' package/openwrt-packages/luci-app-tcpdump/po/zh_Hans/tcpdump.po
 
-sed -i 's/msgstr "Nginx管理器"/msgstr "反代设置"/g' package/openwrt-packages/luci-app-nginx-manager/po/zh_Hans/nginx-manager.po
+sed -i 's/msgstr "Nginx管理器"/msgstr "Nginx服务"/g' package/openwrt-packages/luci-app-nginx-manager/po/zh_Hans/nginx-manager.po
 
 sed -i '/msgid "Pass Wall"/{n;s/PassWall/翻越长城/;}' feeds/luci/applications/luci-app-passwall/po/zh_Hans/passwall.po
 sed -i '/Pass Wall/s/-1/4/g' feeds/luci/applications/luci-app-passwall/luasrc/controller/passwall.lua
