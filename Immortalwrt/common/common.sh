@@ -53,7 +53,7 @@ chmod +x package/openwrt-packages/custom.sh && bash package/openwrt-packages/cus
 ./scripts/feeds install -a
 
 curl -fsSL  https://raw.githubusercontent.com/vison-v/patches/main/I.base >> feeds/luci/modules/luci-base/po/zh_Hans/base.po
-#rm -rf feeds/luci/collections/luci-light/Makefile && curl -fsSL  https://raw.githubusercontent.com/vison-v/patches/main/Makefile >> feeds/luci/collections/luci-light/Makefile
+rm -rf feeds/luci/collections/luci-light/Makefile && curl -fsSL  https://raw.githubusercontent.com/vison-v/patches/main/Makefile >> feeds/luci/collections/luci-light/Makefile
 sed -i '/DISTRIB_DESCRIPTION/d' package/base-files/files/etc/openwrt_release
 echo "DISTRIB_DESCRIPTION='ImmortalWrt Build By ViS0N '" >> package/base-files/files/etc/openwrt_release
 
@@ -166,7 +166,7 @@ sed -i 's/msgstr "Aria2"/msgstr "通用下载"/g' feeds/luci/applications/luci-a
 
 sed -i '/msgid "Transmission"/{n;s/Transmission/BtPt下载/;}' feeds/luci/applications/luci-app-transmission/po/zh_Hans/transmission.po
 
-sed -i '/msgid "UPnP"/{n;s/UPnP/UPnP服务/;}' feeds/luci/applications/luci-app-upnp/po/zh_Hans/upnp.po
+sed -i 's/msgstr "UPnP IGD 和 PCP"/msgstr "UPnP服务"/g' feeds/luci/applications/luci-app-upnp/po/zh_Hans/upnp.po
 
 sed -i 's/KMS 服务器/KMS 服务/g' feeds/luci/applications/luci-app-vlmcsd/po/zh_Hans/vlmcsd.po
 
