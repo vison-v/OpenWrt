@@ -10,7 +10,7 @@ name: Openwrt-AutoBuild-Immortalwrt
 
 on: 
   schedule:
-    - cron: 0 22 */2 * *
+    - cron: 0 22 * * *
   push:
     paths:
       - '.github/workflows/Openwrt-AutoBuild-Immortalwrt.yml'
@@ -280,7 +280,7 @@ jobs:
       if: env.TELEGRAM_TOKEN && ! contains(github.event.action, 'notg')
       continue-on-error: true
       run: |
-        curl -k --data chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" --data "text=OpenWrt_${{ env.date3 }}_${{matrix.target}}_Immortalwrt编译完成😋  ${{ env.COWURL }}   ${{ env.WETRANS }} 🚀" "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage"
+        curl -k --data chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" --data "text=OpenWrt_${{ env.date3 }}_${{matrix.target}}_Immortalwrt编译完成😋" "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage"
     
     - name: Delete workflow runs
       uses: Mattraks/delete-workflow-runs@main
