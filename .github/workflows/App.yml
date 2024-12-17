@@ -22,7 +22,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: ${{env.App-Name}}
+        target: [luci-app-mihomo,luci-app-mosdns,luci-app-homeproxy,luci-app-passwall,luci-app-passwall2,luci-app-openclash,luci-app-nginx]
         
     steps:
     - name: Checkout
@@ -31,7 +31,7 @@ jobs:
     - name: Load App-Build.ini
       run: |
         source "${GITHUB_WORKSPACE}/App/App-Build.ini"
-        echo "App-Name=${App-Name}" >> $GITHUB_ENV
+        echo "App-Custom=${App-Custom}" >> $GITHUB_ENV
     
     - name: 加载环境
       env:
@@ -46,7 +46,6 @@ jobs:
         sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
         sudo -E apt-get -qq autoremove --purge
         sudo -E apt-get -qq clean
-        
         df -h
     
     - name: 设置变量
@@ -77,15 +76,19 @@ jobs:
         #git clone https://github.com/kenzok8/small.git && mv -n small/* package && rm -rf small
         ./scripts/feeds update -a
         ./scripts/feeds install ${{matrix.target}}
-        #chmod +x ${{matrix.target}}
-        #/bin/bash "${{matrix.target}}"
-        echo "CONFIG_PACKAGE_${{matrix.target}}=y" >> .config
+
+    - name: 定制项目
+      if: env.App-Custom == 'true'
+      run: |
+        chmod +x ${{matrix.target}}
+        /bin/bash "${{matrix.target}}"
         du -h --max-depth=4 ./package
     
     - name: 下载依赖包
       id: package
       run: |
         cd openwrt
+        echo "CONFIG_PACKAGE_${{matrix.target}}=y" >> .config
         make defconfig
         make download -j16
         
