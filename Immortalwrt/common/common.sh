@@ -110,6 +110,7 @@ sed -i '/msgid "ZeroTier"/{n;s/msgstr "ZeroTier"/msgstr "内网穿透"/;}' feeds
 sed -i 's/msgstr "MultiWAN 管理器"/msgstr "多播管理"/g' feeds/luci/applications/luci-app-mwan3/po/zh_Hans/mwan3.po
 
 sed -i 's/msgstr "Socat"/msgstr "端口转发"/g' feeds/luci/applications/luci-app-socat/po/zh_Hans/socat.po
+sed -i 's/+socat//g' feeds/luci/applications/luci-app-socat/Makefile
 
 sed -i 's/msgstr "ACME 证书"/msgstr "ACME证书"/g' feeds/luci/applications/luci-app-acme/po/zh_Hans/acme.po
 
