@@ -41,7 +41,7 @@ function mvdir() {
 mkdir package/openwrt-packages
 ##--------------------------##
 git clone https://github.com/KFERMercer/luci-app-tcpdump.git package/openwrt-packages/luci-app-tcpdump
-git_sparse_clone main "https://github.com/kiddin9/kwrt-packages.git" luci-app-eqosplus luci-app-nginx-manager
+git_sparse_clone main "https://github.com/kiddin9/kwrt-packages.git" luci-app-eqosplus luci-app-nginx
 git_sparse_clone main "https://github.com/Lienol/openwrt-package.git" luci-app-control-webrestriction luci-app-control-weburl
 ##--------------------------##
 mv -n luci-* package/openwrt-packages/
@@ -175,7 +175,8 @@ sed -i 's/"HAProxy"/"负载优选"/g' feeds/luci/applications/luci-app-haproxy-t
 ##---------------------------------------------------------------------------------------------------------##
 sed -i 's/msgstr "Tcpdump 流量监控"/msgstr "流量监控"/g' package/openwrt-packages/luci-app-tcpdump/po/zh_Hans/tcpdump.po
 
-sed -i 's/msgstr "Nginx管理器"/msgstr "Nginx服务"/g' package/openwrt-packages/luci-app-nginx-manager/po/zh_Hans/nginx-manager.po
+sed -i 's/msgstr "Nginx 服务器"/msgstr "Nginx服务"/g' package/openwrt-packages/luci-app-nginx/po/zh_Hans/nginx.po
+sed -i 's/=+nginx/=+luci-ssl-nginx/g' package/openwrt-packages/luci-app-nginx/Makefile
 
 sed -i '/msgid "Pass Wall"/{n;s/PassWall/翻越长城/;}' feeds/luci/applications/luci-app-passwall/po/zh_Hans/passwall.po
 sed -i '/Pass Wall/s/-1/4/g' feeds/luci/applications/luci-app-passwall/luasrc/controller/passwall.lua
