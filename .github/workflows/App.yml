@@ -68,14 +68,14 @@ jobs:
         cp -rf App/. openwrt/
         cd openwrt
         ./scripts/feeds update -a && rm -rf feeds/luci/applications/luci-app-*
-        git clone https://github.com/kiddin9/kwrt-packages.git && mv -n kwrt-*/${{matrix.target}} package && rm -rf kwrt-*
+        git clone https://github.com/kiddin9/kwrt-packages.git && mv -n kwrt-*/* package && rm -rf kwrt-*
         #git clone https://github.com/kenzok8/small.git && mv -n small/* package && rm -rf small
         ./scripts/feeds update -a
         ./scripts/feeds install ${{matrix.target}}
 
     - name: 定制项目
       continue-on-error: true
-      if: env.App-Custom == 'true'
+      if: env.App-Custom == 'true' && !cancelled()
       run: |
         chmod +x ${{matrix.target}}
         /bin/bash "${{matrix.target}}"
