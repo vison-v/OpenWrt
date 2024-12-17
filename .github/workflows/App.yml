@@ -22,15 +22,16 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [luci-app-mihomo,luci-app-mosdns,luci-app-homeproxy,luci-app-passwall,luci-app-passwall2,luci-app-openclash,luci-app-nginx]
+        target: ${{env.Name}}
         
     steps:
     - name: Checkout
       uses: actions/checkout@main
 
-    - name: Load App-Build.ini
+    - name: 加载配置
       run: |
         source "${GITHUB_WORKSPACE}/App/App-Build.ini"
+        echo "Name=${Name}" >> $GITHUB_ENV
         echo "Custom=${Custom}" >> $GITHUB_ENV
         echo "date=$(date +'%m.%d')" >> $GITHUB_ENV
     
