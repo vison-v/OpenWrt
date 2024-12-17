@@ -22,7 +22,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: ${{ env.App-Name }}
+        target: ${{env.App-Name}}
         
     steps:
     - name: Checkout
