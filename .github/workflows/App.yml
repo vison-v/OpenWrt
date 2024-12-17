@@ -32,6 +32,7 @@ jobs:
       run: |
         source "${GITHUB_WORKSPACE}/App/App-Build.ini"
         echo "App-Custom=${App-Custom}" >> $GITHUB_ENV
+        echo "date=$(date +'%m.%d')" >> $GITHUB_ENV
     
     - name: 加载环境
       env:
@@ -47,11 +48,6 @@ jobs:
         sudo -E apt-get -qq autoremove --purge
         sudo -E apt-get -qq clean
         df -h
-    
-    - name: 设置变量
-      id: ENV
-      run: |
-        echo "date=$(date +'%m.%d')" >> $GITHUB_ENV
       
     - name: 准备SDK
       run: |
@@ -78,6 +74,7 @@ jobs:
         ./scripts/feeds install ${{matrix.target}}
 
     - name: 定制项目
+      continue-on-error: true
       if: env.App-Custom == 'true'
       run: |
         chmod +x ${{matrix.target}}
