@@ -175,8 +175,7 @@ sed -i 's/"HAProxy"/"负载优选"/g' feeds/luci/applications/luci-app-haproxy-t
 ##---------------------------------------------------------------------------------------------------------##
 sed -i 's/msgstr "Tcpdump 流量监控"/msgstr "流量监控"/g' package/openwrt-packages/luci-app-tcpdump/po/zh_Hans/tcpdump.po
 
-sed -i 's/msgstr "Nginx 服务器"/msgstr "Nginx服务"/g' package/openwrt-packages/luci-app-nginx/po/zh_Hans/nginx.po
-sed -i 's/=+nginx/=+luci-ssl-nginx/g' package/openwrt-packages/luci-app-nginx/Makefile
+sed -i 's/msgstr "Nginx"/msgstr "Nginx服务"/g' package/openwrt-packages/luci-app-nginx/po/zh_Hans/nginx.po
 
 sed -i '/msgid "Pass Wall"/{n;s/PassWall/翻越长城/;}' feeds/luci/applications/luci-app-passwall/po/zh_Hans/passwall.po
 sed -i '/Pass Wall/s/-1/4/g' feeds/luci/applications/luci-app-passwall/luasrc/controller/passwall.lua
