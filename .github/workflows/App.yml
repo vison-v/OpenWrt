@@ -22,19 +22,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: ${{env.Name}}
+        target: [luci-app-mihomo,luci-app-mosdns,luci-app-homeproxy,luci-app-passwall,luci-app-passwall2,luci-app-openclash,luci-app-nginx]
         
     steps:
     - name: Checkout
       uses: actions/checkout@main
-
-    - name: 加载配置
-      run: |
-        source "${GITHUB_WORKSPACE}/App/App-Build.ini"
-        echo "Name=${Name}" >> $GITHUB_ENV
-        echo "Custom=${Custom}" >> $GITHUB_ENV
-        echo "date=$(date +'%m.%d')" >> $GITHUB_ENV
-    
+      
     - name: 加载环境
       env:
         DEBIAN_FRONTEND: noninteractive
@@ -48,7 +41,13 @@ jobs:
         sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
         sudo -E apt-get -qq autoremove --purge
         sudo -E apt-get -qq clean
+        
         df -h
+    
+    - name: 设置变量
+      id: ENV
+      run: |
+        echo "date=$(date +'%m.%d')" >> $GITHUB_ENV
       
     - name: 准备SDK
       run: |
@@ -73,20 +72,17 @@ jobs:
         #git clone https://github.com/kenzok8/small.git && mv -n small/* package && rm -rf small
         ./scripts/feeds update -a
         ./scripts/feeds install ${{matrix.target}}
-
-    - name: 定制项目
-      continue-on-error: true
-      if: env.Custom == 'true' && !cancelled()
-      run: |
-        chmod +x ${{matrix.target}}
-        /bin/bash "${{matrix.target}}"
+        if [ -f "${{matrix.target}}" ]; then
+          chmod +x ${{matrix.target}}
+          /bin/bash "${{matrix.target}}"
+        fi
+        echo "CONFIG_PACKAGE_${{matrix.target}}=y" >> .config
         du -h --max-depth=4 ./package
     
     - name: 下载依赖包
       id: package
       run: |
         cd openwrt
-        echo "CONFIG_PACKAGE_${{matrix.target}}=y" >> .config
         make defconfig
         make download -j16
         
@@ -114,5 +110,5 @@ jobs:
       uses: Mattraks/delete-workflow-runs@main
       with:
         token: ${{ secrets.PAT }}
-        retain_days: 2
+        retain_days: 5
         keep_minimum_runs: 1
