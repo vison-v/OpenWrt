@@ -22,12 +22,17 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [luci-app-mihomo,luci-app-mosdns,luci-app-homeproxy,luci-app-passwall,luci-app-passwall2,luci-app-openclash,luci-app-nginx-manager]
+        target: ${{App-Name}}
         
     steps:
     - name: Checkout
       uses: actions/checkout@main
-      
+
+    - name: Load App-Build.ini
+      run: |
+        source "${GITHUB_WORKSPACE}/App/App-Build.ini"
+        echo "App-Name=${App-Name}" >> $GITHUB_ENV
+    
     - name: 加载环境
       env:
         DEBIAN_FRONTEND: noninteractive
