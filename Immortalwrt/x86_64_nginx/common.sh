@@ -1,4 +1,4 @@
 #!/bin/bash
 ##############用nginx替换uhpptd################
-rm -rf feeds/luci/collections/luci-light/Makefile && curl -fsSL  https://raw.githubusercontent.com/vison-v/patches/main/Makefile >> feeds/luci/collections/luci-light/Makefile
+sed -i 's/+luci-light/+luci-nginx/g' feeds/luci/collections/luci/Makefile
 echo "---------设置完成---------"
