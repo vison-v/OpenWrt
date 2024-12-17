@@ -35,7 +35,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [x86_64_basic]
+        target: [x86_64,x86_64_nginx]
         
     steps:
     
