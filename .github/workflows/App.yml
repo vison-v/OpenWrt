@@ -22,7 +22,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [luci-app-socat,luci-app-mihomo,luci-app-mosdns,luci-app-homeproxy,luci-app-passwall,luci-app-passwall2,luci-app-openclash,luci-app-nginx]
+        target: [nginx-proxy]
         
     steps:
     - name: Checkout
@@ -66,8 +66,9 @@ jobs:
         cp -rf App/. openwrt/
         cd openwrt
         ./scripts/feeds update -a && rm -rf feeds/luci/applications/luci-app-*
-        git clone https://github.com/kiddin9/kwrt-packages.git && mv -n kwrt-*/${{matrix.target}} package && rm -rf kwrt-*
+        #git clone https://github.com/kiddin9/kwrt-packages.git && mv -n kwrt-*/${{matrix.target}} package && rm -rf kwrt-*
         #git clone https://github.com/kenzok8/small.git && mv -n small/* package && rm -rf small
+        git clone https://github.com/vison-v/nginx-proxy.git package/nginx-proxy
         ./scripts/feeds update -a
         ./scripts/feeds install ${{matrix.target}}
         if [ -f "${{matrix.target}}" ]; then
