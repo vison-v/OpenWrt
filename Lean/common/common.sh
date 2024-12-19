@@ -68,6 +68,7 @@ chmod +x package/openwrt-packages/custom.sh && bash package/openwrt-packages/cus
 ./scripts/feeds update -a
 ./scripts/feeds install -a
 
+sed -i 's/192.168.1.1/192.168.10.1/g' package/base-files/files/bin/config_generate
 sed -i "s/tty\(0\|1\)::askfirst/tty\1::respawn/g" target/linux/*/base-files/etc/inittab
 sed -i '19,34d' package/lean/default-settings/files/zzz-default-settings
 sed -i '/msgid "Hostnames"/{n;s/主机名/主机映射/;}' feeds/luci/modules/luci-base/po/zh_Hans/base.po
