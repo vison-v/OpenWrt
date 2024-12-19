@@ -9,14 +9,15 @@ on:
       - main
     paths:
       - '.github/workflows/App.yml'
-  schedule:
-    - cron: 40 19 * * *
-  #watch:
-  #  types: started
+  #schedule:
+  #  - cron: 40 19 * * *
+  watch:
+    types: started
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    if: github.event.repository.owner.id == github.event.sender.id
     
     name: Build ${{matrix.target}}
     strategy:
