@@ -7,12 +7,12 @@ on:
   push:
     branches:
       - main
-    paths:
-      - '.github/workflows/App.yml'
+  #  paths:
+  #    - '.github/workflows/App.yml'
   #schedule:
   #  - cron: 40 19 * * *
-  watch:
-    types: started
+  #watch:
+  #  types: started
 
 jobs:
   build:
