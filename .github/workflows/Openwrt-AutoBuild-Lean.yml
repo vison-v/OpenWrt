@@ -9,8 +9,8 @@
 name: Openwrt-AutoBuild-Lean
 
 on: 
-  schedule:
-    - cron: 0 20 * * *
+  #schedule:
+  #  - cron: 0 20 * * *
   push:
     paths:
       - '.github/workflows/Openwrt-AutoBuild-Lean.yml'
