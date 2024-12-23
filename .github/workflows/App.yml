@@ -23,7 +23,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [luci-app-lucky,lucky]
+        target: [luci-app-lucky]
         
     steps:
     - name: Checkout
@@ -105,9 +105,9 @@ jobs:
         name: ${{ env.date }} ${{matrix.target}}
         path: ${{ env.IPK }}/        
 
-    - name: 清理文件
-      uses: Mattraks/delete-workflow-runs@main
-      with:
-        token: ${{ secrets.PAT }}
-        retain_days: 5
-        keep_minimum_runs: 1
+    #- name: 清理文件
+    #  uses: Mattraks/delete-workflow-runs@main
+    #  with:
+    #    token: ${{ secrets.PAT }}
+    #    retain_days: 5
+    #    keep_minimum_runs: 1
