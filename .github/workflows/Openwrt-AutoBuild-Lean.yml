@@ -98,6 +98,10 @@ jobs:
           # sudo systemctl daemon-reload
           sudo apt -y autoremove --purge
           sudo apt -y clean
+
+          git clone --depth=1 https://github.com/openwrt-dev/po2lmo
+          (cd po2lmo && sudo make && sudo make install)
+          
           df -h
     
     - name: Clone source code
