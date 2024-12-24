@@ -34,7 +34,8 @@ jobs:
           # -m 所有项目以逗号分隔，并填满整行行宽
           # -B 不列出任何以 ~ 字符结束的项目
           # -Q 将条目名称括上双引号
-
+          
+          cp -rf Lede-openwrt-immortalwrt/* ./
           echo "matrix={ \"config\": [ $(echo $(ls -mBQ *.config)) ] }" >> $GITHUB_OUTPUT
 
   build:
@@ -85,9 +86,6 @@ jobs:
 
       - name: make
         run: |
-          
-          cp -rf Lede-openwrt-immortalwrt/* ${GITHUB_WORKSPACE}/
-          
           sudo mkdir -p /mnt/openwrt
 
           cd /mnt/openwrt
