@@ -41,6 +41,9 @@ else
   exit 1
 fi
 
+if [ ! -d "${CONFIG_REPO}" ]; then
+  git clone --depth=1 -b "${REPO_BRANCH}" "${REPO_URL}" "${CONFIG_REPO}"
+  
 # root.
 export FORCE_UNSAFE_CONFIGURE=1
 
@@ -49,7 +52,7 @@ pushd "${CONFIG_REPO}"
 git pull
 
 sed -i "/src-git vi /d; 1 i src-git vi https://github.com/vison-v/packages;${CONFIG_REPO}" feeds.conf.default
-[ "${repo}" = "immortalwrt" ] && sed -i "/src-git vi /d; 1 i src-git vi https://github.com/vison-v/packages;lede" feeds.conf.default
+[ "${CONFIG_REPO}" = "immortalwrt" ] && sed -i "/src-git vi /d; 1 i src-git vi https://github.com/vison-v/packages;lede" feeds.conf.default
 
 ./scripts/feeds update -a
 # if [ -d ./feeds/packages/lang/golang ]; then
