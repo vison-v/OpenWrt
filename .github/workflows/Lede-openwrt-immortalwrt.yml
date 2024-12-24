@@ -90,6 +90,7 @@ jobs:
 
           cd /mnt/openwrt
           
+          sudo chmod +x ${GITHUB_WORKSPACE}/build.sh ${GITHUB_WORKSPACE}/custom.sh
           sudo ${GITHUB_WORKSPACE}/build.sh "${GITHUB_WORKSPACE}/${{ matrix.config }}"
 
           ls -al
