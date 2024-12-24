@@ -10,6 +10,9 @@ name: Build OpenWrt
 on:
   schedule:
     - cron: "0 0 1/2 * *"
+  push:
+    paths:
+      - '.github/workflows/Lede-openwrt-immortalwrt.yml'
   workflow_dispatch:
 
 jobs:
