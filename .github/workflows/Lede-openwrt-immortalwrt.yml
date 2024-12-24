@@ -88,7 +88,8 @@ jobs:
       - name: make
         run: |
           sudo mkdir -p /mnt/openwrt
-          echo "-------------"
+          cp -rf Lede-openwrt-immortalwrt/* ./
+          sudo chmod 755 ./build.sh ./custom.sh
           ls
 
           cd /mnt/openwrt
