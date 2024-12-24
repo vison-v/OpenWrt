@@ -36,7 +36,7 @@ jobs:
           # -Q 将条目名称括上双引号
           
           cp -rf Lede-openwrt-immortalwrt/* ./
-          sudo chmod +x ./build.sh ./custom.sh
+          sudo chmod 755 ./build.sh ./custom.sh
           echo "matrix={ \"config\": [ $(echo $(ls -mBQ *.config)) ] }" >> $GITHUB_OUTPUT
 
   build:
@@ -88,6 +88,8 @@ jobs:
       - name: make
         run: |
           sudo mkdir -p /mnt/openwrt
+          echo "-------------"
+          ls
 
           cd /mnt/openwrt
           
