@@ -66,6 +66,7 @@ defaultsettings=*/*/default-settings
 [ "${repo}" = "openwrt" ] && language=zh_cn || language=zh_Hans
 
 # Modify the version number
+sed -i "s/ImmortalWrt /${owner} build $(TZ=UTC-8 date "+%Y.%m.%d") @ ImmortalWrt /g" ${defaultsettings}/files/zzz-default-settings
 sed -i "s/OpenWrt /${owner} build $(TZ=UTC-8 date "+%Y.%m.%d") @ OpenWrt /g" ${defaultsettings}/files/zzz-default-settings
 sed -i "s/LEDE /${owner} build $(TZ=UTC-8 date "+%Y.%m.%d") @ LEDE /g" ${defaultsettings}/files/zzz-default-settings
 
@@ -84,14 +85,14 @@ sed -i "s/bootstrap/${deftheme}/g" feeds/luci/collections/luci/Makefile
 sed -i "s/bootstrap/${deftheme}/g" feeds/luci/modules/luci-base/root/etc/config/luci
 
 # Add kernel build user
-[ -z $(grep "CONFIG_KERNEL_BUILD_USER=" .config) ] &&
-  echo 'CONFIG_KERNEL_BUILD_USER="${owner}"' >>.config ||
-  sed -i "s|\(CONFIG_KERNEL_BUILD_USER=\).*|\1$\"${owner}\"|" .config
+#[ -z $(grep "CONFIG_KERNEL_BUILD_USER=" .config) ] &&
+#  echo 'CONFIG_KERNEL_BUILD_USER="${owner}"' >>.config ||
+#  sed -i "s|\(CONFIG_KERNEL_BUILD_USER=\).*|\1$\"${owner}\"|" .config
 
 # Add kernel build domain
-[ -z $(grep "CONFIG_KERNEL_BUILD_DOMAIN=" .config) ] &&
-  echo 'CONFIG_KERNEL_BUILD_DOMAIN="${owner}"' >>.config ||
-  sed -i 's|\(CONFIG_KERNEL_BUILD_DOMAIN=\).*|\1$"${owner}"|' .config
+#[ -z $(grep "CONFIG_KERNEL_BUILD_DOMAIN=" .config) ] &&
+#  echo 'CONFIG_KERNEL_BUILD_DOMAIN="${owner}"' >>.config ||
+#  sed -i 's|\(CONFIG_KERNEL_BUILD_DOMAIN=\).*|\1$"${owner}"|' .config
 
 # Modify app list
 sed -i "s/tty\(0\|1\)::askfirst/tty\1::respawn/g" target/linux/*/base-files/etc/inittab
