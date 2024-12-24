@@ -86,11 +86,12 @@ jobs:
 
       - name: make
         run: |
+          sudo chmod +x ./build.sh ./custom.sh
+          
           sudo mkdir -p /mnt/openwrt
 
           cd /mnt/openwrt
           
-          sudo chmod +x ${GITHUB_WORKSPACE}/build.sh ${GITHUB_WORKSPACE}/custom.sh
           sudo ${GITHUB_WORKSPACE}/build.sh "${GITHUB_WORKSPACE}/${{ matrix.config }}"
 
           ls -al
