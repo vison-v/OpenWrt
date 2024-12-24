@@ -53,7 +53,7 @@ pushd "${CONFIG_REPO}"
 git pull
 
 sed -i "/src-git vi /d; 1 i src-git vi https://github.com/vison-v/packages;${CONFIG_REPO}" feeds.conf.default
-[ "${CONFIG_REPO}" = "immortalwrt" ] && sed -i "/src-git vi /d; 1 i src-git vi https://github.com/vison-v/packages;lede" feeds.conf.default
+[ "${CONFIG_REPO}" = "immortalwrt" ] && sed -i "/vison-v/d; 1 i src-git vi https://github.com/vison-v/packages;lede" feeds.conf.default
 
 ./scripts/feeds update -a
 # if [ -d ./feeds/packages/lang/golang ]; then
