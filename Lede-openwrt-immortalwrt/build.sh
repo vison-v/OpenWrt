@@ -43,7 +43,8 @@ fi
 
 if [ ! -d "${CONFIG_REPO}" ]; then
   git clone --depth=1 -b "${REPO_BRANCH}" "${REPO_URL}" "${CONFIG_REPO}"
-  
+fi
+
 # root.
 export FORCE_UNSAFE_CONFIGURE=1
 
