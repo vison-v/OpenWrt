@@ -29,7 +29,7 @@ jobs:
         id: set-matrix
         run: |
           sudo timedatectl set-timezone "Asia/Shanghai"
-          echo "release=$(date +"%Y.%m.%d-%H%M")" >> $GITHUB_OUTPUT
+          echo "release=$(date +"%Y.%m.%d")" >> $GITHUB_OUTPUT
 
           # -m 所有项目以逗号分隔，并填满整行行宽
           # -B 不列出任何以 ~ 字符结束的项目
