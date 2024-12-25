@@ -12,6 +12,8 @@ if [ -z "${1}" ] || [ ! -f "${1}" ]; then
 fi
 
 WORKSPACE="$(pwd)"
+ls
+ehco 111111111111111111
 
 script_path=$(realpath "$(dirname "${1}")/custom.sh")
 config_path=$(realpath "${1}")               # 绝对路径
@@ -47,11 +49,13 @@ fi
 
 # root.
 export FORCE_UNSAFE_CONFIGURE=1
-
+ls
+ehco 22222222222222222
 pushd "${CONFIG_REPO}"
 
 git pull
-
+ls
+ehco 3333333333333333
 sed -i "/src-git vi /d; 1 i src-git vi https://github.com/vison-v/packages;${CONFIG_REPO}" feeds.conf.default
 
 ./scripts/feeds update -a
