@@ -86,12 +86,9 @@ jobs:
 
       - name: make
         run: |
-          ls
-
           sudo mkdir -p /mnt/openwrt
           sudo cp -rf Lede-openwrt-immortalwrt/* /mnt/openwrt/
           cd /mnt/openwrt
-          ls
           
           sudo bash build.sh "${{ matrix.config }}"
 
