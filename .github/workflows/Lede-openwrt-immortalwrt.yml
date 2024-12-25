@@ -86,12 +86,14 @@ jobs:
 
       - name: make
         run: |
+          ls
 
           sudo mkdir -p /mnt/openwrt
           sudo cp -rf Lede-openwrt-immortalwrt/* /mnt/openwrt/
           cd /mnt/openwrt
+          ls
           
-          sudo ./build.sh ./${{ matrix.config }}
+          sudo ./build.sh "./${{ matrix.config }}"
 
           ls -al
           if [ $(ls *.img.gz | wc -l) -le 0 ]; then
