@@ -63,7 +63,11 @@ sed -i "/src-git vi /d; 1 i src-git vi https://github.com/vison-v/packages;${CON
 ./scripts/feeds uninstall $(grep Package ./feeds/vi.index | awk -F': ' '{print $2}')
 ./scripts/feeds install -p vi -a
 
-cp -f "${script_path}" "./.config"  
+if [ -f "./.config" ]; then  
+    cat "${script_path}" >> "./.config"  
+else  
+    cp -f "${script_path}" "./.config"  
+fi
 cp -f "${script_path}" "./custom.sh"
 
 chmod +x "./custom.sh"
