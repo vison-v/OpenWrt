@@ -23,7 +23,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [luci-app-lucky]
+        target: [smartdns]
         
     steps:
     - name: Checkout
