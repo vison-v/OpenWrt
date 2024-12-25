@@ -105,7 +105,7 @@ jobs:
         uses: actions/upload-artifact@main
         continue-on-error: true
         with:
-          name: ${{ env.release }}-${{ env.zip_files }}
+          name: ${{ env.zip_files }}
           path: |
             /mnt/openwrt/*.zip
       
