@@ -88,7 +88,7 @@ jobs:
         run: |
 
           sudo mkdir -p /mnt/openwrt
-          cp -rf Lede-openwrt-immortalwrt/* /mnt/openwrt/
+          sudo cp -rf Lede-openwrt-immortalwrt/* /mnt/openwrt/
           cd /mnt/openwrt
           
           sudo ./build.sh ./${{ matrix.config }}"
