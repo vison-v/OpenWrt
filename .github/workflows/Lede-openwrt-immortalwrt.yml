@@ -86,13 +86,11 @@ jobs:
 
       - name: make
         run: |
-          cp -rf Lede-openwrt-immortalwrt/* ./
-          sudo chmod 755 ./build.sh ./custom.sh
 
           sudo mkdir -p /mnt/openwrt
           cd /mnt/openwrt
           
-          sudo ${GITHUB_WORKSPACE}/build.sh "${GITHUB_WORKSPACE}/${{ matrix.config }}"
+          sudo ${GITHUB_WORKSPACE}/Lede-openwrt-immortalwrt/build.sh "${GITHUB_WORKSPACE}/Lede-openwrt-immortalwrt/${{ matrix.config }}"
 
           ls -al
           if [ $(ls *.img.gz | wc -l) -le 0 ]; then
