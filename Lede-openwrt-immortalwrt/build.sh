@@ -76,7 +76,7 @@ make defconfig
 if [ "$GITHUB_ACTIONS" = "true" ]; then
   pushd "${GITHUB_WORKSPACE}"
   git pull
-  cp -f "${WORKSPACE}/${CONFIG_REPO}/.config" "${GITHUB_WORKSPACE}/${config}"
+  cp -f "${WORKSPACE}/${CONFIG_REPO}/.config" "${GITHUB_WORKSPACE}/Lede-openwrt-immortalwrt/${config}"
   status=$(git status -s | grep "${CONFIG_FNAME}" | awk '{printf $2}')
   if [ -n "${status}" ]; then
     git add "${status}"
@@ -104,12 +104,8 @@ pushd bin/targets/*/*
 ls -al
 
 # sed -i '/buildinfo/d; /\.bin/d; /\.manifest/d' sha256sums
-rm -rf packages *.buildinfo *.manifest *.bin sha256sums
 
-rm -f *.img.gz
-gzip -f *.img
-
-mv -f *.img.gz "${WORKSPACE}"
+mv -f *combined*.img.gz "${WORKSPACE}"
 
 popd # bin/targets/*/*
 
