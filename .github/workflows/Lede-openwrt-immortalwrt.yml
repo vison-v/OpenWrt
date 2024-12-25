@@ -93,7 +93,7 @@ jobs:
           cd /mnt/openwrt
           ls
           
-          sudo build.sh "${{ matrix.config }}"
+          sudo bash build.sh "${{ matrix.config }}"
 
           ls -al
           if [ $(ls *.img.gz | wc -l) -le 0 ]; then
