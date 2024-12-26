@@ -59,6 +59,9 @@ else
 EOF
 fi
 
+defaultsettings=*/*/default-settings
+[ "${repo}" = "openwrt" ] && language=zh_cn || language=zh_Hans
+
 # Modify default theme
 deftheme=bootstrap
 if [ "${owner}" = "ViS0N" ]; then
@@ -148,8 +151,6 @@ sed -i 's/services/control/g'  `grep services -rl feeds/luci/applications/luci-a
 sed -i 's/services/vpn/g'  feeds/vi/luci-app-wechatpush/root/usr/share/luci/menu.d/luci-app-wechatpush.json
 
 elif [ "${repo}" = "openwrt" ]; then
-defaultsettings=*/*/default-settings
-language=zh_cn || language=zh_Hans
 sed -i '/customized in this file/a net.netfilter.nf_conntrack_max=165535' package/base-files/files/etc/sysctl.conf
 sed -i "s/OpenWrt /${owner} build $(TZ=UTC-8 date "+%Y.%m.%d") @ OpenWrt /g" ${defaultsettings}/files/zzz-default-settings
 
