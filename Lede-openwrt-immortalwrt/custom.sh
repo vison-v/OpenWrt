@@ -150,7 +150,8 @@ sed -i 's/services/vpn/g'  feeds/vi/luci-app-wechatpush/root/usr/share/luci/menu
 
 elif [ "${repo}" = "openwrt" ]; then
 sed -i '/customized in this file/a net.netfilter.nf_conntrack_max=165535' package/base-files/files/etc/sysctl.conf
-sed -i "s/OpenWrt /${owner} build $(TZ=UTC-8 date "+%Y.%m.%d") @ OpenWrt /g" ${defaultsettings}/files/zzz-default-settings
+sed -i "/exit 0/i sed -i '/DISTRIB_DESCRIPTION/d' /etc/openwrt_release\necho \"DISTRIB_DESCRIPTION='${owner} build $(TZ=UTC-8 date "+%Y.%m.%d") @ OpenWrt '\" >> /etc/openwrt_release" ${defaultsettings}/files//99-default-settings
+sed -i "/exit 0/i sed -i '/DISTRIB_DESCRIPTION/d' /etc/openwrt_release\necho \"DISTRIB_DESCRIPTION='${owner} build $(TZ=UTC-8 date "+%Y.%m.%d") @ OpenWrt '\" >> /etc/openwrt_release" ${defaultsettings}/files//99-default-settings-chinese
 
 sed -i 's/services/vpn/g'  feeds/vi/luci-app-wechatpush/root/usr/share/luci/menu.d/luci-app-wechatpush.json
 
@@ -184,7 +185,8 @@ sed -i 's/nas/services/g' feeds/vi/luci-app-cifs-mount/luasrc/controller/cifs.lu
 sed -i 's/"挂载 SMB 网络共享"/"挂载 SMB"/g' feeds/vi/luci-app-cifs-mount/po/zh_Hans/cifs.po
 
 elif [ "${repo}" = "immortalwrt" ]; then
-sed -i "s/ImmortalWrt /${owner} build $(TZ=UTC-8 date "+%Y.%m.%d") @ ImmortalWrt /g" ${defaultsettings}/files/zzz-default-settings
+sed -i "/exit 0/i sed -i '/DISTRIB_DESCRIPTION/d' /etc/openwrt_release\necho \"DISTRIB_DESCRIPTION='${owner} build $(TZ=UTC-8 date "+%Y.%m.%d") @ ImmortalWrt '\" >> /etc/openwrt_release" ${defaultsettings}/files//99-default-settings
+sed -i "/exit 0/i sed -i '/DISTRIB_DESCRIPTION/d' /etc/openwrt_release\necho \"DISTRIB_DESCRIPTION='${owner} build $(TZ=UTC-8 date "+%Y.%m.%d") @ ImmortalWrt '\" >> /etc/openwrt_release" ${defaultsettings}/files//99-default-settings-chinese
 
 sed -i 's/"IP\/MAC Binding"/"地址绑定"/g' feeds/luci/applications/luci-app-arpbind/luasrc/controller/arpbind.lua
 sed -i 's/msgstr "软件包"/msgstr "软件管理"/g' feeds/luci/applications/luci-app-package-manager/po/zh_Hans/package-manager.po
