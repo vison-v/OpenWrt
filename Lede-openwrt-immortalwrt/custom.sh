@@ -18,8 +18,7 @@ echo "OpenWrt custom script"
 echo "repo: ${repo}; owner: ${owner};"
 
 # Modify banner
-if [ "${owner}" = "ViS0N" ]; then
-  if [ "${repo}" = "openwrt" ]; then
+if [ "${repo}" = "openwrt" ]; then
     cat >package/base-files/files/etc/banner <<EOF
   _______                     ________        __
  |       |.-----.-----.-----.|  |  |  |.----.|  |_
@@ -31,7 +30,8 @@ if [ "${owner}" = "ViS0N" ]; then
  -----------------------------------------------------
 
 EOF
-  else
+
+elif [ "${repo}" = "lede" ]; then
     cat >package/base-files/files/etc/banner <<EOF
      _________
     /        /\      _    ___ ___  ___
@@ -44,8 +44,8 @@ EOF
     \________\/    -------------------------------------------
 
 EOF
-  fi
-else
+
+elif [ "${repo}" = "immortalwrt" ]; then
   cat >package/base-files/files/etc/banner <<EOF
  ██████╗ ██████╗ ███████╗███╗   ██╗██╗    ██╗██████╗ ████████╗
 ██╔═══██╗██╔══██╗██╔════╝████╗  ██║██║    ██║██╔══██╗╚══██╔══╝
