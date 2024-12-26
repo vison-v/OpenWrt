@@ -85,15 +85,14 @@ sed -i '/msgid "Reboot"/{n;s/重启/立即重启/;}' feeds/luci/modules/luci-bas
 sed -i 's/msgstr "DHCP\/DNS"/msgstr "DHCP服务"/g' feeds/luci/modules/luci-base/po/zh_Hans/base.po
 sed -i '/msgid "Hostnames"/{n;s/主机名/主机映射/;}' feeds/luci/modules/luci-base/po/zh_Hans/base.po
 
-sed -i 's/Tcpdump 流量监控/流量截取/g' feeds/vi/luci-app-tcpdump/po/zh_Hans/tcpdump.po
-
 sed -i '/msgid "Pass Wall"/{n;s/PassWall/翻越长城/;}' feeds/vi/luci-app-passwall/po/zh_Hans/passwall.po
 sed -i '/Pass Wall/s/-1/4/g' feeds/vi/luci-app-passwall/luasrc/controller/passwall.lua
 sed -i 's/services/vpn/g'  `grep services -rl feeds/vi/luci-app-passwall/luasrc`
 
-sed -i 's/services/vpn/g'  feeds/vi/luci-app-wechatpush/root/usr/share/luci/menu.d/luci-app-wechatpush.json
 
 sed -i 's/"Argon 主题设置"/"主题设置"/g' feeds/vi/luci-app-argon-config/po/zh_Hans/argon-config.po
+sed -i 's/services/control/g'  `grep services -rl feeds/vi/luci-app-oaf/luasrc`
+sed -i 's/Tcpdump 流量监控/流量截取/g' feeds/vi/luci-app-tcpdump/po/zh_Hans/tcpdump.po
 
 ####################branch####################
 if [ "${repo}" = "lede" ] || [ "${repo}" = "openwrt" ]; then
@@ -132,8 +131,10 @@ sed -i 's/services/vpn/g' feeds/luci/applications/luci-app-unblockneteasemusic/r
 sed -i '/msgid "SmartDNS"/{n;s/SmartDNS/DNS 加速/;}' feeds/luci/applications/luci-app-smartdns/po/zh_Hans/smartdns.po
 sed -i 's/services/vpn/g' feeds/luci/applications/luci-app-smartdns/root/usr/share/luci/menu.d/luci-app-smartdns.json
 
-sed -i 's/services/system/g' feeds/vi/luci-app-watchcat/root/usr/share/luci/menu.d/luci-app-watchcat.json
-sed -i 's/msgstr "Watchcat"/msgstr "智能重启"/g' feeds/vi/luci-app-watchcat/po/zh_Hans/watchcat.po
+sed -i 's/services/system/g' feeds/luci/applications/luci-app-watchcat/root/usr/share/luci/menu.d/luci-app-watchcat.json
+sed -i 's/msgstr "Watchcat"/msgstr "智能重启"/g' feeds/luci/applications/luci-app-watchcat/po/zh_Hans/watchcat.po
+
+
 
 elif [ "${repo}" = "lede" ]; then
 sed -i "s/LEDE /${owner} build $(TZ=UTC-8 date "+%Y.%m.%d") @ LEDE /g" ${defaultsettings}/files/zzz-default-settings
@@ -146,18 +147,33 @@ sed -i 's/msgstr "软件包"/msgstr "软件管理"/g' feeds/luci/applications/lu
 sed -i 's/上网时间控制/时间控制/g' feeds/luci/applications/luci-app-accesscontrol/po/zh_Hans/mia.po
 sed -i 's/services/control/g'  `grep services -rl feeds/luci/applications/luci-app-accesscontrol/luasrc`
 
+sed -i 's/services/vpn/g'  feeds/vi/luci-app-wechatpush/root/usr/share/luci/menu.d/luci-app-wechatpush.json
+
 elif [ "${repo}" = "openwrt" ]; then
 defaultsettings=*/*/default-settings
 language=zh_cn || language=zh_Hans
 sed -i '/customized in this file/a net.netfilter.nf_conntrack_max=165535' package/base-files/files/etc/sysctl.conf
 sed -i "s/OpenWrt /${owner} build $(TZ=UTC-8 date "+%Y.%m.%d") @ OpenWrt /g" ${defaultsettings}/files/zzz-default-settings
 
+sed -i 's/services/vpn/g'  feeds/vi/luci-app-wechatpush/root/usr/share/luci/menu.d/luci-app-wechatpush.json
+
+sed -i 's/msgstr "ZeroTier"/msgstr "内网穿透"/g' feeds/vi/luci-app-zerotier/po/zh_Hans/zerotier.po
+sed -i 's/services/vpn/g'  feeds/vi/luci-app-zerotier/root/usr/share/luci/menu.d/luci-app-zerotier.json
+
+sed -i 's/解除网易云音乐播放限制/网易音乐/g' feeds/vi/luci-app-unblockneteasemusic/root/usr/share/luci/menu.d/luci-app-unblockneteasemusic.json
+sed -i 's/services/vpn/g' feeds/vi/luci-app-unblockneteasemusic/root/usr/share/luci/menu.d/luci-app-unblockneteasemusic.json
+
+sed -i '/msgid "SmartDNS"/{n;s/SmartDNS/DNS 加速/;}' feeds/vi/luci-app-smartdns/po/zh_Hans/smartdns.po
+sed -i 's/services/vpn/g' feeds/vi/luci-app-smartdns/root/usr/share/luci/menu.d/luci-app-smartdns.json
+
+sed -i 's/services/system/g' feeds/vi/luci-app-watchcat/root/usr/share/luci/menu.d/luci-app-watchcat.json
+sed -i 's/msgstr "Watchcat"/msgstr "智能重启"/g' feeds/vi/luci-app-watchcat/po/zh_Hans/watchcat.po
+
 elif [ "${repo}" = "immortalwrt" ]; then
 sed -i "s/ImmortalWrt /${owner} build $(TZ=UTC-8 date "+%Y.%m.%d") @ ImmortalWrt /g" ${defaultsettings}/files/zzz-default-settings
 
 sed -i 's/"IP\/MAC Binding"/"地址绑定"/g' feeds/luci/applications/luci-app-arpbind/luasrc/controller/arpbind.lua
 sed -i 's/msgstr "软件包"/msgstr "软件管理"/g' feeds/luci/applications/luci-app-package-manager/po/zh_Hans/package-manager.po
-
 sed -i 's/services/vpn/g'  feeds/luci/applications/luci-app-wechatpush/root/usr/share/luci/menu.d/luci-app-wechatpush.json
 
 fi
