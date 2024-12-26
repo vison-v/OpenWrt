@@ -96,7 +96,7 @@ sed -i 's/services/control/g'  `grep services -rl feeds/vi/luci-app-oaf/luasrc`
 sed -i 's/Tcpdump 流量监控/流量截取/g' feeds/vi/luci-app-tcpdump/po/zh_Hans/tcpdump.po
 
 ####################branch####################
-if [ "${repo}" = "lede" ] || [ "${repo}" = "openwrt" ]; then
+if [ "${repo}" = "lede" ] || [ "${repo}" = "immortalwrt" ]; then
 sed -i 's/88/89/g' feeds/luci/applications/luci-app-autoreboot/luasrc/controller/autoreboot.lua
 sed -i 's/msgstr "Socat"/msgstr "端口转发"/g' feeds/luci/applications/luci-app-socat/po/zh_Hans/socat.po
 sed -i '/msgid "UPnP"/{n;s/UPnP/UPnP服务/;}' feeds/luci/applications/luci-app-upnp/po/zh_Hans/upnp.po
@@ -167,6 +167,23 @@ sed -i 's/services/vpn/g' feeds/vi/luci-app-smartdns/root/usr/share/luci/menu.d/
 
 sed -i 's/services/system/g' feeds/vi/luci-app-watchcat/root/usr/share/luci/menu.d/luci-app-watchcat.json
 sed -i 's/msgstr "Watchcat"/msgstr "智能重启"/g' feeds/vi/luci-app-watchcat/po/zh_Hans/watchcat.po
+sed -i 's/88/89/g' feeds/vi/luci-app-autoreboot/luasrc/controller/autoreboot.lua
+sed -i 's/msgstr "Socat"/msgstr "端口转发"/g' feeds/vi/luci-app-socat/po/zh_Hans/socat.po
+
+sed -i 's/44/43/g' feeds/vi/luci-app-usb-printer/luasrc/controller/usb_printer.lua
+sed -i 's/nas/services/g' feeds/vi/luci-app-usb-printer/luasrc/controller/usb_printer.lua
+sed -i 's/NAS/Services/g' feeds/vi/luci-app-usb-printer/luasrc/controller/usb_printer.lua
+sed -i 's/USB 打印服务器/打印服务/g' feeds/vi/luci-app-usb-printer/po/zh_Hans/luci-app-usb-printer.po
+sed -i 's/网络存储/存储/g' feeds/vi/luci-app-usb-printer/po/zh_Hans/luci-app-usb-printer.po
+
+sed -i 's/KMS 服务器/KMS 服务/g' feeds/vi/luci-app-vlmcsd/po/zh_Hans/vlmcsd.po
+
+echo -e "\nmsgid \"Rules\"" >> feeds/vi/luci-app-arpbind/po/zh_Hans/arpbind.po
+echo -e "msgstr \"规则\"" >> feeds/vi/luci-app-arpbind/po/zh_Hans/arpbind.po
+sed -i 's/msgstr "IP\/MAC绑定"/msgstr "地址绑定"/g' feeds/vi/luci-app-arpbind/po/zh_Hans/arpbind.po
+
+sed -i 's/nas/services/g' feeds/vi/luci-app-cifs-mount/luasrc/controller/cifs.lua
+sed -i 's/"挂载 SMB 网络共享"/"挂载 SMB"/g' feeds/vi/luci-app-cifs-mount/po/zh_Hans/cifs.po
 
 elif [ "${repo}" = "immortalwrt" ]; then
 sed -i "s/ImmortalWrt /${owner} build $(TZ=UTC-8 date "+%Y.%m.%d") @ ImmortalWrt /g" ${defaultsettings}/files/zzz-default-settings
