@@ -17,9 +17,6 @@ echo "OpenWrt custom script"
 
 echo "repo: ${repo}; owner: ${owner};"
 
-# Modify default IP
-sed -i 's/192.168.1.1/192.168.10.1/g' package/base-files/files/bin/config_generate
-
 # Modify banner
 if [ "${owner}" = "ViS0N" ]; then
   if [ "${repo}" = "openwrt" ]; then
@@ -62,17 +59,6 @@ else
 EOF
 fi
 
-defaultsettings=*/*/default-settings
-[ "${repo}" = "openwrt" ] && language=zh_cn || language=zh_Hans
-
-# Modify the version number
-sed -i "s/ImmortalWrt /${owner} build $(TZ=UTC-8 date "+%Y.%m.%d") @ ImmortalWrt /g" ${defaultsettings}/files/zzz-default-settings
-sed -i "s/OpenWrt /${owner} build $(TZ=UTC-8 date "+%Y.%m.%d") @ OpenWrt /g" ${defaultsettings}/files/zzz-default-settings
-sed -i "s/LEDE /${owner} build $(TZ=UTC-8 date "+%Y.%m.%d") @ LEDE /g" ${defaultsettings}/files/zzz-default-settings
-
-# Modify maximum connections
-[ "${repo}" = "openwrt" ] && sed -i '/customized in this file/a net.netfilter.nf_conntrack_max=165535' package/base-files/files/etc/sysctl.conf
-
 # Modify default theme
 deftheme=bootstrap
 if [ "${owner}" = "ViS0N" ]; then
@@ -84,37 +70,53 @@ echo deftheme: ${deftheme}
 sed -i "s/bootstrap/${deftheme}/g" feeds/luci/collections/luci/Makefile
 sed -i "s/bootstrap/${deftheme}/g" feeds/luci/modules/luci-base/root/etc/config/luci
 
-# Add kernel build user
-#[ -z $(grep "CONFIG_KERNEL_BUILD_USER=" .config) ] &&
-#  echo 'CONFIG_KERNEL_BUILD_USER="${owner}"' >>.config ||
-#  sed -i "s|\(CONFIG_KERNEL_BUILD_USER=\).*|\1$\"${owner}\"|" .config
-
-# Add kernel build domain
-#[ -z $(grep "CONFIG_KERNEL_BUILD_DOMAIN=" .config) ] &&
-#  echo 'CONFIG_KERNEL_BUILD_DOMAIN="${owner}"' >>.config ||
-#  sed -i 's|\(CONFIG_KERNEL_BUILD_DOMAIN=\).*|\1$"${owner}"|' .config
-
 # Modify app list
-sed -i "s/tty\(0\|1\)::askfirst/tty\1::respawn/g" target/linux/*/base-files/etc/inittab
-[ "${repo}" = "lede" ] && sed -i '19,34d' package/lean/default-settings/files/zzz-default-settings
-sed -i '/msgid "Hostnames"/{n;s/主机名/主机映射/;}' feeds/luci/modules/luci-base/po/zh_Hans/base.po
-#sed -i 's/LEDE /LEDE Build By ViS0N /' package/lean/default-settings/files/zzz-default-settings
-[ "${repo}" = "lede" ] && sed -i 's/msgstr "诊断"/msgstr "网络诊断"/g' feeds/luci/applications/luci-app-diag-core/po/zh_Hans/diag_core.po
-sed -i 's/%D %V, %C/%D %V, %C, Build By ViS0N/g' package/base-files/files/etc/banner
+####################common####################
 curl -fsSL  https://raw.githubusercontent.com/vison-v/patches/main/base >> feeds/luci/modules/luci-base/po/zh_Hans/base.po
-[ "${repo}" = "lede" ] || [ "${repo}" = "immortalwrt" ] && sed -i 's/88/89/g' feeds/luci/applications/luci-app-autoreboot/luasrc/controller/autoreboot.lua
-[ "${repo}" = "lede" ] || [ "${repo}" = "immortalwrt" ] && sed -i 's/msgstr "Socat"/msgstr "端口转发"/g' feeds/luci/applications/luci-app-socat/po/zh_Hans/socat.po
-[ "${repo}" = "lede" ] && sed -i 's/89/88/g' feeds/luci/applications/luci-app-filetransfer/luasrc/controller/filetransfer.lua
+sed -i 's/192.168.1.1/192.168.10.1/g' package/base-files/files/bin/config_generate
+sed -i "s/tty\(0\|1\)::askfirst/tty\1::respawn/g" target/linux/*/base-files/etc/inittab
+
+sed -i 's/88/89/g' feeds/luci/applications/luci-app-autoreboot/luasrc/controller/autoreboot.lua
+sed -i 's/msgstr "Socat"/msgstr "端口转发"/g' feeds/luci/applications/luci-app-socat/po/zh_Hans/socat.po
 sed -i '/msgid "UPnP"/{n;s/UPnP/UPnP服务/;}' feeds/luci/applications/luci-app-upnp/po/zh_Hans/upnp.po
+sed -i 's/msgstr "MultiWAN 管理器"/msgstr "负载均衡"/g' feeds/luci/applications/luci-app-mwan3/po/zh_Hans/mwan3.po
+sed -i 's/KMS 服务器/KMS 服务/g' feeds/luci/applications/luci-app-vlmcsd/po/zh_Hans/vlmcsd.po
+
+sed -i 's/msgstr "备份与升级"/msgstr "备份\/升级"/g' feeds/luci/modules/luci-base/po/zh_Hans/base.po
 sed -i '/msgid "Administration"/{n;s/管理权/权限管理/;}' feeds/luci/modules/luci-base/po/zh_Hans/base.po
 sed -i '/msgid "Software"/{n;s/软件包/软件管理/;}' feeds/luci/modules/luci-base/po/zh_Hans/base.po
 sed -i '/msgid "Startup"/{n;s/启动项/启动管理/;}' feeds/luci/modules/luci-base/po/zh_Hans/base.po
 sed -i '/msgid "Mount Points"/{n;s/挂载点/挂载路径/;}' feeds/luci/modules/luci-base/po/zh_Hans/base.po
 sed -i '/msgid "Reboot"/{n;s/重启/立即重启/;}' feeds/luci/modules/luci-base/po/zh_Hans/base.po
-sed -i 's/msgstr "备份与升级"/msgstr "备份\/升级"/g' feeds/luci/modules/luci-base/po/zh_Hans/base.po
 sed -i 's/msgstr "DHCP\/DNS"/msgstr "DHCP服务"/g' feeds/luci/modules/luci-base/po/zh_Hans/base.po
-[ "${repo}" = "lede" ] || [ "${repo}" = "immortalwrt" ] && sed -i 's/KMS 服务器/KMS 服务/g' feeds/luci/applications/luci-app-vlmcsd/po/zh_Hans/vlmcsd.po
-sed -i 's/msgstr "MultiWAN 管理器"/msgstr "负载均衡"/g' feeds/luci/applications/luci-app-mwan3/po/zh_Hans/mwan3.po
+sed -i '/msgid "Hostnames"/{n;s/主机名/主机映射/;}' feeds/luci/modules/luci-base/po/zh_Hans/base.po
+
+####################branch####################
+if [ "${repo}" = "lede" ]; then
+sed -i "s/LEDE /${owner} build $(TZ=UTC-8 date "+%Y.%m.%d") @ LEDE /g" ${defaultsettings}/files/zzz-default-settings
+sed -i '19,34d' package/lean/default-settings/files/zzz-default-settings
+sed -i 's/msgstr "诊断"/msgstr "网络诊断"/g' feeds/luci/applications/luci-app-diag-core/po/zh_Hans/diag_core.po
+sed -i 's/89/88/g' feeds/luci/applications/luci-app-filetransfer/luasrc/controller/filetransfer.lua
+
+elif [ "${repo}" = "openwrt" ]; then
+defaultsettings=*/*/default-settings
+language=zh_cn || language=zh_Hans
+sed -i '/customized in this file/a net.netfilter.nf_conntrack_max=165535' package/base-files/files/etc/sysctl.conf
+sed -i "s/OpenWrt /${owner} build $(TZ=UTC-8 date "+%Y.%m.%d") @ OpenWrt /g" ${defaultsettings}/files/zzz-default-settings
+
+elif [ "${repo}" = "immortalwrt" ]; then
+sed -i "s/ImmortalWrt /${owner} build $(TZ=UTC-8 date "+%Y.%m.%d") @ ImmortalWrt /g" ${defaultsettings}/files/zzz-default-settings
+
+fi
+
+
+[ "${repo}" = "lede" ] && 
+
+[ "${repo}" = "lede" ] || [ "${repo}" = "immortalwrt" ] && 
+[ "${repo}" = "lede" ] || [ "${repo}" = "immortalwrt" ] && 
+[ "${repo}" = "lede" ] && 
+[ "${repo}" = "lede" ] || [ "${repo}" = "immortalwrt" ] && 
+
 #sed -i 's/msgstr "软件包"/msgstr "软件管理"/g' feeds/luci/applications/luci-app-opkg/po/zh_Hans/opkg.po
 sed -i 's/msgstr "软件包"/msgstr "软件管理"/g' feeds/luci/applications/luci-app-package-manager/po/zh_Hans/package-manager.po
 
