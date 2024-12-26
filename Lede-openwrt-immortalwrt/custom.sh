@@ -135,8 +135,6 @@ sed -i 's/services/vpn/g' feeds/luci/applications/luci-app-smartdns/root/usr/sha
 sed -i 's/services/system/g' feeds/luci/applications/luci-app-watchcat/root/usr/share/luci/menu.d/luci-app-watchcat.json
 sed -i 's/msgstr "Watchcat"/msgstr "智能重启"/g' feeds/luci/applications/luci-app-watchcat/po/zh_Hans/watchcat.po
 
-
-
 elif [ "${repo}" = "lede" ]; then
 sed -i "s/LEDE /${owner} build $(TZ=UTC-8 date "+%Y.%m.%d") @ LEDE /g" ${defaultsettings}/files/zzz-default-settings
 sed -i '19,34d' package/lean/default-settings/files/zzz-default-settings
