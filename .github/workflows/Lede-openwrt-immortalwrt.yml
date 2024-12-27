@@ -1,24 +1,17 @@
-#
 # Copyright (C) 2022 Ing <https://github.com/wjz304>
-#
 # This is free software, licensed under the MIT License.
-# See /LICENSE for more information.
-#
-
+# See /LICENSE for more信息.
 name: Build OpenWrt
-
 on:
   schedule:
-    - cron: "0 0 1/7 * *"
+    - cron: "0 18 * * *"
   push:
     paths:
       - '.github/workflows/Lede-openwrt-immortalwrt.yml'
   workflow_dispatch:
-
 env:
   TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
   TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-
 jobs:
   matrix:
     runs-on: ubuntu-latest
@@ -28,20 +21,16 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@main
-
       - name: Generate build matrix
         id: set-matrix
         run: |
           sudo timedatectl set-timezone "Asia/Shanghai"
           echo "release=$(date +"%Y.%m.%d")" >> $GITHUB_OUTPUT
-
           # -m 所有项目以逗号分隔，并填满整行行宽
           # -B 不列出任何以 ~ 字符结束的项目
           # -Q 将条目名称括上双引号
-          
-          cp -rf Lede-openwrt-immortalwrt/* ./
+          cp -rf Lede-openwrt-immortalwrt/*./
           echo "matrix={ \"config\": [ $(echo $(ls -mBQ *.config)) ] }" >> $GITHUB_OUTPUT
-
   build:
     name: Build OpenWrt
     runs-on: ubuntu-latest
@@ -50,16 +39,13 @@ jobs:
       release: ${{ needs.matrix.outputs.release }}
     strategy:
       matrix: ${{ fromJson(needs.matrix.outputs.matrix) }}
-
     steps:
       - name: Checkout
         uses: actions/checkout@main
-
-      #- name: Free Disk Space (Ubuntu)
-      #  uses: jlumbroso/free-disk-space@main
-      #  with:
-      #    tool-cache: true
-
+      # - name: Free Disk Space (Ubuntu)
+      #   uses: jlumbroso/free-disk-space@main
+      #   with:
+      #     tool-cache: true
       - name: Init Env
         env:
           DEBIAN_FRONTEND: noninteractive
@@ -67,7 +53,6 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
           sudo timedatectl set-timezone "Asia/Shanghai"
-
           sudo apt update
           sudo apt full-upgrade -y
           sudo apt install -y ack antlr3 asciidoc autoconf automake autopoint binutils bison build-essential \
@@ -77,72 +62,65 @@ jobs:
           libssl-dev libtool lrzsz mkisofs msmtp ninja-build p7zip p7zip-full patch pkgconf npm python3 \
           python3-pyelftools python3-setuptools qemu-utils rsync scons squashfs-tools subversion swig texinfo \
           uglifyjs upx-ucl unzip vim wget xmlto xxd zlib1g-dev
-          
           # sudo apt install --reinstall libc6
           # sudo systemctl daemon-reload
           sudo apt -y autoremove --purge
           sudo apt -y clean
-
           git clone --depth=1 https://github.com/openwrt-dev/po2lmo
           (cd po2lmo && sudo make && sudo make install)
-
           df -h
-
       - name: make
         run: |
           sudo mkdir -p /mnt/openwrt
           sudo cp -rf Lede-openwrt-immortalwrt/* /mnt/openwrt/
           cd /mnt/openwrt
-          
-          sudo bash build.sh "${{ matrix.config }}"
-
+          # 执行build.sh并根据返回值决定是否上传错误日志
+          if! sudo bash build.sh "${{ matrix.config }}" ; then
+            echo "Build.sh failed for ${{ matrix.config }}"
+            ERROR_LOG_PATH="${CONFIG_REPO}-${CONFIG_NAME}_make_error.log"
+            echo "ERROR_LOG_PATH=${ERROR_LOG_PATH}" >> $GITHUB_ENV
+            exit 1
+          fi
           ls -al
           if [ $(ls *.img.gz | wc -l) -le 0 ]; then
             echo "No firmware found"
             exit 1
           fi
-
-          sudo zip -q -r $(basename "${{ matrix.config }}" .config | awk -F';' '{printf $1"-"$3}')-${{ env.release }}.zip *.img.gz
+          sudo zip -q -r $(basename "${{ matrix.config }}".config | awk -F';' '{printf $1"-"$3}')-${{ env.release }}.zip *.img.gz
           echo "zip_files=$(ls *.zip | xargs -n1 basename | sed 's/\.zip$//')" >> $GITHUB_ENV
-
-      - name: Upload log for artifact  
-        if: exists('/mnt/openwrt/${{ env.zip_files }}_make_error.log')  
-        uses: actions/upload-artifact@main  
-        continue-on-error: true  
-        with:  
-          name: ${{ env.zip_files }}_make_error  
-          path: |  
-            /mnt/openwrt/*.log  
-      
+      - name: Upload log for artifact
+        if: failure() && env.ERROR_LOG_PATH
+        uses: actions/upload-artifact@main
+        continue-on-error: true
+        with:
+          name: ${{ env.zip_files }}_make_error
+          path: |
+            /mnt/openwrt/${{ env.ERROR_LOG_PATH }}
       - name: Upload firmware for artifact
         uses: actions/upload-artifact@main
-        continue-on-error: true  
+        continue-on-error: true
         with:
           name: ${{ env.zip_files }}
           path: |
             /mnt/openwrt/*.zip
-      
       - name: Upload firmware to release
         uses: softprops/action-gh-release@v2
-        if: success() && !cancelled()
+        if: success() &&!cancelled()
         env:
           GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
         with:
           tag_name: ${{ env.release }}
           files: /mnt/openwrt/*basic*.zip
-
       - name: Telegram notification
-        if: env.TELEGRAM_TOKEN && ! contains(github.event.action, 'notg')
-        continue-on-error: true  
+        if: env.TELEGRAM_TOKEN &&! contains(github.event.action, 'notg')
+        continue-on-error: true
         run: |
-          curl -k --data chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" --data "text=${{ env.zip_files }}编译完成😋" "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage"    
-
+          curl -k --data chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" --data "text=${{ env.zip_files }}编译完成😋" "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage"
     # - name: Delete workflow runs
     #   uses: Mattraks/delete-workflow-runs@v2
     #   with:
     #     retain_days: 1
     #     keep_minimum_runs: 9
-
     # - name: Remove old Releases
     #   uses: dev-drprasad/delete-older-releases@v0.1.0
     #   with:
