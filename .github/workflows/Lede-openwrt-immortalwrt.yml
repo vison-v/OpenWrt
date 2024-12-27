@@ -69,6 +69,7 @@ jobs:
           df -h  
       
       - name: make  
+        continue-on-error: true  
         run: |  
           sudo mkdir -p /mnt/openwrt  
           sudo cp -rf Lede-openwrt-immortalwrt/* /mnt/openwrt/  
@@ -83,13 +84,14 @@ jobs:
           fi  
           
           # Check for firmware files  
-          if [ ! -f *.img.gz ]; then  
+          if [ -f *.img.gz ]; then  
+            sudo zip -q -r $(basename "${{ matrix.config }}".config | awk -F';' '{printf $1"-"$3}')-${{ env.release }}.zip *.img.gz  
+            echo "zip_files=$(ls *.zip | xargs -n1 basename | sed 's/\.zip$//')" >> $GITHUB_ENV  
+          else  
             echo "No firmware found"  
             exit 1  
           fi  
           
-          sudo zip -q -r $(basename "${{ matrix.config }}".config | awk -F';' '{printf $1"-"$3}')-${{ env.release }}.zip *.img.gz  
-          echo "zip_files=$(ls *.zip | xargs -n1 basename | sed 's/\.zip$//')" >> $GITHUB_ENV  
       
       - name: Upload log for artifact  
         if: failure() && env.ERROR_LOG_PATH  
@@ -102,7 +104,7 @@ jobs:
       
       - name: Upload firmware for artifact  
         uses: actions/upload-artifact@main  
-        continue-on-error: true  
+        if: success() && !cancelled() 
         with:  
           name: ${{ env.zip_files }}  
           path: |  
@@ -118,10 +120,15 @@ jobs:
           files: /mnt/openwrt/*basic*.zip  
       
       - name: Telegram notification  
-        if: env.TELEGRAM_TOKEN && !contains(github.event.action, 'notg')  
+        if: env.TELEGRAM_TOKEN  
         continue-on-error: true  
         run: |  
-          curl -k --data chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" --data "text=${{ env.zip_files }} 编译完成😋" "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage"  
+          if success; then  
+          message="${{ env.zip_files }} 编译完成😋"  
+          else  
+          message="${{ env.zip_files }} 编译失败😋"  
+          fi  
+          curl -k --data chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" --data "text=${message}" "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage"
 
     # Uncomment to keep workflow clean  
     # - name: Delete workflow runs  
