@@ -88,18 +88,18 @@ make download -j8 V=s
 # Parallel build setup  
 pids=()  # 用于存储进程ID  
 
-echo "Starting compilation for ${CONFIG_REPO} with $(nproc) threads..."  
+echo "Starting compilation for ${CONFIG_REPO}_${CONFIG_NAME} with $(nproc) threads..."  
 {  
     (make -j$(nproc) V=s > make_output.log 2> ${CONFIG_REPO}_${CONFIG_NAME}_make_error.log) || \
     (make -j1 V=s >> make_output.log 2>> ${CONFIG_REPO}_${CONFIG_NAME}_make_error.log)  
 
     if [ $? -ne 0 ]; then  
-        echo "Build failed for ${CONFIG_REPO}!"  
+        echo "Build failed for ${CONFIG_REPO}_${CONFIG_NAME}!"  
         echo "${CONFIG_REPO}_${CONFIG_NAME}_make_error log:"  
         cat ${CONFIG_REPO}_${CONFIG_NAME}_make_error.log  
         echo "Continuing with other branches..."  
     else  
-        echo "Build succeeded for ${CONFIG_REPO}!"  
+        echo "Build succeeded for ${CONFIG_REPO}_${CONFIG_NAME}!"  
     fi  
 } &  # 将构建过程放入后台  
 
