@@ -97,7 +97,7 @@ if [ $? -ne 0 ]; then
   echo "Build failed for ${CONFIG_REPO}-${CONFIG_NAME}!"  
   echo "${CONFIG_REPO}-${CONFIG_NAME} error log:"  
   cat "${ERROR_LOG_PATH}"  
-  return 1    
+  exit 1    
 else  
   echo "Build succeeded for ${CONFIG_REPO}-${CONFIG_NAME}!"  
 fi  
