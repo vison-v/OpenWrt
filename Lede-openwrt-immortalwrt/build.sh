@@ -106,6 +106,7 @@ if [ $? -ne 0 ]; then
 else  
   echo "Build succeeded for ${CONFIG_REPO}-${CONFIG_NAME}!"  
 fi
+ls -al  
 
 # 移动构建产物  
 pushd bin/targets/*/* || exit 1  
