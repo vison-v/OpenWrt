@@ -126,7 +126,7 @@ jobs:
           if success; then  
           message="${{ env.zip_files }} 编译完成😋"  
           else  
-          message="${{ env.zip_files }} 编译失败😋"  
+          message="${{ env.zip_files }} 编译失败😭"  
           fi  
           curl -k --data chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" --data "text=${message}" "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage"
 
