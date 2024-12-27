@@ -92,9 +92,11 @@ make download -j8 V=s
 # find dl -size -1024c -exec ls -l {} \; -exec rm -f {} \;
 
 echo "$(nproc) thread compile"
-make -j$(nproc) V=s || make -j1 V=s
+(make -j$(nproc) V=s > make_output.log 2> make_error.log) || (make -j1 V=s >> make_output.log 2>> make_error.log)
 if [ $? -ne 0 ]; then
   echo "Build failed!"
+  echo "Error log:"  
+  cat make_error.log
   popd # ${CONFIG_REPO}
   exit 1
 fi
