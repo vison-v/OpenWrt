@@ -122,9 +122,9 @@ jobs:
         continue-on-error: true  
         run: |  
           if [ ${{ job.status }} == 'success' ]; then  
-          message="${{ files_name }} 编译完成😋"  
+          message="${{ env.files_name }} 编译完成😋"  
           else  
-          message="${{ files_name }} 编译失败😭"  
+          message="${{ env.files_name }} 编译失败😭"  
           fi  
           curl -k --data chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" --data "text=${message}" "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage"
 
