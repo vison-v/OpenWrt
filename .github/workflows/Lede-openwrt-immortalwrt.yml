@@ -76,37 +76,34 @@ jobs:
           cd /mnt/openwrt  
           
           # Execute build.sh and handle errors  
+          echo "files_name=$(basename "${{ matrix.config }}".config | awk -F';' '{printf \"%s-%s\", $1, $3}')" >> $GITHUB_ENV
           if ! sudo bash build.sh "${{ matrix.config }}"; then  
             echo "Build.sh failed for ${{ matrix.config }}"  
-            ERROR_LOG_PATH="${CONFIG_REPO}-${CONFIG_NAME}_make_error.log"  
-            echo "ERROR_LOG_PATH=${ERROR_LOG_PATH}" >> $GITHUB_ENV  
             exit 1  
           fi  
           
-          # Check for firmware files  
+          # Check for firmware files
           if [ -f *.img.gz ]; then  
-            sudo zip -q -r $(basename "${{ matrix.config }}".config | awk -F';' '{printf $1"-"$3}')-${{ env.release }}.zip *.img.gz  
-            echo "zip_files=$(ls *.zip | xargs -n1 basename | sed 's/\.zip$//')" >> $GITHUB_ENV  
+            sudo zip -q -r ${{ env.files_name }}-${{ env.release }}.zip *.img.gz  
           else  
             echo "No firmware found"  
             exit 1  
           fi  
           
-      
       - name: Upload log for artifact  
         if: failure() && env.ERROR_LOG_PATH  
         uses: actions/upload-artifact@main  
         continue-on-error: true  
         with:  
-          name: ${{ env.zip_files }}_make_error  
+          name: ${{ env.files_name }}_make_error  
           path: |  
-            /mnt/openwrt/${{ env.ERROR_LOG_PATH }}  
+            /mnt/openwrt/${{ env.ERROR_LOG_NAME }}  
       
       - name: Upload firmware for artifact  
         uses: actions/upload-artifact@main  
         if: success() && !cancelled() 
         with:  
-          name: ${{ env.zip_files }}  
+          name: ${{ env.files_name }}  
           path: |  
             /mnt/openwrt/*.zip  
       
@@ -123,10 +120,10 @@ jobs:
         if: env.TELEGRAM_TOKEN  
         continue-on-error: true  
         run: |  
-          if success; then  
-          message="${{ env.zip_files }} 编译完成😋"  
+          if [ ${{ job.status }} == 'success' ]; then  
+          message="${{ files_name }} 编译完成😋"  
           else  
-          message="${{ env.zip_files }} 编译失败😭"  
+          message="${{ files_name }} 编译失败😭"  
           fi  
           curl -k --data chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" --data "text=${message}" "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage"
 
