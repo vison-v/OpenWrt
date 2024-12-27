@@ -94,17 +94,17 @@ make download -j8 V=s
 echo "Starting compilation for ${CONFIG_REPO}-${CONFIG_NAME} with $(nproc) threads..."  
 
 # 设置错误日志路径并写入 GITHUB_ENV  
-ERROR_LOG_PATH="${CONFIG_REPO}-${CONFIG_NAME}_make_error.log"  
-echo "ERROR_LOG_PATH=${ERROR_LOG_PATH}" >> $GITHUB_ENV  
+ERROR_LOG_NAME="${CONFIG_REPO}-${CONFIG_NAME}_make_error.log"  
+echo "ERROR_LOG_NAME=${ERROR_LOG_NAME}" >> $GITHUB_ENV  
 
 # 执行make命令，若失败返回错误码1并记录错误日志路径  
-(make -j$(nproc) V=s > make_output.log 2> "${ERROR_LOG_PATH}") || \
-(make -j1 V=s >> make_output.log 2>> "${ERROR_LOG_PATH}")  
+(make -j$(nproc) V=s > make_output.log 2> "${ERROR_LOG_NAME}") || \
+(make -j1 V=s >> make_output.log 2>> "${ERROR_LOG_NAME}")  
 
 if [ $? -ne 0 ]; then  
   echo "Build failed for ${CONFIG_REPO}-${CONFIG_NAME}!"  
   echo "${CONFIG_REPO}-${CONFIG_NAME} error log:"  
-  cat "${ERROR_LOG_PATH}"  
+  cat "${ERROR_LOG_NAME}"  
   exit 1    
 else  
   echo "Build succeeded for ${CONFIG_REPO}-${CONFIG_NAME}!"  
@@ -117,6 +117,7 @@ ls -al
 # 移动文件到工作空间  
 mv -f *combined*.img.gz "${WORKSPACE}"  
 popd || exit 1  
+mv -f "${ERROR_LOG_NAME}" "${WORKSPACE}"  
 popd || exit 1  
 du -chd1 "${CONFIG_REPO}"  
 echo "Done"
