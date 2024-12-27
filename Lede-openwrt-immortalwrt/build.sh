@@ -5,7 +5,7 @@
 # See /LICENSE for more information.  
 
 # 检查参数是否正确  
-if [ -z "${1}" ] || [ ! -f "${1}" ]; then  # Added space after [ to fix syntax  
+if [ -z "${1}" ] || [ ! -f "${1}" ]; then  
   echo "Usage: $0 <config file>"  
   exit 1  
 fi  
