@@ -19,7 +19,7 @@ CONFIG_ARRAY=(${CONFIG_FNAME//;/ })     # 分割成数组
 # 检查config文件命名是否正确，若不正确退出  
 if [ ${#CONFIG_ARRAY[@]} -ne 3 ]; then  
   echo "${config_path} name error!"     # config命名规则: <repo>;<owner>;<name>.config  
-  exit 1  # Changed from return 1 to exit 1  
+  exit 1   
 fi  
 
 CONFIG_REPO="${CONFIG_ARRAY[0]}"  
@@ -42,7 +42,7 @@ case "${CONFIG_REPO}" in
     ;;  
   *)  
     echo "${config_path} name error!"  
-    exit 1  # Changed from return 1 to exit 1  
+    exit 1  
     ;;  
 esac  
 
@@ -53,7 +53,7 @@ fi
 
 # root.  
 export FORCE_UNSAFE_CONFIGURE=1  
-pushd "${CONFIG_REPO}" || exit 1  # Ensure the directory change is successful  
+pushd "${CONFIG_REPO}" || exit 1  
 git pull  
 sed -i "/src-git vi /d; 1 i src-git vi https://github.com/vison-v/packages;${CONFIG_REPO}" feeds.conf.default  
 ./scripts/feeds update -a  
@@ -72,7 +72,7 @@ make defconfig
 
 # 在GitHub Actions环境中处理配置文件更新  
 if [ "$GITHUB_ACTIONS" = "true" ]; then  
-  pushd "${GITHUB_WORKSPACE}" || exit 1  # Ensure the directory change is successful  
+  pushd "${GITHUB_WORKSPACE}" || exit 1  
   git pull  
   cp -f "${WORKSPACE}/${CONFIG_REPO}/.config" "${GITHUB_WORKSPACE}/Lede-openwrt-immortalwrt/${CONFIG_FNAME}.config"    
   status=$(git status -s | grep "${CONFIG_FNAME}" | awk '{printf $2}')  
@@ -81,7 +81,7 @@ if [ "$GITHUB_ACTIONS" = "true" ]; then
     git commit -m "update $(date +'%Y-%m-%d %H:%M:%S')"    
     git push -f  
   fi  
-  popd || exit 1  # Ensure the directory change is successful  
+  popd || exit 1  
 fi  
 
 echo "Downloading packages..."  
@@ -89,10 +89,15 @@ make download -j8 V=s
 
 # 并行构建设置  
 echo "Starting compilation for ${CONFIG_REPO}-${CONFIG_NAME} with $(nproc) threads..."  
-# 执行make命令，若失败返回错误码1并记录错误日志路径  
+
+# 设置错误日志路径并写入 GITHUB_ENV  
 ERROR_LOG_PATH="${CONFIG_REPO}-${CONFIG_NAME}_make_error.log"  
+echo "ERROR_LOG_PATH=${ERROR_LOG_PATH}" >> $GITHUB_ENV  
+
+# 执行make命令，若失败返回错误码1并记录错误日志路径  
 (make -j$(nproc) V=s > make_output.log 2> "${ERROR_LOG_PATH}") || \
 (make -j1 V=s >> make_output.log 2>> "${ERROR_LOG_PATH}")  
+
 if [ $? -ne 0 ]; then  
   echo "Build failed for ${CONFIG_REPO}-${CONFIG_NAME}!"  
   echo "${CONFIG_REPO}-${CONFIG_NAME} error log:"  
@@ -100,14 +105,14 @@ if [ $? -ne 0 ]; then
   exit 1    
 else  
   echo "Build succeeded for ${CONFIG_REPO}-${CONFIG_NAME}!"  
-fi  
+fi
 
 # 移动构建产物  
-pushd bin/targets/*/* || exit 1  # Ensure the directory change is successful  
+pushd bin/targets/*/* || exit 1  
 ls -al  
 # 移动文件到工作空间  
 mv -f *combined*.img.gz "${WORKSPACE}"  
-popd || exit 1  # Ensure the directory change is successful  
-popd || exit 1  # Ensure the directory change is successful  
+popd || exit 1  
+popd || exit 1  
 du -chd1 "${CONFIG_REPO}"  
 echo "Done"
