@@ -76,7 +76,8 @@ jobs:
           cd /mnt/openwrt  
           
           # Execute build.sh and handle errors  
-          echo "files_name=$(basename "${{ matrix.config }}".config | awk -F';' '{printf \"%s-%s\", $1, $3}')" >> $GITHUB_ENV
+          files_name=$(basename "${matrix.config}.config" | awk -F';' '{printf "%s-%s", $1, $3}')  
+          echo "files_name=$files_name" >> $GITHUB_ENV
           if ! sudo bash build.sh "${{ matrix.config }}"; then  
             echo "Build.sh failed for ${{ matrix.config }}"  
             exit 1  
