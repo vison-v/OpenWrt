@@ -77,9 +77,9 @@ jobs:
           
           # Execute build.sh and handle errors  
           if ! sudo bash build.sh "${{ matrix.config }}"; then  
-            echo "Build.sh 对配置"${{ env.CONFIG_REPO }}-${{ env.CONFIG_NAME }}执行失败！"  
+            echo "Build.sh 对配置"${{ env.FILE_NAME }}执行失败！"  
           else  
-            echo "Build.sh 对配置"${{ env.CONFIG_REPO }}-${{ env.CONFIG_NAME }}执行成功！"    
+            echo "Build.sh 对配置"${{ env.FILE_NAME }}执行成功！"    
           fi  
 
       - name: 上传日志作为工件  
@@ -87,7 +87,7 @@ jobs:
         uses: actions/upload-artifact@main  
         continue-on-error: true  
         with:  
-          name: ${{ env.CONFIG_REPO }}-${{ env.CONFIG_NAME }}_make_error  
+          name: ${{ env.FILE_NAME }}_make_error  
           path: |  
             /mnt/openwrt/${{ env.ERROR_LOG_NAME }}  
       
@@ -95,7 +95,7 @@ jobs:
         if: env.BUILD_STATUS == 'success'    
         uses: actions/upload-artifact@main  
         with:  
-          name: ${{ env.CONFIG_REPO }}-${{ env.CONFIG_NAME }}-${{ env.release }}  
+          name: ${{ env.FILE_NAME }}-${{ env.release }}  
           path: |  
             /mnt/openwrt/*.zip  
       
@@ -113,9 +113,9 @@ jobs:
         continue-on-error: true  
         run: |  
           if [ ${{ env.BUILD_STATUS }} == 'success' ]; then  
-          message="固件${{ env.CONFIG_REPO }}-${{ env.CONFIG_NAME }}-${{ env.release }}编译完成😋"  
+          message="固件${{ env.FILE_NAME }}-${{ env.release }}编译完成😋"  
           else  
-          message="固件${{ env.CONFIG_REPO }}-${{ env.CONFIG_NAME }}-${{ env.release }}编译失败😭"  
+          message="固件${{ env.FILE_NAME }}-${{ env.release }}编译失败😭"  
           fi  
           curl -k --data chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" --data "text=${message}" "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage"
 
