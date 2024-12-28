@@ -3,8 +3,8 @@
 # See /LICENSE for more information.  
 name: Build OpenWrt  
 on:  
-  schedule:  
-    - cron: "0 18 * * *"  
+  #schedule:  
+  #  - cron: "0 18 * * *"  
   push:  
     paths:  
       - '.github/workflows/Lede-openwrt-immortalwrt.yml'  
@@ -69,62 +69,54 @@ jobs:
           df -h  
       
       - name: make  
-        continue-on-error: true  
+        continue-on-error: false   
         run: |  
           sudo mkdir -p /mnt/openwrt  
           sudo cp -rf Lede-openwrt-immortalwrt/* /mnt/openwrt/  
           cd /mnt/openwrt  
           
           # Execute build.sh and handle errors  
-          files_name=$(basename "${matrix.config}.config" | awk -F';' '{printf "%s-%s", $1, $3}')  
-          echo "files_name=$files_name" >> $GITHUB_ENV  
           if ! sudo bash build.sh "${{ matrix.config }}"; then  
-            echo "Build.sh failed for ${{ matrix.config }}"  
-            exit 1  
-          fi  
-          
-          # Check for firmware files
-          if [ -f *.img.gz ]; then  
-            sudo zip -q -r ${{ env.files_name }}-${{ env.release }}.zip *.img.gz  
+            echo "Build.sh 对配置"${{ env.CONFIG_REPO }}-${{ env.CONFIG_NAME }}执行失败"  
+            echo "BUILD_STATUS=failed" >> $GITHUB_ENV   # 失败时设置状态变量  
           else  
-            echo "No firmware found"  
-            exit 1  
+            echo "BUILD_STATUS=success" >> $GITHUB_ENV  # 成功时设置状态变量  
           fi  
-          
-      - name: Upload log for artifact  
-        if: failure() && env.ERROR_LOG_PATH  
+
+      - name: 上传日志作为工件  
+        if: env.BUILD_STATUS == 'failed'  # 仅在构建失败时上传日志  
         uses: actions/upload-artifact@main  
         continue-on-error: true  
         with:  
-          name: ${{ env.files_name }}_make_error  
+          name: ${{ env.CONFIG_REPO }}-${{ env.CONFIG_NAME }}_make_error  
           path: |  
             /mnt/openwrt/${{ env.ERROR_LOG_NAME }}  
       
-      - name: Upload firmware for artifact  
+      - name: 上传固件作为工件  
+        if: env.BUILD_STATUS == 'success'    
         uses: actions/upload-artifact@main  
-        if: success() && !cancelled() 
         with:  
-          name: ${{ env.files_name }}  
+          name: ${{ env.CONFIG_REPO }}-${{ env.CONFIG_NAME }}-${{ env.release }}  
           path: |  
             /mnt/openwrt/*.zip  
       
-      - name: Upload firmware to release  
+      - name: 上传固件到发布  
+        if: env.BUILD_STATUS == 'success'  
         uses: softprops/action-gh-release@v2  
-        if: success() && !cancelled()  
         env:  
           GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}  
         with:  
           tag_name: ${{ env.release }}  
-          files: /mnt/openwrt/*basic*.zip  
+          files: /mnt/openwrt/*basic*.zip
       
       - name: Telegram notification  
         if: env.TELEGRAM_TOKEN  
         continue-on-error: true  
         run: |  
-          if [ ${{ job.status }} == 'success' ]; then  
-          message="${{ env.files_name }} 编译完成😋"  
+          if [ ${{ env.BUILD_STATUS }} == 'success' ]; then  
+          message="固件${{ env.CONFIG_REPO }}-${{ env.CONFIG_NAME }}-${{ env.release }}编译完成😋"  
           else  
-          message="${{ env.files_name }} 编译失败😭"  
+          message="固件${{ env.CONFIG_REPO }}-${{ env.CONFIG_NAME }}-${{ env.release }}编译失败😭"  
           fi  
           curl -k --data chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" --data "text=${message}" "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage"
 
