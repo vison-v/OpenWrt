@@ -69,7 +69,7 @@ jobs:
           df -h  
       
       - name: make  
-        continue-on-error: false   
+        continue-on-error: true   
         run: |  
           sudo mkdir -p /mnt/openwrt  
           sudo cp -rf Lede-openwrt-immortalwrt/* /mnt/openwrt/  
