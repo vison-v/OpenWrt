@@ -16,19 +16,21 @@ WORKSPACE="$(pwd)"
 script_path=$(realpath "$(dirname "${1}")/custom.sh")  
 config_path=$(realpath "${1}")          # 绝对路径  
 CONFIG_FNAME=$(basename "${1}" .config) # 取文件名  
+CONFIG_ARRAY=(${CONFIG_FNAME//;/ })     # 分割成数组  
 
-# 使用IFS分割配置文件名  
-IFS=';' read -r CONFIG_REPO CONFIG_OWNER CONFIG_NAME <<< "${CONFIG_FNAME}"  
+# 分割配置文件名并写入 GITHUB_ENV  
+CONFIG_REPO="${CONFIG_ARRAY[0]}"  
+echo "CONFIG_REPO=${CONFIG_REPO}" >> $GITHUB_ENV  
+CONFIG_OWNER="${CONFIG_ARRAY[1]}"  
+echo "CONFIG_OWNER=${CONFIG_OWNER}" >> $GITHUB_ENV  
+CONFIG_NAME="${CONFIG_ARRAY[2]}"  
+echo "CONFIG_NAME=${CONFIG_NAME}" >> $GITHUB_ENV  
 
 # 检查config文件命名是否正确，若不正确退出  
 if [ -z "${CONFIG_REPO}" ] || [ -z "${CONFIG_OWNER}" ] || [ -z "${CONFIG_NAME}" ]; then  
   echo "${config_path} name error!"     # config命名规则: <repo>;<owner>;<name>.config  
   exit 1   
 fi  
-
-echo "CONFIG_REPO=${CONFIG_REPO}" >> $GITHUB_ENV  
-echo "CONFIG_OWNER=${CONFIG_OWNER}" >> $GITHUB_ENV  
-echo "CONFIG_NAME=${CONFIG_NAME}" >> $GITHUB_ENV  
 
 # 根据CONFIG_REPO设置REPO_URL和REPO_BRANCH，若不识别退出  
 case "${CONFIG_REPO}" in  
