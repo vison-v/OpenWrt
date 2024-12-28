@@ -25,7 +25,7 @@ CONFIG_NAME="${CONFIG_ARRAY[2]}"
 
 # 检查config文件命名是否正确，若不正确退出  
 if [ -z "${CONFIG_REPO}" ] || [ -z "${CONFIG_OWNER}" ] || [ -z "${CONFIG_NAME}" ]; then  
-  echo "${config_path} name error!"     # config命名规则: <repo>;<owner>;<name>.config  
+  echo "${config_path}配置文件错误!"     # config命名规则: <repo>;<owner>;<name>.config  
   exit 1   
 fi  
 
@@ -44,7 +44,7 @@ case "${CONFIG_REPO}" in
     REPO_BRANCH="openwrt-23.05"  
     ;;  
   *)  
-    echo "${config_path} name error!"  
+    echo "${config_path}配置文件错误!"  
     exit 1  
     ;;  
 esac  
@@ -119,10 +119,19 @@ else
   echo "BUILD_STATUS=success" >> $GITHUB_ENV  # 成功时设置状态变量  
   echo "${CONFIG_REPO}-${CONFIG_NAME}固件构建成功!"  
 fi  
-
 ls -al  
 
 # 移动构建产物  
-pushd bin/targets/*/* || exit 1  
+pushd bin/targets/*/* || exit 1  # 确保目录变更成功  
 ls -al  
-# 移动文件到
+# 移动文件到工作空间  
+if ls *combined*.img.gz 1> /dev/null 2>&1; then  
+  mv -f *combined*.img.gz "${WORKSPACE}"  
+else  
+  echo "没有发现编译好的固件！"  
+  exit 1  
+fi  
+popd || exit 1  # 确保返回成功  
+popd || exit 1  # 确保返回成功  
+du -chd1 "${CONFIG_REPO}"  
+echo "完成"
