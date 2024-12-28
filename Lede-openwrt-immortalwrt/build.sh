@@ -20,11 +20,11 @@ CONFIG_ARRAY=(${CONFIG_FNAME//;/ })     # 分割成数组
 
 # 分割配置文件名并写入 GITHUB_ENV  
 CONFIG_REPO="${CONFIG_ARRAY[0]}"  
-echo "CONFIG_REPO=${CONFIG_REPO}" >> $GITHUB_ENV  
+echo "CONFIG_REPO=${CONFIG_REPO}" >> GITHUB_ENV  
 CONFIG_OWNER="${CONFIG_ARRAY[1]}"  
-echo "CONFIG_OWNER=${CONFIG_OWNER}" >> $GITHUB_ENV  
+echo "CONFIG_OWNER=${CONFIG_OWNER}" >> GITHUB_ENV  
 CONFIG_NAME="${CONFIG_ARRAY[2]}"  
-echo "CONFIG_NAME=${CONFIG_NAME}" >> $GITHUB_ENV  
+echo "CONFIG_NAME=${CONFIG_NAME}" >> GITHUB_ENV  
 
 # 检查config文件命名是否正确，若不正确退出  
 if [ -z "${CONFIG_REPO}" ] || [ -z "${CONFIG_OWNER}" ] || [ -z "${CONFIG_NAME}" ]; then  
