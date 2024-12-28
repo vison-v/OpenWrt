@@ -4,6 +4,8 @@
 # This is free software, licensed under the MIT License.  
 # See /LICENSE for more information.  
 
+set -e  # Exit immediately if a command exits with a non-zero status.  
+
 # 检查参数是否正确  
 if [ -z "${1}" ] || [ ! -f "${1}" ]; then  
   echo "Usage: $0 <config file>"  
@@ -14,19 +16,18 @@ WORKSPACE="$(pwd)"
 script_path=$(realpath "$(dirname "${1}")/custom.sh")  
 config_path=$(realpath "${1}")          # 绝对路径  
 CONFIG_FNAME=$(basename "${1}" .config) # 取文件名  
-CONFIG_ARRAY=(${CONFIG_FNAME//;/ })     # 分割成数组  
+
+# 使用IFS分割配置文件名  
+IFS=';' read -r CONFIG_REPO CONFIG_OWNER CONFIG_NAME <<< "${CONFIG_FNAME}"  
 
 # 检查config文件命名是否正确，若不正确退出  
-if [ ${#CONFIG_ARRAY[@]} -ne 3 ]; then  
+if [ -z "${CONFIG_REPO}" ] || [ -z "${CONFIG_OWNER}" ] || [ -z "${CONFIG_NAME}" ]; then  
   echo "${config_path} name error!"     # config命名规则: <repo>;<owner>;<name>.config  
   exit 1   
 fi  
 
-CONFIG_REPO="${CONFIG_ARRAY[0]}"  
 echo "CONFIG_REPO=${CONFIG_REPO}" >> $GITHUB_ENV  
-CONFIG_OWNER="${CONFIG_ARRAY[1]}"  
 echo "CONFIG_OWNER=${CONFIG_OWNER}" >> $GITHUB_ENV  
-CONFIG_NAME="${CONFIG_ARRAY[2]}"  
 echo "CONFIG_NAME=${CONFIG_NAME}" >> $GITHUB_ENV  
 
 # 根据CONFIG_REPO设置REPO_URL和REPO_BRANCH，若不识别退出  
@@ -51,23 +52,31 @@ esac
 
 # 克隆或更新仓库  
 if [ ! -d "${CONFIG_REPO}" ]; then    
-  git clone --depth=1 -b "${REPO_BRANCH}" "${REPO_URL}" "${CONFIG_REPO}"  
+  git clone --depth=1 -b "${REPO_BRANCH}" "${REPO_URL}" "${CONFIG_REPO}" || {  
+    echo "Failed to clone repository."  
+    exit 1  
+  }  
 fi  
 
 # root.  
 export FORCE_UNSAFE_CONFIGURE=1  
 pushd "${CONFIG_REPO}" || exit 1  
-git pull  
+git pull || { echo "Failed to pull latest changes."; exit 1; }  
+
+# Update feeds and install packages  
 sed -i "/src-git vi /d; 1 i src-git vi https://github.com/vison-v/packages;${CONFIG_REPO}" feeds.conf.default  
 ./scripts/feeds update -a  
 ./scripts/feeds install -a  
 ./scripts/feeds uninstall $(grep Package ./feeds/vi.index | awk -F': ' '{print $2}')  
 ./scripts/feeds install -p vi -a  
+
+# Handle .config file  
 if [ -f "./.config" ]; then  
     cat "${config_path}" >> "./.config"  
 else  
     cp -f "${config_path}" "./.config"  
 fi  
+
 cp -f "${script_path}" "./custom.sh"  
 chmod +x "./custom.sh"  
 "./custom.sh" "${CONFIG_REPO}" "${CONFIG_OWNER}"  
@@ -102,22 +111,20 @@ echo "ERROR_LOG_NAME=${ERROR_LOG_NAME}" >> $GITHUB_ENV
 (make -j1 V=s >> make_output.log 2>> "${ERROR_LOG_NAME}")  
 
 if [ $? -ne 0 ]; then  
+  echo "BUILD_STATUS=failed" >> $GITHUB_ENV   # 失败时设置状态变量  
   echo "Build failed for ${CONFIG_REPO}-${CONFIG_NAME}!"  
   echo "${CONFIG_REPO}-${CONFIG_NAME} error log:"  
   cat "${ERROR_LOG_NAME}"  
   mv -f "${ERROR_LOG_NAME}" "${WORKSPACE}"  
   exit 1    
 else  
+  echo "BUILD_STATUS=success" >> $GITHUB_ENV  # 成功时设置状态变量  
   echo "Build succeeded for ${CONFIG_REPO}-${CONFIG_NAME}!"  
-fi
+fi  
+
 ls -al  
 
 # 移动构建产物  
 pushd bin/targets/*/* || exit 1  
 ls -al  
-# 移动文件到工作空间  
-mv -f *combined*.img.gz "${WORKSPACE}"  
-popd || exit 1  
-popd || exit 1  
-du -chd1 "${CONFIG_REPO}"  
-echo "Done"
+# 移动文件到
