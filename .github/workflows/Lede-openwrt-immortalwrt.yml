@@ -77,10 +77,9 @@ jobs:
           
           # Execute build.sh and handle errors  
           if ! sudo bash build.sh "${{ matrix.config }}"; then  
-            echo "Build.sh 对配置"${{ env.CONFIG_REPO }}-${{ env.CONFIG_NAME }}执行失败"  
-            echo "BUILD_STATUS=failed" >> $GITHUB_ENV   # 失败时设置状态变量  
+            echo "Build.sh 对配置"${{ env.CONFIG_REPO }}-${{ env.CONFIG_NAME }}执行失败！"  
           else  
-            echo "BUILD_STATUS=success" >> $GITHUB_ENV  # 成功时设置状态变量  
+            echo "Build.sh 对配置"${{ env.CONFIG_REPO }}-${{ env.CONFIG_NAME }}执行成功！"    
           fi  
 
       - name: 上传日志作为工件  
