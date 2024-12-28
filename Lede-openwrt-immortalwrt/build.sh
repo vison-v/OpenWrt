@@ -102,11 +102,14 @@ make download -j8 V=s
 echo "Starting compilation for ${CONFIG_REPO}-${CONFIG_NAME} with $(nproc) threads..."  
 
 # 设置错误日志路径并写入 GITHUB_ENV  
-#echo "CONFIG_REPO=${CONFIG_REPO}" >> $GITHUB_ENV  
-#echo "CONFIG_OWNER=${CONFIG_OWNER}" >> $GITHUB_ENV  
-#echo "CONFIG_NAME=${CONFIG_NAME}" >> $GITHUB_ENV  
+# 打印CONFIG_REPO的值
+echo "CONFIG_REPO: ${CONFIG_REPO}"
+# 打印CONFIG_NAME的值
+echo "CONFIG_NAME: ${CONFIG_NAME}"
+
 FILE_NAME="${CONFIG_REPO}-${CONFIG_NAME}"
-echo "FILE_NAME=${FILE_NAME}" >> $GITHUB_ENV  
+echo "FILE_NAME=${FILE_NAME}" >> $GITHUB_ENV
+
 ERROR_LOG_NAME="${CONFIG_REPO}-${CONFIG_NAME}_make_error.log"  
 echo "ERROR_LOG_NAME=${ERROR_LOG_NAME}" >> $GITHUB_ENV  
 
