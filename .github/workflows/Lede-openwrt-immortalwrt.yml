@@ -75,6 +75,10 @@ jobs:
           sudo cp -rf Lede-openwrt-immortalwrt/* /mnt/openwrt/  
           cd /mnt/openwrt  
           
+          # 设置文件名变量
+          FILE_NAME=$(basename "${{ matrix.config }}".config | awk -F';' '{printf $1"-"$3}')
+          echo "FILE_NAME=${FILE_NAME}" >> $GITHUB_ENV 
+          
           # Execute build.sh and handle errors  
           if ! sudo bash build.sh "${{ matrix.config }}"; then  
             echo "Build.sh 对配置"${{ env.FILE_NAME }}执行失败！"  
@@ -91,22 +95,22 @@ jobs:
           path: |  
             /mnt/openwrt/${{ env.ERROR_LOG_NAME }}  
       
-      - name: 上传固件作为工件  
+      - name: 上传固件到artifact  
         if: env.BUILD_STATUS == 'success'    
         uses: actions/upload-artifact@main  
         with:  
           name: ${{ env.FILE_NAME }}-${{ env.release }}  
           path: |  
-            /mnt/openwrt/*.zip  
+            /mnt/openwrt/*.img.gz  
       
-      - name: 上传固件到发布  
+      - name: 上传固件到release  
         if: env.BUILD_STATUS == 'success'  
         uses: softprops/action-gh-release@v2  
         env:  
           GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}  
         with:  
           tag_name: ${{ env.release }}  
-          files: /mnt/openwrt/*basic*.zip
+          files: /mnt/openwrt/*basic*.img.gz
       
       - name: Telegram notification  
         if: env.TELEGRAM_TOKEN  
