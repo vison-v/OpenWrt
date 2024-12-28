@@ -105,6 +105,7 @@ if [ $? -ne 0 ]; then
   echo "Build failed for ${CONFIG_REPO}-${CONFIG_NAME}!"  
   echo "${CONFIG_REPO}-${CONFIG_NAME} error log:"  
   cat "${ERROR_LOG_NAME}"  
+  mv -f "${ERROR_LOG_NAME}" "${WORKSPACE}"  
   exit 1    
 else  
   echo "Build succeeded for ${CONFIG_REPO}-${CONFIG_NAME}!"  
@@ -117,7 +118,6 @@ ls -al
 # 移动文件到工作空间  
 mv -f *combined*.img.gz "${WORKSPACE}"  
 popd || exit 1  
-mv -f "${ERROR_LOG_NAME}" "${WORKSPACE}"  
 popd || exit 1  
 du -chd1 "${CONFIG_REPO}"  
 echo "Done"
