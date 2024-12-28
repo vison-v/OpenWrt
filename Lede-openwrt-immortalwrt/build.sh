@@ -99,35 +99,25 @@ echo "Downloading packages..."
 make download -j8 V=s  
 
 # 并行构建设置  
-echo "Starting compilation for ${CONFIG_REPO}-${CONFIG_NAME} with $(nproc) threads..."  
+echo "开始编译${CONFIG_REPO}-${CONFIG_NAME}固件用 $(nproc) 线程..."  
 
-# 设置错误日志路径并写入 GITHUB_ENV  
-# 打印CONFIG_REPO的值
-echo "CONFIG_REPO: ${CONFIG_REPO}"
-# 打印CONFIG_NAME的值
-echo "CONFIG_NAME: ${CONFIG_NAME}"
-
-
-
+# 设置错误日志路径
 ERROR_LOG_NAME="${CONFIG_REPO}-${CONFIG_NAME}_make_error.log"  
-#echo "ERROR_LOG_NAME=${ERROR_LOG_NAME}" >> $GITHUB_ENV  
 
 # 执行make命令，若失败返回错误码1并记录错误日志路径  
 (make -j$(nproc) V=s > make_output.log 2> "${ERROR_LOG_NAME}") || \
 (make -j1 V=s >> make_output.log 2>> "${ERROR_LOG_NAME}")  
-FILE_NAME="${CONFIG_REPO}-${CONFIG_NAME}"
-echo "FILE_NAME=${FILE_NAME}" >> $GITHUB_ENV
 
 if [ $? -ne 0 ]; then  
   echo "BUILD_STATUS=failed" >> $GITHUB_ENV   # 失败时设置状态变量  
-  echo "Build failed for ${CONFIG_REPO}-${CONFIG_NAME}!"  
-  echo "${CONFIG_REPO}-${CONFIG_NAME} error log:"  
+  echo "${CONFIG_REPO}-${CONFIG_NAME}固件构建失败!"  
+  echo "${CONFIG_REPO}-${CONFIG_NAME}构建错误日志:"  
   cat "${ERROR_LOG_NAME}"  
   mv -f "${ERROR_LOG_NAME}" "${WORKSPACE}"  
   exit 1    
 else  
   echo "BUILD_STATUS=success" >> $GITHUB_ENV  # 成功时设置状态变量  
-  echo "Build succeeded for ${CONFIG_REPO}-${CONFIG_NAME}!"  
+  echo "${CONFIG_REPO}-${CONFIG_NAME}固件构建成功!"  
 fi  
 
 ls -al  
