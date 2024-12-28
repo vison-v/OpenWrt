@@ -107,16 +107,16 @@ echo "CONFIG_REPO: ${CONFIG_REPO}"
 # 打印CONFIG_NAME的值
 echo "CONFIG_NAME: ${CONFIG_NAME}"
 
-FILE_NAMED="${CONFIG_REPO}-${CONFIG_NAME}"
-FILE_NAME=${FILE_NAMED}
-echo "FILE_NAME=${FILE_NAME}" >> $GITHUB_ENV
+
 
 ERROR_LOG_NAME="${CONFIG_REPO}-${CONFIG_NAME}_make_error.log"  
-echo "ERROR_LOG_NAME=${ERROR_LOG_NAME}" >> $GITHUB_ENV  
+#echo "ERROR_LOG_NAME=${ERROR_LOG_NAME}" >> $GITHUB_ENV  
 
 # 执行make命令，若失败返回错误码1并记录错误日志路径  
 (make -j$(nproc) V=s > make_output.log 2> "${ERROR_LOG_NAME}") || \
 (make -j1 V=s >> make_output.log 2>> "${ERROR_LOG_NAME}")  
+FILE_NAME="${CONFIG_REPO}-${CONFIG_NAME}"
+echo "FILE_NAME=${FILE_NAME}" >> $GITHUB_ENV
 
 if [ $? -ne 0 ]; then  
   echo "BUILD_STATUS=failed" >> $GITHUB_ENV   # 失败时设置状态变量  
