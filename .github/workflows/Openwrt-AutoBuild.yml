@@ -175,8 +175,8 @@ jobs:
           du -h --max-depth=1 ./bin  
           du -h --max-depth=1 ./dl		  
         fi
-	
-	# 上传二进制文件目录  
+
+    # 上传二进制文件目录  
     - name: 上传二进制文件目录  
       uses: actions/upload-artifact@main  
       continue-on-error: true                         # 遇到错误时继续执行  
