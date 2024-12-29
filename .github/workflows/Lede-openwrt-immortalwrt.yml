@@ -76,8 +76,8 @@ jobs:
           cd /mnt/openwrt  
           
           # 设置文件名变量
-          REPO_NAME=$(basename "${{ matrix.config }}" | awk -F';' '{printf $1}')
-          ARCH_NAME=$(basename "${{ matrix.config }}" | awk -F';' '{printf $3}')
+          REPO_NAME=$(basename $(basename "${{ matrix.config }}" | awk -F';' '{printf $1}').config)
+          ARCH_NAME=$(basename $(basename "${{ matrix.config }}" | awk -F';' '{printf $3}').config)
           FILE_NAME=${REPO_NAME}-${ARCH_NAME}
           LOG_NAME=${FILE_NAME}_make_error.log
           echo "FILE_NAME=${FILE_NAME}" >> $GITHUB_ENV 
