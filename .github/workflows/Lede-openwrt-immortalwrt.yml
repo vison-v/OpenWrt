@@ -93,7 +93,9 @@ jobs:
           # 执行make命令，若失败返回错误码1并记录错误日志路径  
           cd ${REPO_NAME}
           make -j$(nproc) V=s || make -j1 V=s  
-
+          echo "${FILE_NAME}固件构建失败!!!!!!!!!!!!!!!!!"  
+          echo "${FILE_NAME}构建错误日志:"  
+          
           if [ $? -ne 0 ]; then  
           echo "BUILD_STATUS=failed" >> $GITHUB_ENV   # 失败时设置状态变量  
           echo "${FILE_NAME}固件构建失败!"  
