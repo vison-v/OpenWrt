@@ -1,0 +1,299 @@
+#=================================================  
+# https://github.com/P3TERX/Actions-OpenWrt  
+# 描述: 使用 GitHub Actions 构建 OpenWrt  
+# 许可证: MIT  
+# 作者: P3TERX  
+# 博客: https://p3terx.com  
+#=================================================  
+
+name: Openwrt-AutoBuild  
+
+on:   
+  # 当推送工作流文件时触发  
+  push:  
+    paths:  
+      - '.github/workflows/Openwrt-AutoBuild.yml'  
+
+permissions:  
+  contents: read  
+
+env:  
+  REPO_TOKEN: ${{ secrets.REPO_TOKEN }}  
+  SCKEY: ${{ secrets.SCKEY }}  
+  PAT: ${{ secrets.PAT }}  
+  TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}  
+  TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}  
+  SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}  
+  TZ: Asia/Shanghai  
+
+jobs:  
+  build_openwrt:  
+    name: 构建 ${{ matrix.target }}  
+    runs-on: ubuntu-latest  
+    strategy:  
+      fail-fast: false  
+      matrix:  
+        target: [lede_x86_64, immortalwrt_x86_64_nginx]  
+        
+    steps:  
+    
+    - name: 检出代码  
+      uses: actions/checkout@main  
+      with:  
+          fetch-depth: 0  
+  
+    - name: 配置环境变量  
+      run: |  
+        echo "FILE_NAME=${{ matrix.target }}" >> $GITHUB_ENV   
+        echo "REPO_NAME=$(basename "${{ matrix.target }}" | awk -F'_' '{print $1}')" >> $GITHUB_ENV  
+        echo "ARCH_NAME=$(basename "${{ matrix.target }}" | sed -E 's/^[^_]*_//')" >> $GITHUB_ENV  
+        echo "date=$(date +'%Y.%m.%d')" >> $GITHUB_ENV  
+	  
+    - name: 加载Settings.ini  
+      run: |  
+        # 加载公共配置  
+        source "${GITHUB_WORKSPACE}/${{ env.REPO_NAME }}/common/settings.ini"  
+        # 如果存在架构特定的配置，则加载  
+        if [ -f "${{ env.REPO_NAME }}/${{ env.ARCH_NAME }}/settings.ini" ]; then  
+          source "${GITHUB_WORKSPACE}/${{ env.REPO_NAME }}/${{ env.ARCH_NAME }}/settings.ini"  
+        fi  
+        # 从配置文件中设置环境变量  
+        echo "REPO_URL=${REPO_URL}" >> $GITHUB_ENV  
+        echo "REPO_BRANCH=${REPO_BRANCH}" >> $GITHUB_ENV  
+        echo "CONFIG_FILE=${CONFIG_FILE}" >> $GITHUB_ENV  
+        echo "CUSTOM_SH=${CUSTOM_SH}" >> $GITHUB_ENV  
+        echo "COMMON_SH=${COMMON_SH}" >> $GITHUB_ENV  
+        echo "UPLOAD_BIN_DIR_FOR_ARTIFACT=${UPLOAD_BIN_DIR_FOR_ARTIFACT}" >> $GITHUB_ENV  
+        echo "UPLOAD_FIRMWARE_FOR_ARTIFACT=${UPLOAD_FIRMWARE_FOR_ARTIFACT}" >> $GITHUB_ENV  
+        echo "UPLOAD_EFI_FIRMWARE_FOR_ARTIFACT=${UPLOAD_EFI_FIRMWARE_FOR_ARTIFACT}" >> $GITHUB_ENV  
+        echo "UPLOAD_ISO_FIRMWARE_FOR_ARTIFACT=${UPLOAD_ISO_FIRMWARE_FOR_ARTIFACT}" >> $GITHUB_ENV  
+        echo "UPLOAD_FIRMWARE_FOR_RELEASE=${UPLOAD_FIRMWARE_FOR_RELEASE}" >> $GITHUB_ENV  
+    
+    - name: 加载环境  
+      env:  
+          DEBIAN_FRONTEND: noninteractive  
+      run: |  
+          # 安装必要的软件包  
+          sudo -E apt-get -qq update  
+          sudo -E apt-get -qq install build-essential clang llvm flex g++ gawk gcc-multilib gettext \
+          git libncurses5-dev libssl-dev python3-distutils python3-pyelftools python3-setuptools \
+          libpython3-dev rsync unzip zlib1g-dev swig aria2 jq subversion qemu-utils ccache rename \
+          libelf-dev device-tree-compiler libgnutls28-dev coccinelle libgmp3-dev libmpc-dev  
+
+          # 移除不必要的包，清理空间  
+          sudo -E apt-get -qq purge azure-cli ghc* zulu* firefox powershell openjdk* dotnet* google* mysql* php* android*  
+          sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc  
+          sudo -E apt-get -qq autoremove --purge  
+          sudo -E apt-get -qq clean  
+          sudo -E timedatectl set-timezone "Asia/Shanghai"  
+          df -h  
+    
+    - name: 克隆源代码  
+      run: |  
+        git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt  
+    
+    - name: 加载与更新feeds  
+      run: |  
+        cp -rf ${{ env.REPO_NAME }}/common/files/. openwrt/  
+        cd openwrt  
+        sed -i "/src-git vi /d; 1 i src-git vi https://github.com/vison-v/packages;${{ env.REPO_NAME }}" feeds.conf.default  		  
+        ./scripts/feeds update -a  
+        ./scripts/feeds install -a  
+        ./scripts/feeds uninstall $(grep Package ./feeds/vi.index | awk -F': ' '{print $2}')  
+        ./scripts/feeds install -p vi -a  
+
+    - name: 清理磁盘空间  
+      env:  
+        DEBIAN_FRONTEND: noninteractive  
+      run: |  
+        # 创建目录以释放磁盘空间  
+        sudo mkdir -p -m 777 /mnt/openwrt/dl /mnt/openwrt/bin /mnt/openwrt/staging_dir /mnt/openwrt/build_dir  
+        ln -sf /mnt/openwrt/dl openwrt/dl  
+        ln -sf /mnt/openwrt/bin openwrt/bin  
+        ln -sf /mnt/openwrt/staging_dir openwrt/staging_dir  
+        ln -sf /mnt/openwrt/build_dir openwrt/build_dir  
+    
+    - name: 加载自定义配置  
+      run: |  
+        cp -rf ${{ env.REPO_NAME }} openwrt/  
+        cd openwrt  
+        chmod +x ${{ env.REPO_NAME }}/common/$COMMON_SH  
+        /bin/bash "${{ env.REPO_NAME }}/common/$COMMON_SH"   # 执行通用脚本  
+        # 执行架构特定的脚本  
+        if [ -f "${{ env.REPO_NAME }}/${{ env.ARCH_NAME }}/$CUSTOM_SH" ]; then  
+          chmod +x ${{ env.REPO_NAME }}/${{ env.ARCH_NAME }}/$CUSTOM_SH  
+          /bin/bash "${{ env.REPO_NAME }}/${{ env.ARCH_NAME }}/$CUSTOM_SH"  
+        fi  
+        mv ${{ env.REPO_NAME }}/common/$CONFIG_FILE .config  # 移动配置文件  
+        # 如果存在架构特定的配置文件，则追加内容  
+        if [ -f "${{ env.REPO_NAME }}/${{ env.ARCH_NAME }}/$CONFIG_FILE" ]; then  
+          echo >> .config  
+          cat ${{ env.REPO_NAME }}/${{ env.ARCH_NAME }}/$CONFIG_FILE >> .config  
+        fi  
+    
+    - name: 应用补丁  
+      run: |  
+        cd openwrt  
+        # 应用通用补丁  
+        find "${{ env.REPO_NAME }}/common/patches" -type f ! -path '${{ env.REPO_NAME }}/common/patches/china_mirrors.patch' -name '*.patch' -print0 | sort -z | xargs -I % -t -0 -n 1 sh -c "cat '%'  | patch -d './' -p1 -E --forward --no-backup-if-mismatch"  
+        # 如果存在架构特定的补丁，亦将其应用  
+        if [ -n "$(ls -A "${{ env.REPO_NAME }}/${{ env.ARCH_NAME }}/patches" 2>/dev/null)" ]; then  
+          find "${{ env.REPO_NAME }}/${{ env.ARCH_NAME }}/patches" -type f -name '*.patch' -print0 | sort -z | xargs -I % -t -0 -n 1 sh -c "cat '%'  | patch -d './' -p1 -E --forward --no-backup-if-mismatch"  
+        fi  
+
+    - name: 下载软件包  
+      id: package  
+      run: |  
+        cd openwrt  
+        make defconfig  
+        make download -j16  
+        df -h  
+    
+    - name: 编译固件  
+      id: compile  
+      run: | 
+        set -e
+        cd openwrt  
+        echo -e "$(($(nproc)+1)) 线程编译"  
+        make -j$(($(nproc)+1)) || make -j1 V=s > make_output.log 2> ${{matrix.target}}_make_error.log  
+        echo "=============================================="  
+        echo "空间使用情况:"  
+        echo "=============================================="  
+        df -h  
+        echo "=============================================="  
+        if [ $? -ne 0 ]; then  
+          echo "BUILD_STATUS=failed" >> $GITHUB_ENV   # 失败时设置状态变量  
+          echo "${{matrix.target}} 固件构建失败!"  
+          echo "${{matrix.target}} 构建错误日志:"  
+          cat ${{matrix.target}}_make_error.log  
+          exit 1    
+        else  
+          echo "BUILD_STATUS=success" >> $GITHUB_ENV  # 成功时设置状态变量  
+          echo "${{matrix.target}} 固件构建成功!"   
+          du -h --max-depth=1 ./staging_dir  
+          du -h --max-depth=1 ./build_dir  
+          du -h --max-depth=1 ./bin  
+          du -h --max-depth=1 ./dl		  
+        fi
+	
+	# 上传二进制文件目录  
+    - name: 上传二进制文件目录  
+      uses: actions/upload-artifact@main  
+      continue-on-error: true                         # 遇到错误时继续执行  
+      if: env.UPLOAD_BIN_DIR_FOR_ARTIFACT == 'true' && ${{ env.BUILD_STATUS }} == 'success'  
+      with:  
+        name: ${{matrix.target}}_bin                  # 设置上传文件的名称  
+        path: openwrt/bin                             # 要上传的二进制文件目录  
+
+    # 组织文件  
+    - name: 组织文件  
+      continue-on-error: true                         # 遇到错误时继续执行  
+      id: organize  
+      run: |  
+        if: ${{ env.BUILD_STATUS }} == 'success'      # 仅在构建成功时执行  
+        mkdir firmware && find openwrt/bin/targets/*/*/ -maxdepth 1 \
+        -name "*combined*" \
+        -or -name "*sysupgrade*" \
+        -or -name "*armvirt-64-default-rootfs*" \
+        -or -name "sha256sums" \
+        | xargs -i mv -f {} ./firmware/               # 移动目标文件到 firmware 目录  
+        cp openwrt/.config  ./firmware/${{matrix.target}}.config  
+        cd firmware  
+        echo ${{ env.date }} > version.txt            # 写入版本信息  
+        cat sha256sums >> version.txt                 # 追加 sha256sums 到版本信息  
+        mv sha256sums ${matrix.target}_sha256sums     # 重命名 sha256sums 文件  
+        echo "FIRMWARE=$PWD" >> $GITHUB_ENV           # 将固件路径写入环境变量  
+
+    # 上传固件到 Release  
+    - name: 上传固件到 Release  
+      uses: softprops/action-gh-release@v1  
+      continue-on-error: true                         # 遇到错误时继续执行  
+      if: env.REPO_TOKEN && env.UPLOAD_FIRMWARE_FOR_RELEASE == 'true' && ${{ env.BUILD_STATUS }} == 'success'  
+      env:  
+        GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}       # 使用密钥进行身份验证  
+      with:  
+        files: "${{ env.FIRMWARE }}/*"                # 要上传的文件  
+        name: ${{matrix.target}}                      # Release 的名称  
+        tag_name: ${{ env.date }}_${{matrix.target}}  # 标记名称  
+        body_path: release.txt                        # Release 描述文件路径  
+
+    # 上传固件到 Artifact  
+    - name: 上传固件到 Artifact   
+      uses: actions/upload-artifact@main  
+      continue-on-error: true                         # 遇到错误时继续执行  
+      if: env.UPLOAD_FIRMWARE_FOR_ARTIFACT == 'true' && ${{ env.BUILD_STATUS }} == 'success'  
+      with:  
+        name: ${{ env.date }} ${{matrix.target}}      # 设置上传文件的名称  
+        path: |  
+          ${{ env.FIRMWARE }}/*squashfs*              # 上传的文件路径  
+          !${{ env.FIRMWARE }}/*efi*                  # 排除 EFI 文件  
+          !${{ env.FIRMWARE }}/*rootfs*               # 排除 rootfs 文件  
+
+    # 上传 EFI 固到 Artifact  
+    - name: 上传 EFI 固到 Artifact  
+      uses: actions/upload-artifact@main  
+      continue-on-error: true                         # 遇到错误时继续执行  
+      if: env.UPLOAD_EFI_FIRMWARE_FOR_ARTIFACT == 'true' && ${{ env.BUILD_STATUS }} == 'success'  
+      with:  
+        name: ${{ env.date }} ${{matrix.target}}_EFI  # 设置上传文件的名称  
+        path: ${{ env.FIRMWARE }}/*efi*               # 上传的 EFI 文件路径  
+
+    # 上传 ISO 固件到 Artifact  
+    - name: 上传 ISO 固件到 Artifact  
+      uses: actions/upload-artifact@main  
+      continue-on-error: true                         # 遇到错误时继续执行  
+      if: env.UPLOAD_ISO_FIRMWARE_FOR_ARTIFACT == 'true' && ${{ env.BUILD_STATUS }} == 'success'  
+      with:  
+        name: ${{ env.date }} ${{matrix.target}}_ISO  # 设置上传文件的名称  
+        path: ${{ env.FIRMWARE }}/*.iso               # 上传的 ISO 文件路径  
+
+    # 上传错误日志到 Artifact  
+    - name: 上传错误日志到 Artifact  
+      uses: actions/upload-artifact@main  
+      continue-on-error: true                         # 遇到错误时继续执行  
+      if: ${{ env.BUILD_STATUS }} == 'failed'  
+      with:  
+        name: ${{matrix.target}}_make_error           # 设置上传文件的名称  
+        path: ./*.log                                 # 上传的错误日志文件路径  
+
+    # 微信通知  
+    - name: 微信通知  
+      continue-on-error: true                         # 遇到错误时继续执行  
+      if: env.SCKEY                                   # 如果已设置 SCKEY 则发送通知  
+      run: |  
+        if [ ${{ env.BUILD_STATUS }} == 'success' ]; then  
+          curl https://sc.ftqq.com/${{ secrets.SCKEY }}.send?text=固件${{ env.date }}_${{matrix.target}}编译完成😋  
+        else  
+          curl https://sc.ftqq.com/${{ secrets.SCKEY }}.send?text=固件${{ env.date }}_${{matrix.target}}编译失败😭  
+        fi  
+
+    # Telegram 通知  
+    - name: Telegram 通知  
+      if: env.TELEGRAM_TOKEN                          # 如果已设置 Telegram 令牌则发送通知  
+      continue-on-error: true  
+      run: |  
+        if [ ${{ env.BUILD_STATUS }} == 'success' ]; then  
+          message="固件${{ env.FILE_NAME }}-${{ env.release }}编译完成😋"  
+        else  
+          message="固件${{ env.FILE_NAME }}-${{ env.release }}编译失败😭"  
+        fi  
+        curl -k --data chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" --data "text=${message}" "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN}}/sendMessage"  
+
+    # 删除工作流运行记录  
+    - name: 删除工作流运行记录  
+      uses: Mattraks/delete-workflow-runs@main  
+      with:  
+        token: ${{ secrets.PAT }}                     # 使用 PAT 进行身份验证  
+        retain_days: 15                               # 保留最近 15 天的记录  
+        keep_minimum_runs: 1                          # 保留至少 1 次运行记录  
+
+    # 删除旧的 Releases  
+    - name: 删除旧的 Releases  
+      uses: dev-drprasad/delete-older-releases@master  
+      continue-on-error: true                         # 遇到错误时继续执行  
+      if: env.UPLOAD_FIRMWARE_FOR_RELEASE == 'true'   # 仅在允许上传时执行  
+      with:  
+        keep_latest: 15                               # 保留最新的 15 个发布  
+        delete_tags: true                             # 删除标签  
+      env:  
+        GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}       # 使用 GitHub 令牌
