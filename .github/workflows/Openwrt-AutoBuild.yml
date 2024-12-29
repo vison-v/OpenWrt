@@ -54,7 +54,7 @@ jobs:
         # 加载公共配置  
         source "${GITHUB_WORKSPACE}/${{ env.REPO_NAME }}/common/settings.ini"  
         # 如果存在架构特定的配置，则加载  
-        if [ -f "${{ env.REPO_NAME }}/${{ env.ARCH_NAME }}/settings.ini" ]; then  
+        if [ -f "${GITHUB_WORKSPACE}/${{ env.REPO_NAME }}/${{ env.ARCH_NAME }}/settings.ini" ]; then  
           source "${GITHUB_WORKSPACE}/${{ env.REPO_NAME }}/${{ env.ARCH_NAME }}/settings.ini"  
         fi  
         # 从配置文件中设置环境变量  
