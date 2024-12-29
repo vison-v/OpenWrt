@@ -92,8 +92,7 @@ jobs:
 
           # 执行make命令，若失败返回错误码1并记录错误日志路径  
           pushd openwrt
-          (make -j$(nproc) V=s > make_output.log 2> "${LOG_NAME}") || \
-          (make -j1 V=s >> make_output.log 2>> "${LOG_NAME}")  
+          make -j$(nproc) V=s || make -j1 V=s  
 
           if [ $? -ne 0 ]; then  
           echo "BUILD_STATUS=failed" >> $GITHUB_ENV   # 失败时设置状态变量  
@@ -123,7 +122,7 @@ jobs:
           fi  
           popd || exit 1  # 确保返回成功  
           
-      - name: 上传日志作为工件  
+      - name: 上传日志到artifact  
         if: env.BUILD_STATUS == 'failed'  # 仅在构建失败时上传日志  
         uses: actions/upload-artifact@main  
         continue-on-error: true  
