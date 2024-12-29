@@ -76,16 +76,53 @@ jobs:
           cd /mnt/openwrt  
           
           # 设置文件名变量
-          FILE_NAME=$(basename "${{ matrix.config }}".config | awk -F';' '{printf $1"-"$3}')
+          REPO_NAME=$(basename "${{ matrix.config }}" | awk -F';' '{printf $1}')
+          ARCH_NAME=$(basename "${{ matrix.config }}" | awk -F';' '{printf $3}')
+          FILE_NAME=${REPO_NAME}-${ARCH_NAME}
+          LOG_NAME=${FILE_NAME}_make_error.log
           echo "FILE_NAME=${FILE_NAME}" >> $GITHUB_ENV 
-          
-          # Execute build.sh and handle errors  
+          echo "LOG_NAME=${FILE_NAME}_make_error.log" >> $GITHUB_ENV 
+
+          # 执行 build.sh 脚本并处理错误  
           if ! sudo bash build.sh "${{ matrix.config }}"; then  
             echo "Build.sh 对配置"${{ env.FILE_NAME }}执行失败！"  
           else  
             echo "Build.sh 对配置"${{ env.FILE_NAME }}执行成功！"    
           fi  
 
+          # 执行make命令，若失败返回错误码1并记录错误日志路径  
+          pushd openwrt
+          (make -j$(nproc) V=s > make_output.log 2> "${LOG_NAME}") || \
+          (make -j1 V=s >> make_output.log 2>> "${LOG_NAME}")  
+
+          if [ $? -ne 0 ]; then  
+          echo "BUILD_STATUS=failed" >> $GITHUB_ENV   # 失败时设置状态变量  
+          echo "${FILE_NAME}固件构建失败!"  
+          echo "${FILE_NAME}构建错误日志:"  
+          cat "${LOG_NAME}"  
+          mv -f "${LOG_NAME}" "${WORKSPACE}"  
+          exit 1    
+          else  
+          echo "BUILD_STATUS=success" >> $GITHUB_ENV  # 成功时设置状态变量  
+          echo "${FILE_NAME}固件构建成功!"  
+          fi  
+          popd || exit 1  # 确保返回成功
+          ls -al  
+          du -chd1
+          echo "${FILE_NAME}编译完成"
+
+          # 移动构建产物  
+          pushd bin/targets/*/* || exit 1  # 确保目录变更成功  
+          ls -al  
+          # 移动文件到工作空间  
+          if ls *combined*.img.gz 1> /dev/null 2>&1; then  
+          mv -f *combined*.img.gz "${WORKSPACE}"  
+          else  
+          echo "没有发现编译好的固件！"  
+          exit 1  
+          fi  
+          popd || exit 1  # 确保返回成功  
+          
       - name: 上传日志作为工件  
         if: env.BUILD_STATUS == 'failed'  # 仅在构建失败时上传日志  
         uses: actions/upload-artifact@main  
