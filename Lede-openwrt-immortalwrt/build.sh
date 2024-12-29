@@ -98,3 +98,4 @@ fi
 echo "下载packages..."  
 make download -j8 V=s  
 popd || exit 1  # 确保返回成功  
+echo "下载packages完成！"  
