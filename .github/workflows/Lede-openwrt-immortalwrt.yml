@@ -91,15 +91,15 @@ jobs:
           fi  
 
           # 执行make命令，若失败返回错误码1并记录错误日志路径  
-          pushd ${REPO_NAME}
+          cd ${REPO_NAME}
           make -j$(nproc) V=s || make -j1 V=s  
 
           if [ $? -ne 0 ]; then  
           echo "BUILD_STATUS=failed" >> $GITHUB_ENV   # 失败时设置状态变量  
           echo "${FILE_NAME}固件构建失败!"  
           echo "${FILE_NAME}构建错误日志:"  
-          cat "${LOG_NAME}"  
-          mv -f "${LOG_NAME}" "${WORKSPACE}"  
+          #cat "${LOG_NAME}"  
+          #mv -f "${LOG_NAME}" "${WORKSPACE}"  
           exit 1    
           else  
           echo "BUILD_STATUS=success" >> $GITHUB_ENV  # 成功时设置状态变量  
@@ -111,11 +111,11 @@ jobs:
           echo "${FILE_NAME}编译完成"
 
           # 移动构建产物  
-          pushd bin/targets/*/* || exit 1  # 确保目录变更成功  
+          bin/targets/*/* || exit 1  # 确保目录变更成功  
           ls -al  
           # 移动文件到工作空间  
           if ls *combined*.img.gz 1> /dev/null 2>&1; then  
-          mv -f *combined*.img.gz "${WORKSPACE}"  
+          #mv -f *combined*.img.gz "${WORKSPACE}"  
           else  
           echo "没有发现编译好的固件！"  
           exit 1  
@@ -129,7 +129,7 @@ jobs:
         with:  
           name: ${{ env.FILE_NAME }}_make_error  
           path: |  
-            /mnt/openwrt/${{ env.ERROR_LOG_NAME }}  
+            ./${{ env.ERROR_LOG_NAME }}  
       
       - name: 上传固件到artifact  
         if: env.BUILD_STATUS == 'success'    
@@ -137,7 +137,7 @@ jobs:
         with:  
           name: ${{ env.FILE_NAME }}-${{ env.release }}  
           path: |  
-            /mnt/openwrt/*.img.gz  
+            bin/targets/*/*.img.gz  
       
       - name: 上传固件到release  
         if: env.BUILD_STATUS == 'success'  
@@ -146,7 +146,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}  
         with:  
           tag_name: ${{ env.release }}  
-          files: /mnt/openwrt/*basic*.img.gz
+          files: bin/targets/*/*basic*.img.gz
       
       - name: Telegram notification  
         if: env.TELEGRAM_TOKEN  
