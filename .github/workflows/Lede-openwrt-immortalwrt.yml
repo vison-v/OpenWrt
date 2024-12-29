@@ -91,7 +91,7 @@ jobs:
           fi  
 
           # 执行make命令，若失败返回错误码1并记录错误日志路径  
-          pushd openwrt
+          pushd ${REPO_NAME}
           make -j$(nproc) V=s || make -j1 V=s  
 
           if [ $? -ne 0 ]; then  
