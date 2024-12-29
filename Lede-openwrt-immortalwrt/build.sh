@@ -4,7 +4,7 @@
 # This is free software, licensed under the MIT License.  
 # See /LICENSE for more information.  
 
-set -e  # Exit immediately if a command exits with a non-zero status.  
+#set -e  # Exit immediately if a command exits with a non-zero status.  
 
 # 检查参数是否正确  
 if [ -z "${1}" ] || [ ! -f "${1}" ]; then  
