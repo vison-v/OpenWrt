@@ -48,7 +48,7 @@ jobs:
         echo "REPO_NAME=$(basename "${{ matrix.target }}" | awk -F'_' '{print $1}')" >> $GITHUB_ENV  
         echo "ARCH_NAME=$(basename "${{ matrix.target }}" | sed -E 's/^[^_]*_//')" >> $GITHUB_ENV  
         echo "date=$(date +'%Y.%m.%d')" >> $GITHUB_ENV  
-	  
+  
     - name: 加载Settings.ini  
       run: |  
         # 加载公共配置  
