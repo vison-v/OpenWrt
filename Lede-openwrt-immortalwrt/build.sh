@@ -51,7 +51,7 @@ esac
 
 # 克隆或更新仓库  
 if [ ! -d "${CONFIG_REPO}" ]; then    
-  git clone --depth=1 -b "${REPO_BRANCH}" "${REPO_URL}" "openwrt" || {  
+  git clone --depth=1 -b "${REPO_BRANCH}" "${REPO_URL}" "${CONFIG_REPO}" || {  
     echo "克隆仓库失败！"  
     exit 1  
   }  
@@ -59,7 +59,7 @@ fi
 
 # root.  
 export FORCE_UNSAFE_CONFIGURE=1  
-pushd openwrt || exit 1  
+pushd ${CONFIG_REPO} || exit 1  
 git pull || { echo "未能拉取最新更改！"; exit 1; }  
 
 # Update feeds and install packages  
