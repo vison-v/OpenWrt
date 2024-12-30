@@ -173,29 +173,28 @@ jobs:
 
     # 组织文件  
     - name: 组织文件  
-      continue-on-error: true
-      if: ${{ env.BUILD_STATUS }} == 'success'        # 仅在构建成功时执行  
+      continue-on-error: true  
+      if: ${{ env.BUILD_STATUS }} == 'success'  # 仅在构建成功时执行  
       id: organize  
       run: |  
-        mkdir -p firmware                             # 创建 firmware 目录（如果不存在）  
-        # 查找复制文件到firmware目录 
-        find bin/targets/*/*/ -maxdepth 1 -not -name "package" -exec cp -r {}./firmware/ \;  
-          
+        mkdir -p firmware  # 创建 firmware 目录（如果不存在）  
+        # 查找并复制文件到 firmware 目录   
+        find openwrt/bin/targets/*/*/ -maxdepth 1 -not \( -name "package" -o -name "*buildinfo" -o -name "*json" -o -name "*manifest" \) -exec cp -r {} ./firmware/ \; 
+    
         # 判断文件是否存在  
-        if [ -n "$(find./firmware/ -name '*.img.gz' -print -quit)" ]; then  
-        # 文件如果存在  
+        if [ -n "$(find ./firmware/ -name '*.img.gz' -print -quit)" ]; then  
+          # 如果文件存在  
           cp .config ./firmware/${{ matrix.target }}.config  
           cd firmware  
-          echo ${{ env.date }} > version.txt           # 写入版本信息  
-          cat sha256sums >> version.txt                # 追加 sha256sums 到版本信息  
-          mv sha256sums ${{ matrix.target }}_sha256sums# 重命名 sha256sums 文件  
-          echo "FIRMWARE=$PWD" >> $GITHUB_ENV          # 将固件路径写入环境变量  
-          echo "找到文件: $FILES"  
-          echo "FIRMWARE_STATUS=found" >> $GITHUB_ENV  # 设置状态为 found  
+          echo ${{ env.date }} > version.txt                     # 写入版本信息  
+          grep -E '\.img\.gz$|\.bin$|\.iso$' sha256sums >> version.txt  # 追加 sha256sums 到版本文件  
+          mv sha256sums ${{ matrix.target }}_sha256sums          # 重命名 sha256sums 文件  
+          echo "FIRMWARE_STATUS=found" >> $GITHUB_ENV            # 设置状态为 found  
+          echo "FIRMWARE=$PWD" >> $GITHUB_ENV
         else  
           echo "未找到文件."  
-          echo "FIRMWARE_STATUS=not_found" >> $GITHUB_ENV  # 设置状态为 not_found  
         fi
+        cd ..
 
     # 上传固件到 Release  
     - name: 上传固件到 Release  
@@ -205,7 +204,7 @@ jobs:
       env:  
         GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}       # 使用密钥进行身份验证  
       with:  
-        files: "${{ env.FIRMWARE }}/*.img.gz"         # 要上传的文件  
+        files: "${{ env.FIRMWARE }}/*"                # 要上传的文件  
         name: ${{matrix.target}}                      # Release 的名称  
         tag_name: ${{ env.date }}                     # 标记名称  
         body_path: release.txt                        # Release 描述文件路径  
@@ -220,7 +219,6 @@ jobs:
         path: |  
           ${{ env.FIRMWARE }}/*combined*              # 上传的文件路径  
           !${{ env.FIRMWARE }}/*efi*                  # 排除 EFI 文件  
-          !${{ env.FIRMWARE }}/*rootfs*               # 排除 rootfs 文件  
 
     # 上传 EFI 固到 Artifact  
     - name: 上传 EFI 固到 Artifact  
@@ -229,7 +227,7 @@ jobs:
       if: env.UPLOAD_EFI_FIRMWARE_FOR_ARTIFACT == 'true' && ${{ env.FIRMWARE_STATUS }} == 'found'  
       with:  
         name: ${{ env.date }}_${{matrix.target}}_EFI  # 设置上传文件的名称  
-        path: ${{ env.FIRMWARE }}/*efi*               # 上传的 EFI 文件路径  
+        path: ${{ env.FIRMWARE }}/*combined-efi*               # 上传的 EFI 文件路径  
 
     # 上传 ISO 固件到 Artifact  
     - name: 上传 ISO 固件到 Artifact  
