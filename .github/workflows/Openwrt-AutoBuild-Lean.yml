@@ -33,7 +33,7 @@ jobs:
     strategy:  
       fail-fast: false  
       matrix:  
-        target: [lede_x86_64,lede_x86_64_basic]  
+        target: [lede_x86_64_basic]  
         
     steps:  
     - name: 检出代码  
@@ -169,27 +169,22 @@ jobs:
           echo "BUILD_STATUS=success" >> $GITHUB_ENV  # 成功时设置状态变量  
           echo "${{matrix.target}} 固件构建成功!"   
           ls -al bin/targets/*/*  
-          du -h  
         fi
 
     # 组织文件  
     - name: 组织文件  
+      continue-on-error: true
       if: ${{ env.BUILD_STATUS }} == 'success'        # 仅在构建成功时执行  
       id: organize  
       run: |  
         mkdir -p firmware                             # 创建 firmware 目录（如果不存在）  
-        # 查找目标文件  
-        FILES=$(find openwrt/bin/targets/*/*/ -maxdepth 1 \
-          -name "*combined*" \
-          -or -name "*sysupgrade*" \
-          -or -name "*armvirt-64-default-rootfs*" \
-          -or -name "sha256sums")  
-
+        # 查找复制文件到firmware目录 
+        find bin/targets/*/*/ -maxdepth 1 -not -name "package" -exec cp -r {}./firmware/ \;  
+          
         # 判断文件是否存在  
-        if [[ -n "$FILES" ]]; then  
-        # 移动目标文件到 firmware 目录  
-          echo "$FILES" | xargs -i mv -f {} ./firmware/  
-          cp openwrt/.config ./firmware/${{ matrix.target }}.config  
+        if [ -n "$(find./firmware/ -name '*.img.gz' -print -quit)" ]; then  
+        # 文件如果存在  
+          cp .config ./firmware/${{ matrix.target }}.config  
           cd firmware  
           echo ${{ env.date }} > version.txt           # 写入版本信息  
           cat sha256sums >> version.txt                # 追加 sha256sums 到版本信息  
@@ -205,11 +200,12 @@ jobs:
     # 上传固件到 Release  
     - name: 上传固件到 Release  
       uses: softprops/action-gh-release@v1  
+      continue-on-error: true
       if: env.REPO_TOKEN && env.UPLOAD_FIRMWARE_FOR_RELEASE == 'true' && ${{ env.FIRMWARE_STATUS }} == 'found'  
       env:  
         GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}       # 使用密钥进行身份验证  
       with:  
-        files: "${{ env.FIRMWARE }}/*"                # 要上传的文件  
+        files: "${{ env.FIRMWARE }}/*.img.gz"         # 要上传的文件  
         name: ${{matrix.target}}                      # Release 的名称  
         tag_name: ${{ env.date }}                     # 标记名称  
         body_path: release.txt                        # Release 描述文件路径  
@@ -217,17 +213,19 @@ jobs:
     # 上传固件到 Artifact  
     - name: 上传固件到 Artifact   
       uses: actions/upload-artifact@main  
+      continue-on-error: true
       if: env.UPLOAD_FIRMWARE_FOR_ARTIFACT == 'true' && ${{ env.FIRMWARE_STATUS }} == 'found'  
       with:  
         name: ${{ env.date }}_${{matrix.target}}      # 设置上传文件的名称  
         path: |  
-          ${{ env.FIRMWARE }}/*squashfs*              # 上传的文件路径  
+          ${{ env.FIRMWARE }}/*combined*              # 上传的文件路径  
           !${{ env.FIRMWARE }}/*efi*                  # 排除 EFI 文件  
           !${{ env.FIRMWARE }}/*rootfs*               # 排除 rootfs 文件  
 
     # 上传 EFI 固到 Artifact  
     - name: 上传 EFI 固到 Artifact  
       uses: actions/upload-artifact@main  
+      continue-on-error: true
       if: env.UPLOAD_EFI_FIRMWARE_FOR_ARTIFACT == 'true' && ${{ env.FIRMWARE_STATUS }} == 'found'  
       with:  
         name: ${{ env.date }}_${{matrix.target}}_EFI  # 设置上传文件的名称  
@@ -236,6 +234,7 @@ jobs:
     # 上传 ISO 固件到 Artifact  
     - name: 上传 ISO 固件到 Artifact  
       uses: actions/upload-artifact@main  
+      continue-on-error: true
       if: env.UPLOAD_ISO_FIRMWARE_FOR_ARTIFACT == 'true' && ${{ env.FIRMWARE_STATUS }} == 'found'  
       with:  
         name: ${{ env.date }}_${{matrix.target}}_ISO  # 设置上传文件的名称  
@@ -244,6 +243,7 @@ jobs:
     # 上传make错误日志到 Artifact  
     - name: 上传错误日志到 Artifact  
       uses: actions/upload-artifact@main  
+      continue-on-error: true
       if: ${{ env.BUILD_STATUS }} == 'failed'  
       with:  
         name: ${{matrix.target}}_make_error           # 设置上传文件的名称  
@@ -281,6 +281,7 @@ jobs:
     # 删除旧的 Releases  
     - name: 删除旧的 Releases  
       uses: dev-drprasad/delete-older-releases@master  
+      continue-on-error: true
       if: env.UPLOAD_FIRMWARE_FOR_RELEASE == 'true'   # 仅在允许上传时执行  
       with:  
         keep_latest: 15                               # 保留最新的 15 个发布  
