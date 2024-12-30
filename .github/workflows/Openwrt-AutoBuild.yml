@@ -1,5 +1,5 @@
 #=================================================  
-# https://github.com/P3TERX/Actions-OpenWrt  .
+# https://github.com/P3TERX/Actions-OpenWrt  
 # 描述: 使用 GitHub Actions 构建 OpenWrt  
 # 许可证: MIT  
 # 作者: P3TERX  
@@ -12,7 +12,7 @@ on:
   # 当推送工作流文件时触发  
   push:  
     paths:  
-      - '.github/workflows/Openwrt - AutoBuild.yml'  
+      - '.github/workflows/Openwrt-AutoBuild.yml'  
 
 permissions:  
   contents: read  
@@ -31,7 +31,7 @@ jobs:
     name: 构建 ${{ matrix.target }}  
     runs-on: ubuntu - latest  
     strategy:  
-      fail - fast: false  
+      fail-fast: false  
       matrix:  
         target: [lede_x86_64, immortalwrt_x86_64_nginx]  
     steps:  
