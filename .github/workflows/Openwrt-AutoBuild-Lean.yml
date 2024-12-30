@@ -174,14 +174,6 @@ jobs:
           du -h --max-depth=1 ./dl		  
         fi
 
-    # 上传二进制文件目录  
-    - name: 上传二进制文件目录  
-      uses: actions/upload-artifact@main  
-      if: env.UPLOAD_BIN_DIR_FOR_ARTIFACT == 'true' && ${{ env.BUILD_STATUS }} == 'success'  
-      with:  
-        name: ${{matrix.target}}_bin                  # 设置上传文件的名称  
-        path: openwrt/bin                             # 要上传的二进制文件目录  
-
     # 组织文件  
     - name: 组织文件  
       if: ${{ env.BUILD_STATUS }} == 'success'        # 仅在构建成功时执行  
@@ -207,7 +199,7 @@ jobs:
           cd firmware  
           echo ${{ env.date }} > version.txt           # 写入版本信息  
           cat sha256sums >> version.txt                # 追加 sha256sums 到版本信息  
-          mv sha256sums ${matrix.target}_sha256sums    # 重命名 sha256sums 文件  
+          mv sha256sums ${{ matrix.target }}_sha256sums# 重命名 sha256sums 文件  
           echo "FIRMWARE=$PWD" >> $GITHUB_ENV          # 将固件路径写入环境变量  
         else  
           echo "未找到文件."  
@@ -253,7 +245,7 @@ jobs:
         name: ${{ env.date }} ${{matrix.target}}_ISO  # 设置上传文件的名称  
         path: ${{ env.FIRMWARE }}/*.iso               # 上传的 ISO 文件路径  
 
-    # 上传错误日志到 Artifact  
+    # 上传make错误日志到 Artifact  
     - name: 上传错误日志到 Artifact  
       uses: actions/upload-artifact@main  
       if: ${{ env.BUILD_STATUS }} == 'failed'  
