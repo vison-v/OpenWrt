@@ -273,7 +273,7 @@ jobs:
           keep_minimum_runs: 1                                       # 保留至少 1 次运行记录  
 
       - name: 删除旧的 Releases  
-        continue-on-error: true                                      # 遇到错误时继续执行  
+        uses: dev-drprasad/delete-older-releases@master
         if: env.UPLOAD_FIRMWARE_FOR_RELEASE == 'true'                # 仅在允许上传时执行  
         with:  
           keep_latest: 15                                            # 保留最新的 15 个发布  
