@@ -33,7 +33,7 @@ jobs:
     strategy:  
       fail-fast: false  
       matrix:  
-        target: [lede_x86_64]  
+        target: [lede_x86_64,lede_x86_64_basic]  
         
     steps:  
     - name: 检出代码  
@@ -152,7 +152,7 @@ jobs:
       run: | 
         set -e
         cd openwrt  
-        echo -e "$(($(nproc)+1)) 线程编译"  
+        echo -e "用 $(($(nproc)+1)) 线程编译${{ matrix.target }}......"  
         make -j$(($(nproc)+1)) || make -j1 V=s > make_output.log 2> ${{matrix.target}}_make_error.log  
         echo "=============================================="  
         echo "空间使用情况:"  
@@ -168,10 +168,8 @@ jobs:
         else  
           echo "BUILD_STATUS=success" >> $GITHUB_ENV  # 成功时设置状态变量  
           echo "${{matrix.target}} 固件构建成功!"   
-          du -h --max-depth=1 ./staging_dir  
-          du -h --max-depth=1 ./build_dir  
-          du -h --max-depth=1 ./bin  
-          du -h --max-depth=1 ./dl		  
+          ls -al bin/targets/*/*  
+          du -h  
         fi
 
     # 组织文件  
@@ -180,8 +178,7 @@ jobs:
       id: organize  
       run: |  
         mkdir -p firmware                             # 创建 firmware 目录（如果不存在）  
-
-        # 查找目标文件并移动  
+        # 查找目标文件  
         FILES=$(find openwrt/bin/targets/*/*/ -maxdepth 1 \
           -name "*combined*" \
           -or -name "*sysupgrade*" \
@@ -190,9 +187,6 @@ jobs:
 
         # 判断文件是否存在  
         if [[ -n "$FILES" ]]; then  
-          echo "找到文件: $FILES"  
-          echo "FIRMWARE_STATUS=found" >> $GITHUB_ENV  # 设置状态为 found  
-
         # 移动目标文件到 firmware 目录  
           echo "$FILES" | xargs -i mv -f {} ./firmware/  
           cp openwrt/.config ./firmware/${{ matrix.target }}.config  
@@ -201,6 +195,8 @@ jobs:
           cat sha256sums >> version.txt                # 追加 sha256sums 到版本信息  
           mv sha256sums ${{ matrix.target }}_sha256sums# 重命名 sha256sums 文件  
           echo "FIRMWARE=$PWD" >> $GITHUB_ENV          # 将固件路径写入环境变量  
+          echo "找到文件: $FILES"  
+          echo "FIRMWARE_STATUS=found" >> $GITHUB_ENV  # 设置状态为 found  
         else  
           echo "未找到文件."  
           echo "FIRMWARE_STATUS=not_found" >> $GITHUB_ENV  # 设置状态为 not_found  
@@ -215,7 +211,7 @@ jobs:
       with:  
         files: "${{ env.FIRMWARE }}/*"                # 要上传的文件  
         name: ${{matrix.target}}                      # Release 的名称  
-        tag_name: ${{ env.date }}_${{matrix.target}}  # 标记名称  
+        tag_name: ${{ env.date }}                     # 标记名称  
         body_path: release.txt                        # Release 描述文件路径  
 
     # 上传固件到 Artifact  
@@ -223,7 +219,7 @@ jobs:
       uses: actions/upload-artifact@main  
       if: env.UPLOAD_FIRMWARE_FOR_ARTIFACT == 'true' && ${{ env.FIRMWARE_STATUS }} == 'found'  
       with:  
-        name: ${{ env.date }} ${{matrix.target}}      # 设置上传文件的名称  
+        name: ${{ env.date }}_${{matrix.target}}      # 设置上传文件的名称  
         path: |  
           ${{ env.FIRMWARE }}/*squashfs*              # 上传的文件路径  
           !${{ env.FIRMWARE }}/*efi*                  # 排除 EFI 文件  
@@ -234,7 +230,7 @@ jobs:
       uses: actions/upload-artifact@main  
       if: env.UPLOAD_EFI_FIRMWARE_FOR_ARTIFACT == 'true' && ${{ env.FIRMWARE_STATUS }} == 'found'  
       with:  
-        name: ${{ env.date }} ${{matrix.target}}_EFI  # 设置上传文件的名称  
+        name: ${{ env.date }}_${{matrix.target}}_EFI  # 设置上传文件的名称  
         path: ${{ env.FIRMWARE }}/*efi*               # 上传的 EFI 文件路径  
 
     # 上传 ISO 固件到 Artifact  
@@ -242,7 +238,7 @@ jobs:
       uses: actions/upload-artifact@main  
       if: env.UPLOAD_ISO_FIRMWARE_FOR_ARTIFACT == 'true' && ${{ env.FIRMWARE_STATUS }} == 'found'  
       with:  
-        name: ${{ env.date }} ${{matrix.target}}_ISO  # 设置上传文件的名称  
+        name: ${{ env.date }}_${{matrix.target}}_ISO  # 设置上传文件的名称  
         path: ${{ env.FIRMWARE }}/*.iso               # 上传的 ISO 文件路径  
 
     # 上传make错误日志到 Artifact  
@@ -268,9 +264,9 @@ jobs:
       if: env.TELEGRAM_TOKEN                          # 如果已设置 Telegram 令牌则发送通知  
       run: |  
         if [ ${{ env.BUILD_STATUS }} == 'success' ] && [ ${{ env.FIRMWARE_STATUS }} == 'found' ]; then  
-          message="固件${{ env.FILE_NAME }}-${{ env.release }}编译完成😋"  
+          message="固件${{ env.date }}_${{matrix.target}}编译完成😋"  
         else  
-          message="固件${{ env.FILE_NAME }}-${{ env.release }}编译失败😭"  
+          message="固件${{ env.date }}_${{matrix.target}}编译失败😭"  
         fi  
         curl -k --data chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" --data "text=${message}" "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN}}/sendMessage"  
 
