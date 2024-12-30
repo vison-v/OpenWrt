@@ -12,7 +12,7 @@ on:
   # 当推送工作流文件时触发  
   push:  
     paths:  
-      - '.github/workflows/Openwrt-AutoBuild.yml'  
+      - '.github/workflows/Openwrt-AutoBuild-Lean.yml'  
 
 permissions:  
   contents: read  
