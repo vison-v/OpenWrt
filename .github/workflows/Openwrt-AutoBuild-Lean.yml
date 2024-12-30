@@ -170,6 +170,7 @@ jobs:
           echo "${{matrix.target}} 固件构建成功!"   
           ls -al bin/targets/*/*  
         fi
+        ls
 
     # 组织文件  
     - name: 组织文件  
@@ -184,11 +185,12 @@ jobs:
         # 判断文件是否存在  
         if [ -n "$(find ./firmware/ -name '*.img.gz' -print -quit)" ]; then  
           # 如果文件存在  
-          cp .config ./firmware/${{ matrix.target }}.config  
+          #cp .config ./firmware/${{ matrix.target }}.config  
           cd firmware  
-          echo ${{ env.date }} > version.txt                     # 写入版本信息  
-          grep -E '\.img\.gz$|\.bin$|\.iso$' sha256sums >> version.txt  # 追加 sha256sums 到版本文件  
-          mv sha256sums ${{ matrix.target }}_sha256sums          # 重命名 sha256sums 文件  
+          ls
+          #echo ${{ env.date }} > version.txt                     # 写入版本信息  
+          #grep -E '\.img\.gz$|\.bin$|\.iso$' sha256sums >> version.txt  # 追加 sha256sums 到版本文件  
+          #mv sha256sums ${{ matrix.target }}_sha256sums          # 重命名 sha256sums 文件  
           echo "FIRMWARE_STATUS=found" >> $GITHUB_ENV            # 设置状态为 found  
           echo "FIRMWARE=$PWD" >> $GITHUB_ENV
         else  
@@ -207,7 +209,7 @@ jobs:
         files: "${{ env.FIRMWARE }}/*"                # 要上传的文件  
         name: ${{matrix.target}}                      # Release 的名称  
         tag_name: ${{ env.date }}                     # 标记名称  
-        body_path: release.txt                        # Release 描述文件路径  
+        #body_path: release.txt                        # Release 描述文件路径  
 
     # 上传固件到 Artifact  
     - name: 上传固件到 Artifact   
