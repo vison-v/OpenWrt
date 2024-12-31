@@ -186,7 +186,7 @@ jobs:
         # 创建 firmware 目录（如果不存在）  
         mkdir -p firmware  
         # 查找并复制文件到 firmware 目录   
-        find ./bin/targets/*/*/ -maxdepth 1 -not \( -name "packages" -o -name "*buildinfo" -o -name "*json" -o -name "*manifest" \) -exec cp -r {} ./firmware/ \; 
+        find openwrt/bin/targets/*/*/ -maxdepth 1 -not \( -name "packages" -o -name "*buildinfo" -o -name "*json" -o -name "*manifest" \) -exec cp -r {} ./firmware/ \; 
     
         # 判断文件是否存在  
         if [ -n "$(find ./firmware/ -name '*.img.gz' -print -quit)" ]; then  
@@ -292,9 +292,9 @@ jobs:
     - name: 删除旧的 Releases  
       uses: dev-drprasad/delete-older-releases@master  
       continue-on-error: true
-      if: env.UPLOAD_FIRMWARE_FOR_RELEASE == 'true'   # 仅在允许上传时执行  
+      if: ${{ env.UPLOAD_FIRMWARE_FOR_RELEASE == 'true' }}   # 仅在允许上传时执行  
       with:  
-        keep_latest: 15                               # 保留最新的 15 个发布  
-        delete_tags: true                             # 删除标签  
+        keep_latest: 15                                      # 保留最新的 15 个发布  
+        delete_tags: true                                    # 删除标签  
       env:  
-        GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}       # 使用 GitHub 令牌
+        GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}              # 使用 GitHub 令牌
