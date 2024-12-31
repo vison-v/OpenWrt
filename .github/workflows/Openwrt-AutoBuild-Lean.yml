@@ -33,7 +33,7 @@ jobs:
     strategy:  
       fail-fast: false  
       matrix:  
-        target: [lede_x86_64_basic]  
+        target: [lede_x86_64_basic,lede_AC58U]  
         
     steps:  
     - name: 检出代码  
@@ -193,13 +193,13 @@ jobs:
           # 如果文件存在  
           cp openwrt/.config  ./firmware/${{matrix.target}}.config  
           cd firmware  
-          echo "${{ env.date }}编译" > version.txt                       # 写入版本信息  
-          echo "❤️==============================================❤️"  
+          echo "${{ env.date }}编译" > version.txt                                     # 写入版本信息  
+          echo "❤️==============================================❤️ >> release.txt"  
           echo -e "Release固件为测试固件，望须知！！\n" >> release.txt
-          grep -E '\.img\.gz$|\.bin$|\.iso$' sha256sums >> version.txt  # 追加 sha256sums 到版本文件  
-          echo "❤️==============================================❤️"  
-          mv sha256sums ${{ matrix.target }}_sha256sums                 # 重命名 sha256sums 文件  
-          echo "FIRMWARE_STATUS=found" >> $GITHUB_ENV                   # 设置状态为 found  
+          grep -E '\.img\.gz$|\.bin$|\.iso$' sha256sums >> version.txt                 # 追加 sha256sums 到版本文件  
+          echo "❤️==============================================❤️ >> release.txt"  
+          mv sha256sums ${{ matrix.target }}_sha256sums                                # 重命名 sha256sums 文件  
+          echo "FIRMWARE_STATUS=found" >> $GITHUB_ENV                                  # 设置状态为 found  
           echo "FIRMWARE=$PWD" >> $GITHUB_ENV
           ls
         else  
@@ -214,7 +214,7 @@ jobs:
       env:  
         GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}                          # 使用密钥进行身份验证  
       with:  
-        files: "${{ env.FIRMWARE }}/*"                                   # 要上传的文件  
+        files: "openwrt/firmware/*"                                   # 要上传的文件  
         name: ${{matrix.target}}                                         # Release 的名称  
         tag_name: ${{ env.date }}_${{ env.REPO_NAME }}                   # 标记名称  
         body_path: release.txt                                           # Release 描述文件路径  
@@ -227,9 +227,9 @@ jobs:
       with:  
         name: ${{ env.date }}_${{matrix.target}}      # 设置上传文件的名称  
         path: |  
-          ${{ env.FIRMWARE }}/*squashfs*              # 上传的文件路径  
-          !${{ env.FIRMWARE }}/*rootfs*               # 排除 rootfs 文件
-          !${{ env.FIRMWARE }}/*efi*                  # 排除 EFI 文件  
+          openwrt/firmware/*squashfs*              # 上传的文件路径  
+          !openwrt/firmware/*rootfs*               # 排除 rootfs 文件
+          !openwrt/firmware/*efi*                  # 排除 EFI 文件  
 
 
     # 上传 EFI 固到 Artifact  
