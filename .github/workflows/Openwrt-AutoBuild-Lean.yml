@@ -62,7 +62,7 @@ jobs:
         echo "CONFIG_FILE=${CONFIG_FILE}" >> $GITHUB_ENV  
         echo "CUSTOM_SH=${CUSTOM_SH}" >> $GITHUB_ENV  
         echo "COMMON_SH=${COMMON_SH}" >> $GITHUB_ENV  
-        echo "UPLOAD_BIN_DIR_FOR_ARTIFACT=${UPLOAD_BIN_DIR_FOR_ARTIFACT}" >> $GITHUB_ENV  
+        echo "UPLOAD_BIN_FIRMWARE_FOR_ARTIFACT=${UPLOAD_BIN_FIRMWARE_FOR_ARTIFACT}" >> $GITHUB_ENV  
         echo "UPLOAD_FIRMWARE_FOR_ARTIFACT=${UPLOAD_FIRMWARE_FOR_ARTIFACT}" >> $GITHUB_ENV  
         echo "UPLOAD_EFI_FIRMWARE_FOR_ARTIFACT=${UPLOAD_EFI_FIRMWARE_FOR_ARTIFACT}" >> $GITHUB_ENV  
         echo "UPLOAD_ISO_FIRMWARE_FOR_ARTIFACT=${UPLOAD_ISO_FIRMWARE_FOR_ARTIFACT}" >> $GITHUB_ENV  
@@ -180,7 +180,7 @@ jobs:
     # 组织文件  
     - name: 组织文件  
       continue-on-error: true  
-      if: ${{ env.BUILD_STATUS == 'success' }}                          # 仅在构建成功时执行  
+      if: ${{ env.BUILD_STATUS == 'success' }}  
       id: organize  
       run: |  
         # 创建 firmware 目录（如果不存在）  
@@ -194,7 +194,7 @@ jobs:
           # 如果文件存在  
           cp openwrt/.config  ./firmware/${{matrix.target}}.config  
           cd firmware  
-          echo -e "${{ env.date }}编译\n\n\n" > version.txt                                     # 写入版本信息  
+          echo -e "${{ env.date }}编译\n\n\n" > version.txt                            # 写入版本信息  
           echo "❤️==============================================❤️" >> release.txt  
           echo -e "Release固件为测试固件，望须知！！\n\n" >> release.txt
           grep -E '\.img\.gz$|\.bin$|\.iso$' sha256sums >> version.txt                 # 追加 sha256sums 到版本文件  
@@ -208,51 +208,56 @@ jobs:
 
     # 上传固件到 Release  
     - name: 上传固件到 Release  
-      uses: softprops/action-gh-release@v1  
+      uses: softprops/action-gh-release@v2  
       continue-on-error: true
       if: ${{ env.REPO_TOKEN && env.UPLOAD_FIRMWARE_FOR_RELEASE == 'true' && env.FIRMWARE_STATUS == 'found' }}
       env:  
-        GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}                          # 使用密钥进行身份验证  
+        GITHUB_TOKEN: env.REPO_TOKEN                                     # 使用密钥进行身份验证  
       with:  
-        files: "firmware/*"                                              # 要上传的文件  
+        files: firmware/*                                                # 要上传的文件  
         name: ${{matrix.target}}                                         # Release 的名称  
         tag_name: ${{ env.date }}_${{ env.REPO_NAME }}                   # 标记名称  
         body_path: firmware/release.txt                                  # Release 描述文件路径  
 
     # 上传固件到 Artifact  
     - name: 上传固件到 Artifact   
-      uses: actions/upload-artifact@main  
+      uses: actions/upload-artifact@v3  
       continue-on-error: true
       if: ${{ env.UPLOAD_FIRMWARE_FOR_ARTIFACT == 'true' && env.FIRMWARE_STATUS == 'found' }}
       with:  
-        name: ${{ env.date }}_${{matrix.target}}      # 设置上传文件的名称  
-        path: |  
-          firmware/*squashfs*              # 上传的文件路径  
-          !firmware/*rootfs*               # 排除 rootfs 文件
-          !firmware/*efi*                  # 排除 EFI 文件  
-
+        name: ${{ env.date }}_${{matrix.target}}   
+        path: firmware/*combined.img.gz
 
     # 上传 EFI 固到 Artifact  
     - name: 上传 EFI 固到 Artifact  
-      uses: actions/upload-artifact@main  
+      uses: actions/upload-artifact@v3  
       continue-on-error: true
       if: ${{ env.UPLOAD_EFI_FIRMWARE_FOR_ARTIFACT == 'true' && env.FIRMWARE_STATUS == 'found' }}  
       with:  
-        name: ${{ env.date }}_${{matrix.target}}_EFI  # 设置上传文件的名称  
-        path: firmware/*combined-efi*                 # 上传的 EFI 文件路径  
+        name: ${{ env.date }}_${{matrix.target}}_EFI   
+        path: firmware/*combined-efi.img.gz    
+
+    # 上传 BIN 固到 Artifact  
+    - name: 上传 BIN 固到 Artifact  
+      uses: actions/upload-artifact@v3  
+      continue-on-error: true
+      if: ${{ env.UPLOAD_BIN_FIRMWARE_FOR_ARTIFACT == 'true' && env.FIRMWARE_STATUS == 'found' }}  
+      with:  
+        name: ${{ env.date }}_${{matrix.target}}_BIN   
+        path: firmware/*sysupgrade.bin  
 
     # 上传 ISO 固件到 Artifact  
     - name: 上传 ISO 固件到 Artifact  
-      uses: actions/upload-artifact@main  
+      uses: actions/upload-artifact@v3  
       continue-on-error: true
       if: ${{ env.UPLOAD_ISO_FIRMWARE_FOR_ARTIFACT == 'true' && env.FIRMWARE_STATUS == 'found' }}  
       with:  
-        name: ${{ env.date }}_${{matrix.target}}_ISO  # 设置上传文件的名称  
-        path: firmware/*.iso                          # 上传的 ISO 文件路径  
+        name: ${{ env.date }}_${{matrix.target}}_ISO  
+        path: firmware/*image.iso   
 
     # 上传make错误日志到 Artifact  
     - name: 上传错误日志到 Artifact  
-      uses: actions/upload-artifact@main  
+      uses: actions/upload-artifact@v3  
       continue-on-error: true
       if: ${{ env.BUILD_STATUS == 'failed' }}  
       with:  
@@ -284,9 +289,9 @@ jobs:
     - name: 删除工作流运行记录  
       uses: Mattraks/delete-workflow-runs@main  
       with:  
-        token: ${{ secrets.PAT }}                     # 使用 PAT 进行身份验证  
+        token: env.PAT                                # 使用 PAT 进行身份验证  
         retain_days: 15                               # 保留最近 15 天的记录  
-        keep_minimum_runs: 1                          # 保留至少 1 次运行记录  
+        keep_minimum_runs: 5                          # 保留至少 1 次运行记录  
 
     # 删除旧的 Releases  
     - name: 删除旧的 Releases  
@@ -297,4 +302,4 @@ jobs:
         keep_latest: 15                                      # 保留最新的 15 个发布  
         delete_tags: true                                    # 删除标签  
       env:  
-        GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}              # 使用 GitHub 令牌
+        GITHUB_TOKEN: env.REPO_TOKEN                         # 使用 GitHub 令牌
