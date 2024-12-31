@@ -133,7 +133,10 @@ jobs:
       run: |  
         cd openwrt  
         # 应用通用补丁  
-        find "${{ env.REPO_NAME }}/common/patches" -type f ! -path '${{ env.REPO_NAME }}/common/patches/china_mirrors.patch' -name '*.patch' -print0 | sort -z | xargs -I % -t -0 -n 1 sh -c "cat '%'  | patch -d './' -p1 -E --forward --no-backup-if-mismatch"  
+        if [ "$(find "${{ env.REPO_NAME }}/common/patches" -type f ! -path '${{ env.REPO_NAME }}/common/patches/china_mirrors.patch' -name '*.patch' -print -quit)" ]; then  
+          find "${{ env.REPO_NAME }}/common/patches" -type f ! -path '${{ env.REPO_NAME }}/common/patches/china_mirrors.patch' -name '*.patch' -print0 | \
+          sort -z | xargs -I % -t -0 -n 1 sh -c "cat '%'  | patch -d './' -p1 -E --forward --no-backup-if-mismatch"  
+        fi  
         # 如果存在架构特定的补丁，亦将其应用  
         if [ -n "$(ls -A "${{ env.REPO_NAME }}/${{ env.ARCH_NAME }}/patches" 2>/dev/null)" ]; then  
           find "${{ env.REPO_NAME }}/${{ env.ARCH_NAME }}/patches" -type f -name '*.patch' -print0 | sort -z | xargs -I % -t -0 -n 1 sh -c "cat '%'  | patch -d './' -p1 -E --forward --no-backup-if-mismatch"  
@@ -170,7 +173,7 @@ jobs:
           echo "${{matrix.target}} 固件构建成功!"   
           ls -al bin/targets/*/*  
         fi
-        ls
+        ls logs
 
     # 组织文件  
     - name: 组织文件  
@@ -180,17 +183,17 @@ jobs:
       run: |  
         mkdir -p firmware  # 创建 firmware 目录（如果不存在）  
         # 查找并复制文件到 firmware 目录   
-        find openwrt/bin/targets/*/*/ -maxdepth 1 -not \( -name "package" -o -name "*buildinfo" -o -name "*json" -o -name "*manifest" \) -exec cp -r {} ./firmware/ \; 
+        find openwrt/bin/targets/*/*/ -maxdepth 1 -not \( -name "packages" -o -name "*buildinfo" -o -name "*json" -o -name "*manifest" \) -exec cp -r {} ./firmware/ \; 
     
         # 判断文件是否存在  
         if [ -n "$(find ./firmware/ -name '*.img.gz' -print -quit)" ]; then  
           # 如果文件存在  
-          #cp .config ./firmware/${{ matrix.target }}.config  
+          #cp config ./firmware/${{ matrix.target }}.config  
           cd firmware  
           ls
-          #echo ${{ env.date }} > version.txt                     # 写入版本信息  
-          #grep -E '\.img\.gz$|\.bin$|\.iso$' sha256sums >> version.txt  # 追加 sha256sums 到版本文件  
-          #mv sha256sums ${{ matrix.target }}_sha256sums          # 重命名 sha256sums 文件  
+          echo ${{ env.date }} > version.txt                     # 写入版本信息  
+          grep -E '\.img\.gz$|\.bin$|\.iso$' sha256sums >> version.txt  # 追加 sha256sums 到版本文件  
+          mv sha256sums ${{ matrix.target }}_sha256sums          # 重命名 sha256sums 文件  
           echo "FIRMWARE_STATUS=found" >> $GITHUB_ENV            # 设置状态为 found  
           echo "FIRMWARE=$PWD" >> $GITHUB_ENV
         else  
@@ -202,31 +205,33 @@ jobs:
     - name: 上传固件到 Release  
       uses: softprops/action-gh-release@v1  
       continue-on-error: true
-      if: env.REPO_TOKEN && env.UPLOAD_FIRMWARE_FOR_RELEASE == 'true' && ${{ env.FIRMWARE_STATUS }} == 'found'  
+      if: ${{ env.REPO_TOKEN && env.UPLOAD_FIRMWARE_FOR_RELEASE == 'true' && env.FIRMWARE_STATUS == 'found' }}
       env:  
         GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}       # 使用密钥进行身份验证  
       with:  
         files: "${{ env.FIRMWARE }}/*"                # 要上传的文件  
         name: ${{matrix.target}}                      # Release 的名称  
         tag_name: ${{ env.date }}                     # 标记名称  
-        #body_path: release.txt                        # Release 描述文件路径  
+        body_path: release.txt                        # Release 描述文件路径  
 
     # 上传固件到 Artifact  
     - name: 上传固件到 Artifact   
       uses: actions/upload-artifact@main  
       continue-on-error: true
-      if: env.UPLOAD_FIRMWARE_FOR_ARTIFACT == 'true' && ${{ env.FIRMWARE_STATUS }} == 'found'  
+      if: ${{ env.UPLOAD_FIRMWARE_FOR_ARTIFACT == 'true' && env.FIRMWARE_STATUS == 'found' }}
       with:  
         name: ${{ env.date }}_${{matrix.target}}      # 设置上传文件的名称  
         path: |  
-          ${{ env.FIRMWARE }}/*combined*              # 上传的文件路径  
+          ${{ env.FIRMWARE }}/*squashfs*              # 上传的文件路径  
+          !${{ env.FIRMWARE }}/*rootfs*               # 排除 rootfs 文件
           !${{ env.FIRMWARE }}/*efi*                  # 排除 EFI 文件  
+
 
     # 上传 EFI 固到 Artifact  
     - name: 上传 EFI 固到 Artifact  
       uses: actions/upload-artifact@main  
       continue-on-error: true
-      if: env.UPLOAD_EFI_FIRMWARE_FOR_ARTIFACT == 'true' && ${{ env.FIRMWARE_STATUS }} == 'found'  
+      if: ${{ env.UPLOAD_EFI_FIRMWARE_FOR_ARTIFACT == 'true' && env.FIRMWARE_STATUS == 'found' }}  
       with:  
         name: ${{ env.date }}_${{matrix.target}}_EFI  # 设置上传文件的名称  
         path: ${{ env.FIRMWARE }}/*combined-efi*               # 上传的 EFI 文件路径  
@@ -235,7 +240,7 @@ jobs:
     - name: 上传 ISO 固件到 Artifact  
       uses: actions/upload-artifact@main  
       continue-on-error: true
-      if: env.UPLOAD_ISO_FIRMWARE_FOR_ARTIFACT == 'true' && ${{ env.FIRMWARE_STATUS }} == 'found'  
+      if: ${{ env.UPLOAD_ISO_FIRMWARE_FOR_ARTIFACT == 'true' && env.FIRMWARE_STATUS == 'found' }}  
       with:  
         name: ${{ env.date }}_${{matrix.target}}_ISO  # 设置上传文件的名称  
         path: ${{ env.FIRMWARE }}/*.iso               # 上传的 ISO 文件路径  
@@ -244,7 +249,7 @@ jobs:
     - name: 上传错误日志到 Artifact  
       uses: actions/upload-artifact@main  
       continue-on-error: true
-      if: ${{ env.BUILD_STATUS }} == 'failed'  
+      if: ${{ env.BUILD_STATUS == 'failed' }}  
       with:  
         name: ${{matrix.target}}_make_error           # 设置上传文件的名称  
         path: ./*.log                                 # 上传的错误日志文件路径  
