@@ -191,7 +191,7 @@ jobs:
         # 判断文件是否存在  
         if [ -n "$(find ./firmware/ -name '*.img.gz' -print -quit)" ]; then  
           # 如果文件存在  
-          cp config ./firmware/${{ matrix.target }}.config  
+          cp openwrt/.config  ./firmware/${{matrix.target}}.config  
           cd firmware  
           echo "${{ env.date }}编译" > version.txt                       # 写入版本信息  
           echo "❤️==============================================❤️"  
