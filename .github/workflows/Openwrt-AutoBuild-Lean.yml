@@ -200,7 +200,7 @@ jobs:
           grep -E '\.img\.gz$|\.bin$|\.iso$' sha256sums >> version.txt                 # 追加 sha256sums 到版本文件  
           echo "❤️==============================================❤️" >> release.txt  
           mv sha256sums ${{ matrix.target }}_sha256sums                                # 重命名 sha256sums 文件  
-          echo "FIRMWARE_STATUS=found" >> $GITHUB_ENV                                  # 设置状态为 found  
+          echo "FIRMWARE_STATUS=true" >> $GITHUB_ENV                                   # 设置状态为 found  
           # 检查各类固件文件存在性并设置环境变量  
           [ -n "$(find . -name '*_error.log' -print -quit)" ] && echo "LOG=true" >> $GITHUB_ENV || echo "LOG=false" >> $GITHUB_ENV 
           [ -n "$(find . -name '*image.iso' -print -quit)" ] && echo "ISO=true" >> $GITHUB_ENV || echo "ISO=false" >> $GITHUB_ENV  
@@ -217,7 +217,7 @@ jobs:
       uses: softprops/action-gh-release@v2  
       id: uprelease  
       continue-on-error: true
-      if: ${{ env.REPO_TOKEN && env.UPLOAD_FIRMWARE_FOR_RELEASE == 'true' && env.FIRMWARE_STATUS == 'found' }}
+      if: ${{ env.REPO_TOKEN && env.UPLOAD_FIRMWARE_FOR_RELEASE == 'true' && env.FIRMWARE_STATUS == 'true' }}
       env:  
         GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}                          # 使用密钥进行身份验证  
       with:  
@@ -226,6 +226,12 @@ jobs:
         tag_name: ${{ env.date1 }}_${{matrix.target}}                    # 标记名称  
         body_path: firmware/release.txt                                  # Release 描述文件路径  
 
+    - name: 添加 Release 状态  
+      continue-on-error: true
+      if: ${{ steps.uprelease.outcome == 'success' }}                    # 当上传成功时执行  
+      run: |  
+        echo "RELEASE=true" >> $GITHUB_ENV                               # 设置环境变量 RELEASE 成功为true
+    
     # 上传固件到 Artifact  
     - name: 上传固件到 Artifact   
       uses: actions/upload-artifact@v4  
@@ -275,7 +281,7 @@ jobs:
     - name: 微信通知  
       if: env.SCKEY                                   # 如果已设置 SCKEY 则发送通知  
       run: |  
-        if [ "${{ env.COMBINED }}" == 'true' ] || [ "${{ env.EFI }}" == 'true' ] || [ "${{ env.BIN }}" == 'true' ] || [ "${{ env.ISO }}" == 'true' ]; then  
+        if [ "${{ env.COMBINED }}" == 'true' ] || [ "${{ env.EFI }}" == 'true' ] || [ "${{ env.BIN }}" == 'true' ] || [ "${{ env.ISO }}" == 'true' || "${{ env.RELEASE }}" == 'true' ]; then  
           curl https://sc.ftqq.com/${{ secrets.SCKEY }}.send?text=固件${{ env.date }}_${{matrix.target}}编译完成😋  
         else  
           curl https://sc.ftqq.com/${{ secrets.SCKEY }}.send?text=固件${{ env.date }}_${{matrix.target}}编译失败😭  
@@ -285,7 +291,7 @@ jobs:
     - name: Telegram 通知  
       if: env.TELEGRAM_TOKEN                          # 如果已设置 Telegram 令牌则发送通知  
       run: |  
-       if [ "${{ env.COMBINED }}" == 'true' ] || [ "${{ env.EFI }}" == 'true' ] || [ "${{ env.BIN }}" == 'true' ] || [ "${{ env.ISO }}" == 'true' ]; then  
+       if [ "${{ env.COMBINED }}" == 'true' ] || [ "${{ env.EFI }}" == 'true' ] || [ "${{ env.BIN }}" == 'true' ] || [ "${{ env.ISO }}" == 'true' || "${{ env.RELEASE }}" == 'true' ]; then  
          message="固件${{ env.date }}_${{ matrix.target }}编译完成😋"  
        else  
          message="固件${{ env.date }}_${{ matrix.target }}编译失败😭"  
