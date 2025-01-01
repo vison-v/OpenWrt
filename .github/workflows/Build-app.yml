@@ -1,4 +1,4 @@
-name: Openwrt-x86_64-App
+name: Openwrt-x86-64-App
 
 on: 
   schedule:
