@@ -9,18 +9,9 @@
 name: Debug
 
 on: 
-  repository_dispatch:
-  release:
-    types: published
-  #push:
-  #  branches:
-  #    - main
-  #  paths:
-  #    - '.github/workflows/Debug.yml'
-  #schedule:
-  #  - cron: 0 20 * * *
-  watch:
-    types: started
+  workflow_dispatch:
+  #watch:
+  #  types: started
 
 env:
   SCKEY: ${{ secrets.SCKEY }}
