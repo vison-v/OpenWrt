@@ -195,7 +195,7 @@ jobs:
           # 如果文件存在  
           cd firmware  
           # 压缩文件减小体积
-          for file in *; do tar -czf "$file.tar.gz" "$file" --options='--use-compress-program=pigz -9'; done
+          for file in *; do tar -czf "$file.tar.gz" "$file"; done
           # 解压缩文件
           tar -xzf sha256sums.tar.gz
           cp openwrt/.config ./${{ matrix.target }}.config  
