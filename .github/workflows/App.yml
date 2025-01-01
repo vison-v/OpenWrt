@@ -1,18 +1,11 @@
 name: Openwrt-x86_64-App
 
 on: 
-  repository_dispatch:
-  release:
-    types: published
-  push:
-    branches:
-      - main
-    paths:
-      - '.github/workflows/App.yml'
-  #schedule:
-  #  - cron: 40 19 * * *
-  #watch:
-  #  types: started
+  schedule:
+    - cron: "5 0 * * *"
+  workflow_dispatch:
+  watch:
+    types: started
 
 jobs:
   build:
@@ -23,7 +16,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [smartdns]
+        target: [luci-app-bypass,luci-app-fchomo,luci-app-homeproxy,luci-app-mihomo,luci-app-mosdns,luci-app-openclash,luci-app-passwall,luci-app-passwall2,luci-app-ssr-plus]
         
     steps:
     - name: Checkout
@@ -67,8 +60,8 @@ jobs:
         cp -rf App/. openwrt/
         cd openwrt
         ./scripts/feeds update -a && rm -rf feeds/luci/applications/luci-app-*
-        #git clone https://github.com/kiddin9/kwrt-packages.git && mv -n kwrt-*/${{matrix.target}} package && rm -rf kwrt-*
-        git clone -b lede https://github.com/vison-v/packages && mv -n packages/* package && rm -rf packages
+        git clone https://github.com/kenzok8/small && mv -n small/* package && rm -rf small
+        #git clone -b lede https://github.com/vison-v/packages && mv -n packages/* package && rm -rf packages
         ./scripts/feeds update -a
         ./scripts/feeds install ${{matrix.target}}
         if [ -f "${{matrix.target}}" ]; then
@@ -101,13 +94,19 @@ jobs:
         
     - name: 上传ipk
       uses: actions/upload-artifact@main
+      id: upipk
       with:
         name: ${{ env.date }} ${{matrix.target}}
-        path: ${{ env.IPK }}/        
+        path: ${{ env.IPK }}/      
 
-    #- name: 清理文件
-    #  uses: Mattraks/delete-workflow-runs@main
-    #  with:
-    #    token: ${{ secrets.PAT }}
-    #    retain_days: 5
-    #    keep_minimum_runs: 1
+    - name: 添加 IPK 状态  
+      continue-on-error: true
+      if: ${{ steps.upipk.outcome == 'success' }}   
+      run: |  
+        echo "RELEASE=true" >> $GITHUB_ENV   
+    
+    - name: Telegram notificationfail
+      if: env.TELEGRAM_TOKEN && ! contains(github.event.action, 'notg')
+      continue-on-error: true
+      run: |
+        curl -k --data chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" --data "text=Debug结束！" "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage"
