@@ -226,7 +226,7 @@ jobs:
 
     # 上传固件到 Artifact  
     - name: 上传固件到 Artifact   
-      uses: actions/upload-artifact@v3  
+      uses: actions/upload-artifact@v4  
       continue-on-error: true
       if: ${{ env.UPLOAD_FIRMWARE_FOR_ARTIFACT == 'true' && env.COMBINED == 'true' }}
       with:  
@@ -235,7 +235,7 @@ jobs:
 
     # 上传 EFI 固到 Artifact  
     - name: 上传 EFI 固到 Artifact  
-      uses: actions/upload-artifact@v3  
+      uses: actions/upload-artifact@v4  
       continue-on-error: true
       if: ${{ env.UPLOAD_EFI_FIRMWARE_FOR_ARTIFACT == 'true' && env.EFI == 'true' }}  
       with:  
@@ -244,7 +244,7 @@ jobs:
 
     # 上传 BIN 固到 Artifact  
     - name: 上传 BIN 固到 Artifact  
-      uses: actions/upload-artifact@v3  
+      uses: actions/upload-artifact@v4  
       continue-on-error: true
       if: ${{ env.UPLOAD_BIN_FIRMWARE_FOR_ARTIFACT == 'true' && env.BIN == 'true' }}  
       with:  
@@ -253,7 +253,7 @@ jobs:
 
     # 上传 ISO 固件到 Artifact  
     - name: 上传 ISO 固件到 Artifact  
-      uses: actions/upload-artifact@v3  
+      uses: actions/upload-artifact@v4  
       continue-on-error: true
       if: ${{ env.UPLOAD_ISO_FIRMWARE_FOR_ARTIFACT == 'true' && env.ISO == 'true' }}  
       with:  
@@ -262,7 +262,7 @@ jobs:
 
     # 上传make错误日志到 Artifact  
     - name: 上传错误日志到 Artifact  
-      uses: actions/upload-artifact@v3  
+      uses: actions/upload-artifact@v4  
       continue-on-error: true
       if: ${{ env.LOG == 'true' }}  
       with:  
