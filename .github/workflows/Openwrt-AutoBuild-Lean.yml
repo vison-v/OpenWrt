@@ -9,8 +9,8 @@
 name: Openwrt-AutoBuild-Immortalwrt
 
 on: 
-  schedule:
-    - cron: 5 1 1/5 * *
+  #schedule:
+  #  - cron: 5 1 1/5 * *
 permissions:
   contents: read
 
