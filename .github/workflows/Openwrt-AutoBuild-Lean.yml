@@ -10,9 +10,9 @@ name: Openwrt-AutoBuild
 
 on:   
   # 当推送工作流文件时触发  
-  push:  
-    paths:  
-      - '.github/workflows/Openwrt-AutoBuild-Lean.yml'  
+  schedule:
+    - cron: "15 2 1/3 * *"
+  workflow_dispatch:
 
 permissions:  
   contents: read  
