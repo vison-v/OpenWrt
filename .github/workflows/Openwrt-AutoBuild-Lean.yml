@@ -42,10 +42,12 @@ jobs:
   
     - name: 配置环境变量  
       run: |  
+        sudo timedatectl set-timezone "Asia/Shanghai"  
         echo "FILE_NAME=${{ matrix.target }}" >> $GITHUB_ENV   
         echo "REPO_NAME=$(basename "${{ matrix.target }}" | awk -F'_' '{print $1}')" >> $GITHUB_ENV  
         echo "ARCH_NAME=$(basename "${{ matrix.target }}" | sed -E 's/^[^_]*_//')" >> $GITHUB_ENV  
         echo "date=$(date +'%Y.%m.%d')" >> $GITHUB_ENV  
+        echo "date1=$(date +"%Y.%m.%d-%H%M")" >> $GITHUB_ENV
   
     - name: 加载Settings.ini  
       run: |  
@@ -82,7 +84,6 @@ jobs:
           sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc  
           sudo -E apt-get -qq autoremove --purge  
           sudo -E apt-get -qq clean  
-          sudo -E timedatectl set-timezone "Asia/Shanghai"  
           df -h  
     
     - name: 克隆源代码  
@@ -217,11 +218,11 @@ jobs:
       continue-on-error: true
       if: ${{ env.REPO_TOKEN && env.UPLOAD_FIRMWARE_FOR_RELEASE == 'true' && env.FIRMWARE_STATUS == 'found' }}
       env:  
-        GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}                                       # 使用密钥进行身份验证  
+        GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}                          # 使用密钥进行身份验证  
       with:  
         files: firmware/*                                                # 要上传的文件  
         name: ${{matrix.target}}                                         # Release 的名称  
-        tag_name: ${{ env.date }}_${{matrix.target}}                     # 标记名称  
+        tag_name: ${{ env.date1 }}_${{matrix.target}}                    # 标记名称  
         body_path: firmware/release.txt                                  # Release 描述文件路径  
 
     # 上传固件到 Artifact  
@@ -273,7 +274,7 @@ jobs:
     - name: 微信通知  
       if: env.SCKEY                                   # 如果已设置 SCKEY 则发送通知  
       run: |  
-        if [ "${{ env.COMBINED }}" == 'true' ] || [ "${{ env.EFI }}" == 'true' ] || [ "${{ env.BIN }}" == 'true' ] || [ "${{ env.ISO }}" == 'true' ]; then  
+        if [ "${{ env.COMBINED }}" == 'true' ] || [ "${{ env.EFI }}" == 'true' ] || [ "${{ env.BIN }}" == 'true' ] || [ "${{ env.ISO }}" == 'true' ||${{ steps.上传固件到 Release.outcome == 'success' }} ]; then  
           curl https://sc.ftqq.com/${{ secrets.SCKEY }}.send?text=固件${{ env.date }}_${{matrix.target}}编译完成😋  
         else  
           curl https://sc.ftqq.com/${{ secrets.SCKEY }}.send?text=固件${{ env.date }}_${{matrix.target}}编译失败😭  
@@ -283,7 +284,7 @@ jobs:
     - name: Telegram 通知  
       if: env.TELEGRAM_TOKEN                          # 如果已设置 Telegram 令牌则发送通知  
       run: |  
-       if [ "${{ env.COMBINED }}" == 'true' ] || [ "${{ env.EFI }}" == 'true' ] || [ "${{ env.BIN }}" == 'true' ] || [ "${{ env.ISO }}" == 'true' ]; then  
+       if [ "${{ env.COMBINED }}" == 'true' ] || [ "${{ env.EFI }}" == 'true' ] || [ "${{ env.BIN }}" == 'true' ] || [ "${{ env.ISO }}" == 'true' || ${{ steps.上传固件到 Release.outcome == 'success' }} ]; then  
          message="固件${{ env.date }}_${{ matrix.target }}编译完成😋"  
        else  
          message="固件${{ env.date }}_${{ matrix.target }}编译失败😭"  
@@ -295,8 +296,8 @@ jobs:
       uses: Mattraks/delete-workflow-runs@main  
       with:  
         token: ${{ secrets.PAT }}                     # 使用 PAT 进行身份验证  
-        retain_days: 15                               # 保留最近 15 天的记录  
-        keep_minimum_runs: 5                          # 保留至少 5 次运行记录  
+        retain_days: 2                                # 保留最近 2 天的记录  
+        keep_minimum_runs: 1                          # 保留至少 1 次运行记录  
 
     # 删除旧的 Releases  
     - name: 删除旧的 Releases  
@@ -304,7 +305,6 @@ jobs:
       continue-on-error: true
       if: ${{ env.UPLOAD_FIRMWARE_FOR_RELEASE == 'true' }}   # 仅在允许上传时执行  
       with:  
-        token: ${{ secrets.PAT }}
         keep_latest: 15                                      # 保留最新的 15 个发布  
         delete_tags: true                                    # 删除标签  
       env:  
