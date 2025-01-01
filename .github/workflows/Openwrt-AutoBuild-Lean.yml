@@ -187,20 +187,26 @@ jobs:
         # 删除并复制文件到 firmware 目录   
         rm -rf $(find openwrt/bin/targets/ \( -type d -name "packages" -o -name "*buildinfo" -o -name "*json" -o -name "*manifest" \)) 
         cp -rf $(find openwrt/bin/targets/ -type f -name "*") ./firmware
-
-        # 判断文件是否存在  
+        cp -rf $(find openwrt/ -type f -name "*_error.log") ./firmware
+        # 检查固件文件是否存在  
         if [ -n "$(find ./firmware/ -type f -print -quit)" ]; then  
           # 如果文件存在  
-          cp openwrt/.config  ./firmware/${{matrix.target}}.config  
+          cp openwrt/.config ./firmware/${{ matrix.target }}.config  
           cd firmware  
           echo -e "${{ env.date }}编译\n\n\n" > version.txt                            # 写入版本信息  
           echo "❤️==============================================❤️" >> release.txt  
-          echo -e "Release固件为测试固件，望须知！！\n\n" >> release.txt
+          echo -e "Release固件为测试固件，望须知！！\n\n" >> release.txt  
           grep -E '\.img\.gz$|\.bin$|\.iso$' sha256sums >> version.txt                 # 追加 sha256sums 到版本文件  
           echo "❤️==============================================❤️" >> release.txt  
           mv sha256sums ${{ matrix.target }}_sha256sums                                # 重命名 sha256sums 文件  
           echo "FIRMWARE_STATUS=found" >> $GITHUB_ENV                                  # 设置状态为 found  
-          ls
+          # 检查各类固件文件存在性并设置环境变量  
+          [ -n "$(find . -name '*_error.log' -print -quit)" ] && echo "LOG=true" >> $GITHUB_ENV || echo "LOG=false" >> $GITHUB_ENV 
+          [ -n "$(find . -name '*image.iso' -print -quit)" ] && echo "ISO=true" >> $GITHUB_ENV || echo "ISO=false" >> $GITHUB_ENV  
+          [ -n "$(find . -name '*sysupgrade.bin' -print -quit)" ] && echo "BIN=true" >> $GITHUB_ENV || echo "BIN=false" >> $GITHUB_ENV  
+          [ -n "$(find . -name '*combined-efi.img.gz' -print -quit)" ] && echo "EFI=true" >> $GITHUB_ENV || echo "EFI=false" >> $GITHUB_ENV  
+          [ -n "$(find . -name '*combined.img.gz' -print -quit)" ] && echo "COMBINED=true" >> $GITHUB_ENV || echo "COMBINED=false" >> $GITHUB_ENV  
+          ls                                                                           # 列出文件以供调试  
         else  
           echo "未找到文件."  
         fi
@@ -215,14 +221,14 @@ jobs:
       with:  
         files: firmware/*                                                # 要上传的文件  
         name: ${{matrix.target}}                                         # Release 的名称  
-        tag_name: ${{ env.date }}_${{ env.REPO_NAME }}                   # 标记名称  
+        tag_name: ${{ env.date }}_${{matrix.target}}                     # 标记名称  
         body_path: firmware/release.txt                                  # Release 描述文件路径  
 
     # 上传固件到 Artifact  
     - name: 上传固件到 Artifact   
       uses: actions/upload-artifact@v3  
       continue-on-error: true
-      if: ${{ env.UPLOAD_FIRMWARE_FOR_ARTIFACT == 'true' && env.FIRMWARE_STATUS == 'found' }}
+      if: ${{ env.UPLOAD_FIRMWARE_FOR_ARTIFACT == 'true' && env.COMBINED == 'true' }}
       with:  
         name: ${{ env.date }}_${{matrix.target}}   
         path: firmware/*combined.img.gz
@@ -231,7 +237,7 @@ jobs:
     - name: 上传 EFI 固到 Artifact  
       uses: actions/upload-artifact@v3  
       continue-on-error: true
-      if: ${{ env.UPLOAD_EFI_FIRMWARE_FOR_ARTIFACT == 'true' && env.FIRMWARE_STATUS == 'found' }}  
+      if: ${{ env.UPLOAD_EFI_FIRMWARE_FOR_ARTIFACT == 'true' && env.EFI == 'true' }}  
       with:  
         name: ${{ env.date }}_${{matrix.target}}_EFI   
         path: firmware/*combined-efi.img.gz    
@@ -240,7 +246,7 @@ jobs:
     - name: 上传 BIN 固到 Artifact  
       uses: actions/upload-artifact@v3  
       continue-on-error: true
-      if: ${{ env.UPLOAD_BIN_FIRMWARE_FOR_ARTIFACT == 'true' && env.FIRMWARE_STATUS == 'found' }}  
+      if: ${{ env.UPLOAD_BIN_FIRMWARE_FOR_ARTIFACT == 'true' && env.BIN == 'true' }}  
       with:  
         name: ${{ env.date }}_${{matrix.target}}_BIN   
         path: firmware/*sysupgrade.bin  
@@ -249,7 +255,7 @@ jobs:
     - name: 上传 ISO 固件到 Artifact  
       uses: actions/upload-artifact@v3  
       continue-on-error: true
-      if: ${{ env.UPLOAD_ISO_FIRMWARE_FOR_ARTIFACT == 'true' && env.FIRMWARE_STATUS == 'found' }}  
+      if: ${{ env.UPLOAD_ISO_FIRMWARE_FOR_ARTIFACT == 'true' && env.ISO == 'true' }}  
       with:  
         name: ${{ env.date }}_${{matrix.target}}_ISO  
         path: firmware/*image.iso   
@@ -258,16 +264,16 @@ jobs:
     - name: 上传错误日志到 Artifact  
       uses: actions/upload-artifact@v3  
       continue-on-error: true
-      if: ${{ env.BUILD_STATUS == 'failed' }}  
+      if: ${{ env.LOG == 'true' }}  
       with:  
         name: ${{matrix.target}}_make_error           # 设置上传文件的名称  
-        path: openwrt/*make_error.log                 # 上传的错误日志文件路径  
+        path: firmware/*make_error.log                # 上传的错误日志文件路径  
 
     # 微信通知  
     - name: 微信通知  
       if: env.SCKEY                                   # 如果已设置 SCKEY 则发送通知  
       run: |  
-        if [ ${{ env.BUILD_STATUS }} == 'success' ] && [ ${{ env.FIRMWARE_STATUS }} == 'found' ]; then  
+        if [ "${{ env.COMBINED }}" == 'true' ] || [ "${{ env.EFI }}" == 'true' ] || [ "${{ env.BIN }}" == 'true' ] || [ "${{ env.ISO }}" == 'true' ]; then  
           curl https://sc.ftqq.com/${{ secrets.SCKEY }}.send?text=固件${{ env.date }}_${{matrix.target}}编译完成😋  
         else  
           curl https://sc.ftqq.com/${{ secrets.SCKEY }}.send?text=固件${{ env.date }}_${{matrix.target}}编译失败😭  
@@ -277,12 +283,12 @@ jobs:
     - name: Telegram 通知  
       if: env.TELEGRAM_TOKEN                          # 如果已设置 Telegram 令牌则发送通知  
       run: |  
-        if [ ${{ env.BUILD_STATUS }} == 'success' ] && [ ${{ env.FIRMWARE_STATUS }} == 'found' ]; then  
-          message="固件${{ env.date }}_${{matrix.target}}编译完成😋"  
-        else  
-          message="固件${{ env.date }}_${{matrix.target}}编译失败😭"  
-        fi  
-        curl -k --data chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" --data "text=${message}" "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN}}/sendMessage"  
+       if [ "${{ env.COMBINED }}" == 'true' ] || [ "${{ env.EFI }}" == 'true' ] || [ "${{ env.BIN }}" == 'true' ] || [ "${{ env.ISO }}" == 'true' ]; then  
+         message="固件${{ env.date }}_${{ matrix.target }}编译完成😋"  
+       else  
+         message="固件${{ env.date }}_${{ matrix.target }}编译失败😭"  
+       fi  
+       curl -k --data "chat_id=${{ secrets.TELEGRAM_CHAT_ID }}" --data "text=${message}" "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage"
 
     # 删除工作流运行记录  
     - name: 删除工作流运行记录  
@@ -290,7 +296,7 @@ jobs:
       with:  
         token: env.PAT                                # 使用 PAT 进行身份验证  
         retain_days: 15                               # 保留最近 15 天的记录  
-        keep_minimum_runs: 5                          # 保留至少 1 次运行记录  
+        keep_minimum_runs: 5                          # 保留至少 5 次运行记录  
 
     # 删除旧的 Releases  
     - name: 删除旧的 Releases  
