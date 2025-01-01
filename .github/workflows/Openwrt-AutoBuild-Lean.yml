@@ -182,12 +182,12 @@ jobs:
       if: ${{ env.BUILD_STATUS == 'success' }}  
       id: organize  
       run: |  
-        # 创建 firmware 目录（如果不存在）  
+        # 创建 firmware 目录（如果目录不存在）  
         mkdir -p firmware  
         # 删除并复制文件到 firmware 目录   
-        rm -rf $(find openwrt/bin/targets/ \( -type d -name "packages" -o -name "*buildinfo" -o -name "*json" -o -name "*manifest" \)) 
-        cp -rf $(find openwrt/bin/targets/ -type f -name "*") ./firmware
-        cp -rf $(find openwrt/ -type f -name "*_error.log") ./firmware
+        find openwrt/bin/targets/ \( -type d -name "packages" -o -name "*buildinfo" -o -name "*json" -o -name "*manifest" \) -exec rm -rf {} + 2>/dev/null  
+        find openwrt/bin/targets/ -type f -exec cp -f {} ./firmware/ \; 2>/dev/null  
+        find openwrt/ -type f -name "*_error.log" -exec cp {} ./firmware/ \; 2>/dev/null
         # 检查固件文件是否存在  
         if [ -n "$(find ./firmware/ -type f -print -quit)" ]; then  
           # 如果文件存在  
@@ -217,7 +217,7 @@ jobs:
       continue-on-error: true
       if: ${{ env.REPO_TOKEN && env.UPLOAD_FIRMWARE_FOR_RELEASE == 'true' && env.FIRMWARE_STATUS == 'found' }}
       env:  
-        GITHUB_TOKEN: env.REPO_TOKEN                                     # 使用密钥进行身份验证  
+        GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}                                       # 使用密钥进行身份验证  
       with:  
         files: firmware/*                                                # 要上传的文件  
         name: ${{matrix.target}}                                         # Release 的名称  
@@ -294,7 +294,7 @@ jobs:
     - name: 删除工作流运行记录  
       uses: Mattraks/delete-workflow-runs@main  
       with:  
-        token: env.PAT                                # 使用 PAT 进行身份验证  
+        token: ${{ secrets.PAT }}                     # 使用 PAT 进行身份验证  
         retain_days: 15                               # 保留最近 15 天的记录  
         keep_minimum_runs: 5                          # 保留至少 5 次运行记录  
 
@@ -304,7 +304,8 @@ jobs:
       continue-on-error: true
       if: ${{ env.UPLOAD_FIRMWARE_FOR_RELEASE == 'true' }}   # 仅在允许上传时执行  
       with:  
+        token: ${{ secrets.PAT }}
         keep_latest: 15                                      # 保留最新的 15 个发布  
         delete_tags: true                                    # 删除标签  
       env:  
-        GITHUB_TOKEN: env.REPO_TOKEN                         # 使用 GitHub 令牌
+        GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}              # 使用 GitHub 令牌
