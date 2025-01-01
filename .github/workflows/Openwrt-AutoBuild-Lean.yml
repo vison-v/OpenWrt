@@ -213,7 +213,7 @@ jobs:
         fi
 
     # 上传固件到 Release  
-    - name: uprelease  
+    - name: 上传固件到 Release   
       uses: softprops/action-gh-release@v2  
       id: uprelease  
       continue-on-error: true
@@ -275,7 +275,7 @@ jobs:
     - name: 微信通知  
       if: env.SCKEY                                   # 如果已设置 SCKEY 则发送通知  
       run: |  
-        if [ "${{ env.COMBINED }}" == 'true' ] || [ "${{ env.EFI }}" == 'true' ] || [ "${{ env.BIN }}" == 'true' ] || [ "${{ env.ISO }}" == 'true' || ${{ steps.uprelease.outcome == 'success' }} ]; then  
+        if [ "${{ env.COMBINED }}" == 'true' ] || [ "${{ env.EFI }}" == 'true' ] || [ "${{ env.BIN }}" == 'true' ] || [ "${{ env.ISO }}" == 'true' ]; then  
           curl https://sc.ftqq.com/${{ secrets.SCKEY }}.send?text=固件${{ env.date }}_${{matrix.target}}编译完成😋  
         else  
           curl https://sc.ftqq.com/${{ secrets.SCKEY }}.send?text=固件${{ env.date }}_${{matrix.target}}编译失败😭  
@@ -285,7 +285,7 @@ jobs:
     - name: Telegram 通知  
       if: env.TELEGRAM_TOKEN                          # 如果已设置 Telegram 令牌则发送通知  
       run: |  
-       if [ "${{ env.COMBINED }}" == 'true' ] || [ "${{ env.EFI }}" == 'true' ] || [ "${{ env.BIN }}" == 'true' ] || [ "${{ env.ISO }}" == 'true' || ${{ steps.uprelease.outcome == 'success' }} ]; then  
+       if [ "${{ env.COMBINED }}" == 'true' ] || [ "${{ env.EFI }}" == 'true' ] || [ "${{ env.BIN }}" == 'true' ] || [ "${{ env.ISO }}" == 'true' ]; then  
          message="固件${{ env.date }}_${{ matrix.target }}编译完成😋"  
        else  
          message="固件${{ env.date }}_${{ matrix.target }}编译失败😭"  
