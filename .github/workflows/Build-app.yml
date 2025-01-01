@@ -7,6 +7,10 @@ on:
   watch:
     types: started
 
+env:
+  TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+  TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -109,4 +113,4 @@ jobs:
       if: env.TELEGRAM_TOKEN && ! contains(github.event.action, 'notg')
       continue-on-error: true
       run: |
-        curl -k --data chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" --data "text=Debug结束！" "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage"
+        curl -k --data chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" --data "${{ env.date }} ${{matrix.target}}编译完成！" "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage"
