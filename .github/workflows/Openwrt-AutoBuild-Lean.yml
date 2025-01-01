@@ -27,7 +27,7 @@ env:
 
 jobs:  
   build_openwrt:  
-    name: 构建${{ matrix.target }}  
+    name: 构建 ${{ matrix.target }}  
     runs-on: ubuntu-latest  
     strategy:  
       fail-fast: false  
@@ -49,7 +49,7 @@ jobs:
         echo "date=$(date +'%Y.%m.%d')" >> $GITHUB_ENV  
         echo "date1=$(date +"%Y.%m.%d-%H%M")" >> $GITHUB_ENV
   
-    - name: 加载Settings.ini  
+    - name: 加载 Settings.ini  
       run: |  
         # 加载公共配置  
         source "${GITHUB_WORKSPACE}/${{ env.REPO_NAME }}/common/settings.ini"  
@@ -90,7 +90,7 @@ jobs:
       run: |  
         git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt  
     
-    - name: 加载与更新feeds  
+    - name: 加载与更新 feeds  
       run: |  
         cp -rf ${{ env.REPO_NAME }}/common/files/. openwrt/  
         cd openwrt  
@@ -213,8 +213,9 @@ jobs:
         fi
 
     # 上传固件到 Release  
-    - name: 上传固件到Release  
+    - name: uprelease  
       uses: softprops/action-gh-release@v2  
+      id: uprelease  
       continue-on-error: true
       if: ${{ env.REPO_TOKEN && env.UPLOAD_FIRMWARE_FOR_RELEASE == 'true' && env.FIRMWARE_STATUS == 'found' }}
       env:  
@@ -226,7 +227,7 @@ jobs:
         body_path: firmware/release.txt                                  # Release 描述文件路径  
 
     # 上传固件到 Artifact  
-    - name: 上传固件到Artifact   
+    - name: 上传固件到 Artifact   
       uses: actions/upload-artifact@v4  
       continue-on-error: true
       if: ${{ env.UPLOAD_FIRMWARE_FOR_ARTIFACT == 'true' && env.COMBINED == 'true' }}
@@ -235,7 +236,7 @@ jobs:
         path: firmware/*combined.img.gz
 
     # 上传 EFI 固到 Artifact  
-    - name: 上传EFI固到Artifact  
+    - name: 上传 EFI 固到 Artifact  
       uses: actions/upload-artifact@v4  
       continue-on-error: true
       if: ${{ env.UPLOAD_EFI_FIRMWARE_FOR_ARTIFACT == 'true' && env.EFI == 'true' }}  
@@ -244,7 +245,7 @@ jobs:
         path: firmware/*combined-efi.img.gz    
 
     # 上传 BIN 固到 Artifact  
-    - name: 上传BIN固到 Artifact  
+    - name: 上传 BIN 固到 Artifact  
       uses: actions/upload-artifact@v4  
       continue-on-error: true
       if: ${{ env.UPLOAD_BIN_FIRMWARE_FOR_ARTIFACT == 'true' && env.BIN == 'true' }}  
@@ -253,7 +254,7 @@ jobs:
         path: firmware/*sysupgrade.bin  
 
     # 上传 ISO 固件到 Artifact  
-    - name: 上传ISO固件到Artifact  
+    - name: 上传 ISO 固件到 Artifact  
       uses: actions/upload-artifact@v4  
       continue-on-error: true
       if: ${{ env.UPLOAD_ISO_FIRMWARE_FOR_ARTIFACT == 'true' && env.ISO == 'true' }}  
@@ -262,7 +263,7 @@ jobs:
         path: firmware/*image.iso   
 
     # 上传make错误日志到 Artifact  
-    - name: 上传错误日志到Artifact  
+    - name: 上传错误日志到 Artifact  
       uses: actions/upload-artifact@v4  
       continue-on-error: true
       if: ${{ env.LOG == 'true' }}  
@@ -274,17 +275,17 @@ jobs:
     - name: 微信通知  
       if: env.SCKEY                                   # 如果已设置 SCKEY 则发送通知  
       run: |  
-        if [ "${{ env.COMBINED }}" == 'true' ] || [ "${{ env.EFI }}" == 'true' ] || [ "${{ env.BIN }}" == 'true' ] || [ "${{ env.ISO }}" == 'true' ||${{ steps.上传固件到Release.outcome == 'success' }} ]; then  
+        if [ "${{ env.COMBINED }}" == 'true' ] || [ "${{ env.EFI }}" == 'true' ] || [ "${{ env.BIN }}" == 'true' ] || [ "${{ env.ISO }}" == 'true' || ${{ steps.uprelease.outcome == 'success' }} ]; then  
           curl https://sc.ftqq.com/${{ secrets.SCKEY }}.send?text=固件${{ env.date }}_${{matrix.target}}编译完成😋  
         else  
           curl https://sc.ftqq.com/${{ secrets.SCKEY }}.send?text=固件${{ env.date }}_${{matrix.target}}编译失败😭  
         fi  
 
     # Telegram 通知  
-    - name: Telegram通知  
+    - name: Telegram 通知  
       if: env.TELEGRAM_TOKEN                          # 如果已设置 Telegram 令牌则发送通知  
       run: |  
-       if [ "${{ env.COMBINED }}" == 'true' ] || [ "${{ env.EFI }}" == 'true' ] || [ "${{ env.BIN }}" == 'true' ] || [ "${{ env.ISO }}" == 'true' || ${{ steps.上传固件到Release.outcome == 'success' }} ]; then  
+       if [ "${{ env.COMBINED }}" == 'true' ] || [ "${{ env.EFI }}" == 'true' ] || [ "${{ env.BIN }}" == 'true' ] || [ "${{ env.ISO }}" == 'true' || ${{ steps.uprelease.outcome == 'success' }} ]; then  
          message="固件${{ env.date }}_${{ matrix.target }}编译完成😋"  
        else  
          message="固件${{ env.date }}_${{ matrix.target }}编译失败😭"  
@@ -300,7 +301,7 @@ jobs:
         keep_minimum_runs: 1                          # 保留至少 1 次运行记录  
 
     # 删除旧的 Releases  
-    - name: 删除旧的Releases  
+    - name: 删除旧的 Releases  
       uses: dev-drprasad/delete-older-releases@master  
       continue-on-error: true
       if: ${{ env.UPLOAD_FIRMWARE_FOR_RELEASE == 'true' }}   # 仅在允许上传时执行  
