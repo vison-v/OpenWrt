@@ -66,10 +66,7 @@ jobs:
     - name: Get current date
       id: date
       run: |
-        echo "date=$(date +'%m/%d_%Y_%H/%M')" >> $GITHUB_ENV
-        echo "date2=$(date +'%m/%d %Y')" >> $GITHUB_ENV
-        echo "date3=$(date +'%m.%d')" >> $GITHUB_ENV
-        echo "date4=$(date +'%m.%d.%Y')" >> $GITHUB_ENV
+        echo "date=$(date +'%Y.%m.%d')" >> $GITHUB_ENV  
     
     - name: Initialization environment
       env:
@@ -112,16 +109,16 @@ jobs:
       run: |
         cp -rf lede openwrt/
         cd openwrt
-        chmod +x lede/common/$ADD_SH
+        chmod +x "lede/common/$ADD_SH"
         /bin/bash "lede/common/$ADD_SH"
         if [ -f "lede/${{matrix.target}}/$DIY_SH" ]; then
-          chmod +x lede/${{matrix.target}}/$DIY_SH
+          chmod +x "lede/${{matrix.target}}/$DIY_SH"
           /bin/bash "lede/${{matrix.target}}/$DIY_SH"
         fi
-        mv lede/common/$CONFIG_FILE .config
+        mv "lede/common/$CONFIG_FILE" .config
         if [ -f "lede/${{matrix.target}}/$CONFIG_FILE" ]; then
           echo >> .config
-          cat lede/${{matrix.target}}/$CONFIG_FILE >> .config
+          cat "lede/${{matrix.target}}/$CONFIG_FILE" >> .config
         fi
     
     - name: Apply patches
@@ -174,7 +171,7 @@ jobs:
         | xargs -i mv -f {} ./firmware/
         cp openwrt/.config  ./firmware/${{matrix.target}}.config
         cd firmware
-        echo ${{ env.date4 }} > version.txt
+        echo ${{ env.date }} > version.txt
         mv sha256sums ${{matrix.target}}_sha256sums
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
 
@@ -186,7 +183,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
       with:
         files: "${{ env.FIRMWARE }}/*"
-        name: ${{ env.date2 }} ${{matrix.target}} ${{ env.EMOJI }}
+        name: ${{ env.date }} ${{matrix.target}} ${{ env.EMOJI }}
         tag_name: ${{ env.date }}_${{matrix.target}}
         body_path: release.txt
 
@@ -195,7 +192,7 @@ jobs:
       continue-on-error: true
       if: env.UPLOAD_FIRMWARE_FOR_ARTIFACT == 'true'
       with:
-        name: ${{ env.date3 }} ${{matrix.target}}
+        name: ${{ env.date }} ${{matrix.target}}
         path: |
           ${{ env.FIRMWARE }}/*squashfs*
           !${{ env.FIRMWARE }}/*efi*
@@ -206,7 +203,7 @@ jobs:
       continue-on-error: true
       if: env.UPLOAD_EFI_FIRMWARE_FOR_ARTIFACT == 'true'
       with:
-        name: ${{ env.date3 }} ${{matrix.target}}_EFI
+        name: ${{ env.date }} ${{matrix.target}}_EFI
         path: ${{ env.FIRMWARE }}/*efi*
         
     - name: Upload ISO firmware for artifact
@@ -214,17 +211,17 @@ jobs:
       continue-on-error: true
       if: env.UPLOAD_ISO_FIRMWARE_FOR_ARTIFACT == 'true'
       with:
-        name: ${{ env.date3 }} ${{matrix.target}}_ISO
+        name: ${{ env.date }} ${{matrix.target}}_ISO
         path: ${{ env.FIRMWARE }}/*.iso
     
     - name: WeChat notification
       continue-on-error: true
       if: env.SCKEY
       run: |
-        curl https://sc.ftqq.com/${{ secrets.SCKEY }}.send?text=OpenWrt_${{ env.date3 }}_${{matrix.target}}_Immortalwrt编译完成
+        curl https://sc.ftqq.com/${{ secrets.SCKEY }}.send?text=OpenWrt_${{ env.date }}_${{matrix.target}}_Immortalwrt编译完成
     
     - name: Telegram notification
       if: env.TELEGRAM_TOKEN && ! contains(github.event.action, 'notg')
       continue-on-error: true
       run: |
-        curl -k --data chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" --data "text=OpenWrt_${{ env.date3 }}_${{matrix.target}}_Immortalwrt编译完成😋" "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage"
+        curl -k --data chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" --data "text=OpenWrt_${{ env.date }}_${{matrix.target}}_Immortalwrt编译完成😋" "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage"
