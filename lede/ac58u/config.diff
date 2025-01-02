@@ -1,0 +1,7 @@
+CONFIG_TARGET_ipq40xx=y
+CONFIG_TARGET_ipq40xx_generic=y
+CONFIG_TARGET_ipq40xx_generic_DEVICE_asus_rt-ac58u=y
+CONFIG_TARGET_ipq40xx_DEVICE_asus_rt-ac58u=y
+
+# Applications
+CONFIG_PACKAGE_luci-app-ssr-plus=y
