@@ -95,7 +95,7 @@ jobs:
     
     - name: 加载与更新 feeds  
       run: |  
-        cp -rf ${{ env.REPO_NAME }}/common/files/. openwrt/  
+        [ -n "$(ls -A "${{ env.REPO_NAME }}/common/files/" 2>/dev/null)" ] && cp -rf "${{ env.REPO_NAME }}/common/files/"* openwrt/
         cd openwrt  
         [ "${{ env.REPO_NAME }}" = "openwrt" ] && sed -i "/src-git vi /d; 1 i src-git vi https://github.com/vison-v/packages;${{ env.REPO_NAME }}" feeds.conf.default  		  
         ./scripts/feeds update -a  
@@ -118,18 +118,18 @@ jobs:
       run: |  
         cp -rf ${{ env.REPO_NAME }} openwrt/  
         cd openwrt  
-        chmod +x ${{ env.REPO_NAME }}/common/$COMMON_SH  
+        chmod +x "${{ env.REPO_NAME }}/common/$COMMON_SH"  
         /bin/bash "${{ env.REPO_NAME }}/common/$COMMON_SH"   # 执行通用脚本  
         # 执行架构特定的脚本  
         if [ -f "${{ env.REPO_NAME }}/${{ env.ARCH_NAME }}/$CUSTOM_SH" ]; then  
-          chmod +x ${{ env.REPO_NAME }}/${{ env.ARCH_NAME }}/$CUSTOM_SH  
+          chmod +x “${{ env.REPO_NAME }}/${{ env.ARCH_NAME }}/$CUSTOM_SH”  
           /bin/bash "${{ env.REPO_NAME }}/${{ env.ARCH_NAME }}/$CUSTOM_SH"  
         fi  
         mv ${{ env.REPO_NAME }}/common/$CONFIG_FILE .config  # 移动配置文件  
         # 如果存在架构特定的配置文件，则追加内容  
         if [ -f "${{ env.REPO_NAME }}/${{ env.ARCH_NAME }}/$CONFIG_FILE" ]; then  
           echo >> .config  
-          cat ${{ env.REPO_NAME }}/${{ env.ARCH_NAME }}/$CONFIG_FILE >> .config  
+          cat “${{ env.REPO_NAME }}/${{ env.ARCH_NAME }}/$CONFIG_FILE" >> .config  
         fi  
     
     - name: 应用补丁  
