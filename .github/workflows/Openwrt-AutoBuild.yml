@@ -35,7 +35,7 @@ jobs:
     strategy:  
       fail-fast: false  
       matrix:  
-        target: [lede-x86-64,lede-x86-64-basic,lede-AC58U]  
+        target: [lede-x86-64,lede-x86-64-basic,immortalwrt-x86-64,immortalwrt-x86-64-basic]  
         
     steps:  
     - name: 检出代码  
