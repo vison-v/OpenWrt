@@ -199,19 +199,18 @@ jobs:
           # 压缩文件减小体积
           for file in *; do tar -czf "$file.tar.gz" "$file" && [ -f "$file" ] && rm -f "$file"; done
           # 解压缩文件
-          tar -xzf sha256sums.tar.gz
+          tar -xzf sha256sums.tar.gz && rm -f sha256sums.tar.gz  
           echo -e "${{ env.date }}编译\n\n\n" > release.txt                            # 写入版本信息  
           echo "❤️==============================================❤️" >> release.txt  
           echo -e "Release固件为测试固件，望须知！！\n\n" >> release.txt  
           echo "❤️==============================================❤️" >> release.txt  
-          mv sha256sums ${{ matrix.target }}-sha256sums                                # 重命名 sha256sums 文件  
           echo "FIRMWARE_STATUS=true" >> $GITHUB_ENV                                   # 设置状态为 found  
           # 检查各类固件文件存在性并设置环境变量  
-          [ -n "$(find . -name '*_error.log' -print -quit)" ] && echo "LOG=true" >> $GITHUB_ENV || echo "LOG=false" >> $GITHUB_ENV 
-          [ -n "$(find . -name '*image.iso' -print -quit)" ] && echo "ISO=true" >> $GITHUB_ENV || echo "ISO=false" >> $GITHUB_ENV  
-          [ -n "$(find . -name '*sysupgrade.bin' -print -quit)" ] && echo "BIN=true" >> $GITHUB_ENV || echo "BIN=false" >> $GITHUB_ENV  
-          [ -n "$(find . -name '*combined-efi.img.gz' -print -quit)" ] && echo "EFI=true" >> $GITHUB_ENV || echo "EFI=false" >> $GITHUB_ENV  
-          [ -n "$(find . -name '*combined.img.gz' -print -quit)" ] && echo "COMBINED=true" >> $GITHUB_ENV || echo "COMBINED=false" >> $GITHUB_ENV  
+          [ -n "$(find . -name '*_error.log' -print -quit)" ] && echo "LOG=true" >> $GITHUB_ENV 
+          [ -n "$(find . -name '*image.iso' -print -quit)" ] && echo "ISO=true" >> $GITHUB_ENV  
+          [ -n "$(find . -name '*sysupgrade.bin' -print -quit)" ] && echo "BIN=true" >> $GITHUB_ENV  
+          [ -n "$(find . -name '*combined-efi.img.gz' -print -quit)" ] && echo "EFI=true" >> $GITHUB_ENV  
+          [ -n "$(find . -name '*combined.img.gz' -print -quit)" ] && echo "COMBINED=true" >> $GITHUB_ENV  
           ls                                                                           # 列出文件以供调试  
         else  
           echo "未找到文件."  
