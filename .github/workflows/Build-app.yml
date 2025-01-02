@@ -14,13 +14,13 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: github.event.repository.owner.id == github.event.sender.id
+    if: github.event.repository.owner.id == github.event.sender.id || ! github.event.sender.id
     
     name: Build ${{matrix.target}}
     strategy:
       fail-fast: false
       matrix:
-        target: [luci-app-bypass,luci-app-fchomo,luci-app-homeproxy,luci-app-mihomo,luci-app-mosdns,luci-app-openclash,luci-app-passwall,luci-app-passwall2,luci-app-ssr-plus]
+        target: [luci-app-fchomo,luci-app-homeproxy,luci-app-mihomo,luci-app-mosdns,luci-app-openclash,luci-app-passwall,luci-app-passwall2]
         
     steps:
     - name: Checkout
