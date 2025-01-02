@@ -34,5 +34,6 @@
 
 1. 固件默认使用Lean为上游源码编译！[Lean仓库地址](https://github.com/coolsnowwolf/lede "https://github.com/coolsnowwolf/lede")
 2. 固件选择使用Immortalwrt为上游源码编译！[Immortalwrt仓库地址](https://github.com/immortalwrt/immortalwrt "https://github.com/immortalwrt/immortalwrt")
-3. 插件都为网上寻找，插件作者可在Lean/common/common.sh文件中查看，在此表示感谢！
-4. 固件主要个人使用，不提供任何技术支持和解答！
+3. 固件选择使用Openwrt原版为上游源码编译！ [OpenWrt仓库地址](https://github.com/openwrt/openwrt)
+4. 插件都为网上寻找，插件作者可在common/common.sh文件中查看，在此表示感谢！
+5. 固件主要个人使用，不提供任何技术支持和解答！
