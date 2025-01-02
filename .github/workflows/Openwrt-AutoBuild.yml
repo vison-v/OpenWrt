@@ -193,7 +193,7 @@ jobs:
         find openwrt/ -type f -name "*_error.log" -exec cp {} ./firmware/ \; 2>/dev/null
         # 检查固件文件是否存在  
         if [ -n "$(find ./firmware/ -type f -print -quit)" ]; then  
-          cp -rf openwrt/${{ env.REPO_BAME }}/release ./firmware
+          cp -rf openwrt/${{ env.REPO_NAME }}/release ./firmware
           # 如果文件存在  
           cd firmware  
           # 压缩文件减小体积
