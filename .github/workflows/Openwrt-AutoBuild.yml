@@ -94,13 +94,37 @@ jobs:
     
     - name: 加载与更新 feeds  
       run: |  
-        [ -n "$(ls -A "${{ env.REPO_NAME }}/common/files/" 2>/dev/null)" ] && cp -rf "${{ env.REPO_NAME }}/common/files/"* openwrt/
-        cd openwrt  
-        [ "${{ env.REPO_NAME }}" = "openwrt" ] && sed -i "/src-git vi /d; 1 i src-git vi https://github.com/vison-v/packages;${{ env.REPO_NAME }}" feeds.conf.default  		  
-        ./scripts/feeds update -a  
-        ./scripts/feeds install -a  
-        [ "${{ env.REPO_NAME }}" = "openwrt" ] && ./scripts/feeds uninstall $(grep Package ./feeds/vi.index | awk -F': ' '{print $2}')  
-        [ "${{ env.REPO_NAME }}" = "openwrt" ] && ./scripts/feeds install -p vi -a  
+        echo "Checking files in immortalwrt/common/files/"  
+        [ -n "$(ls -A "immortalwrt/common/files/" 2>/dev/null)" ] && {  
+        echo "Copying files from immortalwrt/common/files/ to openwrt/"  
+        cp -rf "immortalwrt/common/files/"* openwrt/  
+        } || echo "No files to copy or dir not found"  
+
+        echo "Changing directory to openwrt"  
+        cd openwrt || { echo "Failed to change directory to openwrt"; exit 1; }  
+
+        echo "Modifying feeds.conf.default"  
+        [ "immortalwrt" = "openwrt" ] && {  
+        sed -i "/src-git vi /d; 1 i src-git vi https://github.com/vison-v/packages;immortalwrt" feeds.conf.default && \
+        echo "feeds.conf.default modified" || echo "Failed to modify feeds.conf.default"  
+        }  
+
+        echo "Updating feeds"  
+        ./scripts/feeds update -a && echo "Feeds updated" || { echo "Failed to update feeds"; exit 1; }  
+
+        echo "Installing packages"  
+        ./scripts/feeds install -a && echo "Packages installed" || { echo "Failed to install packages"; exit 1; }  
+
+        [ "immortalwrt" = "openwrt" ] && {  
+        echo "Uninstalling vi packages"  
+        ./scripts/feeds uninstall $(grep Package ./feeds/vi.index | awk -F': ' '{print $2}') && \
+        echo "Vi packages uninstalled" || echo "Failed to uninstall vi packages"  
+        }  
+
+        [ "immortalwrt" = "openwrt" ] && {  
+        echo "Installing vi packages"  
+        ./scripts/feeds install -p vi -a && echo "Vi packages installed" || echo "Failed to install vi packages"  
+        }
 
     - name: 清理磁盘空间  
       env:  
