@@ -137,8 +137,7 @@ jobs:
         cd openwrt  
         # 应用通用补丁  
         if [ "$(find "${{ env.REPO_NAME }}/common/patches" -type f -name '*.patch' -print -quit)" ]; then  
-          find "${{ env.REPO_NAME }}/common/patches" -type f ! -path '${{ env.REPO_NAME }}/common/patches/china_mirrors.patch' -name '*.patch' -print0 | \
-          sort -z | xargs -I % -t -0 -n 1 sh -c "cat '%'  | patch -d './' -p1 -E --forward --no-backup-if-mismatch"  
+          find "${{ env.REPO_NAME }}/common/patches" -type f -name '*.patch' -print0 | sort -z | xargs -I % -t -0 -n 1 sh -c "cat '%'  | patch -d './' -p1 -E --forward --no-backup-if-mismatch"
         fi  
         # 如果存在架构特定的补丁，亦将其应用  
         if [ -n "$(ls -A "${{ env.REPO_NAME }}/${{ env.ARCH_NAME }}/patches" 2>/dev/null)" ]; then  
