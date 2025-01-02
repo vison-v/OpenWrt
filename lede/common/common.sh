@@ -54,7 +54,7 @@ git clone https://github.com/jerrykuku/luci-theme-argon.git package/openwrt-pack
 #git clone https://github.com/pymumu/luci-app-smartdns -b lede package/openwrt-packages/luci-app-smartdns
 git clone https://github.com/pymumu/openwrt-smartdns.git package/openwrt-packages/smartdns
 
-git_sparse_clone main "https://github.com/kiddin9/kwrt-packages.git" aria2 wrtbwmon luci-app-eqosplus luci-app-wrtbwmon luci-app-watchcat luci-app-unblockmusic luci-app-pushbot luci-app-smartdns luci-app-tcpdump && mv -n wrtbwmon aria2 package/openwrt-packages/
+git_sparse_clone main "https://github.com/kiddin9/kwrt-packages.git" aria2 wrtbwmon luci-app-eqosplus luci-app-wrtbwmon luci-app-watchcat luci-app-unblockmusic luci-app-pushbot luci-app-tcpdump && mv -n wrtbwmon aria2 package/openwrt-packages/
 git_sparse_clone master "https://github.com/kiddin9/luci.git" applications/luci-app-ttyd
 
 git_clone https://github.com/Lienol/openwrt-package.git && mv -n openwrt-package/{luci-app-control-timewol,luci-app-control-webrestriction,luci-app-control-weburl} package/openwrt-packages/; rm -rf openwrt-package
@@ -141,8 +141,8 @@ sed -i '/msgid "Pass Wall"/{n;s/PassWall/翻越长城/;}' package/openwrt-packag
 sed -i '/Pass Wall/s/-1/4/g' package/openwrt-packages/small/luci-app-passwall/luasrc/controller/passwall.lua
 sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/small/luci-app-passwall/luasrc`
 
-sed -i '/msgid "SmartDNS"/{n;s/SmartDNS/DNS 加速/;}' package/openwrt-packages/luci-app-smartdns/po/zh_Hans/smartdns.po
-sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-smartdns/root/usr/share/luci/menu.d/luci-app-smartdns.json
+#sed -i '/msgid "SmartDNS"/{n;s/SmartDNS/DNS 加速/;}' package/openwrt-packages/luci-app-smartdns/po/zh_Hans/smartdns.po
+#sed -i 's/services/vpn/g' package/openwrt-packages/luci-app-smartdns/root/usr/share/luci/menu.d/luci-app-smartdns.json
 
 sed -i 's/services/system/g' package/openwrt-packages/luci-app-watchcat/root/usr/share/luci/menu.d/luci-app-watchcat.json
 sed -i 's/msgstr "Watchcat"/msgstr "智能重启"/g' package/openwrt-packages/luci-app-watchcat/po/zh_Hans/watchcat.po
