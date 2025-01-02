@@ -176,7 +176,6 @@ jobs:
           ls bin/targets/*/*  
           echo "=============================================="  
         fi
-        du -h --max-depth=5 ./logs
 
     # 组织文件  
     - name: 组织文件  
@@ -192,12 +191,13 @@ jobs:
         find openwrt/ -type f -name "*_error.log" -exec cp {} ./firmware/ \; 2>/dev/null
         # 检查固件文件是否存在  
         if [ -n "$(find ./firmware/ -type f -print -quit)" ]; then  
+          cp -rf openwrt/${{ env.REPO_BAME }}/release ./firmware
           # 如果文件存在  
           cd firmware  
           # 压缩文件减小体积
           for file in *; do tar -czf "$file.tar.gz" "$file" && [ -f "$file" ] && rm -f "$file"; done
           # 解压缩文件
-          tar -xzf sha256sums.tar.gz && rm -f sha256sums.tar.gz  
+          tar -xzf sha256sums.tar.gz && tar -xzf release.tar.gz && rm -f sha256sums.tar.gz && rm -f release.tar.gz  
           echo "FIRMWARE_STATUS=true" >> $GITHUB_ENV                                   # 设置状态为 found  
           # 检查各类固件文件存在性并设置环境变量  
           [ -n "$(find . -name '*_error.log' -print -quit)" ] && echo "LOG=true" >> $GITHUB_ENV 
@@ -222,7 +222,7 @@ jobs:
         files: firmware/*                                                # 要上传的文件  
         name: ${{matrix.target}}                                         # Release 的名称  
         tag_name: ${{ env.date }}-${{matrix.target}}                     # 标记名称  
-        body_path: openwrt/${{ env.REPO_BAME }}/release                  # Release 描述文件  
+        body_path: firmware/release                                      # Release 描述文件  
 
     - name: 添加 Release 状态  
       continue-on-error: true
