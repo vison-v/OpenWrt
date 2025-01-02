@@ -136,7 +136,7 @@ jobs:
       run: |  
         cd openwrt  
         # 应用通用补丁  
-        if [ "$(find "${{ env.REPO_NAME }}/common/patches" -type f ! -path '${{ env.REPO_NAME }}/common/patches/china_mirrors.patch' -name '*.patch' -print -quit)" ]; then  
+        if [ "$(find "${{ env.REPO_NAME }}/common/patches" -type f -name '*.patch' -print -quit)" ]; then  
           find "${{ env.REPO_NAME }}/common/patches" -type f ! -path '${{ env.REPO_NAME }}/common/patches/china_mirrors.patch' -name '*.patch' -print0 | \
           sort -z | xargs -I % -t -0 -n 1 sh -c "cat '%'  | patch -d './' -p1 -E --forward --no-backup-if-mismatch"  
         fi  
