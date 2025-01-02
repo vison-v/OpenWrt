@@ -91,7 +91,7 @@ jobs:
     
     - name: Load && Update feeds
       run: |
-        cp -rf immortalwrt/common/files/. openwrt/
+        [ -n "$(ls -A "immortalwrt/common/files/" 2>/dev/null)" ] && cp -rf "immortalwrt/common/files/"* openwrt/
         cd openwrt
         ./scripts/feeds update -a
 
@@ -124,10 +124,12 @@ jobs:
     - name: Apply patches
       run: |
         cd openwrt
-        find "immortalwrt/common/patches" -type f ! -path 'immortalwrt/common/patches/china_mirrors.patch' -name '*.patch' -print0 | sort -z | xargs -I % -t -0 -n 1 sh -c "cat '%'  | patch -d './' -p1 -E --forward --no-backup-if-mismatch"
-        if [ -n "$(ls -A "immortalwrt/${{matrix.target}}/patches" 2>/dev/null)" ]; then
-          find "immortalwrt/${{matrix.target}}/patches" -type f -name '*.patch' -print0 | sort -z | xargs -I % -t -0 -n 1 sh -c "cat '%'  | patch -d './' -p1 -E --forward --no-backup-if-mismatch"
-        fi
+        if [ "$(find "immortalwrt/common/patches" -type f -name '*.patch' -print -quit)" ]; then  
+          find "immortalwrt/common/patches" -type f -name '*.patch' -print0 | sort -z | xargs -I % -t -0 -n 1 sh -c "cat '%'  | patch -d './' -p1 -E --forward --no-backup-if-mismatch"
+        fi  
+        if [ -n "$(ls -A "immortalwrt/${{matrix.target}}/patches" 2>/dev/null)" ]; then  
+          find "immortalwrt/${{matrix.target}}/patches" -type f -name '*.patch' -print0 | sort -z | xargs -I % -t -0 -n 1 sh -c "cat '%'  | patch -d './' -p1 -E --forward --no-backup-if-mismatch"  
+        fi  
 
     - name: Download package
       id: package
