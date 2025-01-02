@@ -102,15 +102,3 @@ jobs:
       with:
         name: ${{ env.date }} ${{matrix.target}}
         path: ${{ env.IPK }}/      
-
-    - name: 添加 IPK 状态  
-      continue-on-error: true
-      if: ${{ steps.upipk.outcome == 'success' }}   
-      run: |  
-        echo "RELEASE=true" >> $GITHUB_ENV   
-    
-    - name: Telegram notificationfail
-      if: env.TELEGRAM_TOKEN && ! contains(github.event.action, 'notg')
-      continue-on-error: true
-      run: |
-        curl -k --data chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" --data "${{ env.date }} ${{matrix.target}}编译完成！" "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage"
