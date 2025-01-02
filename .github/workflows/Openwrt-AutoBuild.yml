@@ -28,12 +28,14 @@ env:
 
 jobs:  
   build_openwrt:  
-    name: 构建 ${{ matrix.target }}  
+    if: github.event.repository.owner.id == github.event.sender.id || ! github.event.sender.id  
     runs-on: ubuntu-latest  
+    
+    name: 构建 ${{ matrix.target }}  
     strategy:  
       fail-fast: false  
       matrix:  
-        target: [lede_x86_64_basic,lede_AC58U]  
+        target: [lede-x86-64-basic,lede-AC58U]  
         
     steps:  
     - name: 检出代码  
@@ -45,8 +47,8 @@ jobs:
       run: |  
         sudo timedatectl set-timezone "Asia/Shanghai"  
         echo "FILE_NAME=${{ matrix.target }}" >> $GITHUB_ENV   
-        echo "REPO_NAME=$(basename "${{ matrix.target }}" | awk -F'_' '{print $1}')" >> $GITHUB_ENV  
-        echo "ARCH_NAME=$(basename "${{ matrix.target }}" | sed -E 's/^[^_]*_//')" >> $GITHUB_ENV  
+        echo "REPO_NAME=$(basename "${{ matrix.target }}" | awk -F'-' '{print $1}')" >> $GITHUB_ENV  
+        echo "ARCH_NAME=$(basename "${{ matrix.target }}" | sed -E 's/^[^-]*-//')" >> $GITHUB_ENV  
         echo "date=$(date +'%Y.%m.%d')" >> $GITHUB_ENV  
         echo "date1=$(date +"%Y.%m.%d-%H%M")" >> $GITHUB_ENV
   
@@ -195,15 +197,14 @@ jobs:
           # 如果文件存在  
           cd firmware  
           # 压缩文件减小体积
-          for file in *; do tar -czf "$file.tar.gz" "$file"; done
+          for file in *; do tar -czf "$file.tar.gz" "$file" && [ -f "$file" ] && rm -f "$file"; done
           # 解压缩文件
           tar -xzf sha256sums.tar.gz
-          cp openwrt/.config ./${{ matrix.target }}.config  
           echo -e "${{ env.date }}编译\n\n\n" > release.txt                            # 写入版本信息  
           echo "❤️==============================================❤️" >> release.txt  
           echo -e "Release固件为测试固件，望须知！！\n\n" >> release.txt  
           echo "❤️==============================================❤️" >> release.txt  
-          mv sha256sums ${{ matrix.target }}_sha256sums                                # 重命名 sha256sums 文件  
+          mv sha256sums ${{ matrix.target }}-sha256sums                                # 重命名 sha256sums 文件  
           echo "FIRMWARE_STATUS=true" >> $GITHUB_ENV                                   # 设置状态为 found  
           # 检查各类固件文件存在性并设置环境变量  
           [ -n "$(find . -name '*_error.log' -print -quit)" ] && echo "LOG=true" >> $GITHUB_ENV || echo "LOG=false" >> $GITHUB_ENV 
@@ -227,7 +228,7 @@ jobs:
       with:  
         files: firmware/*                                                # 要上传的文件  
         name: ${{matrix.target}}                                         # Release 的名称  
-        tag_name: ${{ env.date1 }}_${{matrix.target}}                    # 标记名称  
+        tag_name: ${{ env.date1 }}-${{matrix.target}}                    # 标记名称  
         body_path: firmware/release.txt                                  # Release 描述文件路径  
 
     - name: 添加 Release 状态  
@@ -242,7 +243,7 @@ jobs:
       continue-on-error: true
       if: ${{ env.UPLOAD_FIRMWARE_FOR_ARTIFACT == 'true' && env.COMBINED == 'true' }}
       with:  
-        name: ${{ env.date }}_${{matrix.target}}   
+        name: ${{ env.date }}-${{matrix.target}}   
         path: firmware/*combined.img.gz
 
     # 上传 EFI 固到 Artifact  
@@ -251,7 +252,7 @@ jobs:
       continue-on-error: true
       if: ${{ env.UPLOAD_EFI_FIRMWARE_FOR_ARTIFACT == 'true' && env.EFI == 'true' }}  
       with:  
-        name: ${{ env.date }}_${{matrix.target}}_EFI   
+        name: ${{ env.date }}-${{matrix.target}}_EFI   
         path: firmware/*combined-efi.img.gz    
 
     # 上传 BIN 固到 Artifact  
@@ -260,7 +261,7 @@ jobs:
       continue-on-error: true
       if: ${{ env.UPLOAD_BIN_FIRMWARE_FOR_ARTIFACT == 'true' && env.BIN == 'true' }}  
       with:  
-        name: ${{ env.date }}_${{matrix.target}}_BIN   
+        name: ${{ env.date }}-${{matrix.target}}_BIN   
         path: firmware/*sysupgrade.bin  
 
     # 上传 ISO 固件到 Artifact  
@@ -269,7 +270,7 @@ jobs:
       continue-on-error: true
       if: ${{ env.UPLOAD_ISO_FIRMWARE_FOR_ARTIFACT == 'true' && env.ISO == 'true' }}  
       with:  
-        name: ${{ env.date }}_${{matrix.target}}_ISO  
+        name: ${{ env.date }}-${{matrix.target}}_ISO  
         path: firmware/*image.iso   
 
     # 上传make错误日志到 Artifact  
@@ -286,9 +287,9 @@ jobs:
       if: env.SCKEY                                   # 如果已设置 SCKEY 则发送通知  
       run: |  
         if [ "${{ env.COMBINED }}" == 'true' ] || [ "${{ env.EFI }}" == 'true' ] || [ "${{ env.BIN }}" == 'true' ] || [ "${{ env.ISO }}" == 'true' || "${{ env.RELEASE }}" == 'true' ]; then  
-          curl https://sc.ftqq.com/${{ secrets.SCKEY }}.send?text=固件${{ env.date }}_${{matrix.target}}编译完成😋  
+          curl https://sc.ftqq.com/${{ secrets.SCKEY }}.send?text=固件${{ env.date }}-${{matrix.target}}编译完成😋  
         else  
-          curl https://sc.ftqq.com/${{ secrets.SCKEY }}.send?text=固件${{ env.date }}_${{matrix.target}}编译失败😭  
+          curl https://sc.ftqq.com/${{ secrets.SCKEY }}.send?text=固件${{ env.date }}-${{matrix.target}}编译失败😭  
         fi  
 
     # Telegram 通知  
@@ -296,9 +297,9 @@ jobs:
       if: env.TELEGRAM_TOKEN                          # 如果已设置 Telegram 令牌则发送通知  
       run: |  
        if [ "${{ env.COMBINED }}" == 'true' ] || [ "${{ env.EFI }}" == 'true' ] || [ "${{ env.BIN }}" == 'true' ] || [ "${{ env.ISO }}" == 'true' || "${{ env.RELEASE }}" == 'true' ]; then  
-         message="固件${{ env.date }}_${{ matrix.target }}编译完成😋"  
+         message="固件${{ env.date }}-${{ matrix.target }}编译完成😋"  
        else  
-         message="固件${{ env.date }}_${{ matrix.target }}编译失败😭"  
+         message="固件${{ env.date }}-${{ matrix.target }}编译失败😭"  
        fi  
        curl -k --data "chat_id=${{ secrets.TELEGRAM_CHAT_ID }}" --data "text=${message}" "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage"
 
