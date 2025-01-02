@@ -105,35 +105,32 @@ jobs:
         ln -sf /mnt/openwrt/staging_dir openwrt/staging_dir
         ln -sf /mnt/openwrt/build_dir openwrt/build_dir
     
-    - name: 加载自定义配置  
+    - name: Load custom configuration  
       run: |  
         cp -rf lede openwrt/  
         cd openwrt  
         chmod +x lede/common/$COMMON_SH  
-        /bin/bash "lede/common/$COMMON_SH"   # 执行通用脚本  
-        # 执行架构特定的脚本  
+        /bin/bash "lede/common/$COMMON_SH"  
         if [ -f "lede/${{matrix.target}}/$CUSTOM_SH" ]; then  
           chmod +x lede/${{matrix.target}}/$CUSTOM_SH  
           /bin/bash "lede/${{matrix.target}}/$CUSTOM_SH"  
         fi  
-        mv lede/common/$CONFIG_FILE .config  # 移动配置文件  
-        # 如果存在架构特定的配置文件，则追加内容  
+        mv lede/common/$CONFIG_FILE .config  
         if [ -f "lede/${{matrix.target}}/$CONFIG_FILE" ]; then  
           echo >> .config  
           cat lede/${{matrix.target}}/$CONFIG_FILE >> .config  
         fi  
     
-    - name: 应用补丁  
+    - name: Apply patches  
       run: |  
         cd openwrt  
-        # 应用通用补丁  
         if [ "$(find "lede/common/patches" -type f -name '*.patch' -print -quit)" ]; then  
           find "lede/common/patches" -type f -name '*.patch' -print0 | sort -z | xargs -I % -t -0 -n 1 sh -c "cat '%'  | patch -d './' -p1 -E --forward --no-backup-if-mismatch"
         fi  
-        # 如果存在架构特定的补丁，亦将其应用  
         if [ -n "$(ls -A "lede/${{matrix.target}}/patches" 2>/dev/null)" ]; then  
           find "lede/${{matrix.target}}/patches" -type f -name '*.patch' -print0 | sort -z | xargs -I % -t -0 -n 1 sh -c "cat '%'  | patch -d './' -p1 -E --forward --no-backup-if-mismatch"  
         fi  
+   
     - name: Download package
       id: package
       run: |
