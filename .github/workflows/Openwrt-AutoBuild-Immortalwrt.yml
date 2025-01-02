@@ -54,8 +54,8 @@ jobs:
         echo "REPO_URL=${REPO_URL}" >> $GITHUB_ENV
         echo "REPO_BRANCH=${REPO_BRANCH}" >> $GITHUB_ENV
         echo "CONFIG_FILE=${CONFIG_FILE}" >> $GITHUB_ENV
-        echo "DIY_SH=${DIY_SH}" >> $GITHUB_ENV
-        echo "ADD_SH=${ADD_SH}" >> $GITHUB_ENV
+        echo "CUSTOM_SH=${CUSTOM_SH}" >> $GITHUB_ENV
+        echo "COMMON_SH=${COMMON_SH}" >> $GITHUB_ENV
         echo "UPLOAD_BIN_DIR_FOR_ARTIFACT=${UPLOAD_BIN_DIR_FOR_ARTIFACT}" >> $GITHUB_ENV
         echo "UPLOAD_FIRMWARE_FOR_ARTIFACT=${UPLOAD_FIRMWARE_FOR_ARTIFACT}" >> $GITHUB_ENV
         echo "UPLOAD_EFI_FIRMWARE_FOR_ARTIFACT=${UPLOAD_EFI_FIRMWARE_FOR_ARTIFACT}" >> $GITHUB_ENV
@@ -109,16 +109,16 @@ jobs:
       run: |
         cp -rf immortalwrt openwrt/
         cd openwrt
-        chmod +x "immortalwrt/common/$ADD_SH"
-        /bin/bash "immortalwrt/common/$ADD_SH"
+        chmod +x immortalwrt/common/$ADD_SH
+        /bin/bash immortalwrt/common/$ADD_SH
         if [ -f "immortalwrt/${{matrix.target}}/$DIY_SH" ]; then
-          chmod +x "immortalwrt/${{matrix.target}}/$DIY_SH"
-          /bin/bash "immortalwrt/${{matrix.target}}/$DIY_SH"
+          chmod +x immortalwrt/${{matrix.target}}/$DIY_SH
+          /bin/bash immortalwrt/${{matrix.target}}/$DIY_SH
         fi
-        mv "immortalwrt/common/$CONFIG_FILE" .config
+        mv immortalwrt/common/$CONFIG_FILE .config
         if [ -f "immortalwrt/${{matrix.target}}/$CONFIG_FILE" ]; then
           echo >> .config
-          cat "immortalwrt/${{matrix.target}}/$CONFIG_FILE" >> .config
+          cat immortalwrt/${{matrix.target}}/$CONFIG_FILE >> .config
         fi
     
     - name: Apply patches
