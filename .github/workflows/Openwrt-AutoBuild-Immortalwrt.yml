@@ -185,7 +185,7 @@ jobs:
         files: "${{ env.FIRMWARE }}/*"
         name: ${{ env.date }} ${{matrix.target}} ${{ env.EMOJI }}
         tag_name: ${{ env.date }}_${{matrix.target}}
-        body_path: release.txt
+        body_path: ${{ env.FIRMWARE }}/release.txt
 
     - name: Upload firmware for artifact
       uses: actions/upload-artifact@main
