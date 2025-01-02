@@ -50,7 +50,6 @@ jobs:
         echo "REPO_NAME=$(basename "${{ matrix.target }}" | awk -F'-' '{print $1}')" >> $GITHUB_ENV  
         echo "ARCH_NAME=$(basename "${{ matrix.target }}" | sed -E 's/^[^-]*-//')" >> $GITHUB_ENV  
         echo "date=$(date +'%Y.%m.%d')" >> $GITHUB_ENV  
-        echo "date1=$(date +"%Y.%m.%d-%H%M")" >> $GITHUB_ENV
   
     - name: 加载 Settings.ini  
       run: |  
@@ -199,10 +198,6 @@ jobs:
           for file in *; do tar -czf "$file.tar.gz" "$file" && [ -f "$file" ] && rm -f "$file"; done
           # 解压缩文件
           tar -xzf sha256sums.tar.gz && rm -f sha256sums.tar.gz  
-          echo -e "${{ env.date }}编译\n\n\n" > release.txt                            # 写入版本信息  
-          echo "❤️==============================================❤️" >> release.txt  
-          echo -e "Release固件为测试固件，望须知！！\n\n" >> release.txt  
-          echo "❤️==============================================❤️" >> release.txt  
           echo "FIRMWARE_STATUS=true" >> $GITHUB_ENV                                   # 设置状态为 found  
           # 检查各类固件文件存在性并设置环境变量  
           [ -n "$(find . -name '*_error.log' -print -quit)" ] && echo "LOG=true" >> $GITHUB_ENV 
@@ -226,8 +221,8 @@ jobs:
       with:  
         files: firmware/*                                                # 要上传的文件  
         name: ${{matrix.target}}                                         # Release 的名称  
-        tag_name: ${{ env.date1 }}-${{matrix.target}}                    # 标记名称  
-        body_path: firmware/release.txt                                  # Release 描述文件路径  
+        tag_name: ${{ env.date }}-${{matrix.target}}                     # 标记名称  
+        body_path: openwrt/${{ env.REPO_BAME }}/release                  # Release 描述文件  
 
     - name: 添加 Release 状态  
       continue-on-error: true
