@@ -6,10 +6,10 @@
 
 ## 编译注意
 
-每天自动编译Lean x86-64固件，同步使用上游最新源码！
+在线Girhub Actions编译Openwrt、Lean和Immortalwrt仓库固件，同步使用上游最新源码！
 如需同时编译多个固件，需要两个步骤：
-1. 在Lean文件夹下放置配置文件夹（可参考AC58U或x86_64文件夹）
-2. 同时修改Openwrt-AutoBuild-Lean.yml文件的44行为：target: [x86_64,配置文件夹名字]
+1. 在仓库名字文件夹下放置配置文件夹（可参考AC58U或x86-64文件夹）
+2. 同时修改Openwrt-AutoBuild.yml文件的38行
 3. 增减插件需自行修改Lean/common/common.sh和Lean/common/config.diff文件
 
 ## 固件信息
