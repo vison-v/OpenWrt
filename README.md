@@ -10,7 +10,7 @@
 如需同时编译多个固件，需要两个步骤：
 1. 在仓库名字文件夹下放置配置文件夹（可参考AC58U或x86-64文件夹）
 2. 同时修改Openwrt-AutoBuild.yml文件的38行
-3. 增减插件需自行修改Lean/common/common.sh和Lean/common/config.diff文件
+3. 增减插件需自行修改common/common.sh和common/config.diff文件
 
 ## 固件信息
 
