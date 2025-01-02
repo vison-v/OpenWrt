@@ -97,11 +97,11 @@ jobs:
       run: |  
         cp -rf ${{ env.REPO_NAME }}/common/files/. openwrt/  
         cd openwrt  
-        #sed -i "/src-git vi /d; 1 i src-git vi https://github.com/vison-v/packages;${{ env.REPO_NAME }}" feeds.conf.default  		  
+        [ "${{ env.REPO_NAME }}" = "openwrt" ] && sed -i "/src-git vi /d; 1 i src-git vi https://github.com/vison-v/packages;${{ env.REPO_NAME }}" feeds.conf.default  		  
         ./scripts/feeds update -a  
         ./scripts/feeds install -a  
-        #./scripts/feeds uninstall $(grep Package ./feeds/vi.index | awk -F': ' '{print $2}')  
-        #./scripts/feeds install -p vi -a  
+        [ "${{ env.REPO_NAME }}" = "openwrt" ] && ./scripts/feeds uninstall $(grep Package ./feeds/vi.index | awk -F': ' '{print $2}')  
+        [ "${{ env.REPO_NAME }}" = "openwrt" ] && ./scripts/feeds install -p vi -a  
 
     - name: 清理磁盘空间  
       env:  
