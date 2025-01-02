@@ -100,7 +100,7 @@ jobs:
         ./scripts/feeds update -a  
         ./scripts/feeds install -a  
         #[ "${{ env.REPO_NAME }}" = "openwrt" ] && ./scripts/feeds uninstall $(grep Package ./feeds/vi.index | awk -F': ' '{print $2}')  
-        [ "${{ env.REPO_NAME }}" = "openwrt" ] && ./scripts/feeds install -p vi -a  
+        #[ "${{ env.REPO_NAME }}" = "openwrt" ] && ./scripts/feeds install -p vi -a  
 
     - name: 清理磁盘空间  
       env:  
