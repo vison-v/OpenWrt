@@ -64,8 +64,8 @@ jobs:
         cp -rf App/. openwrt/
         cd openwrt
         ./scripts/feeds update -a && rm -rf feeds/luci/applications/luci-app-*
-        git clone https://github.com/kenzok8/small && mv -n small/* package && rm -rf small
-        #git clone -b lede https://github.com/vison-v/packages && mv -n packages/* package && rm -rf packages
+        #git clone https://github.com/kenzok8/small && mv -n small/* package && rm -rf small
+        git clone -b lede https://github.com/vison-v/packages && mv -n packages/* package && rm -rf packages
         ./scripts/feeds update -a
         ./scripts/feeds install ${{matrix.target}}
         if [ -f "${{matrix.target}}" ]; then
