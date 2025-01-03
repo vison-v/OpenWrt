@@ -35,7 +35,7 @@ jobs:
     strategy:  
       fail-fast: false  
       matrix:  
-        target: [lede-x86-64,lede-x86-64-basic,immortalwrt-x86-64,immortalwrt-x86-64-basic]  
+        target: [lede-x86-64,immortalwrt-x86-64]  
         
     steps:  
     - name: 检出代码  
@@ -222,7 +222,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}                          # 使用密钥进行身份验证  
       with:  
         files: firmware/*                                                # 要上传的文件  
-        name: ${{matrix.target}}                                         # Release 的名称  
+        name: ${{ env.date }}-${{matrix.target}}                         # Release 的名称  
         tag_name: ${{ env.date }}-${{matrix.target}}                     # 标记名称  
         body_path: firmware/release                                      # Release 描述文件  
 
