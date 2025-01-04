@@ -35,7 +35,7 @@ jobs:
     strategy:  
       fail-fast: false  
       matrix:  
-        target: [lede-x86-64,immortalwrt-x86-64]  
+        target: [immortalwrt-x86-64-basic]  
         
     steps:  
     - name: 检出代码  
@@ -200,7 +200,7 @@ jobs:
           # 压缩文件减小体积
           for file in *; do tar -czf "$file.tar.gz" "$file" && [ -f "$file" ] && rm -f "$file"; done
           # 解压缩文件
-          tar -xzf sha256sums.tar.gz && tar -xzf release.tar.gz && rm -f sha256sums.tar.gz && rm -f release.tar.gz && tar -xzf packages.index.tar.gz && tar -xzf luci.index.tar.gz && rm -f packages.index.tar.gz && rm -f luc.index.tar.gz  
+          tar -xzf sha256sums.tar.gz && tar -xzf release.tar.gz && rm -f sha256sums.tar.gz && rm -f release.tar.gz  
           echo "FIRMWARE_STATUS=true" >> $GITHUB_ENV                                   # 设置状态为 found  
           # 检查各类固件文件存在性并设置环境变量  
           [ -n "$(find . -name '*_error.log' -print -quit)" ] && echo "LOG=true" >> $GITHUB_ENV 
