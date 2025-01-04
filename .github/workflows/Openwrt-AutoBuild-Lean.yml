@@ -86,14 +86,13 @@ jobs:
     
     - name: Clone source code
       run: |
-        rm -rf openwrt
-        git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
+        git clone --depth 1 $REPO_URL -b $REPO_BRANCH OpenWrt
     
     
     - name: Load && Update feeds
       run: |
-        [ -n "$(ls -A "lede/common/files/" 2>/dev/null)" ] && cp -rf "lede/common/files/"* openwrt/
-        cd openwrt
+        [ -n "$(ls -A "lede/common/files/" 2>/dev/null)" ] && cp -rf "lede/common/files/"* OpenWrt/
+        cd OpenWrt
         ./scripts/feeds update -a
 
     - name: Free up disk space
@@ -108,8 +107,8 @@ jobs:
     
     - name: Load custom configuration  
       run: |  
-        cp -rf lede openwrt/  
-        cd openwrt  
+        cp -rf lede OpenWrt/  
+        cd OpenWrt  
         chmod +x lede/common/$COMMON_SH  
         /bin/bash "lede/common/$COMMON_SH"  
         if [ -f "lede/${{matrix.target}}/$CUSTOM_SH" ]; then  
@@ -135,7 +134,7 @@ jobs:
     - name: Download package
       id: package
       run: |
-        cd openwrt
+        cd OpenWrt
         make defconfig
         make download -j16
         df -h
@@ -143,7 +142,7 @@ jobs:
     - name: Compile the firmware
       id: compile
       run: |
-        cd openwrt
+        cd OpenWrt
         echo -e "$(($(nproc)+1)) thread compile"
         make -j$(($(nproc)+1)) || make -j1 V=s
         echo "=============================================="
@@ -161,18 +160,18 @@ jobs:
       if: env.UPLOAD_BIN_DIR_FOR_ARTIFACT == 'true'
       with:
         name: OpenWrt_bin_${{matrix.target}}
-        path: openwrt/bin
+        path: OpenWrt/bin
 
     - name: Organize files
       id: organize
       run: |
-        mkdir firmware && find openwrt/bin/targets/*/*/ -maxdepth 1 \
+        mkdir firmware && find OpenWrt/bin/targets/*/*/ -maxdepth 1 \
         -name "*combined*" \
         -or -name "*sysupgrade*" \
         -or -name "*armvirt-64-default-rootfs*" \
         -or -name "sha256sums" \
         | xargs -i mv -f {} ./firmware/
-        cp openwrt/.config  ./firmware/${{matrix.target}}.config
+        cp OpenWrt/.config  ./firmware/${{matrix.target}}.config
         cd firmware
         echo ${{ env.date }} > version.txt
         mv sha256sums ${{matrix.target}}_sha256sums
