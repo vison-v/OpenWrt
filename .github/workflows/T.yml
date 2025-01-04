@@ -72,9 +72,9 @@ jobs:
         ./scripts/feeds install -a  
         find ./feeds -path './feeds/vi' -prune -o -type d -exec bash -c 'for dir in $(grep Package ./feeds/vi.index | awk -F": " "{print \$2}"); do [ -d "\$1/\$dir" ] && { echo "删除的目录为: \$1/\$dir"; rm -rf "\$1/\$dir"; }; done' _ {} \;
         ./scripts/feeds uninstall $(grep Package ./feeds/vi.index | awk -F': ' '{print $2}')  
-        ./scripts/feeds update -a  
-        ./scripts/feeds install -a  
-        #./scripts/feeds install -p vi -a  
+        #./scripts/feeds update -a  
+        #./scripts/feeds install -a  
+        ./scripts/feeds install -p vi -a  
         cd feeds
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
     
