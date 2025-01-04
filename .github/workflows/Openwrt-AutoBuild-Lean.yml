@@ -86,6 +86,7 @@ jobs:
     
     - name: Clone source code
       run: |
+        rm -rf openwrt
         git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
     
     
