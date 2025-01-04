@@ -6,7 +6,7 @@
 # 博客: https://p3terx.com  
 #=================================================  
 
-name: Openwrt-AutoBuild  
+name: TEST 
 
 on:   
   workflow_dispatch:  
