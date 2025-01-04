@@ -71,3 +71,12 @@ jobs:
         cat feeds/luci.index
         cat feeds/packages.index
         ./scripts/feeds install -a  
+        cd feeds
+        echo "FIRMWARE=$PWD" >> $GITHUB_ENV
+
+    # 上传固件到 Artifact  
+    - name: 上传固件到 Artifact   
+      uses: actions/upload-artifact@v4  
+      with:  
+        name: index   
+        path: ${{ env.FIRMWARE }}/*.index
