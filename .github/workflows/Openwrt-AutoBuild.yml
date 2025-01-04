@@ -91,12 +91,12 @@ jobs:
     - name: 克隆源代码  
       run: |  
         rm -rf openwrt
-        git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt  
+        git clone --depth 1 $REPO_URL -b $REPO_BRANCH OpenWrt  
     
     - name: 加载与更新 feeds  
       run: |  
-        [ -n "$(ls -A "${{ env.REPO_NAME }}/common/files/" 2>/dev/null)" ] && cp -rf "${{ env.REPO_NAME }}/common/files/"* openwrt/
-        cd openwrt  
+        [ -n "$(ls -A "${{ env.REPO_NAME }}/common/files/" 2>/dev/null)" ] && cp -rf "${{ env.REPO_NAME }}/common/files/"* OpenWrt/
+        cd OpenWrt  
         [ "${{ env.REPO_NAME }}" = "openwrt" ] && sed -i "/src-git vi /d; 1 i src-git vi https://github.com/vison-v/packages;${{ env.REPO_NAME }}" feeds.conf.default  		  
         ./scripts/feeds update -a  
         ./scripts/feeds install -a  
@@ -119,8 +119,8 @@ jobs:
     
     - name: 加载自定义配置  
       run: |  
-        cp -rf ${{ env.REPO_NAME }} openwrt/  
-        cd openwrt  
+        cp -rf ${{ env.REPO_NAME }} OpenWrt/  
+        cd OpenWrt  
         chmod +x ${{ env.REPO_NAME }}/common/$COMMON_SH  
         /bin/bash "${{ env.REPO_NAME }}/common/$COMMON_SH"   # 执行通用脚本  
         # 执行架构特定的脚本  
@@ -137,7 +137,7 @@ jobs:
     
     - name: 应用补丁  
       run: |  
-        cd openwrt  
+        cd OpenWrt  
         # 应用通用补丁  
         if [ "$(find "${{ env.REPO_NAME }}/common/patches" -type f -name '*.patch' -print -quit)" ]; then  
           find "${{ env.REPO_NAME }}/common/patches" -type f -name '*.patch' -print0 | sort -z | xargs -I % -t -0 -n 1 sh -c "cat '%'  | patch -d './' -p1 -E --forward --no-backup-if-mismatch"
@@ -150,7 +150,7 @@ jobs:
     - name: 下载软件包  
       id: package  
       run: |  
-        cd openwrt  
+        cd OpenWrt  
         make defconfig  
         make download -j16  
         df -h  
@@ -159,7 +159,7 @@ jobs:
       id: compile  
       run: | 
         set -e
-        cd openwrt  
+        cd OpenWrt  
         echo -e "用 $(($(nproc)+1)) 线程编译${{ matrix.target }}......"  
         make -j$(($(nproc)+1)) || make -j1 V=s > make_output.log 2> ${{matrix.target}}_make_error.log  
         echo "=============================================="  
@@ -190,12 +190,12 @@ jobs:
         # 创建 firmware 目录（如果目录不存在）  
         mkdir -p firmware  
         # 删除并复制文件到 firmware 目录   
-        find openwrt/bin/targets/ \( -type d -name "packages" -o -name "*buildinfo" -o -name "*json" -o -name "*txt" -o -name "*manifest" \) -exec rm -rf {} + 2>/dev/null  
-        find openwrt/bin/targets/ -type f -exec cp -f {} ./firmware/ \; 2>/dev/null  
-        find openwrt/ -type f -name "*_error.log" -exec cp {} ./firmware/ \; 2>/dev/null
+        find OpenWrt/bin/targets/ \( -type d -name "packages" -o -name "*buildinfo" -o -name "*json" -o -name "*txt" -o -name "*manifest" \) -exec rm -rf {} + 2>/dev/null  
+        find OpenWrt/bin/targets/ -type f -exec cp -f {} ./firmware/ \; 2>/dev/null  
+        find OpenWrt/ -type f -name "*_error.log" -exec cp {} ./firmware/ \; 2>/dev/null
         # 检查固件文件是否存在  
         if [ -n "$(find ./firmware/ -type f -print -quit)" ]; then  
-          cp -rf openwrt/${{ env.REPO_NAME }}/release ./firmware  
+          cp -rf OpenWrt/${{ env.REPO_NAME }}/release ./firmware  
           # 如果文件存在  
           cd firmware  
           # 压缩文件减小体积
