@@ -130,7 +130,8 @@ jobs:
           chmod +x ${{ env.REPO_NAME }}/${{ env.ARCH_NAME }}/$CUSTOM_SH  
           /bin/bash "${{ env.REPO_NAME }}/${{ env.ARCH_NAME }}/$CUSTOM_SH"  
         fi  
-        mv ${{ env.REPO_NAME }}/common/$CONFIG_FILE .config  # 移动配置文件  
+        # 移动配置文件  
+        mv ${{ env.REPO_NAME }}/common/$CONFIG_FILE .config  
         # 如果存在架构特定的配置文件，则追加内容  
         if [ -f "${{ env.REPO_NAME }}/${{ env.ARCH_NAME }}/$CONFIG_FILE" ]; then  
           echo >> .config  
@@ -170,13 +171,15 @@ jobs:
         df -h  
         echo "=============================================="  
         if [ $? -ne 0 ]; then  
-          echo "BUILD_STATUS=failed" >> $GITHUB_ENV   # 失败时设置状态变量  
+          # 失败时设置状态变量  
+          echo "BUILD_STATUS=failed" >> $GITHUB_ENV   
           echo "${{matrix.target}} 固件构建失败!"  
           echo "${{matrix.target}} 构建错误日志:"  
           cat ${{matrix.target}}_make_error.log  
           exit 1    
         else  
-          echo "BUILD_STATUS=success" >> $GITHUB_ENV  # 成功时设置状态变量  
+          # 成功时设置状态变量  
+          echo "BUILD_STATUS=success" >> $GITHUB_ENV  
           echo "${{matrix.target}} 固件构建成功!"   
           echo "=============================================="  
           ls bin/targets/*/*  
@@ -204,14 +207,16 @@ jobs:
           for file in *; do tar -czf "$file.tar.gz" "$file" && [ -f "$file" ] && rm -f "$file"; done
           # 解压缩文件
           tar -xzf sha256sums.tar.gz && tar -xzf release.tar.gz && rm -f {sha256sums.tar.gz,release.tar.gz}  
-          echo "FIRMWARE_STATUS=true" >> $GITHUB_ENV                                   # 设置状态为 found  
+          # 设置状态为 true  
+          echo "FIRMWARE_STATUS=true" >> $GITHUB_ENV                                   
           # 检查各类固件文件存在性并设置环境变量  
           [ -n "$(find . -name '*_error.log' -print -quit)" ] && echo "LOG=true" >> $GITHUB_ENV 
           [ -n "$(find . -name '*image.iso' -print -quit)" ] && echo "ISO=true" >> $GITHUB_ENV  
           [ -n "$(find . -name '*sysupgrade.bin' -print -quit)" ] && echo "BIN=true" >> $GITHUB_ENV  
           [ -n "$(find . -name '*combined-efi.img.gz' -print -quit)" ] && echo "EFI=true" >> $GITHUB_ENV  
           [ -n "$(find . -name '*combined.img.gz' -print -quit)" ] && echo "COMBINED=true" >> $GITHUB_ENV  
-          ls                                                                           # 列出文件以供调试  
+          # 列出文件以供调试  
+          ls                                                                           
         else  
           echo "未找到文件."  
         fi
@@ -223,18 +228,24 @@ jobs:
       continue-on-error: true
       if: ${{ env.REPO_TOKEN && env.UPLOAD_FIRMWARE_FOR_RELEASE == 'true' && env.FIRMWARE_STATUS == 'true' }}
       env:  
-        GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}                          # 使用密钥进行身份验证  
+        GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}                          
       with:  
-        files: firmware/*                                                # 要上传的文件  
-        name: ${{ env.date }}-${{matrix.target}}                         # Release 的名称  
-        tag_name: ${{ env.date }}-${{matrix.target}}                     # 标记名称  
-        body_path: firmware/release                                      # Release 描述文件  
+        # 要上传的文件  
+        files: firmware/*                                                
+        # Release 的名称  
+        name: ${{ env.date }}-${{matrix.target}}                         
+        # 标记名称  
+        tag_name: ${{ env.date }}-${{matrix.target}}                     
+        # Release 描述文件  
+        body_path: firmware/release                                      
 
     - name: 添加 Release 状态  
       continue-on-error: true
-      if: ${{ steps.uprelease.outcome == 'success' }}                    # 当 Release 步骤成功时执行  
+      # 当 Release 步骤成功时执行  
+      if: ${{ steps.uprelease.outcome == 'success' }}                    
+      # 设置环境变量 RELEASE 成功为true
       run: |  
-        echo "RELEASE=true" >> $GITHUB_ENV                               # 设置环境变量 RELEASE 成功为true
+        echo "RELEASE=true" >> $GITHUB_ENV                               
     
     # 上传固件到 Artifact  
     - name: 上传固件到 Artifact   
@@ -278,12 +289,15 @@ jobs:
       continue-on-error: true
       if: ${{ env.LOG == 'true' }}  
       with:  
-        name: ${{matrix.target}}_make_error           # 设置上传文件的名称  
-        path: firmware/*make_error.log                # 上传的错误日志文件路径  
+        # 设置上传文件的名称  
+        name: ${{matrix.target}}_make_error           
+        # 上传的错误日志文件路径  
+        path: firmware/*make_error.log                
 
     # 微信通知  
     - name: 微信通知  
-      if: env.SCKEY                                   # 如果已设置 SCKEY 则发送通知  
+      # 如果已设置 SCKEY 则发送通知  
+      if: env.SCKEY                                   
       run: |  
         if [ "${{ env.COMBINED }}" == 'true' ] || [ "${{ env.EFI }}" == 'true' ] || [ "${{ env.BIN }}" == 'true' ] || [ "${{ env.ISO }}" == 'true' || "${{ env.RELEASE }}" == 'true' ]; then  
           curl https://sc.ftqq.com/${{ secrets.SCKEY }}.send?text=固件${{ env.date }}-${{matrix.target}}编译完成😋  
@@ -293,7 +307,8 @@ jobs:
 
     # Telegram 通知  
     - name: Telegram 通知  
-      if: env.TELEGRAM_TOKEN                          # 如果已设置 Telegram 令牌则发送通知  
+      # 如果已设置 Telegram 令牌则发送通知  
+      if: env.TELEGRAM_TOKEN                          
       run: |  
        if [ "${{ env.COMBINED }}" == 'true' ] || [ "${{ env.EFI }}" == 'true' ] || [ "${{ env.BIN }}" == 'true' ] || [ "${{ env.ISO }}" == 'true' || "${{ env.RELEASE }}" == 'true' ]; then  
          message="固件${{ env.date }}-${{ matrix.target }}编译完成😋"  
@@ -306,17 +321,22 @@ jobs:
     - name: 删除工作流运行记录  
       uses: Mattraks/delete-workflow-runs@main  
       with:  
-        token: ${{ secrets.PAT }}                     # 使用 PAT 进行身份验证  
-        retain_days: 2                                # 保留最近 2 天的记录  
-        keep_minimum_runs: 1                          # 保留至少 1 次运行记录  
+        token: ${{ secrets.PAT }}    
+        # 保留最近 2 天的记录  
+        retain_days: 2                                
+        # 保留至少 1 次运行记录  
+        keep_minimum_runs: 1                          
 
     # 删除旧的 Releases  
     - name: 删除旧的 Releases  
       uses: dev-drprasad/delete-older-releases@master  
       continue-on-error: true
-      if: ${{ env.UPLOAD_FIRMWARE_FOR_RELEASE == 'true' }}   # 仅在允许上传时执行  
+      # 仅在允许上传时执行  
+      if: ${{ env.UPLOAD_FIRMWARE_FOR_RELEASE == 'true' }}   
       with:  
-        keep_latest: 15                                      # 保留最新的 15 个发布  
-        delete_tags: true                                    # 删除标签  
+        # 保留最新的 15 个发布  
+        keep_latest: 15                                      
+        # 删除标签  
+        delete_tags: true                                    
       env:  
-        GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}              # 使用 GitHub 令牌
+        GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}   
