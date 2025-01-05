@@ -48,12 +48,12 @@ jobs:
     - name: 准备SDK
       run: |
         wget https://downloads.immortalwrt.org/releases/23.05-SNAPSHOT/targets/x86/64/immortalwrt-sdk-23.05-SNAPSHOT-x86-64_gcc-12.3.0_musl.Linux-x86_64.tar.xz
-        mkdir openwrt && tar xf immortalwrt-*.xz && rm immortalwrt-*.xz
-        mv immortalwrt-*/* openwrt && rm -rf immortalwrt-*
+        mkdir OpenWrt && tar xf immortalwrt-*.xz && rm immortalwrt-*.xz
+        mv immortalwrt-*/* OpenWrt && rm -rf immortalwrt-*
     
     - name: 编译 po2lmo
       run: |
-        cd openwrt
+        cd OpenWrt
         git clone https://github.com/openwrt-dev/po2lmo.git
         pushd po2lmo
         make && sudo make install
@@ -61,8 +61,8 @@ jobs:
     
     - name: 克隆项目
       run: |
-        cp -rf App/. openwrt/
-        cd openwrt
+        cp -rf App/. OpenWrt/
+        cd OpenWrt
         ./scripts/feeds update -a && rm -rf feeds/luci/applications/luci-app-*
         #git clone https://github.com/kenzok8/small && mv -n small/* package && rm -rf small
         git clone -b lede https://github.com/vison-v/packages && mv -n packages/* package && rm -rf packages
@@ -78,19 +78,19 @@ jobs:
     - name: 下载依赖包
       id: package
       run: |
-        cd openwrt
+        cd OpenWrt
         make defconfig
         make download -j16
         
     - name: 开始编译
       run: | 
-        cd openwrt
+        cd OpenWrt
         make package/${{matrix.target}}/compile V=99
         du -h --max-depth=4 ./bin
         
     - name: 准备编译好的ipk
       run: |
-        cd openwrt
+        cd OpenWrt
         mkdir -p ./artifact/IPK
         find ./bin/packages/*/*/  -maxdepth 1 -type f -name "*.ipk" | xargs -i mv -f {} ./artifact/IPK/
         cd ./artifact/IPK
