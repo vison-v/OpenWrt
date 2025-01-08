@@ -68,8 +68,8 @@ jobs:
         git clone -b lede https://github.com/vison-v/packages && mv -n packages/* package && rm -rf packages
         ./scripts/feeds update -a
         ./scripts/feeds install ${{matrix.target}}
+        ls
         if [ -f "${{matrix.target}}.sh" ]; then
-          ls
           chmod +x "${{matrix.target}}.sh"
           /bin/bash "${{matrix.target}}.sh"
         fi
