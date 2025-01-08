@@ -98,7 +98,18 @@ jobs:
         cd OpenWrt  
         sed -i "/src-git vi /d; 1 i src-git vi https://github.com/vison-v/packages;${{ env.REPO_NAME }}" feeds.conf.default  		  
         ./scripts/feeds update -a  
-        find ./feeds -path './feeds/vi' -prune -o -type d -exec bash -c 'for dir in $(grep Package ./feeds/vi.index | awk -F": " "{print \$2}"); do [ -d "\$1/\$dir" ] && rm -rf "\$1/\$dir"; done' {} \;  
+        #find ./feeds -path './feeds/vi' -prune -o -type d -exec bash -c 'for dir in $(grep Package ./feeds/vi.index | awk -F": " "{print \$2}"); do [ -d "\$1/\$dir" ] && rm -rf "\$1/\$dir"; done' {} \;  
+        find ./feeds -path './feeds/vi' -prune -o -type d -exec bash -c '  
+        for dir in $(grep Package ./feeds/vi.index | awk -F": " "{print \$2}"); do  
+        echo "Checking directory: \$1/\$dir"  
+        if [ -d "\$1/\$dir" ]; then  
+            echo "Removing directory: \$1/\$dir"  
+            rm -rf "\$1/\$dir"  
+        else  
+            echo "Directory does not exist: \$1/\$dir"  
+        fi  
+        done  
+        ' {} \;
         ./scripts/feeds install -a  
         
     - name: SSH connection to Actions
