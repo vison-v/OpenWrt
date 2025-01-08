@@ -70,6 +70,7 @@ jobs:
         ./scripts/feeds install ${{matrix.target}}
         ls
         if [ -f "${{matrix.target}}.sh" ]; then
+          echo "++++++++++++++++++++++++++++++"
           chmod +x "${{matrix.target}}.sh"
           /bin/bash "${{matrix.target}}.sh"
         fi
