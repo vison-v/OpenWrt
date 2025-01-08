@@ -1,105 +1,107 @@
-name: Openwrt-x86-64-App
+name: Openwrt-x86-64-App  
 
-on: 
-  schedule:
-    - cron: "5 0 * * *"
-  workflow_dispatch:
-  #watch:
-  #  types: started
+on:   
+  schedule:  
+    - cron: "5 0 * * *"  
+  workflow_dispatch:  
 
-env:
-  TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
-  TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+env:  
+  TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}  
+  TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}  
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    if: github.event.repository.owner.id == github.event.sender.id || ! github.event.sender.id
+jobs:  
+  build:  
+    runs-on: ubuntu-latest  
+    if: github.event.repository.owner.id == github.event.sender.id || !github.event.sender.id  
     
-    name: Build ${{matrix.target}}
-    strategy:
-      fail-fast: false
-      matrix:
-        target: [luci-app-quickstart,luci-app-fchomo,luci-app-homeproxy,luci-app-mihomo,luci-app-mosdns,luci-app-openclash,luci-app-passwall,luci-app-passwall2]
+    name: Build ${{ matrix.target }}  
+    strategy:  
+      fail-fast: false  
+      matrix:  
+        target: [luci-app-quickstart, luci-app-fchomo, luci-app-homeproxy, luci-app-mihomo, luci-app-mosdns, luci-app-openclash, luci-app-passwall, luci-app-passwall2]  
         
-    steps:
-    - name: Checkout
-      uses: actions/checkout@main
+    steps:  
+    - name: Checkout  
+      uses: actions/checkout@v2  
       
-    - name: 加载环境
-      env:
-        DEBIAN_FRONTEND: noninteractive
-      run: |
-        sudo -E apt-get -qq update
+    - name: 加载环境  
+      env:  
+        DEBIAN_FRONTEND: noninteractive  
+      run: |  
+        sudo -E apt-get -qq update  
         sudo -E apt-get -qq install build-essential clang llvm flex g++ gawk gcc-multilib gettext \
         git libncurses5-dev libssl-dev python3-distutils python3-pyelftools python3-setuptools \
         libpython3-dev rsync unzip zlib1g-dev swig aria2 jq subversion qemu-utils ccache rename \
-        libelf-dev device-tree-compiler libgnutls28-dev coccinelle libgmp3-dev libmpc-dev
-        sudo -E apt-get -qq purge azure-cli ghc* zulu* firefox powershell openjdk* dotnet* google* mysql* php* android*
-        sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
-        sudo -E apt-get -qq autoremove --purge
-        sudo -E apt-get -qq clean
+        libelf-dev device-tree-compiler libgnutls28-dev coccinelle libgmp3-dev libmpc-dev  
+        sudo -E apt-get -qq purge azure-cli ghc* zulu* firefox powershell openjdk* dotnet* google* mysql* php* android*  
+        sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc  
+        sudo -E apt-get -qq autoremove --purge  
+        sudo -E apt-get -qq clean  
     
-    - name: 设置变量
-      id: ENV
-      run: |
-        echo "date=$(date +'%m.%d')" >> $GITHUB_ENV
+    - name: 设置变量  
+      id: ENV  
+      run: |  
+        echo "date=$(date +'%m.%d')" >> $GITHUB_ENV  
       
-    - name: 准备SDK
-      run: |
-        wget https://downloads.immortalwrt.org/releases/23.05-SNAPSHOT/targets/x86/64/immortalwrt-sdk-23.05-SNAPSHOT-x86-64_gcc-12.3.0_musl.Linux-x86_64.tar.xz
-        mkdir OpenWrt && tar xf immortalwrt-*.xz && rm immortalwrt-*.xz
-        mv immortalwrt-*/* OpenWrt && rm -rf immortalwrt-*
+    - name: 准备SDK  
+      run: |  
+        wget https://downloads.immortalwrt.org/releases/23.05-SNAPSHOT/targets/x86/64/immortalwrt-sdk-23.05-SNAPSHOT-x86-64_gcc-12.3.0_musl.Linux-x86_64.tar.xz  
+        mkdir OpenWrt && tar xf immortalwrt-*.xz && rm immortalwrt-*.xz  
+        mv immortalwrt-*/* OpenWrt && rm -rf immortalwrt-*  
     
-    - name: 编译 po2lmo
-      run: |
-        cd OpenWrt
-        git clone https://github.com/openwrt-dev/po2lmo.git
-        pushd po2lmo
-        make && sudo make install
-        popd
+    - name: 编译 po2lmo  
+      run: |  
+        cd OpenWrt  
+        git clone https://github.com/openwrt-dev/po2lmo.git  
+        pushd po2lmo  
+        make && sudo make install  
+        popd  
     
-    - name: 克隆项目
-      run: |
-        cp -rf App/. OpenWrt/
-        cd OpenWrt
-        ./scripts/feeds update -a && rm -rf feeds/luci/applications/luci-app-*
-        #git clone https://github.com/kenzok8/small && mv -n small/* package && rm -rf small
-        git clone -b lede https://github.com/vison-v/packages && mv -n packages/* package && rm -rf packages
-        ./scripts/feeds update -a
-        ./scripts/feeds install ${{matrix.target}}
-        if [ -f "${{matrix.target}}" ]; then
-          echo "++++++++++++++++++++++++++++++"
-          chmod +x "${{matrix.target}}"
-          /bin/bash "${{matrix.target}}"
-        fi
-        echo "CONFIG_PACKAGE_${{matrix.target}}=y" >> .config
-        du -h --max-depth=4 ./package
+    - name: 克隆项目  
+      run: |  
+        cp -rf App/. OpenWrt/  
+        cd OpenWrt  
+        ./scripts/feeds update -a && rm -rf feeds/luci/applications/luci-app-*  
+        git clone -b lede https://github.com/vison-v/packages && mv -n packages/* package && rm -rf packages  
+        ./scripts/feeds update -a  
+        ./scripts/feeds install ${{ matrix.target }}  
+        
+        # 检查当前目录下是否存在目标文件  
+        if [ -f "${{ matrix.target }}" ]; then  
+          echo "++++++++++++++++++++++++++++++"  
+          chmod +x "${{ matrix.target }}"  
+          /bin/bash ./"${{ matrix.target }}"  
+        else  
+          echo "${{ matrix.target }} 文件不存在，无法执行。"  
+        fi  
+
+        echo "CONFIG_PACKAGE_${{ matrix.target }}=y" >> .config  
+        du -h --max-depth=4 ./package  
     
-    - name: 下载依赖包
-      id: package
-      run: |
-        cd OpenWrt
-        make defconfig
-        make download -j16
+    - name: 下载依赖包  
+      id: package  
+      run: |  
+        cd OpenWrt  
+        make defconfig  
+        make download -j16  
         
-    - name: 开始编译
-      run: | 
-        cd OpenWrt
-        make package/${{matrix.target}}/compile V=99
-        du -h --max-depth=4 ./bin
+    - name: 开始编译  
+      run: |   
+        cd OpenWrt  
+        make package/${{ matrix.target }}/compile V=99  
+        du -h --max-depth=4 ./bin  
         
-    - name: 准备编译好的ipk
-      run: |
-        cd OpenWrt
-        mkdir -p ./artifact/IPK
-        find ./bin/packages/*/*/  -maxdepth 1 -type f -name "*.ipk" | xargs -i mv -f {} ./artifact/IPK/
-        cd ./artifact/IPK
-        echo "IPK=$PWD" >> $GITHUB_ENV
+    - name: 准备编译好的ipk  
+      run: |  
+        cd OpenWrt  
+        mkdir -p ./artifact/IPK  
+        find ./bin/packages/*/*/ -maxdepth 1 -type f -name "*.ipk" | xargs -i mv -f {} ./artifact/IPK/  
+        cd ./artifact/IPK  
+        echo "IPK=$PWD" >> $GITHUB_ENV  
         
-    - name: 上传ipk
-      uses: actions/upload-artifact@main
-      id: upipk
-      with:
-        name: ${{ env.date }} ${{matrix.target}}
-        path: ${{ env.IPK }}/      
+    - name: 上传ipk  
+      uses: actions/upload-artifact@v3  
+      id: upipk  
+      with:  
+        name: ${{ env.date }} ${{ matrix.target }}  
+        path: ${{ env.IPK }}/
