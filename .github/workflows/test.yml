@@ -99,17 +99,32 @@ jobs:
         sed -i "/src-git vi /d; 1 i src-git vi https://github.com/vison-v/packages;${{ env.REPO_NAME }}" feeds.conf.default  		  
         ./scripts/feeds update -a  
         #find ./feeds -path './feeds/vi' -prune -o -type d -exec bash -c 'for dir in $(grep Package ./feeds/vi.index | awk -F": " "{print \$2}"); do [ -d "\$1/\$dir" ] && rm -rf "\$1/\$dir"; done' {} \;  
-        find ./feeds -path './feeds/vi' -prune -o -type d -exec bash -c '  
-        for dir in $(grep Package ./feeds/vi.index | awk -F": " "{print \$2}"); do  
-        echo "Checking directory: \$1/\$dir"  
-        if [ -d "\$1/\$dir" ]; then  
-            echo "Removing directory: \$1/\$dir"  
-            rm -rf "\$1/\$dir"  
-        else  
-            echo "Directory does not exist: \$1/\$dir"  
-        fi  
-        done  
-        ' {} \;
+        base_dir="./feeds/"  
+
+        # 从索引文件中获取所有包的名称  
+        packages=$(grep 'Package' "$base_dir/vi.index" | awk -F": " '{print $2}')  
+
+        # 打印提取的包名列表用于调试  
+        echo "提取的包名如下："  
+        echo "$packages"  
+
+        # 遍历包名，删除对应的目录（排除 ./feeds/vi 目录）  
+        for dir in $packages; do  
+            full_dir="$base_dir$dir"  
+    
+            # 打印当前处理的目录用于调试  
+            echo "检查目录：$full_dir"  
+    
+            if [ -d "$full_dir" ]; then  
+                echo "目录存在，正在删除：$full_dir"  
+                rm -rf "$full_dir"  
+        
+                # 删除后打印确认信息  
+                echo "已删除：$full_dir"  
+            else  
+                echo "目录不存在：$full_dir"  
+            fi  
+        done
         ./scripts/feeds install -a  
         
     - name: SSH connection to Actions
