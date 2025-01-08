@@ -69,6 +69,7 @@ jobs:
         ./scripts/feeds update -a
         ./scripts/feeds install ${{matrix.target}}
         if [ -f "${{matrix.target}}.sh" ]; then
+          ls
           chmod +x "${{matrix.target}}.sh"
           /bin/bash "${{matrix.target}}.sh"
         fi
