@@ -68,11 +68,11 @@ jobs:
         git clone -b lede https://github.com/vison-v/packages && mv -n packages/* package && rm -rf packages
         ./scripts/feeds update -a
         ./scripts/feeds install ${{matrix.target}}
-        if [ -f "./${{matrix.target}}.sh" ]; then
+        #if [ -f "./${{matrix.target}}.sh" ]; then
           echo "++++++++++++++++++++++++++++++"
           chmod +x "./${{matrix.target}}.sh"
           /bin/bash "./${{matrix.target}}.sh"
-        fi
+        #fi
         echo "CONFIG_PACKAGE_${{matrix.target}}=y" >> .config
         du -h --max-depth=4 ./package
     
