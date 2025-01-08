@@ -68,7 +68,6 @@ jobs:
         
         # 检查当前目录下是否存在目标文件  
         if [ -f "${{ matrix.target }}" ]; then  
-          echo "++++++++++++++++++++++++++++++"  
           chmod +x "${{ matrix.target }}"  
           /bin/bash ./"${{ matrix.target }}"  
         else  
