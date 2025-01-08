@@ -2,14 +2,8 @@
 
 ![Openwrt-AppBuild-X86/64](https://github.com/vison-v/OpenWrt/workflows/Openwrt-x86-64-App/badge.svg)
 ![Openwrt-AppBuild](https://github.com/vison-v/OpenWrt/workflows/Openwrt-AutoBuild/badge.svg)
-<!-- version -->
-<a href="https://github.com/vison-v/OpenWrt/releases">
-<img src="https://img.shields.io/github/release-pre/vison-v/OpenWrt.svg?style=flat" alt="latest version"/>
-</a>
-<!-- license -->
-<a href="https://github.com/vison-v/OpenWrt">
-<img src="https://img.shields.io/github/license/mashape/apistatus.svg?style=flat" alt="license"/>
-</a>
+[![](https://img.shields.io/github/release-pre/vison-v/OpenWrt.svg)](https://github.com/vison-v/OpenWrt/releases)
+[![](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/vison-v/OpenWrt)
 
 ## 编译注意
 
