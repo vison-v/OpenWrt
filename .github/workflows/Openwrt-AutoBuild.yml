@@ -98,12 +98,10 @@ jobs:
         cd OpenWrt  
         [ "${{ env.REPO_NAME }}" = "openwrt" ] && sed -i "/src-git vi /d; 1 i src-git vi https://github.com/vison-v/packages;${{ env.REPO_NAME }}" feeds.conf.default  		  
         ./scripts/feeds update -a  
-        ./scripts/feeds install -a  
         if [ "${{ env.REPO_NAME }}" = "openwrt" ]; then 
-          ./scripts/feeds uninstall $(grep Package ./feeds/vi.index | awk -F': ' '{print $2}')  
           find ./feeds -path './feeds/vi' -prune -o -type d -exec bash -c 'for dir in $(grep Package ./feeds/vi.index | awk -F": " "{print \$2}"); do [ -d "\$1/\$dir" ] && rm -rf "\$1/\$dir"; done' {} \;  
-          ./scripts/feeds install -p vi -a  
         fi  
+        ./scripts/feeds install -a  
 
     - name: 清理磁盘空间  
       env:  
