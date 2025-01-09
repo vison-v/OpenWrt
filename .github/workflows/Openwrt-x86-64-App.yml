@@ -62,6 +62,7 @@ jobs:
         cp -rf App/. OpenWrt/  
         cd OpenWrt  
         ./scripts/feeds update -a && rm -rf feeds/luci/applications/luci-app-*  
+        ./scripts/feeds install -a  
         git clone -b lede https://github.com/vison-v/packages && mv -n packages/* package && rm -rf packages  
         ./scripts/feeds install ${{ matrix.target }}  
         
