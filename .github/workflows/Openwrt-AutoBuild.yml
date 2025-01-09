@@ -94,14 +94,15 @@ jobs:
     
     - name: 加载与更新 feeds  
       run: |  
-        [ -n "$(ls -A "${{ env.REPO_NAME }}/common/files/" 2>/dev/null)" ] && cp -rf "${{ env.REPO_NAME }}/common/files/"* OpenWrt/
-        cd OpenWrt  
+        [ -n "$(ls -A "${{ env.REPO_NAME }}/common/files/" 2>/dev/null)" ] && cp -rf "${{ env.REPO_NAME }}/common/files/"* openwrt/
+        cd openwrt  
         [ "${{ env.REPO_NAME }}" = "openwrt" ] && sed -i "/src-git vi /d; 1 i src-git vi https://github.com/vison-v/packages;${{ env.REPO_NAME }}" feeds.conf.default  		  
         ./scripts/feeds update -a  
-        if [ "${{ env.REPO_NAME }}" = "openwrt" ]; then 
-          find ./feeds -path './feeds/vi' -prune -o -type d -exec bash -c 'for dir in $(grep Package ./feeds/vi.index | awk -F": " "{print \$2}"); do [ -d "\$1/\$dir" ] && rm -rf "\$1/\$dir"; done' {} \;  
-        fi  
         ./scripts/feeds install -a  
+        if [ "${{ env.REPO_NAME }}" = "openwrt" ]; then  
+          ./scripts/feeds uninstall $(grep Package ./feeds/vi.index | awk -F': ' '{print $2}')  
+          ./scripts/feeds install -p vi -a  
+        fi  
 
     - name: 清理磁盘空间  
       env:  
