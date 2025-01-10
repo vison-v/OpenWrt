@@ -164,13 +164,13 @@ jobs:
       run: | 
         cd OpenWrt  
         echo -e "用 $(($(nproc)+1)) 线程编译${{ matrix.target }}......"  
-        make -j$(($(nproc)+1)) || make -j1 V=s > make_output.log 2> ${{matrix.target}}_make_error.log  
+        make -j$(($(nproc)+1)) || make -j1 V=s > make_output.log 2> ${{ matrix.target }}_make_error.log || true  
         echo "=============================================="  
         echo "空间使用情况:"  
         echo "=============================================="  
         df -h  
         echo "=============================================="  
-        if [ $? -ne 0 ]; then  
+        if [ -e ${{ matrix.target }}_make_error.log ]; then  
           # 失败时设置状态变量  
           echo "BUILD_STATUS=failed" >> $GITHUB_ENV   
           echo "${{matrix.target}} 固件构建失败!"  
