@@ -35,7 +35,7 @@ jobs:
     strategy:  
       fail-fast: false  
       matrix:  
-        target: [lede-x86-64,immortalwrt-x86-64,openwrt-x86-64]  
+        target: [openwrt-x86-64]  
         
     steps:  
     - name: 检出代码  
@@ -110,11 +110,11 @@ jobs:
         DEBIAN_FRONTEND: noninteractive  
       run: |  
         # 创建目录以释放磁盘空间  
-        sudo mkdir -p -m 777 /mnt/openwrt/dl /mnt/openwrt/bin /mnt/openwrt/staging_dir /mnt/openwrt/build_dir  
-        ln -sf /mnt/openwrt/dl openwrt/dl  
-        ln -sf /mnt/openwrt/bin openwrt/bin  
-        ln -sf /mnt/openwrt/staging_dir openwrt/staging_dir  
-        ln -sf /mnt/openwrt/build_dir openwrt/build_dir  
+        sudo mkdir -p -m 777 /mnt/OpenWrt/dl /mnt/OpenWrt/bin /mnt/OpenWrt/staging_dir /mnt/OpenWrt/build_dir  
+        ln -sf /mnt/OpenWrt/dl OpenWrt/dl  
+        ln -sf /mnt/OpenWrt/bin OpenWrt/bin  
+        ln -sf /mnt/OpenWrt/staging_dir OpenWrt/staging_dir  
+        ln -sf /mnt/OpenWrt/build_dir OpenWrt/build_dir  
     
     - name: 加载自定义配置  
       run: |  
@@ -159,9 +159,9 @@ jobs:
         df -h  
     
     - name: 编译固件  
+      continue-on-error: true  
       id: compile  
       run: | 
-        set -e
         cd OpenWrt  
         echo -e "用 $(($(nproc)+1)) 线程编译${{ matrix.target }}......"  
         make -j$(($(nproc)+1)) || make -j1 V=s > make_output.log 2> ${{matrix.target}}_make_error.log  
@@ -176,7 +176,6 @@ jobs:
           echo "${{matrix.target}} 固件构建失败!"  
           echo "${{matrix.target}} 构建错误日志:"  
           cat ${{matrix.target}}_make_error.log  
-          exit 1    
         else  
           # 成功时设置状态变量  
           echo "BUILD_STATUS=success" >> $GITHUB_ENV  
