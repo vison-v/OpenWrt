@@ -35,7 +35,7 @@ jobs:
     strategy:  
       fail-fast: false  
       matrix:  
-        target: [lede-x86-64,immortalwrt-x86-64,openwrt-x86-64]  
+        target: [lede-x86-64,immortalwrt-x86-64]  
         
     steps:  
     - name: 检出代码  
@@ -94,16 +94,17 @@ jobs:
     
     - name: 加载与更新 feeds  
       run: |  
-        [ -n "$(ls -A "${{ env.REPO_NAME }}/common/files/" 2>/dev/null)" ] && cp -rf "${{ env.REPO_NAME }}/common/files/"* openwrt/
-        cd openwrt  
+        [ -n "$(ls -A "${{ env.REPO_NAME }}/common/files/" 2>/dev/null)" ] && cp -rf "${{ env.REPO_NAME }}/common/files/"* OpenWrt/  
+        [ -n "$(ls -A "${{ env.REPO_NAME }}/${{ env.ARCH_NAME }}/files/" 2>/dev/null)" ] && cp -rf "${{ env.REPO_NAME }}/${{ env.ARCH_NAME }}/files/"* OpenWrt/  
+        cd OpenWrt  
         [ "${{ env.REPO_NAME }}" = "openwrt" ] && sed -i "/src-git vi /d; 1 i src-git vi https://github.com/vison-v/packages;${{ env.REPO_NAME }}" feeds.conf.default  		  
         ./scripts/feeds update -a  
         ./scripts/feeds install -a  
-        if [ "${{ env.REPO_NAME }}" = "openwrt" ]; then  
+        if [ "${{ env.REPO_NAME }}" = "openwrt" ]; then 
           ./scripts/feeds uninstall $(grep Package ./feeds/vi.index | awk -F': ' '{print $2}')  
           ./scripts/feeds install -p vi -a  
         fi  
-
+  
     - name: 清理磁盘空间  
       env:  
         DEBIAN_FRONTEND: noninteractive  
@@ -148,7 +149,7 @@ jobs:
         if [ -n "$(ls -A "${{ env.REPO_NAME }}/${{ env.ARCH_NAME }}/patches" 2>/dev/null)" ]; then  
           find "${{ env.REPO_NAME }}/${{ env.ARCH_NAME }}/patches" -type f -name '*.patch' -print0 | sort -z | xargs -I % -t -0 -n 1 sh -c "cat '%'  | patch -d './' -p1 -E --forward --no-backup-if-mismatch"  
         fi  
-
+ 
     - name: 下载软件包  
       id: package  
       run: |  
@@ -184,7 +185,7 @@ jobs:
           ls bin/targets/*/*  
           echo "=============================================="  
         fi
-
+  
     # 组织文件  
     - name: 组织文件  
       continue-on-error: true  
@@ -219,7 +220,7 @@ jobs:
         else  
           echo "未找到文件."  
         fi
-
+ 
     # 上传固件到 Release  
     - name: 上传固件到 Release   
       uses: softprops/action-gh-release@v2  
@@ -303,7 +304,7 @@ jobs:
         else  
           curl https://sc.ftqq.com/${{ secrets.SCKEY }}.send?text=固件${{ env.date }}-${{matrix.target}}编译失败😭  
         fi  
-
+  
     # Telegram 通知  
     - name: Telegram 通知  
       # 如果已设置 Telegram 令牌则发送通知  
@@ -315,7 +316,7 @@ jobs:
          message="固件${{ env.date }}-${{ matrix.target }}编译失败😭"  
        fi  
        curl -k --data "chat_id=${{ secrets.TELEGRAM_CHAT_ID }}" --data "text=${message}" "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage"
-
+   
     # 删除工作流运行记录  
     - name: 删除工作流运行记录  
       uses: Mattraks/delete-workflow-runs@main  
