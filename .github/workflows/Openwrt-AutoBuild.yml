@@ -159,7 +159,6 @@ jobs:
         df -h  
     
     - name: 编译固件  
-      continue-on-error: true  
       id: compile  
       run: | 
         cd OpenWrt  
