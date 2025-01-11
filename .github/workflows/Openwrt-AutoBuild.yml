@@ -222,6 +222,7 @@ jobs:
           ls                                                                           
         else  
           [ -n "$(find . -name '*_error.log' -print -quit)" ] && echo "LOG=true" >> $GITHUB_ENV  
+          tail -n 20 *_error.log > temp_file && mv temp_file ${{matrix.target}}_make_error.log  
         fi
  
     # 上传固件到 Release  
