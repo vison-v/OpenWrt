@@ -52,8 +52,8 @@ CONFIG_HOST_OS_LINUX=y
 # CONFIG_TARGET_omap is not set
 # CONFIG_TARGET_uml is not set
 # CONFIG_TARGET_zynq is not set
-CONFIG_TARGET_x86=y
-CONFIG_TARGET_x86_64=y
+# CONFIG_TARGET_x86=y
+# CONFIG_TARGET_x86_64=y
 # CONFIG_TARGET_x86_generic is not set
 # CONFIG_TARGET_x86_geode is not set
 # CONFIG_TARGET_x86_legacy is not set
