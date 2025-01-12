@@ -35,7 +35,7 @@ jobs:
     strategy:  
       fail-fast: false  
       matrix:  
-        target: [openwrt-x86-64]  
+        target: [lede-x86-64,immortalwrt-x86-64,openwrt-x86-64]  
         
     steps:  
     - name: 检出代码  
@@ -205,12 +205,13 @@ jobs:
         if [ "${{ env.BUILD_STATUS }}" = "success" ]; then  
           find OpenWrt/bin/targets/ \( -type d -name "packages" -o -name "*buildinfo" -o -name "*json" -o -name "*txt" -o -name "*manifest" \) -exec rm -rf {} + 2>/dev/null  
           find OpenWrt/bin/targets/ -type f -exec cp -f {} ./firmware/ \; 2>/dev/null  
-          cp -rf OpenWrt/${{ env.REPO_NAME }}/release ./firmware    
+          cp OpenWrt/.config  ./firmware/${{matrix.target}}.config  
+          cp OpenWrt/${{ env.REPO_NAME }}/release ./firmware    
           cd firmware  
           # 压缩文件减小体积
           for file in *; do tar -czf "$file.tar.gz" "$file" && [ -f "$file" ] && rm -f "$file"; done
           # 解压缩文件
-          tar -xzf sha256sums.tar.gz && tar -xzf release.tar.gz && rm -f {sha256sums.tar.gz,release.tar.gz}  
+          tar -xzf sha256sums.tar.gz && tar -xzf release.tar.gz && tar -xzf ${{matrix.target}}.config.gz && rm -f {sha256sums.tar.gz,release.tar.gz,${{matrix.target}}.config.gz}  
           # 设置状态为 true  
           echo "FIRMWARE_STATUS=true" >> $GITHUB_ENV                                   
           # 检查各类固件文件存在性并设置环境变量  
