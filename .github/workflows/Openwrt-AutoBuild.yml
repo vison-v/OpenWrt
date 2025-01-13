@@ -211,7 +211,7 @@ jobs:
           # 压缩文件减小体积
           for file in *; do tar -czf "$file.tar.gz" "$file" && [ -f "$file" ] && rm -f "$file"; done
           # 解压缩文件
-          tar -xzf sha256sums.tar.gz && tar -xzf release.tar.gz && tar -xzf ${{matrix.target}}.config.gz && rm -f {sha256sums.tar.gz,release.tar.gz,${{matrix.target}}.config.gz}  
+          tar -xzf sha256sums.tar.gz && tar -xzf release.tar.gz && tar -xzf ${{matrix.target}}.config.tar.gz && rm -f {sha256sums.tar.gz,release.tar.gz,${{matrix.target}}.config.tar.gz}  
           # 设置状态为 true  
           echo "FIRMWARE_STATUS=true" >> $GITHUB_ENV                                   
           # 检查各类固件文件存在性并设置环境变量  
