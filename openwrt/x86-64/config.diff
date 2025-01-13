@@ -29,6 +29,9 @@ CONFIG_PACKAGE_open-vm-tools=y
 # 打开适用于PVE的qemu-guest-agent:
 # CONFIG_PACKAGE_qemu-ga=y
 
+# 安装界面:
+CONFIG_PACKAGE_default-settings-chn=y
+
 # 系统
 CONFIG_PACKAGE_luci-app-diskman=y
 CONFIG_PACKAGE_luci-app-watchcat=y
