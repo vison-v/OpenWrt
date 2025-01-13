@@ -130,7 +130,7 @@ jobs:
         cp -rf ${{ env.REPO_NAME }} OpenWrt/  
         cd OpenWrt  
         # 执行通用脚本 
-        if [ -f " ${{ env.REPO_NAME }}/common/$COMMON_SH" ]; then  
+        if [ -f "${{ env.REPO_NAME }}/common/$COMMON_SH" ]; then  
           chmod +x ${{ env.REPO_NAME }}/common/$COMMON_SH  
           /bin/bash "${{ env.REPO_NAME }}/common/$COMMON_SH"    
         fi
