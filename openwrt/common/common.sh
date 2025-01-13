@@ -25,7 +25,9 @@ sed -i 's/msgstr "MultiWAN 管理器"/msgstr "多播管理"/g' feeds/luci/applic
 sed -i 's/msgstr "UPnP IGD 和 PCP"/msgstr "UPnP服务"/g' feeds/luci/applications/luci-app-upnp/po/zh_Hans/upnp.po
 sed -i 's/msgstr "ACME 证书"/msgstr "ACME证书"/g' feeds/luci/applications/luci-app-acme/po/zh_Hans/acme.po
 sed -i 's/msgstr "软件包"/msgstr "软件管理"/g' feeds/luci/applications/luci-app-package-manager/po/zh_Hans/package-manager.po
-sed -i 's/89/88/g' feeds/luci/applications/luci-app-filetransfer/luasrc/controller/filetransfer.lua
+#sed -i 's/89/88/g' feeds/luci/applications/luci-app-filemanager/luasrc/controller/filetransfer.lua
+sed -i 's/nas/services/g' feeds/luci/applications/luci-app-hd-idle/root/usr/share/luci/menu.d/luci-app-hd-idle.json
+sed -i 's/nas/services/g' feeds/luci/applications/luci-app-samba4/root/usr/share/luci/menu.d/luci-app-samba4.json
 
 #sed -i 's/44/43/g' feeds/luci/applications/luci-app-usb-printer/luasrc/controller/usb_printer.lua
 #sed -i 's/nas/services/g' feeds/luci/applications/luci-app-usb-printer/luasrc/controller/usb_printer.lua
@@ -39,9 +41,6 @@ sed -i "s/'miniDLNA Settings'/'DLNA设置'/" feeds/luci/applications/luci-app-mi
 sed -i '/msgid "miniDLNA"/{n;s/miniDLNA/DLNA服务/;}' feeds/luci/applications/luci-app-minidlna/po/zh_Hans/minidlna.po
 echo -e "\nmsgid \"miniDLNA Settings\"" >> feeds/luci/applications/luci-app-minidlna/po/zh_Hans/minidlna.po
 echo -e "msgstr \"DLNA设置\"" >> feeds/luci/applications/luci-app-minidlna/po/zh_Hans/minidlna.po
-
-sed -i 's/nas/services/g' feeds/luci/applications/luci-app-hd-idle/root/usr/share/luci/menu.d/luci-app-hd-idle.json
-sed -i 's/nas/services/g' feeds/luci/applications/luci-app-samba4/root/usr/share/luci/menu.d/luci-app-samba4.json
 
 sed -i '/"title": "Terminal",/a\		"order": 47,' feeds/luci/applications/luci-app-ttyd/root/usr/share/luci/menu.d/luci-app-ttyd.json
 sed -i 's/services/system/g' feeds/luci/applications/luci-app-ttyd/root/usr/share/luci/menu.d/luci-app-ttyd.json
@@ -60,7 +59,7 @@ sed -i 's/msgstr "Tcpdump 流量监控"/msgstr "流量监控"/g' feeds/vi/luci-a
 sed -i 's/KMS 服务器/KMS 服务/g' feeds/vi/luci-app-vlmcsd/po/zh_Hans/vlmcsd.po
 sed -i 's/services/vpn/g'  feeds/vi/luci-app-wechatpush/root/usr/share/luci/menu.d/luci-app-wechatpush.json
 sed -i 's/"Argon 主题设置"/"主题设置"/g' feeds/vi/luci-app-argon-config/po/zh_Hans/argon-config.po
-sed -i 's/services/control/g'  `grep services -rl feeds/vi/luci-app-appfilter/luasrc`
+sed -i 's/services/control/g'  `grep services -rl feeds/vi/luci-app-oaf/luasrc`
 sed -i 's/msgstr "Socat"/msgstr "端口转发"/g' feeds/vi/luci-app-socat/po/zh_Hans/socat.po
 sed -i '/msgid "ZeroTier"/{n;s/msgstr "ZeroTier"/msgstr "内网穿透"/;}' feeds/vi/luci-app-zerotier/po/zh_Hans/zerotier.po
 
