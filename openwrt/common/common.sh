@@ -52,6 +52,9 @@ sed -i 's/admin\/services\/nlbw/admin\/nlbw/g' feeds/luci/applications/luci-app-
 
 sed -i 's/services/system/g'  feeds/luci/applications/luci-app-watchcat/root/usr/share/luci/menu.d/luci-app-watchcat.json
 sed -i 's/msgstr "Watchcat"/msgstr "智能重启"/g' feeds/luci/applications/luci-app-watchcat/po/zh_Hans/watchcat.po
+
+sed -i '/msgid "SmartDNS"/{n;s/SmartDNS/DNS 加速/;}' feeds/luci/applications/luci-app-smartdns/po/zh_Hans/smartdns.po
+sed -i 's/services/vpn/g'  feeds/luci/applications/luci-app-smartdns/root/usr/share/luci/menu.d/luci-app-smartdns.json
 ##---------------------------------------------------------------------------------------------------------##
 sed -i 's/msgstr "Tcpdump 流量监控"/msgstr "流量监控"/g' feeds/vi/luci-app-tcpdump/po/zh_Hans/tcpdump.po
 sed -i 's/KMS 服务器/KMS 服务/g' feeds/vi/luci-app-vlmcsd/po/zh_Hans/vlmcsd.po
@@ -70,9 +73,5 @@ sed -i 's/"挂载 SMB 网络共享"/"挂载 SMB"/g' feeds/vi/luci-app-cifs-mount
 sed -i '/msgid "Pass Wall"/{n;s/PassWall/翻越长城/;}' feeds/vi/luci-app-passwall/po/zh_Hans/passwall.po
 sed -i '/Pass Wall/s/-1/4/g' feeds/vi/luci-app-passwall/luasrc/controller/passwall.lua
 sed -i 's/services/vpn/g'  `grep services -rl feeds/vi/luci-app-passwall/luasrc`
-
-sed -i '/msgid "SmartDNS"/{n;s/SmartDNS/DNS 加速/;}' feeds/vi/luci-app-smartdns/po/zh_Hans/smartdns.po
-sed -i 's/services/vpn/g'  feeds/vi/luci-app-smartdns/root/usr/share/luci/menu.d/luci-app-smartdns.json
-
 ##############自定义结束#################
 echo "等我想想"
