@@ -35,7 +35,7 @@ jobs:
     strategy:  
       fail-fast: false  
       matrix:  
-        target: [lede-x86-64-basic]  
+        target: [openwrt-x86-64]  
         
     steps:  
     - name: 检出代码  
