@@ -223,6 +223,7 @@ jobs:
           ls                                                                           
         else  
           [ -n "$(find . -name '*_error.log' -print -quit)" ] && echo "LOG=true" >> $GITHUB_ENV  
+          cd firmware
           tail -n 100 ${{matrix.target}}_make_error.log > temp.log && mv temp.log ${{matrix.target}}_make_error.log
         fi
  
