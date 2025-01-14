@@ -51,7 +51,7 @@ git clone https://github.com/jerrykuku/luci-theme-argon.git package/openwrt-pack
 
 #git clone https://github.com/KFERMercer/luci-app-tcpdump.git package/openwrt-packages/luci-app-tcpdump
 
-#git clone https://github.com/pymumu/luci-app-smartdns -b lede package/openwrt-packages/luci-app-smartdns
+git clone https://github.com/pymumu/luci-app-smartdns -b lede package/openwrt-packages/luci-app-smartdns
 git clone https://github.com/pymumu/openwrt-smartdns.git package/openwrt-packages/smartdns
 
 git_sparse_clone main "https://github.com/kiddin9/kwrt-packages.git" aria2 wrtbwmon luci-app-eqosplus luci-app-wrtbwmon luci-app-watchcat luci-app-unblockmusic luci-app-pushbot luci-app-tcpdump && mv -n wrtbwmon aria2 package/openwrt-packages/
