@@ -152,11 +152,11 @@ jobs:
         cd OpenWrt  
         # 应用通用补丁  
         if [ -n "$(ls -A "${{ env.REPO_NAME }}/common/patches" 2>/dev/null)" ]; then  
-          find "${{ env.REPO_NAME }}/common/patches" -type f -name '*.patch' -print0 | sort -z | xargs -I % -t -0 -n 1 sh -c "cat '%'  | patch -d './' -p1 -E --forward --no-backup-if-mismatch"
+          find "${{ env.REPO_NAME }}/common/patches" -type f -name '*.patch' -print0 | sort -z | xargs -I % -t -0 -n 1 sh -c "cat '%'  | patch -d './' -B --merge -p1 --forward"
         fi  
         # 如果存在架构特定的补丁，亦将其应用  
         if [ -n "$(ls -A "${{ env.REPO_NAME }}/${{ env.ARCH_NAME }}/patches" 2>/dev/null)" ]; then  
-          find "${{ env.REPO_NAME }}/${{ env.ARCH_NAME }}/patches" -type f -name '*.patch' -print0 | sort -z | xargs -I % -t -0 -n 1 sh -c "cat '%'  | patch -d './' -p1 -E --forward --no-backup-if-mismatch"  
+          find "${{ env.REPO_NAME }}/${{ env.ARCH_NAME }}/patches" -type f -name '*.patch' -print0 | sort -z | xargs -I % -t -0 -n 1 sh -c "cat '%'  | patch -d './' -B --merge -p1 --forward"  
         fi  
  
     - name: 下载软件包  
