@@ -46,7 +46,7 @@ git_sparse_clone main "https://github.com/Lienol/openwrt-package.git" luci-app-c
 ##--------------------------##
 mv -n luci-* package/openwrt-packages/
 ##############转换app语言包################
-curl -fsSL  https://raw.githubusercontent.com/vison-v/OpenWrt/main/Immortalwrt/common/custom.sh >> package/openwrt-packages/custom.sh
+curl -fsSL  https://raw.githubusercontent.com/vison-v/OpenWrt/main/immortalwrt/common/custom.sh >> package/openwrt-packages/custom.sh
 chmod +x package/openwrt-packages/custom.sh && bash package/openwrt-packages/custom.sh
 ##############菜单整理美化#################
 ./scripts/feeds update -a
