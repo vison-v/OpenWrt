@@ -184,6 +184,7 @@ jobs:
           echo "${{matrix.target}} 固件构建失败!"  
           echo "${{matrix.target}} 构建错误日志:"  
           cat ${{matrix.target}}_make_error.log  
+          tail -n 100 ${{matrix.target}}_make_error.log > temp.log && mv temp.log ${{matrix.target}}_make_error.log
         else  
           # 成功时设置状态变量  
           echo "BUILD_STATUS=success" >> $GITHUB_ENV  
@@ -223,8 +224,6 @@ jobs:
           ls                                                                           
         else  
           [ -n "$(find . -name '*_error.log' -print -quit)" ] && echo "LOG=true" >> $GITHUB_ENV  
-          cd firmware
-          tail -n 100 ${{matrix.target}}_make_error.log > temp.log && mv temp.log ${{matrix.target}}_make_error.log
         fi
  
     # 上传固件到 Release  
