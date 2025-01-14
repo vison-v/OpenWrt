@@ -9,32 +9,6 @@
  
  [ -z "$KSH_VERSION" -o \! -s /etc/mkshrc ] || . /etc/mkshrc
 
---- a/package/base-files/files/sbin/sysupgrade
-+++ b/package/base-files/files/sbin/sysupgrade
-@@ -277,13 +277,15 @@ create_backup_archive() {
- 		# Part of archive with installed packages info
- 		if [ $ret -eq 0 ]; then
- 			if [ "$SAVE_INSTALLED_PKGS" -eq 1 ]; then
--				# Format: pkg-name<TAB>{rom,overlay,unknown}
--				# rom is used for pkgs in /rom, even if updated later
--				tar_print_member "$INSTALLED_PACKAGES" "$(find /usr/lib/opkg/info -name "*.control" \( \
--					\( -exec test -f /rom/{} \; -exec echo {} rom \; \) -o \
--					\( -exec test -f /overlay/upper/{} \; -exec echo {} overlay \; \) -o \
--					\( -exec echo {} unknown \; \) \
--					\) | sed -e 's,.*/,,;s/\.control /\t/')" || ret=1
-+				. /etc/profile.d/opkg.sh && opkg save
-+				[ -f /rom/etc/uci-defaults/zz-asu-defaults ] && {
-+				cp -f /rom/etc/uci-defaults/zz-asu-defaults /etc/uci-defaults/zz-asu-defaults
-+				echo "/etc/uci-defaults/zz-asu-defaults" >> $CONFFILES
-+				}
-+			else
-+				uci -q del opkg.auto
-+				uci -q del opkg.custom
-+				uci commit opkg
- 			fi
- 		fi
- 
-
 --- a/package/base-files/files/etc/profile
 +++ b/package/base-files/files/etc/profile
 @@ -22,7 +23,11 @@ esac
