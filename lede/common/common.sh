@@ -38,7 +38,7 @@ function mvdir() {
         }
 ##############加载自定义app################
 mkdir package/openwrt-packages
-##--------------------------##
+##--------------------------------------------------------------------------------------------------------------------------------------------##
 git clone https://github.com/destan19/OpenAppFilter.git package/openwrt-packages/OpenAppFilter
 
 git clone https://github.com/tty228/luci-app-wechatpush.git package/openwrt-packages/luci-app-wechatpush
@@ -58,10 +58,10 @@ git_sparse_clone main "https://github.com/kiddin9/kwrt-packages.git" aria2 wrtbw
 git_sparse_clone master "https://github.com/kiddin9/luci.git" applications/luci-app-ttyd
 
 git_clone https://github.com/Lienol/openwrt-package.git && mv -n openwrt-package/{luci-app-control-timewol,luci-app-control-webrestriction,luci-app-control-weburl} package/openwrt-packages/; rm -rf openwrt-package
-##--------------------------##
+##--------------------------------------------------------------------------------------------------------------------------------------------##
 mv -n luci-* package/openwrt-packages/
 ##############转换app语言包################
-curl -fsSL  https://raw.githubusercontent.com/vison-v/OpenWrt/main/Immortalwrt/common/custom.sh >> package/openwrt-packages/custom.sh
+curl -fsSL  https://raw.githubusercontent.com/vison-v/OpenWrt/main/immortalwrt/common/custom.sh >> package/openwrt-packages/custom.sh
 chmod +x package/openwrt-packages/custom.sh && bash package/openwrt-packages/custom.sh
 ##############菜单整理美化#################
 
@@ -127,7 +127,7 @@ sed -i 's/services/control/g'  `grep services -rl feeds/luci/applications/luci-a
 
 sed -i 's/解除网易云音乐播放限制/网易音乐/g' feeds/luci/applications/luci-app-unblockneteasemusic/root/usr/share/luci/menu.d/luci-app-unblockneteasemusic.json
 sed -i 's/services/vpn/g' feeds/luci/applications/luci-app-unblockneteasemusic/root/usr/share/luci/menu.d/luci-app-unblockneteasemusic.json
-###--------------------------------------------------------------------------------------------------------###
+##--------------------------------------------------------------------------------------------------------------------------------------------##
 sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/luci-app-pushbot/luasrc`
 sed -i 's/Tcpdump 流量监控/流量截取/g' package/openwrt-packages/luci-app-tcpdump/po/zh_Hans/tcpdump.po
 sed -i 's/services/control/g'  `grep services -rl package/openwrt-packages/OpenAppFilter/luci-app-oaf/luasrc`
@@ -150,4 +150,4 @@ sed -i 's/msgstr "Watchcat"/msgstr "智能重启"/g' package/openwrt-packages/lu
 sed -i 's/解锁网易云灰色歌曲/网易音乐/g' package/openwrt-packages/luci-app-unblockmusic/po/zh_Hans/unblockmusic.po
 sed -i 's/services/vpn/g'  `grep services -rl package/openwrt-packages/luci-app-unblockmusic/luasrc`
 
-##############自定义结束#################
+echo "##############自定义结束#################"
