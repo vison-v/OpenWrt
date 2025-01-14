@@ -87,42 +87,6 @@
  
  	# create an empty package index so `opkg` doesn't report an error
  	touch $(PKG_BUILD_DIR)/packages/Packages
-
---- a/target/imagebuilder/files/Makefile
-+++ b/target/imagebuilder/files/Makefile
-@@ -142,6 +142,33 @@ BUILD_PACKAGES:=$(sort $(DEFAULT_PACKAGES) $($(USER_PROFILE)_PACKAGES) kernel)
- # "-pkgname" in the package list means remove "pkgname" from the package list
- BUILD_PACKAGES:=$(filter-out $(filter -%,$(BUILD_PACKAGES)) $(patsubst -%,%,$(filter -%,$(BUILD_PACKAGES))),$(BUILD_PACKAGES))
- BUILD_PACKAGES:=$(USER_PACKAGES) $(BUILD_PACKAGES)
-+IMAGE_SIZE_VALUE := $($(USER_PROFILE)_IMAGE_SIZE)
-+ifdef IMAGE_SIZE_VALUE
-+	ifeq ($(shell test $(IMAGE_SIZE_VALUE) -le 35840 && echo true),true)
-+		SMALL_FLASH := true
-+	endif
-+	ifeq ($(shell test $(IMAGE_SIZE_VALUE) -le 20480 && echo true),true)
-+		XSMALL_FLASH := true
-+	endif
-+endif
-+ifneq ($(findstring usb,$(BUILD_PACKAGES)),)
-+	ifneq ($(XSMALL_FLASH),true)
-+		BUILD_PACKAGES += automount luci-app-diskman
-+	endif
-+endif
-+ifeq ($(SMALL_FLASH),true)
-+	ifeq ($(shell grep -q small_flash $(TOPDIR)/repositories.conf || echo "not_found"),not_found)
-+        $(shell echo "`grep kwrt_kiddin9 $(TOPDIR)/repositories.conf | sed -e 's/kiddin9/small_flash/g'`" >>$(TOPDIR)/repositories.conf)
-+	endif
-+	ifneq ($(findstring /data/bcache/,$(BIN_DIR)),)
-+		BUILD_PACKAGES += -luci-app-homeproxy -luci-app-istorex -luci-theme-argon -htop -bash -openssh-sftp-server -luci-ssl-nginx luci-ssl
-+	endif
-+else
-+        $(shell sed -i "/small_flash/d" $(TOPDIR)/repositories.conf)
-+endif
-+define add_zh_cn_packages
-+$(eval BUILD_PACKAGES += $(foreach pkg,$(BUILD_PACKAGES),$(if $(and $(filter luci-app-%,$(pkg)),$(shell $(OPKG) list | grep -q "^luci-i18n-$(patsubst luci-app-%,%,$(pkg))-zh-cn" && echo 1)),luci-i18n-$(patsubst luci-app-%,%,$(pkg))-zh-cn)))
-+endef
- BUILD_PACKAGES:=$(filter-out $(filter -%,$(BUILD_PACKAGES)) $(patsubst -%,%,$(filter -%,$(BUILD_PACKAGES))),$(BUILD_PACKAGES))
- PACKAGES:=
  
 @@ -157,6 +187,8 @@ _call_image: staging_dir/host/.prereq-build
  	$(MAKE) -s build_image
