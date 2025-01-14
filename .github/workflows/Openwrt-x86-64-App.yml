@@ -98,7 +98,7 @@ jobs:
         echo "IPK=$PWD" >> $GITHUB_ENV  
         
     - name: 上传ipk  
-      uses: actions/upload-artifact@v3  
+      uses: actions/upload-artifact@v4  
       id: upipk  
       with:  
         name: ${{ env.date }} ${{ matrix.target }}  
