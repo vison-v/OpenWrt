@@ -320,7 +320,7 @@ jobs:
          message="固件${{ env.date }}-${{ matrix.target }}编译完成😋"  
        else  
          ARTIFACT_URL="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}#artifacts"  
-         message="固件${{ env.date }}-${{ matrix.target }}编译失败😭\n错误日志链接: $ARTIFACT_URL"  
+         message="固件${{ env.date }}-${{ matrix.target }}编译失败😭!!!错误日志链接: $ARTIFACT_URL"  
        fi  
        curl -k --data "chat_id=${{ secrets.TELEGRAM_CHAT_ID }}" --data "text=${message}" "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage"
    
