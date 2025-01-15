@@ -306,7 +306,8 @@ jobs:
         if [ "${{ env.COMBINED }}" == 'true' ] || [ "${{ env.EFI }}" == 'true' ] || [ "${{ env.BIN }}" == 'true' ] || [ "${{ env.ISO }}" == 'true' || "${{ env.RELEASE }}" == 'true' ]; then  
           curl https://sc.ftqq.com/${{ secrets.SCKEY }}.send?text=固件${{ env.date }}-${{matrix.target}}编译完成😋  
         else  
-          curl https://sc.ftqq.com/${{ secrets.SCKEY }}.send?text=固件${{ env.date }}-${{matrix.target}}编译失败😭  
+          error_log=$(tail -n 20 firmware/${{matrix.target}}_make_error.log)  
+          curl https://sc.ftqq.com/${{ secrets.SCKEY }}.send?text=固件${{ env.date }}-${{matrix.target}}编译失败😭!!! 错误日志: $error_log  
         fi  
   
     # Telegram 通知  
@@ -317,7 +318,7 @@ jobs:
        if [ "${{ env.COMBINED }}" == 'true' ] || [ "${{ env.EFI }}" == 'true' ] || [ "${{ env.BIN }}" == 'true' ] || [ "${{ env.ISO }}" == 'true' || "${{ env.RELEASE }}" == 'true' ]; then  
          message="固件${{ env.date }}-${{ matrix.target }}编译完成😋"  
        else  
-         error_log=$(tail -n 20 firmware/${{matrix.target}}_make_error.log) 
+         error_log=$(tail -n 20 firmware/${{matrix.target}}_make_error.log)  
          message="固件${{ env.date }}-${{ matrix.target }}编译失败😭!!! 错误日志: $error_log"  
        fi  
        curl -k --data "chat_id=${{ secrets.TELEGRAM_CHAT_ID }}" --data "text=${message}" "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage"
