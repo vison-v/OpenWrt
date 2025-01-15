@@ -45,7 +45,6 @@ jobs:
   
     - name: 配置环境变量  
       run: |  
-        sudo timedatectl set-timezone "Asia/Shanghai"  
         echo "FILE_NAME=${{ matrix.target }}" >> $GITHUB_ENV   
         echo "REPO_NAME=$(basename "${{ matrix.target }}" | awk -F'-' '{print $1}')" >> $GITHUB_ENV  
         echo "ARCH_NAME=$(basename "${{ matrix.target }}" | sed -E 's/^[^-]*-//')" >> $GITHUB_ENV  
