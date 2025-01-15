@@ -26,21 +26,6 @@ CONFIG_KERNEL_WERROR=n
 CONFIG_IPV6=y
 
 # Applications
-CONFIG_PACKAGE_luci-app-diskman=y
-CONFIG_PACKAGE_luci-app-minidlna=y
-CONFIG_PACKAGE_luci-app-ttyd=y
-CONFIG_PACKAGE_luci-app-wechatpush=y
-CONFIG_PACKAGE_luci-app-syncdial=y
-CONFIG_PACKAGE_luci-app-hd-idle=y
-CONFIG_PACKAGE_luci-app-oaf=y
-CONFIG_PACKAGE_luci-app-tcpdump=y
-CONFIG_PACKAGE_luci-app-control-weburl=y
-CONFIG_PACKAGE_luci-app-control-timewol=y
-CONFIG_PACKAGE_luci-app-control-webrestriction=y
-CONFIG_PACKAGE_luci-app-eqosplus=y
-#CONFIG_PACKAGE_luci-app-socat=y
-CONFIG_PACKAGE_luci-app-cifs-mount=y
-#CONFIG_PACKAGE_luci-app-zerotier=y
 
 # Themes
 CONFIG_PACKAGE_luci-app-argon-config=y
