@@ -184,7 +184,6 @@ jobs:
           echo "${{matrix.target}} 固件构建失败!"  
           echo "${{matrix.target}} 构建错误日志:"  
           cat ${{matrix.target}}_make_error.log  
-          tail -n 100 ${{matrix.target}}_make_error.log > temp.log && mv temp.log ${{matrix.target}}_make_error.log
         else  
           # 成功时设置状态变量  
           echo "BUILD_STATUS=success" >> $GITHUB_ENV  
@@ -318,8 +317,8 @@ jobs:
        if [ "${{ env.COMBINED }}" == 'true' ] || [ "${{ env.EFI }}" == 'true' ] || [ "${{ env.BIN }}" == 'true' ] || [ "${{ env.ISO }}" == 'true' || "${{ env.RELEASE }}" == 'true' ]; then  
          message="固件${{ env.date }}-${{ matrix.target }}编译完成😋"  
        else  
-         ARTIFACT_URL="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}#artifacts"  
-         message="固件${{ env.date }}-${{ matrix.target }}编译失败😭!!!错误日志链接: $ARTIFACT_URL"  
+         error_log=$(tail -n 20 firmware/${{matrix.target}}_make_error.log) 
+         message="固件${{ env.date }}-${{ matrix.target }}编译失败😭!!! 错误日志: $error_log"  
        fi  
        curl -k --data "chat_id=${{ secrets.TELEGRAM_CHAT_ID }}" --data "text=${message}" "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage"
    
