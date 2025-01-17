@@ -1,0 +1,2 @@
+sed -i 's/msgstr "Lucky"/msgstr "反向代理"/g' package/luci-app-lucky/po/zh-cn/lucky.po
+sed -i 's/services/vpn/g'  `grep services -rl package/luci-app-lucky/luasrc`
