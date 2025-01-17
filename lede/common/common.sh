@@ -139,6 +139,7 @@ sed -i 's/"Argon 主题设置"/"主题设置"/g' package/openwrt-packages/luci-a
 sed -i 's/services/vpn/g'  package/openwrt-packages/luci-app-wechatpush/root/usr/share/luci/menu.d/luci-app-wechatpush.json
 sed -i 's/"control"/"services"/g'  `grep control -rl package/openwrt-packages/luci-app-control-timewol/luasrc`
 sed -i 's/msgstr "流量监控"/msgstr "实时流量"/g' package/openwrt-packages/luci-app-wrtbwmon/po/zh-cn/wrtbwmon.po
+sed -i 's/<%= ver.distversion %>/<a href="https:\/\/github.com\/vison-v\/OpenWrt" target="_blank"><%= ver.distversion %>/g' package/openwrt-packages/luci-theme-argon/luasrc/view/themes/argon/footer.htm
 
 sed -i '/msgid "Pass Wall"/{n;s/PassWall/翻越长城/;}' package/openwrt-packages/small/luci-app-passwall/po/zh_Hans/passwall.po
 sed -i '/Pass Wall/s/-1/4/g' package/openwrt-packages/small/luci-app-passwall/luasrc/controller/passwall.lua
