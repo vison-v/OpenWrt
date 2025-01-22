@@ -11,7 +11,7 @@ name: Openwrt-AutoBuild
 on:   
   workflow_dispatch:  
   schedule:
-    - cron: "15 2 1/3 * *"
+    - cron: "5 23 1/2 * *"
   watch:
     types: started
 
