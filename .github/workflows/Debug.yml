@@ -12,8 +12,6 @@ on:
   workflow_dispatch:  
   #schedule:
   #  - cron: "5 23 1/2 * *"
-  watch:
-    types: started
 
 permissions:  
   contents: read  
