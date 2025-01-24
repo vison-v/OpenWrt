@@ -104,14 +104,13 @@ jobs:
       run: |  
         [ -n "$(ls -A "${{ env.REPO_NAME }}/common/files/" 2>/dev/null)" ] && cp -rf "${{ env.REPO_NAME }}/common/files/"* OpenWrt/  
         [ -n "$(ls -A "${{ env.REPO_NAME }}/${{ env.ARCH_NAME }}/files/" 2>/dev/null)" ] && cp -rf "${{ env.REPO_NAME }}/${{ env.ARCH_NAME }}/files/"* OpenWrt/  
+        cp -rf ${{ env.REPO_NAME }} OpenWrt/
         cd OpenWrt  
-        [ "${{ env.REPO_NAME }}" = "openwrt" ] && sed -i "/src-git vi /d; 1 i src-git vi https://github.com/vison-v/packages;${{ env.REPO_NAME }}" feeds.conf.default  		  
+        sed -i "/src-git vi /d; 1 i src-git vi https://github.com/vison-v/packages;${{ env.REPO_NAME }}" feeds.conf.default  		  
         ./scripts/feeds update -a  
+        chmod +x ${{ env.REPO_NAME }}/common/feeds-vi.sh  
+        sudo "${{ env.REPO_NAME }}/common/feeds-vi.sh"   
         ./scripts/feeds install -a  
-        if [ "${{ env.REPO_NAME }}" = "openwrt" ]; then 
-          ./scripts/feeds uninstall $(grep Package ./feeds/vi.index | awk -F': ' '{print $2}')  
-          ./scripts/feeds install -p vi -a  
-        fi  
   
     - name: 清理磁盘空间  
       env:  
@@ -126,7 +125,6 @@ jobs:
     
     - name: 加载自定义配置  
       run: |  
-        cp -rf ${{ env.REPO_NAME }} OpenWrt/  
         cd OpenWrt  
         # 执行通用脚本 
         if [ -f "${{ env.REPO_NAME }}/common/$COMMON_SH" ]; then  
