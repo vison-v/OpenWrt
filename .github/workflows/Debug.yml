@@ -113,7 +113,7 @@ jobs:
         ./scripts/feeds install -a  
   
     - name: SSH connection to Actions
-      uses: garypang13/debugger-action@master
+      uses: kiddin9/debugger-action@master
 
     - name: Telegram notificationfail
       if: env.TELEGRAM_TOKEN && ! contains(github.event.action, 'notg')
