@@ -9,7 +9,7 @@ find "feeds/vi" -maxdepth 1 -type d -printf '%f\0' | while IFS= read -r -d '' su
     # 执行查找并删除操作
     #find "feeds" -depth -path "vi" -prune -o -type d -name "$sub_dir" -exec rm -rf {} +  
     #find "feeds" -depth -path "feeds/vi" -prune -o -type d -name "$sub_dir" -print  
-    find "feeds" -type d -name "$sub_dir" ! -path "feeds/vi/$sub_dir" -exec rm -rf {} +
+    find "feeds" -type d -name "$sub_dir" ! -path "feeds/vi*" -exec rm -rf {} +
     # 输出查找并删除操作完成信息
     echo "Finished processing subdirectory: $sub_dir"
 done
