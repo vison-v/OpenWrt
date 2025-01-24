@@ -107,7 +107,7 @@ jobs:
         cd OpenWrt  
         sed -i "/src-git vi /d; 1 i src-git vi https://github.com/vison-v/packages;${{ env.REPO_NAME }}" feeds.conf.default  		  
         ./scripts/feeds update -a  
-        if [ -f "${{ env.REPO_NAME }}/common/feeds.sh" ]; then  
+        if [ -f "${{ env.REPO_NAME }}/common/feed.sh" ]; then  
           chmod +x ${{ env.REPO_NAME }}/common/feed.sh  
           sudo "${{ env.REPO_NAME }}/common/feed.sh"    
         fi
