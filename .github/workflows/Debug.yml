@@ -110,7 +110,6 @@ jobs:
         ./scripts/feeds update -a  
         chmod +x ${{ env.REPO_NAME }}/common/feed.sh  
         sudo "${{ env.REPO_NAME }}/common/feed.sh"   
-        read -p "脚本执行到此处暂停，按回车键继续..."
         ./scripts/feeds install -a  
   
     - name: SSH connection to Actions
