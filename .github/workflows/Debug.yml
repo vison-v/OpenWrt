@@ -107,9 +107,10 @@ jobs:
         cd OpenWrt  
         sed -i "/src-git vi /d; 1 i src-git vi https://github.com/vison-v/packages;${{ env.REPO_NAME }}" feeds.conf.default  		  
         ./scripts/feeds update -a  
-        find "vi" -maxdepth 1 -type d -printf '%f\0' | while IFS= read -r -d '' sub_dir; do
-                 find "/" -path "vi" -prune -o -type d -name "$sub_dir" -delete
-        done
+        if [ -f "${{ env.REPO_NAME }}/common/feeds.sh" ]; then  
+          chmod +x ${{ env.REPO_NAME }}/common/feed.sh  
+          sudo "${{ env.REPO_NAME }}/common/feed.sh"    
+        fi
         ./scripts/feeds install -a  
   
     - name: SSH connection to Actions
