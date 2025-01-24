@@ -1,36 +1,116 @@
-#=================================================
-# https://github.com/P3TERX/Actions-OpenWrt
-# Description: Build OpenWrt using GitHub Actions
-# Lisence: MIT
-# Author: P3TERX
-# Blog: https://p3terx.com
-#=================================================
+#=================================================  
+# https://github.com/P3TERX/Actions-OpenWrt  
+# 描述: 使用 GitHub Actions 构建 OpenWrt  
+# 许可证: MIT  
+# 作者: P3TERX  
+# 博客: https://p3terx.com  
+#=================================================  
 
-name: Debug
+name: Openwrt-AutoBuild  
 
-on: 
-  workflow_dispatch:
-  #watch:
-  #  types: started
+on:   
+  workflow_dispatch:  
+  #schedule:
+  #  - cron: "5 23 1/2 * *"
+  watch:
+    types: started
 
-env:
-  SCKEY: ${{ secrets.SCKEY }}
-  TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
-  TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+permissions:  
+  contents: read  
 
-jobs:
-  build:
-    runs-on: Ubuntu-20.04
+env:  
+  REPO_TOKEN: ${{ secrets.REPO_TOKEN }}  
+  SCKEY: ${{ secrets.SCKEY }}  
+  PAT: ${{ secrets.PAT }}  
+  TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}  
+  TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}  
+  TZ: Asia/Shanghai  
+
+jobs:  
+  build_openwrt:  
+    if: github.event.repository.owner.id == github.event.sender.id || ! github.event.sender.id  
+    runs-on: ubuntu-latest  
     
-    name: Build ${{matrix.target}}
-    strategy:
-      fail-fast: false
-      matrix:
-        target: [x86_64]
+    name: 构建 ${{ matrix.target }}  
+    strategy:  
+      fail-fast: false  
+      matrix:  
+        target: [lede-x86-64]  
         
-    steps:
-    - name: Checkout
-      uses: actions/checkout@main
+    steps:  
+    - name: 检出代码  
+      uses: actions/checkout@main  
+      with:  
+          fetch-depth: 0  
+  
+    - name: 配置环境变量  
+      run: |  
+        echo "FILE_NAME=${{ matrix.target }}" >> $GITHUB_ENV   
+        echo "REPO_NAME=$(basename "${{ matrix.target }}" | awk -F'-' '{print $1}')" >> $GITHUB_ENV  
+        echo "ARCH_NAME=$(basename "${{ matrix.target }}" | sed -E 's/^[^-]*-//')" >> $GITHUB_ENV  
+        echo "date=$(date +'%Y.%m.%d')" >> $GITHUB_ENV  
+  
+    - name: 加载 Settings.ini  
+      run: |  
+        # 加载公共配置  
+        source "${GITHUB_WORKSPACE}/${{ env.REPO_NAME }}/common/settings.ini"  
+        # 如果存在架构特定的配置，则加载  
+        if [ -f "${GITHUB_WORKSPACE}/${{ env.REPO_NAME }}/${{ env.ARCH_NAME }}/settings.ini" ]; then  
+          source "${GITHUB_WORKSPACE}/${{ env.REPO_NAME }}/${{ env.ARCH_NAME }}/settings.ini"  
+        fi  
+        # 从配置文件中设置环境变量  
+        echo "REPO_URL=${REPO_URL}" >> $GITHUB_ENV  
+        echo "REPO_BRANCH=${REPO_BRANCH}" >> $GITHUB_ENV  
+        echo "CONFIG_FILE=${CONFIG_FILE}" >> $GITHUB_ENV  
+        echo "CUSTOM_SH=${CUSTOM_SH}" >> $GITHUB_ENV  
+        echo "COMMON_SH=${COMMON_SH}" >> $GITHUB_ENV  
+        echo "UPLOAD_BIN_FIRMWARE_FOR_ARTIFACT=${UPLOAD_BIN_FIRMWARE_FOR_ARTIFACT}" >> $GITHUB_ENV  
+        echo "UPLOAD_FIRMWARE_FOR_ARTIFACT=${UPLOAD_FIRMWARE_FOR_ARTIFACT}" >> $GITHUB_ENV  
+        echo "UPLOAD_EFI_FIRMWARE_FOR_ARTIFACT=${UPLOAD_EFI_FIRMWARE_FOR_ARTIFACT}" >> $GITHUB_ENV  
+        echo "UPLOAD_ISO_FIRMWARE_FOR_ARTIFACT=${UPLOAD_ISO_FIRMWARE_FOR_ARTIFACT}" >> $GITHUB_ENV  
+        echo "UPLOAD_FIRMWARE_FOR_RELEASE=${UPLOAD_FIRMWARE_FOR_RELEASE}" >> $GITHUB_ENV  
+    
+    - name: 加载环境  
+      env:  
+          DEBIAN_FRONTEND: noninteractive  
+      run: |  
+          # 安装必要的软件包  
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          sudo timedatectl set-timezone "Asia/Shanghai"
+
+          sudo apt update
+          sudo apt full-upgrade -y
+          sudo apt install -y ack antlr3 asciidoc autoconf automake autopoint binutils bison build-essential \
+          bzip2 ccache cmake cpio curl device-tree-compiler fastjar flex gawk gettext gcc-multilib g++-multilib \
+          git gperf haveged help2man intltool libc6-dev-i386 libelf-dev libfuse-dev libglib2.0-dev libgmp3-dev \
+          libltdl-dev libmpc-dev libmpfr-dev libncurses5-dev libncursesw5-dev libpython3-dev libreadline-dev \
+          libssl-dev libtool lrzsz mkisofs msmtp ninja-build p7zip p7zip-full patch pkgconf npm python3 \
+          python3-pyelftools python3-setuptools qemu-utils rsync scons squashfs-tools subversion swig texinfo \
+          uglifyjs upx-ucl unzip vim wget xmlto xxd zlib1g-dev  
+
+          sudo apt -y autoremove --purge  
+          sudo apt -y clean  
+
+          git clone --depth=1 https://github.com/openwrt-dev/po2lmo  
+          (cd po2lmo && sudo make && sudo make install)  
+          df -h  
+    
+    - name: 克隆源代码  
+      run: |  
+        git clone --depth 1 $REPO_URL -b $REPO_BRANCH OpenWrt  
+    
+    - name: 加载与更新 feeds  
+      run: |  
+        [ -n "$(ls -A "${{ env.REPO_NAME }}/common/files/" 2>/dev/null)" ] && cp -rf "${{ env.REPO_NAME }}/common/files/"* OpenWrt/  
+        [ -n "$(ls -A "${{ env.REPO_NAME }}/${{ env.ARCH_NAME }}/files/" 2>/dev/null)" ] && cp -rf "${{ env.REPO_NAME }}/${{ env.ARCH_NAME }}/files/"* OpenWrt/  
+        cd OpenWrt  
+        sed -i "/src-git vi /d; 1 i src-git vi https://github.com/vison-v/packages;${{ env.REPO_NAME }}" feeds.conf.default  		  
+        ./scripts/feeds update -a  
+        find "vi" -maxdepth 1 -type d -printf '%f\0' | while IFS= read -r -d '' sub_dir; do
+                 find "/" -path "vi" -prune -o -type d -name "$sub_dir" -delete
+        done
+        ./scripts/feeds install -a  
   
     - name: SSH connection to Actions
       uses: garypang13/debugger-action@master
