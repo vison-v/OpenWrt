@@ -104,13 +104,13 @@ jobs:
       run: |  
         [ -n "$(ls -A "${{ env.REPO_NAME }}/common/files/" 2>/dev/null)" ] && cp -rf "${{ env.REPO_NAME }}/common/files/"* OpenWrt/  
         [ -n "$(ls -A "${{ env.REPO_NAME }}/${{ env.ARCH_NAME }}/files/" 2>/dev/null)" ] && cp -rf "${{ env.REPO_NAME }}/${{ env.ARCH_NAME }}/files/"* OpenWrt/  
+        cp -rf ${{ env.REPO_NAME }} OpenWrt/
         cd OpenWrt  
         sed -i "/src-git vi /d; 1 i src-git vi https://github.com/vison-v/packages;${{ env.REPO_NAME }}" feeds.conf.default  		  
         ./scripts/feeds update -a  
-        if [ -f "${{ env.REPO_NAME }}/common/feed.sh" ]; then  
-          chmod +x ${{ env.REPO_NAME }}/common/feed.sh  
-          sudo "${{ env.REPO_NAME }}/common/feed.sh"    
-        fi
+        chmod +x ${{ env.REPO_NAME }}/common/feed.sh  
+        sudo "${{ env.REPO_NAME }}/common/feed.sh"   
+        read -p "脚本执行到此处暂停，按回车键继续..."
         ./scripts/feeds install -a  
   
     - name: SSH connection to Actions
