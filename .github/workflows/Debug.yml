@@ -108,8 +108,8 @@ jobs:
         cd OpenWrt  
         sed -i "/src-git vi /d; 1 i src-git vi https://github.com/vison-v/packages;${{ env.REPO_NAME }}" feeds.conf.default  		  
         ./scripts/feeds update -a  
-        chmod +x ${{ env.REPO_NAME }}/common/feed.sh  
-        sudo "${{ env.REPO_NAME }}/common/feed.sh"   
+        chmod +x ${{ env.REPO_NAME }}/common/feeds-vi.sh  
+        sudo "${{ env.REPO_NAME }}/common/feeds-vi.sh"   
         ./scripts/feeds install -a  
   
     - name: SSH connection to Actions
