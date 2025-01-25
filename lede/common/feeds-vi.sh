@@ -6,7 +6,7 @@ echo "开始在 feeds/vi 目录中查找子目录，并替换 feeds 目录中匹
 # 获取 feeds/vi 目录下的子目录名
 find "feeds/vi" -maxdepth 1 -type d \( ! -name "vi" -a ! -name ".git" \) -printf '%f\0' | while IFS= read -r -d '' sub_dir; do
     echo "需要处理的目录为: $sub_dir"
-    find "feeds" -maxdepth 4 -type d -name "$sub_dir" ! -path "feeds/vi*" -print0 | while IFS= read -r -d '' target_dir; do
+    find "feeds" -maxdepth 3 -type d -name "$sub_dir" ! -path "feeds/vi*" -print0 | while IFS= read -r -d '' target_dir; do
         source_dir="feeds/vi/$sub_dir"
         if [ -d "$source_dir" ]; then
             # 创建临时目录
