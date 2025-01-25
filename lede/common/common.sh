@@ -67,14 +67,14 @@ sed -i '/msgid "Pass Wall"/{n;s/PassWall/翻越长城/;}' feeds/vi/luci-app-pass
 sed -i '/Pass Wall/s/-1/4/g' feeds/vi/luci-app-passwall/luasrc/controller/passwall.lua
 sed -i 's/services/vpn/g'  `grep services -rl feeds/vi/luci-app-passwall/luasrc`
 
-sed -i '/msgid "SmartDNS"/{n;s/SmartDNS/DNS 加速/;}' feeds/luci/applications/luci-app-smartdns/po/zh_Hans/smartdns.po
+sed -i '/msgid "SmartDNS"/{n;s/SmartDNS/DNS 加速/;}' feeds/vi/luci-app-smartdns/po/zh_Hans/smartdns.po
 #sed -i 's/services/vpn/g'  `grep services -rl feeds/vi/luci-app-smartdns/luasrc`
 sed -i 's/services/vpn/g' feeds/vi/luci-app-smartdns/root/usr/share/luci/menu.d/luci-app-smartdns.json
 
 sed -i 's/msgstr "Lucky"/msgstr "反向代理"/g' feeds/vi/luci-app-lucky/po/zh-cn/lucky.po
 sed -i 's/services/vpn/g'  `grep services -rl feeds/vi/luci-app-lucky/luasrc`
 
-sed -i 's/msgstr "命令"/msgstr "命令终端"/g' feeds/vi/luci-app-ttyd/po/zh_Hans/terminal.po
+sed -i 's/msgstr "命令"/msgstr "命令终端"/g' feeds/vi/luci-app-ttyd/po/zh_Hans/ttyd.po
 sed -i 's/Tcpdump 流量监控/流量截取/g' feeds/vi/luci-app-tcpdump/po/zh_Hans/tcpdump.po
 sed -i 's/services/control/g'  `grep services -rl feeds/vi/luci-app-oaf/luasrc`
 sed -i 's/"Argon 主题设置"/"主题设置"/g' feeds/vi/luci-app-argon-config/po/zh_Hans/argon-config.po
