@@ -108,9 +108,11 @@ jobs:
         cd OpenWrt  
         sed -i "/src-git vi /d; 1 i src-git vi https://github.com/vison-v/packages;${{ env.REPO_NAME }}" feeds.conf.default  		  
         ./scripts/feeds update -a  
+        ./scripts/feeds install -a  
+        ./scripts/feeds uninstall $(grep Package ./feeds/vi.index | awk -F': ' '{print $2}')  
         chmod +x ${{ env.REPO_NAME }}/common/feeds-vi.sh  
         sudo "${{ env.REPO_NAME }}/common/feeds-vi.sh"   
-        ./scripts/feeds install -a  
+        ./scripts/feeds install -p vi -a  
   
     - name: 清理磁盘空间  
       env:  
