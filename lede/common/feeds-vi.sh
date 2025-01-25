@@ -6,14 +6,13 @@ echo "开始在 feeds/vi 目录中查找子目录，并替换 feeds 目录中匹
 # 获取 feeds/vi 目录下的子目录名
 find "feeds/vi" -maxdepth 1 -type d \( ! -name "vi" -a ! -name ".git" \) -printf '%f\0' | while IFS= read -r -d '' sub_dir; do
     echo "需要处理的目录为: $sub_dir"
-    # 查找深度 4 级以内且符合条件的同名目录
     find "feeds" -maxdepth 4 -type d -name "$sub_dir" ! -path "feeds/vi*" -print0 | while IFS= read -r -d '' target_dir; do
         source_dir="feeds/vi/$sub_dir"
         if [ -d "$source_dir" ]; then
             # 创建临时目录
             temp_dir=$(mktemp -d)
-            # 复制源目录内容到临时目录
-            cp -r "$source_dir/" "$temp_dir/"
+            # 将源目录内容递归移动到临时目录
+            mv "$source_dir/"* "$temp_dir/"
             # 删除目标目录
             rm -rf "$target_dir"
             # 将临时目录内容移动到目标目录位置
