@@ -56,27 +56,25 @@ sed -i 's/services/vpn/g'  feeds/luci/applications/luci-app-zerotier/root/usr/sh
 sed -i 's/上网时间控制/时间控制/g' feeds/luci/applications/luci-app-accesscontrol/po/zh_Hans/mia.po
 sed -i 's/services/control/g'  `grep services -rl feeds/luci/applications/luci-app-accesscontrol/luasrc`
 
-
 sed -i 's/解除网易云音乐播放限制/网易音乐/g' feeds/luci/applications/luci-app-unblockneteasemusic/root/usr/share/luci/menu.d/luci-app-unblockneteasemusic.json
 sed -i 's/services/vpn/g' feeds/luci/applications/luci-app-unblockneteasemusic/root/usr/share/luci/menu.d/luci-app-unblockneteasemusic.json
 
 sed -i 's/services/system/g' feeds/luci/applications/luci-app-watchcat/root/usr/share/luci/menu.d/luci-app-watchcat.json
 sed -i 's/msgstr "Watchcat"/msgstr "智能重启"/g' feeds/luci/applications/luci-app-watchcat/po/zh_Hans/watchcat.po
 
-sed -i '/msgid "Pass Wall"/{n;s/PassWall/翻越长城/;}' feeds/luci/applications/luci-app-passwall/po/zh_Hans/passwall.po
-sed -i '/Pass Wall/s/-1/4/g' feeds/luci/applications/luci-app-passwall/luasrc/controller/passwall.lua
-sed -i 's/services/vpn/g'  `grep services -rl feeds/luci/applications/luci-app-passwall/luasrc`
+##--------------------------------------------------------------------------------------------------------------------------------------------##
+sed -i '/msgid "Pass Wall"/{n;s/PassWall/翻越长城/;}' feeds/vi/luci-app-passwall/po/zh_Hans/passwall.po
+sed -i '/Pass Wall/s/-1/4/g' feeds/vi/luci-app-passwall/luasrc/controller/passwall.lua
+sed -i 's/services/vpn/g'  `grep services -rl feeds/vi/luci-app-passwall/luasrc`
 
 sed -i '/msgid "SmartDNS"/{n;s/SmartDNS/DNS 加速/;}' feeds/luci/applications/luci-app-smartdns/po/zh_Hans/smartdns.po
-#sed -i 's/services/vpn/g'  `grep services -rl feeds/luci/applications/luci-app-smartdns/luasrc`
-sed -i 's/services/vpn/g' feeds/luci/applications/luci-app-smartdns/root/usr/share/luci/menu.d/luci-app-smartdns.json
+#sed -i 's/services/vpn/g'  `grep services -rl feeds/vi/luci-app-smartdns/luasrc`
+sed -i 's/services/vpn/g' feeds/vi/luci-app-smartdns/root/usr/share/luci/menu.d/luci-app-smartdns.json
 
-sed -i 's/msgstr "Lucky"/msgstr "反向代理"/g' feeds/luci/applications/luci-app-lucky/po/zh-cn/lucky.po
-sed -i 's/services/vpn/g'  `grep services -rl feeds/luci/applications/luci-app-lucky/luasrc`
+sed -i 's/msgstr "Lucky"/msgstr "反向代理"/g' feeds/vi/luci-app-lucky/po/zh-cn/lucky.po
+sed -i 's/services/vpn/g'  `grep services -rl feeds/vi/luci-app-lucky/luasrc`
 
-sed -i 's/TTYD 终端/命令终端/g' feeds/luci/applications/luci-app-ttyd/po/zh_Hans/terminal.po
-##--------------------------------------------------------------------------------------------------------------------------------------------##
-#sed -i 's/services/vpn/g'  `grep services -rl feeds/vi/luci-app-pushbot/luasrc`
+sed -i 's/msgstr "命令"/msgstr "命令终端"/g' feeds/vi/luci-app-ttyd/po/zh_Hans/terminal.po
 sed -i 's/Tcpdump 流量监控/流量截取/g' feeds/vi/luci-app-tcpdump/po/zh_Hans/tcpdump.po
 sed -i 's/services/control/g'  `grep services -rl feeds/vi/luci-app-oaf/luasrc`
 sed -i 's/"Argon 主题设置"/"主题设置"/g' feeds/vi/luci-app-argon-config/po/zh_Hans/argon-config.po
