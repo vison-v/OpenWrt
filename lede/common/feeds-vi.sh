@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # 输出开始信息
-echo "Starting to find subdirectories in feeds/vi and delete matching directories in feeds"
+echo "开始在 feeds/vi 目录中查找子目录，并替换 feeds 目录中匹配的目录.................."
 
 # 获取 feeds/vi 目录下的子目录名
 find "feeds/vi" -maxdepth 1 -type d \( ! -name "vi" -a ! -name ".git" \) -printf '%f\0' | while IFS= read -r -d '' sub_dir; do
