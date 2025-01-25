@@ -9,9 +9,9 @@ find "feeds/vi" -maxdepth 1 -type d \( ! -name "vi" -a ! -name ".git" \) -printf
     # 执行查找并删除操作
     echo "--------------------------------------------"
     find "feeds" -depth -path "feeds/vi" -prune -o -type d -name "$sub_dir" -print
-    #find "feeds" -depth -path "feeds/vi" -prune -o -type d -name "$sub_dir" -exec rm -rf {} +
+    find "feeds" -depth -path "feeds/vi" -prune -o -type d -name "$sub_dir" -print -exec rm -rf {} +
     echo "--------------------------------------------"
-    find "feeds" -type d -name "$sub_dir" ! -path "feeds/vi*" -print -exec rm -rf {} +
+    #find "feeds" -type d -name "$sub_dir" ! -path "feeds/vi*" -print -exec rm -rf {} +
     # 输出查找并删除操作完成信息
     echo "Finished processing subdirectory: $sub_dir"
 done
