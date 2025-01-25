@@ -108,7 +108,9 @@ jobs:
         ./scripts/feeds update -a  
         chmod +x ${{ env.REPO_NAME }}/common/feeds-vi.sh  
         sudo "${{ env.REPO_NAME }}/common/feeds-vi.sh"   
-  
+        ./scripts/feeds update -a  
+        ./scripts/feeds install -a 
+    
     - name: SSH connection to Actions
       uses: kiddin9/debugger-action@master
 
