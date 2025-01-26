@@ -32,6 +32,12 @@ find "feeds/vi" -maxdepth 1 -type d \( ! -name "vi" -a ! -name ".git" \) -printf
                 echo "源目录 $source_dir 不存在，跳过替换操作"
             fi
         done
+        # 移动替换完成后，删除 feeds/vi 下的同名源目录
+        source_dir="feeds/vi/$sub_dir"
+        if [ -d "$source_dir" ]; then
+            rm -rf "$source_dir"
+            echo "已删除 feeds/vi 下的源目录 $source_dir"
+        fi
     fi
     # 输出查找并操作完成信息
     echo "完成目录处理: $sub_dir"
