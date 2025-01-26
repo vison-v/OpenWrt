@@ -106,7 +106,7 @@ jobs:
         [ -n "$(ls -A "${{ env.REPO_NAME }}/${{ env.ARCH_NAME }}/files/" 2>/dev/null)" ] && cp -rf "${{ env.REPO_NAME }}/${{ env.ARCH_NAME }}/files/"* OpenWrt/  
         cp -rf ${{ env.REPO_NAME }} OpenWrt/
         cd OpenWrt  
-        sed -i "/src-git vi /d; 6 i src-git vi https://github.com/vison-v/packages;${{ env.REPO_NAME }}" feeds.conf.default  		  
+        sed -i "/src-git vi /d; \$a src-git vi https://github.com/vison-v/packages;${{ env.REPO_NAME }}" feeds.conf.default  		  
         ./scripts/feeds update -a  
         chmod +x ${{ env.REPO_NAME }}/common/feeds-vi.sh  
         sudo "${{ env.REPO_NAME }}/common/feeds-vi.sh"   
