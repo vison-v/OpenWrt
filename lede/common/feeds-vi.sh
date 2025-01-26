@@ -4,7 +4,7 @@
 echo "开始在 feeds/vi 目录中查找子目录，并进行相应操作.................."
 
 # 获取 feeds/vi 目录下的子目录名
-find "feeds/vi" -maxdepth 1 -type d \(! -name "vi" -a! -name ".git" \) -printf '%f\0' | while IFS= read -r -d '' sub_dir; do
+find "feeds/vi" -maxdepth 1 -type d '('! -name "vi" -a! -name ".git" ')' -printf '%f\0' | while IFS= read -r -d '' sub_dir; do
     echo "需要处理的目录为: $sub_dir"
 
     if [[ $sub_dir == luci-app-* ]]; then
