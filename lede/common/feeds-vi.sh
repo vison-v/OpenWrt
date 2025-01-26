@@ -8,6 +8,7 @@ find "feeds/vi" -maxdepth 1 -type d \( ! -name "vi" -a ! -name ".git" \) -printf
     echo "需要处理的目录为: $sub_dir"
     if [ "$sub_dir" = "golang" ]; then
         source_dir="feeds/vi/golang"
+        target_dir="feeds/packages/lang/golang"
         if [ -d "$source_dir" ]; then
             # 创建临时目录
             temp_dir=$(mktemp -d)
@@ -17,14 +18,13 @@ find "feeds/vi" -maxdepth 1 -type d \( ! -name "vi" -a ! -name ".git" \) -printf
             mv "$source_dir/"* "$temp_dir/"
             # 关闭对隐藏文件的匹配
             shopt -u dotglob
-            # 查找目标同名目录
-            find "feeds" -maxdepth 3 -type d -name "$sub_dir" ! -path "feeds/vi*" -print0 | while IFS= read -r -d '' target_dir; do
-                # 删除目标目录
+            # 删除目标目录
+            if [ -d "$target_dir" ]; then
                 rm -rf "$target_dir"
-                # 将临时目录内容移动到目标目录位置
-                mv "$temp_dir" "$target_dir"
-                echo "已将 $source_dir 替换到 $target_dir"
-            done
+            fi
+            # 将临时目录内容移动到目标目录位置
+            mv "$temp_dir" "$target_dir"
+            echo "已将 $source_dir 替换到 $target_dir"
         else
             echo "源目录 $source_dir 不存在，跳过替换操作"
         fi
