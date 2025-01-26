@@ -170,7 +170,7 @@ jobs:
       run: | 
         cd OpenWrt  
         echo -e "用 $(($(nproc)+1)) 线程编译${{ matrix.target }}......"  
-        make -j$(($(nproc)+1)) || make -j1 V=s > make_output.log 2> >(grep -v "warning" > ${{ matrix.target }}_make_error.log) || true  
+        make -j$(($(nproc)+1)) || make -j1 V=sc > make_output.log 2> >(grep -v "warning" > ${{ matrix.target }}_make_error.log) || true  
         echo "=============================================="  
         echo "空间使用情况:"  
         echo "=============================================="  
