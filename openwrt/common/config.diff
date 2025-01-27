@@ -1,5 +1,7 @@
 # CONFIG_SIGNATURE_CHECK is not set
 # CONFIG_SIGNED_PACKAGES is not set
+# CONFIG_GRUB_CONSOLE is not set
+CONFIG_GRUB_TITLE="x86_64 Firmware By ViS0N"
 
 # IPv6支持:
 CONFIG_IPV6=y
