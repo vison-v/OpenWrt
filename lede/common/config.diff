@@ -24,7 +24,6 @@ CONFIG_TARGET_IMAGES_GZIP=n
 # Applications
 CONFIG_PACKAGE_luci-app-diskman=y
 CONFIG_PACKAGE_luci-app-minidlna=y
-CONFIG_PACKAGE_luci-app-ttyd=y
 CONFIG_PACKAGE_luci-app-wechatpush=y
 CONFIG_PACKAGE_luci-app-syncdial=y
 CONFIG_PACKAGE_luci-app-usb-printer=y
