@@ -23,6 +23,7 @@ sed -i 's/KMS 服务器/KMS 服务/g' feeds/luci/applications/luci-app-vlmcsd/po
 sed -i 's/msgstr "MultiWAN 管理器"/msgstr "负载均衡"/g' feeds/luci/applications/luci-app-mwan3/po/zh_Hans/mwan3.po
 sed -i 's/msgstr "软件包"/msgstr "软件管理"/g' feeds/luci/applications/luci-app-opkg/po/zh_Hans/opkg.po
 sed -i 's/<%= ver.distversion %>/<a href="https:\/\/github.com\/vison-v\/OpenWrt" target="_blank"><%= ver.distversion %>/g' feeds/luci/themes/luci-theme-argon/luasrc/view/themes/argon/footer.htm
+sed -i 's/<%= ver.distversion %>/<a href="https:\/\/github.com\/vison-v\/OpenWrt" target="_blank"><%= ver.distversion %>/g' feeds/luci/themes/luci-theme-argon/luasrc/view/themes/argon/footer_login.htm
 
 sed -i "s/'miniDLNA Settings'/'DLNA设置'/" feeds/luci/applications/luci-app-minidlna/htdocs/luci-static/resources/view/minidlna.js
 sed -i '/msgid "miniDLNA"/{n;s/miniDLNA/DLNA服务/;}' feeds/luci/applications/luci-app-minidlna/po/zh_Hans/minidlna.po
