@@ -18,7 +18,7 @@ jobs:
     strategy:  
       fail-fast: false  
       matrix:  
-        target: [luci-app-quickstart,luci-app-lucky,luci-app-fchomo,luci-app-homeproxy,luci-app-mihomo,luci-app-mosdns,luci-app-openclash,luci-app-passwall,luci-app-passwall2]  
+        target: [luci-app-quickstart,luci-app-nginx-proxy,luci-app-lucky,luci-app-fchomo,luci-app-homeproxy,luci-app-mihomo,luci-app-mosdns,luci-app-openclash,luci-app-passwall,luci-app-passwall2]  
         
     steps:  
     - name: Checkout  
