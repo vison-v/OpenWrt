@@ -28,6 +28,9 @@ sed -i 's/<%= ver.distversion %>/<a href="https:\/\/github.com\/vison-v\/OpenWrt
 defaultsettings=*/*/default-settings
 sed -i '/exit 0/i sed -i "/openwrt_vi/d" \/etc\/opkg\/distfeeds.conf' ${defaultsettings}/files/*default-settings*
 
+sed -i '/DISTRIB_DESCRIPTION/d' package/base-files/files/etc/openwrt_release
+echo "DISTRIB_DESCRIPTION='ImmortalWrt Build By ViS0N '" >> package/base-files/files/etc/openwrt_release
+
 sed -i "s/'miniDLNA Settings'/'DLNA设置'/" feeds/luci/applications/luci-app-minidlna/htdocs/luci-static/resources/view/minidlna.js
 sed -i 's/nas/services/g' feeds/luci/applications/luci-app-minidlna/root/usr/share/luci/menu.d/luci-app-minidlna.json
 sed -i '/msgid "miniDLNA"/{n;s/miniDLNA/DLNA服务/;}' feeds/luci/applications/luci-app-minidlna/po/zh_Hans/minidlna.po
