@@ -25,6 +25,9 @@ sed -i 's/msgstr "软件包"/msgstr "软件管理"/g' feeds/luci/applications/lu
 sed -i 's/<%= ver.distversion %>/<a href="https:\/\/github.com\/vison-v\/OpenWrt" target="_blank"><%= ver.distversion %>/g' feeds/luci/themes/luci-theme-argon/luasrc/view/themes/argon/footer.htm
 sed -i 's/<%= ver.distversion %>/<a href="https:\/\/github.com\/vison-v\/OpenWrt" target="_blank"><%= ver.distversion %>/g' feeds/luci/themes/luci-theme-argon/luasrc/view/themes/argon/footer_login.htm
 
+defaultsettings=*/*/default-settings
+sed -i '/sed -i "s\/# \/\/g" \/etc\/opkg\/distfeeds.conf/a\sed -i "\/openwrt_vi\/d" \/etc\/opkg\/distfeeds.conf' ${defaultsettings}/files/zzz-default-settings
+
 sed -i "s/'miniDLNA Settings'/'DLNA设置'/" feeds/luci/applications/luci-app-minidlna/htdocs/luci-static/resources/view/minidlna.js
 sed -i '/msgid "miniDLNA"/{n;s/miniDLNA/DLNA服务/;}' feeds/luci/applications/luci-app-minidlna/po/zh_Hans/minidlna.po
 echo -e "\nmsgid \"miniDLNA Settings\"" >> feeds/luci/applications/luci-app-minidlna/po/zh_Hans/minidlna.po
