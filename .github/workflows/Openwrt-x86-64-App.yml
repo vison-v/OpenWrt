@@ -87,7 +87,8 @@ jobs:
     - name: 开始编译  
       run: |   
         cd OpenWrt  
-        make package/${{ matrix.target }}/compile V=sc  
+        #make package/${{ matrix.target }}/compile V=sc  
+        make -j1 V=sc package/${{ matrix.target }}/compile
         du -h --max-depth=4 ./bin  
         
     - name: 准备编译好的ipk  
