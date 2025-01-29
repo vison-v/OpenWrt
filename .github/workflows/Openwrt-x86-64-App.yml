@@ -61,8 +61,8 @@ jobs:
       run: |  
         cp -rf App/. OpenWrt/  
         cd OpenWrt  
-        git clone https://github.com/vison-v/luci-app-nginx-proxy package/luci-app-nginx-proxy  
-        #git clone -b lede https://github.com/vison-v/packages && mv -n packages/* package && rm -rf {packages,package/golang}  
+        #git clone https://github.com/vison-v/luci-app-nginx-proxy package/luci-app-nginx-proxy  
+        git clone -b lede https://github.com/vison-v/packages && mv -n packages/* package && rm -rf {packages,package/golang}  
         ./scripts/feeds update -a && rm -rf feeds/luci/applications/luci-app-*  
         ./scripts/feeds install ${{ matrix.target }}  
         
@@ -87,8 +87,8 @@ jobs:
     - name: 开始编译  
       run: |   
         cd OpenWrt  
-        #make package/${{ matrix.target }}/compile V=sc  
-        make -j1 V=sc package/luci-app-nginx-proxy
+        make package/${{ matrix.target }}/compile V=sc  
+        #make -j1 V=sc package/luci-app-nginx-proxy
         du -h --max-depth=4 ./bin  
         
     - name: 准备编译好的ipk  
