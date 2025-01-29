@@ -18,7 +18,7 @@ jobs:
     strategy:  
       fail-fast: false  
       matrix:  
-        target: [lluci-app-nginx-proxy]  
+        target: [luci-app-nginx-proxy]  
         
     steps:  
     - name: Checkout  
