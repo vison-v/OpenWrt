@@ -18,7 +18,7 @@ jobs:
     strategy:  
       fail-fast: false  
       matrix:  
-        target: [luci-app-quickstart,luci-app-nginx-proxy,luci-app-lucky,luci-app-fchomo,luci-app-homeproxy,luci-app-mihomo,luci-app-mosdns,luci-app-openclash,luci-app-passwall,luci-app-passwall2]  
+        target: [lluci-app-nginx-proxy]  
         
     steps:  
     - name: Checkout  
@@ -61,8 +61,9 @@ jobs:
       run: |  
         cp -rf App/. OpenWrt/  
         cd OpenWrt  
+        git clone https://github.com/vison-v/luci-app-nginx-proxy package/luci-app-nginx-proxy  
+        #git clone -b lede https://github.com/vison-v/packages && mv -n packages/* package && rm -rf {packages,package/golang}  
         ./scripts/feeds update -a && rm -rf feeds/luci/applications/luci-app-*  
-        git clone -b lede https://github.com/vison-v/packages && mv -n packages/* package && rm -rf {packages,package/golang}  
         ./scripts/feeds install ${{ matrix.target }}  
         
         # 检查当前目录下是否存在目标文件  
