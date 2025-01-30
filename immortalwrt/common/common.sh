@@ -26,7 +26,7 @@ sed -i 's/<%= ver.distversion %>/<a href="https:\/\/github.com\/vison-v\/OpenWrt
 sed -i 's/<%= ver.distversion %>/<a href="https:\/\/github.com\/vison-v\/OpenWrt" target="_blank"><%= ver.distversion %>/g' feeds/luci/themes/luci-theme-argon/luasrc/view/themes/argon/footer_login.htm
 
 defaultsettings=*/*/default-settings
-sed -i '/exit 0/i sed -i "/openwrt_vi/d" \/etc\/opkg\/distfeeds.conf' ${defaultsettings}/files/*default-settings*
+sed -i '/exit 0/i sed -i "/immortalwrt_vi/d" \/etc\/opkg\/distfeeds.conf' ${defaultsettings}/files/*default-settings*
 
 sed -i '/DISTRIB_DESCRIPTION/d' package/base-files/files/etc/openwrt_release
 echo "DISTRIB_DESCRIPTION='ImmortalWrt Build By ViS0N '" >> package/base-files/files/etc/openwrt_release
