@@ -206,7 +206,7 @@ jobs:
 
     # ========== 清理阶段 ==========    
     - name: 清理旧版本发布
-      uses: dev-drprasad/delete-older-releases@v0.4.0
+      uses: dev-drprasad/delete-older-releases@master
       if: ${{ github.event_name == 'schedule' }}
       with:
         keep_latest: 15
