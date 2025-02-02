@@ -32,6 +32,7 @@ jobs:
         
     - name: 解析环境变量
       run: |
+        source "common/settings.ini"
         REPO_NAME=$(echo "${{ matrix.target }}" | cut -d'-' -f1)
         ARCH_NAME=$(echo "${{ matrix.target }}" | cut -d'-' -f2-)
         echo "REPO_NAME=${REPO_NAME}" >> $GITHUB_ENV
@@ -98,7 +99,6 @@ jobs:
         ./scripts/feeds install -a --force-overwrite
 
         # 通用脚本处理
-        source "common/settings.ini"
         if [[ -n "${COMMON_SH}" && -f "common/${COMMON_SH}" ]]; then
           echo "::group::🏗️ 执行通用自定义脚本：common/${COMMON_SH}"
           chmod +x "common/${COMMON_SH}"
