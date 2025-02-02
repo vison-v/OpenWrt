@@ -90,26 +90,26 @@ jobs:
     # ========== 源码处理阶段 ==========    
     - name: 克隆源代码
       run: |
-        git clone --depth 1 "$REPO_URL" -b "$REPO_BRANCH" "${GITHUB_WORKSPACE}/${REPO_NAME}"
+        git clone --depth 1 "$REPO_URL" -b "$REPO_BRANCH" "${GITHUB_WORKSPACE}/v${REPO_NAME}"
         
     - name: 配置符号链接
       run: |
         mkdir -p "${GITHUB_WORKSPACE}/tmp_cache"
-        ln -sfT "${GITHUB_WORKSPACE}/dl_cache" "${REPO_NAME}/dl"
-        ln -sfT "${GITHUB_WORKSPACE}/ccache" "${REPO_NAME}/ccache"
-        ln -sfT "${GITHUB_WORKSPACE}/tmp_cache" "${REPO_NAME}/build_dir"
+        ln -sfT "${GITHUB_WORKSPACE}/dl_cache" "v${REPO_NAME}/dl"
+        ln -sfT "${GITHUB_WORKSPACE}/ccache" "v${REPO_NAME}/ccache"
+        ln -sfT "${GITHUB_WORKSPACE}/tmp_cache" "v${REPO_NAME}/build_dir"
 
     # ========== 配置处理阶段 ==========    
     - name: 加载自定义配置
       run: |
         # 复制通用配置文件
-        cp -rv "${REPO_NAME}/common/files/." "${GITHUB_WORKSPACE}/${REPO_NAME}/" || true
+        cp -rv "${REPO_NAME}/common/files/." "${GITHUB_WORKSPACE}/v${REPO_NAME}/" || true
         # 复制架构特定文件
         [ -d "${REPO_NAME}/${ARCH_NAME}/files" ] && \
-          cp -rv "${REPO_NAME}/${ARCH_NAME}/files/." "${GITHUB_WORKSPACE}/${REPO_NAME}/"
+          cp -rv "${REPO_NAME}/${ARCH_NAME}/files/." "${GITHUB_WORKSPACE}/v${REPO_NAME}/"
           
         # 配置feeds
-        cd "${REPO_NAME}"
+        cd "v${REPO_NAME}"
         echo "src-git vi https://github.com/vison-v/packages;${REPO_NAME}" >> feeds.conf.default
         ./scripts/feeds update -a
         [ -x "${REPO_NAME}/common/feeds-vi.sh" ] && \
@@ -138,7 +138,7 @@ jobs:
         
     - name: 生成配置文件
       run: |
-        cd "${REPO_NAME}"
+        cd "v${REPO_NAME}"
         # 合并配置文件
         cat "${REPO_NAME}/common/config.diff" > .config
         [ -f "${REPO_NAME}/${ARCH_NAME}/config.diff" ] && \
@@ -149,13 +149,13 @@ jobs:
     - name: 下载依赖项
       if: ${{ steps.cache-restore.outputs.cache-hit != 'true' }}
       run: |
-        cd "${REPO_NAME}"
+        cd "v${REPO_NAME}"
         make download -j$(nproc) CHECK_CERTIFICATE=1
         
     - name: 执行编译
       id: compile
       run: |
-        cd "${REPO_NAME}"
+        cd "v${REPO_NAME}"
         echo "::group::多线程编译日志（V=s级别）"
         if ! make -j$(($(nproc)+1)) V=s 2>&1 | ts '[%Y-%m-%d %H:%M:%S]'; then
           echo "::endgroup::"
