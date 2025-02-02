@@ -32,11 +32,15 @@ jobs:
         
     - name: 解析环境变量
       run: |
-        source "common/settings.ini"
         REPO_NAME=$(echo "${{ matrix.target }}" | cut -d'-' -f1)
         ARCH_NAME=$(echo "${{ matrix.target }}" | cut -d'-' -f2-)
         echo "REPO_NAME=${REPO_NAME}" >> $GITHUB_ENV
         echo "ARCH_NAME=${ARCH_NAME}" >> $GITHUB_ENV
+        source "${GITHUB_WORKSPACE}/${{ env.REPO_NAME }}/common/settings.ini"  
+        # 如果存在架构特定的配置，则加载  
+        if [ -f "${GITHUB_WORKSPACE}/${{ env.REPO_NAME }}/${{ env.ARCH_NAME }}/settings.ini" ]; then  
+          source "${GITHUB_WORKSPACE}/${{ env.REPO_NAME }}/${{ env.ARCH_NAME }}/settings.ini"  
+        fi  
         echo "DATE_TAG=$(date +'%Y.%m.%d')" >> $GITHUB_ENV
         
     # ========== 缓存恢复阶段 ==========
