@@ -108,7 +108,7 @@ jobs:
       uses: actions/cache@v3
       with:
         path: /mnt/OpenWrt/dl
-        key: ${{ runner.os }}-dl-${{ matrix.target }}-${{ hashFiles('${{ env.REPO_NAME }}/${{ env.ARCH_NAME }}/$CONFIG_FILE', '${{ env.REPO_NAME }}/common/settings.ini') }}-${{ env.CACHE_VERSION }}
+        key: ${{ runner.os }}-dl-${{ matrix.target }}-${{ hashFiles('$(GITHUB_WORKSPACE)/${{ env.REPO_NAME }}/${{ env.ARCH_NAME }}/$CONFIG_FILE', '$(GITHUB_WORKSPACE)/${{ env.REPO_NAME }}/common/settings.ini') }}-${{ env.CACHE_VERSION }}
         restore-keys: |
           ${{ runner.os }}-dl-${{ matrix.target }}-
 
@@ -117,9 +117,9 @@ jobs:
       uses: actions/cache@v3
       with:
         path: /mnt/OpenWrt/staging_dir
-        key: ${{ runner.os }}-toolchain-${{ hashFiles('${{ env.REPO_NAME }}/${{ env.ARCH_NAME }}/$CONFIG_FILE', '${{ env.REPO_NAME }}/common/settings.ini') }}-${{ env.CACHE_VERSION }}
+        key: ${{ runner.os }}-toolchain-${{ matrix.target }}-${{ hashFiles('$(GITHUB_WORKSPACE)/${{ env.REPO_NAME }}/${{ env.ARCH_NAME }}/$CONFIG_FILE', '$(GITHUB_WORKSPACE)/${{ env.REPO_NAME }}/common/settings.ini') }}-${{ env.CACHE_VERSION }}
         restore-keys: |
-          ${{ runner.os }}-toolchain-
+          ${{ runner.os }}-toolchain-${{ matrix.target }}-
 
     - name: 克隆源代码  
       run: |  
@@ -189,49 +189,67 @@ jobs:
         make download -j16  
         df -h  
     
-    - name: 编译固件  
-      id: compile  
-      run: | 
-        cd OpenWrt  
-        echo -e "用 $(($(nproc)+1)) 线程编译${{ matrix.target }}......"  
-        make -j$(($(nproc)+1)) || make -j1 V=sc > make_output.log 2> >(grep -v "warning" > ${{ matrix.target }}_make_error.log) || true  
-        echo "=============================================="  
-        echo "空间使用情况:"  
-        echo "=============================================="  
-        df -h  
-        echo "=============================================="  
-        if [ -e ${{ matrix.target }}_make_error.log ]; then  
-          # 失败时设置状态变量  
-          echo "BUILD_STATUS=failed" >> $GITHUB_ENV   
-          echo "${{matrix.target}} 固件构建失败!"  
-          echo "${{matrix.target}} 构建错误日志:"  
-          cat ${{matrix.target}}_make_error.log  
-        else  
-          # 成功时设置状态变量  
-          echo "BUILD_STATUS=success" >> $GITHUB_ENV  
-          echo "${{matrix.target}} 固件构建成功!"   
-          echo "=============================================="  
-          ls bin/targets/*/*  
-          echo "=============================================="  
+    - name: 编译固件
+      id: compile
+      continue-on-error: true
+      run: |
+        set -e
+        # 初始化构建状态
+        echo "BUILD_STATUS=unknown" >> $GITHUB_ENV
+        # 定义退出处理函数
+        cleanup() {
+          echo "::endgroup::"
+          echo "::group::空间使用情况"
+          df -h
+          echo "::endgroup::"
+          if [ -s ${{ matrix.target }}_make_error.log ]; then
+            echo "::error:: ${{ matrix.target }} 固件构建失败!"
+            echo "BUILD_STATUS=failed" >> $GITHUB_ENV
+            echo "::group::构建错误日志"
+            cat ${{ matrix.target }}_make_error.log
+            echo "::endgroup::"
+          else
+            echo "BUILD_STATUS=success" >> $GITHUB_ENV
+            echo "::group::生成文件列表"
+            ls -R bin/targets/
+            echo "::endgroup::"
+          fi
+        }
+        # 捕获退出信号
+        trap cleanup EXIT
+        cd OpenWrt
+        # 设置编译线程数
+        THREADS=$(($(nproc) + 1))
+        echo "::group::编译 ${{ matrix.target }} (线程数: $THREADS)"       
+        # 执行编译并捕获错误
+        set +e
+        make -j$THREADS 2> >(grep -v "warning" | tee ${{ matrix.target }}_make_error.log >&2)
+        MAKE_STATUS=$?
+        set -e
+        # 失败重试逻辑
+        if [ $MAKE_STATUS -ne 0 ]; then
+          echo "::warning:: 并行编译失败，尝试单线程编译..."
+          make -j1 V=sc 2> >(grep -v "warning" | tee ${{ matrix.target }}_make_error.log >&2)
+          MAKE_STATUS=$?
         fi
+        cleanup
+        exit 0
   
     - name: 清理旧缓存
       if: always()
       run: |
-        # 保留最近3天的dl缓存
+        # 保留最近7天的dl缓存
         find /mnt/OpenWrt/dl -type f -mtime +7 -exec rm -f {} +
-        
         # 非主架构清理工具链
-        if [ "${{ env.ARCH_NAME }}" != "x86-64" ]; then
-          rm -rf /mnt/OpenWrt/staging_dir/*
-        fi   
+        #if [ "${{ env.ARCH_NAME }}" != "x86-64" ]; then
+        rm -rf /mnt/OpenWrt/staging_dir/*
+        #fi   
 
     - name: 存储空间报告
       run: |
         echo "::group::存储使用情况"
         df -h /mnt/OpenWrt
-        echo "::endgroup::"
-        
+        echo "::endgroup::"  
         echo "::group::缓存目录大小"
         du -sh /mnt/OpenWrt/*
         echo "::endgroup::"
