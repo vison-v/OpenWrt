@@ -1,6 +1,5 @@
 # 编译状态
 
-![Openwrt-AppBuild-X86/64](https://github.com/vison-v/OpenWrt/workflows/Openwrt-x86-64-App/badge.svg)
 ![Openwrt-AppBuild](https://github.com/vison-v/OpenWrt/workflows/Openwrt-AutoBuild/badge.svg)
 [![](https://img.shields.io/github/release-pre/vison-v/OpenWrt.svg)](https://github.com/vison-v/OpenWrt/releases)
 [![](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/vison-v/OpenWrt)
